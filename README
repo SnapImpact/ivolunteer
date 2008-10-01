@@ -1,0 +1,23 @@
+Developing on iVolunteer
+
+We're using git for revision control, you need to ensure you have a client installed
+to develop on iVolunteer. See http://git-scm.com/download for a download.
+
+On a mac, my experience has been that using MacPorts http://www.macports.org/ is the
+easiest way to get git (as well as a number of other useful apps).
+
+iPhone App:
+  You need the latest iPhone SDK: http://developer.apple.com/iphone/program/download.html
+
+Website:
+
+  We're using SporutCore as a javascript framework for the front-end on the application.
+    - Development requires Ruby and RubyGems
+    - Framework installation instructions http://www.sproutcore.com/download/
+
+Getting the code:
+  Code is on github
+    - Project Page: http://github.com/daveangulo/ivolunteer/tree/master
+    - Public Clone URL: git://github.com/daveangulo/ivolunteer.git
+
+
