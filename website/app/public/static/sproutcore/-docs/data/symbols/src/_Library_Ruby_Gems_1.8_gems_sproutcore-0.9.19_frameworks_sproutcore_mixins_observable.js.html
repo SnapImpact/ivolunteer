@@ -1,0 +1,1068 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+  .KEYW {color: #933;}
+  .COMM {color: #bbb; font-style: italic;}
+  .NUMB {color: #393;}
+  .STRN {color: #393;}
+  .REGX {color: #339;}
+  .line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+  </style></head><body><pre><span class='line'>  1</span> <span class="COMM">// ========================================================================</span><span class="WHIT">
+<span class='line'>  2</span> </span><span class="COMM">// SproutCore</span><span class="WHIT">
+<span class='line'>  3</span> </span><span class="COMM">// copyright 2006-2008 Sprout Systems, Inc.</span><span class="WHIT">
+<span class='line'>  4</span> </span><span class="COMM">// ========================================================================</span><span class="WHIT">
+<span class='line'>  5</span> 
+<span class='line'>  6</span> </span><span class="COMM">/**
+<span class='line'>  7</span>   @namespace 
+<span class='line'>  8</span>   
+<span class='line'>  9</span>   Key-Value-Observing (KVO) simply allows one object to observe changes to a 
+<span class='line'> 10</span>   property on another object. It is one of the fundamental ways that models, 
+<span class='line'> 11</span>   controllers and views communicate with each other in a SproutCore 
+<span class='line'> 12</span>   application.  Any object that has this module applied to it can be used in 
+<span class='line'> 13</span>   KVO-operations.
+<span class='line'> 14</span>   
+<span class='line'> 15</span>   This module is applied automatically to all objects that inherit from
+<span class='line'> 16</span>   SC.Object, which includes most objects bundled with the SproutCore 
+<span class='line'> 17</span>   framework.  You will not generally apply this module to classes yourself,
+<span class='line'> 18</span>   but you will use the features provided by this module frequently, so it is
+<span class='line'> 19</span>   important to understand how to use it.
+<span class='line'> 20</span>   
+<span class='line'> 21</span>   h2. Enabling Key Value Observing
+<span class='line'> 22</span> 
+<span class='line'> 23</span>   With KVO, you can write functions that will be called automatically whenever 
+<span class='line'> 24</span>   a property on a particular object changes.  You can use this feature to
+<span class='line'> 25</span>   reduce the amount of "glue code" that you often write to tie the various 
+<span class='line'> 26</span>   parts of your application together.
+<span class='line'> 27</span>   
+<span class='line'> 28</span>   To use KVO, just use the KVO-aware methods get() and set() to access 
+<span class='line'> 29</span>   properties instead of accessing properties directly.  Instead of writing:
+<span class='line'> 30</span>   
+<span class='line'> 31</span>   {{{
+<span class='line'> 32</span>     var aName = contact.firstName ;
+<span class='line'> 33</span>     contact.firstName = 'Charles' ;
+<span class='line'> 34</span>   }}}
+<span class='line'> 35</span> 
+<span class='line'> 36</span>   use:
+<span class='line'> 37</span> 
+<span class='line'> 38</span>   {{{
+<span class='line'> 39</span>     var aName = contact.get('firstName') ;
+<span class='line'> 40</span>     contact.set('firstName', 'Charles') ;
+<span class='line'> 41</span>   }}}
+<span class='line'> 42</span>   
+<span class='line'> 43</span>   get() and set() work just like the normal "dot operators" provided by 
+<span class='line'> 44</span>   JavaScript but they provide you with much more power, including not only
+<span class='line'> 45</span>   observing but computed properties as well.
+<span class='line'> 46</span> 
+<span class='line'> 47</span>   h2. Observing Property Changes
+<span class='line'> 48</span> 
+<span class='line'> 49</span>   You typically observe property changes simply by adding the observes() 
+<span class='line'> 50</span>   call to the end of your method declarations in classes that you write.  For
+<span class='line'> 51</span>   example:
+<span class='line'> 52</span>   
+<span class='line'> 53</span>   {{{
+<span class='line'> 54</span>     SC.Object.create({
+<span class='line'> 55</span>       valueObserver: function() {
+<span class='line'> 56</span>         // Executes whenever the "Value" property changes
+<span class='line'> 57</span>       }.observes('value')
+<span class='line'> 58</span>     }) ;
+<span class='line'> 59</span>   }}}
+<span class='line'> 60</span>   
+<span class='line'> 61</span>   Although this is the most common way to add an observer, this capability is
+<span class='line'> 62</span>   actually built into the SC.Object class on top of two methods defined in
+<span class='line'> 63</span>   this mixin called addObserver() and removeObserver().  You can use these two
+<span class='line'> 64</span>   methods to add and remove observers yourself if you need to do so at run 
+<span class='line'> 65</span>   time.  
+<span class='line'> 66</span>   
+<span class='line'> 67</span>   To add an observer for a property, just call:
+<span class='line'> 68</span>   
+<span class='line'> 69</span>   {{{
+<span class='line'> 70</span>     object.addObserver('propertyKey', targetObject, targetAction) ;
+<span class='line'> 71</span>   }}}
+<span class='line'> 72</span>   
+<span class='line'> 73</span>   This will call the 'targetAction' method on the targetObject to be called
+<span class='line'> 74</span>   whenever the value of the propertyKey changes.
+<span class='line'> 75</span>   
+<span class='line'> 76</span>   
+<span class='line'> 77</span>   h2. Implementing Manual Change Notifications
+<span class='line'> 78</span>   
+<span class='line'> 79</span>   Sometimes you may want to control the rate at which notifications for 
+<span class='line'> 80</span>   a property are delivered, for example by checking first to make sure 
+<span class='line'> 81</span>   that the value has changed.
+<span class='line'> 82</span>   
+<span class='line'> 83</span>   To do this, you need to implement a computed property for the property 
+<span class='line'> 84</span>   you want to change and override automaticallyNotifiesObserversFor().
+<span class='line'> 85</span>   
+<span class='line'> 86</span>   The example below will only notify if the "balance" property value actually
+<span class='line'> 87</span>   changes:
+<span class='line'> 88</span>   
+<span class='line'> 89</span>   {{{
+<span class='line'> 90</span>     
+<span class='line'> 91</span>     automaticallyNotifiesObserversFor: function(key) {
+<span class='line'> 92</span>       return (key === 'balance') ? NO : sc_super() ;
+<span class='line'> 93</span>     },
+<span class='line'> 94</span>     
+<span class='line'> 95</span>     balance: function(key, value) {
+<span class='line'> 96</span>       var balance = this._balance ;
+<span class='line'> 97</span>       if ((value !== undefined) && (balance !== value)) {
+<span class='line'> 98</span>         this.propertyWillChange(key) ;
+<span class='line'> 99</span>         balance = this._balance = value ;
+<span class='line'>100</span>         this.propertyDidChange(key) ;
+<span class='line'>101</span>       }
+<span class='line'>102</span>       return balance ;
+<span class='line'>103</span>     }
+<span class='line'>104</span>     
+<span class='line'>105</span>   }}}
+<span class='line'>106</span> 
+<span class='line'>107</span> */</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="NAME">SC.Observable</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>109</span> 
+<span class='line'>110</span>   </span><span class="COMM">/**
+<span class='line'>111</span>     Determines whether observers should be automatically notified of changes
+<span class='line'>112</span>     to a key.
+<span class='line'>113</span>     
+<span class='line'>114</span>     If you are manually implementing change notifications for a property, you
+<span class='line'>115</span>     can override this method to return NO for properties you do not want the
+<span class='line'>116</span>     observing system to automatically notify for.
+<span class='line'>117</span>     
+<span class='line'>118</span>     The default implementation always returns YES.
+<span class='line'>119</span>     
+<span class='line'>120</span>     @param key {String} the key that is changing
+<span class='line'>121</span>     @returns {Boolean} YES if automatic notification should occur.
+<span class='line'>122</span>   */</span><span class="WHIT">
+<span class='line'>123</span>   </span><span class="NAME">automaticallyNotifiesObserversFor</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
+<span class='line'>124</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>125</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>126</span> 
+<span class='line'>127</span>   </span><span class="COMM">// ..........................................</span><span class="WHIT">
+<span class='line'>128</span>   </span><span class="COMM">// PROPERTIES</span><span class="WHIT">
+<span class='line'>129</span>   </span><span class="COMM">// </span><span class="WHIT">
+<span class='line'>130</span>   </span><span class="COMM">// Use these methods to get/set properties.  This will handle observing</span><span class="WHIT">
+<span class='line'>131</span>   </span><span class="COMM">// notifications as well as allowing you to define functions that can be </span><span class="WHIT">
+<span class='line'>132</span>   </span><span class="COMM">// used as properties.</span><span class="WHIT">
+<span class='line'>133</span> 
+<span class='line'>134</span>   </span><span class="COMM">/**  
+<span class='line'>135</span>     Retrieves the value of key from the object.
+<span class='line'>136</span>     
+<span class='line'>137</span>     This method is generally very similar to using object[key] or object.key,
+<span class='line'>138</span>     however it supports both computed properties and the unknownProperty
+<span class='line'>139</span>     handler.
+<span class='line'>140</span>     
+<span class='line'>141</span>     *Computed Properties*
+<span class='line'>142</span>     
+<span class='line'>143</span>     Computed properties are methods defined with the property() modifier
+<span class='line'>144</span>     declared at the end, such as:
+<span class='line'>145</span>     
+<span class='line'>146</span>     {{{
+<span class='line'>147</span>       fullName: function() {
+<span class='line'>148</span>         return this.getEach('firstName', 'lastName').compact().join(' ');
+<span class='line'>149</span>       }.property('firstName', 'lastName')
+<span class='line'>150</span>     }}}
+<span class='line'>151</span>     
+<span class='line'>152</span>     When you call get() on a computed property, the property function will be
+<span class='line'>153</span>     called and the return value will be returned instead of the function
+<span class='line'>154</span>     itself.
+<span class='line'>155</span>     
+<span class='line'>156</span>     *Unknown Properties*
+<span class='line'>157</span>     
+<span class='line'>158</span>     Likewise, if you try to call get() on a property whose values is
+<span class='line'>159</span>     undefined, the unknownProperty() method will be called on the object.
+<span class='line'>160</span>     If this method reutrns any value other than undefined, it will be returned
+<span class='line'>161</span>     instead.  This allows you to implement "virtual" properties that are 
+<span class='line'>162</span>     not defined upfront.
+<span class='line'>163</span>     
+<span class='line'>164</span>     @param key {String} the property to retrieve
+<span class='line'>165</span>     @returns {Object} the property value or undefined.
+<span class='line'>166</span>     
+<span class='line'>167</span>   */</span><span class="WHIT">
+<span class='line'>168</span>   </span><span class="NAME">get</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>169</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>170</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>171</span>       </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.unknownProperty</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>172</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">ret.isProperty</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>173</span>       </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret.call</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>174</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>175</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>176</span> 
+<span class='line'>177</span>   </span><span class="COMM">/**  
+<span class='line'>178</span>     Sets the key equal to value.
+<span class='line'>179</span>     
+<span class='line'>180</span>     This method is generally very similar to calling object[key] = value or
+<span class='line'>181</span>     object.key = value, except that it provides support for computed 
+<span class='line'>182</span>     properties, the unknownProperty() method and property observers.
+<span class='line'>183</span>     
+<span class='line'>184</span>     *Computed Properties*
+<span class='line'>185</span>     
+<span class='line'>186</span>     If you try to set a value on a key that has a computed property handler
+<span class='line'>187</span>     defined (see the get() method for an example), then set() will call
+<span class='line'>188</span>     that method, passing both the value and key instead of simply changing 
+<span class='line'>189</span>     the value itself.  This is useful for those times when you need to 
+<span class='line'>190</span>     implement a property that is composed of one or more member
+<span class='line'>191</span>     properties.
+<span class='line'>192</span>     
+<span class='line'>193</span>     *Unknown Properties*
+<span class='line'>194</span>     
+<span class='line'>195</span>     If you try to set a value on a key that is undefined in the target 
+<span class='line'>196</span>     object, then the unknownProperty() handler will be called instead.  This
+<span class='line'>197</span>     gives you an opportunity to implement complex "virtual" properties that
+<span class='line'>198</span>     are not predefined on the obejct.  If unknownProperty() returns 
+<span class='line'>199</span>     undefined, then set() will simply set the value on the object.
+<span class='line'>200</span>     
+<span class='line'>201</span>     *Property Observers*
+<span class='line'>202</span>     
+<span class='line'>203</span>     In addition to changing the property, set() will also register a 
+<span class='line'>204</span>     property change with the object.  Unless you have placed this call 
+<span class='line'>205</span>     inside of a beginPropertyChanges() and endPropertyChanges(), any "local"
+<span class='line'>206</span>     observers (i.e. observer methods declared on the same object), will be
+<span class='line'>207</span>     called immediately.  Any "remote" observers (i.e. observer methods 
+<span class='line'>208</span>     declared on another object) will be placed in a queue and called at a
+<span class='line'>209</span>     later time in a coelesced manner.
+<span class='line'>210</span>     
+<span class='line'>211</span>     *Chaining*
+<span class='line'>212</span>     
+<span class='line'>213</span>     In addition to property changes, set() returns the value of the object
+<span class='line'>214</span>     itself so you can do chaining like this:
+<span class='line'>215</span>     
+<span class='line'>216</span>     {{{
+<span class='line'>217</span>       record.set('firstName', 'Charles').set('lastName', 'Jolley');
+<span class='line'>218</span>     }}}
+<span class='line'>219</span>     
+<span class='line'>220</span>     @param key {String} the property to set
+<span class='line'>221</span>     @param value {Object} the value to set or null.
+<span class='line'>222</span>     @returns {this}
+<span class='line'>223</span>   */</span><span class="WHIT">
+<span class='line'>224</span>   </span><span class="NAME">set</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>225</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">func</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>226</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>227</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">notify</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.automaticallyNotifiesObserversFor</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>228</span>     
+<span class='line'>229</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">notify</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this.propertyWillChange</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>230</span>     
+<span class='line'>231</span>     </span><span class="COMM">// set the value.</span><span class="WHIT">
+<span class='line'>232</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">func</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">func.isProperty</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>233</span>       </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">func.call</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="NAME">key</span><span class="PUNC">,</span><span class="NAME">value</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>234</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">func</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>235</span>       </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.unknownProperty</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="NAME">value</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>236</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>237</span>     
+<span class='line'>238</span>     </span><span class="COMM">// post out notifications.</span><span class="WHIT">
+<span class='line'>239</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">notify</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this.propertyDidChange</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>240</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>241</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>242</span> 
+<span class='line'>243</span>   </span><span class="COMM">// ..........................................</span><span class="WHIT">
+<span class='line'>244</span>   </span><span class="COMM">// OBSERVERS</span><span class="WHIT">
+<span class='line'>245</span>   </span><span class="COMM">// </span><span class="WHIT">
+<span class='line'>246</span> 
+<span class='line'>247</span>   
+<span class='line'>248</span> 
+<span class='line'>249</span>   </span><span class="COMM">// ..........................................</span><span class="WHIT">
+<span class='line'>250</span>   </span><span class="COMM">// BINDINGS</span><span class="WHIT">
+<span class='line'>251</span>   </span><span class="COMM">// </span><span class="WHIT">
+<span class='line'>252</span>     
+<span class='line'>253</span>   </span><span class="COMM">/**  
+<span class='line'>254</span>     Manually add a new binding to an object.  This is the same as doing
+<span class='line'>255</span>     the more familiar propertyBinding: 'property.path' approach.
+<span class='line'>256</span>   */</span><span class="WHIT">
+<span class='line'>257</span>   </span><span class="NAME">bind</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">toKey</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">fromPropertyPath</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>258</span>     
+<span class='line'>259</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">r</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.idt.active</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>260</span>     
+<span class='line'>261</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">binding</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>262</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">props</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">to</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">toKey</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>263</span> 
+<span class='line'>264</span>     </span><span class="COMM">// for strings try to do default relay</span><span class="WHIT">
+<span class='line'>265</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">pathType</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$type</span><span class="PUNC">(</span><span class="NAME">fromPropertyPath</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>266</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">pathType</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">T_STRING</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">pathType</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">T_ARRAY</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>267</span>       </span><span class="NAME">binding</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">[</span><span class="NAME">toKey</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'BindingDefault'</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">SC.Binding.From</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>268</span>       </span><span class="NAME">binding</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">binding</span><span class="PUNC">(</span><span class="NAME">fromPropertyPath</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>269</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="NAME">binding</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fromPropertyPath</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>270</span> 
+<span class='line'>271</span>     </span><span class="COMM">// check the 'from' value of the relay. if it starts w/</span><span class="WHIT">
+<span class='line'>272</span>     </span><span class="COMM">// '.' || '*' then convert to a local tuple.</span><span class="WHIT">
+<span class='line'>273</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">relayFrom</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">binding.prototype.from</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>274</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">$type</span><span class="PUNC">(</span><span class="NAME">relayFrom</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">T_STRING</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">switch</span><span class="PUNC">(</span><span class="NAME">relayFrom.slice</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>275</span>       </span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">'*'</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>276</span>       </span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">'.'</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>277</span>         </span><span class="NAME">relayFrom</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="NAME">relayFrom.slice</span><span class="PUNC">(</span><span class="NUMB">1</span><span class="PUNC">,</span><span class="NAME">relayFrom.length</span><span class="PUNC">)</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>278</span>     </span><span class="PUNC">}</span><span class="WHIT">        
+<span class='line'>279</span> 
+<span class='line'>280</span>     </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">r</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">bt</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">getTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>281</span> 
+<span class='line'>282</span>     </span><span class="NAME">binding</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">binding.create</span><span class="PUNC">(</span><span class="NAME">props</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">from</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">relayFrom</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>283</span>     </span><span class="NAME">this.bindings.push</span><span class="PUNC">(</span><span class="NAME">binding</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>284</span> 
+<span class='line'>285</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">r</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">SC.idt.b1_t</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">getTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">bt</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>286</span>     
+<span class='line'>287</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">binding</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>288</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>289</span>   
+<span class='line'>290</span>   </span><span class="COMM">/**  
+<span class='line'>291</span>     didChangeFor makes it easy for you to verify that you haven't seen any
+<span class='line'>292</span>     changed values.  You need to use this if your method observes multiple
+<span class='line'>293</span>     properties.  To use this, call it like this:
+<span class='line'>294</span>   
+<span class='line'>295</span>     if (this.didChangeFor('render','height','width')) {
+<span class='line'>296</span>        // DO SOMETHING HERE IF CHANGED.
+<span class='line'>297</span>     }
+<span class='line'>298</span>   */</span><span class="WHIT">  
+<span class='line'>299</span>   </span><span class="NAME">didChangeFor</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">context</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">    
+<span class='line'>300</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">keys</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.$A</span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>301</span>     </span><span class="NAME">context</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">keys.shift</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>302</span>     
+<span class='line'>303</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>304</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this._didChangeCache</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this._didChangeCache</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>305</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this._didChangeRevisionCache</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this._didChangeRevisionCache</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>306</span>     
+<span class='line'>307</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">seen</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._didChangeCache</span><span class="PUNC">[</span><span class="NAME">context</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>308</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">seenRevisions</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._didChangeRevisionCache</span><span class="PUNC">[</span><span class="NAME">context</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>309</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">loc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">keys.length</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>310</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">rev</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._kvo</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">revision</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>311</span>     
+<span class='line'>312</span>     </span><span class="KEYW">while</span><span class="PUNC">(</span><span class="PUNC">--</span><span class="NAME">loc</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>313</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">key</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">keys</span><span class="PUNC">[</span><span class="NAME">loc</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>314</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">seenRevisions</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="NAME">rev</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>315</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">val</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>316</span>         </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">seen</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">val</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>317</span>         </span><span class="NAME">seen</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">val</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>318</span>       </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>319</span>       </span><span class="NAME">seenRevisions</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rev</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>320</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>321</span>     
+<span class='line'>322</span>     </span><span class="NAME">this._didChangeCache</span><span class="PUNC">[</span><span class="NAME">context</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">seen</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>323</span>     </span><span class="NAME">this._didChangeRevisionCache</span><span class="PUNC">[</span><span class="NAME">context</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">seenRevisions</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>324</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>325</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>326</span> 
+<span class='line'>327</span> 
+<span class='line'>328</span> 
+<span class='line'>329</span>   </span><span class="COMM">/**
+<span class='line'>330</span>     Sets the property only if the passed value is different from the
+<span class='line'>331</span>     current value.  Depending on how expensive a get() is on this property,
+<span class='line'>332</span>     this may be more efficient.
+<span class='line'>333</span>     
+<span class='line'>334</span>     @param key {String} the key to change
+<span class='line'>335</span>     @param value {Object} the value to change
+<span class='line'>336</span>     @returns {this}
+<span class='line'>337</span>   */</span><span class="WHIT">
+<span class='line'>338</span>   </span><span class="NAME">setIfChanged</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>339</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">this.set</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>340</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>341</span>   
+<span class='line'>342</span>   </span><span class="COMM">/**  
+<span class='line'>343</span>     Navigates the property path, returning the value at that point.
+<span class='line'>344</span>     
+<span class='line'>345</span>     If any object in the path is undefined, returns undefined.
+<span class='line'>346</span>   */</span><span class="WHIT">
+<span class='line'>347</span>   </span><span class="NAME">getPath</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">path</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>348</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tuple</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.Object.tupleForPropertyPath</span><span class="PUNC">(</span><span class="NAME">path</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>349</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tuple</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>350</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">tuple</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">get</span><span class="PUNC">(</span><span class="NAME">tuple</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>351</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>352</span>   
+<span class='line'>353</span>   </span><span class="COMM">/**
+<span class='line'>354</span>     Navigates the property path, finally setting the value.
+<span class='line'>355</span>     
+<span class='line'>356</span>     @param path {String} the property path to set
+<span class='line'>357</span>     @param value {Object} the value to set
+<span class='line'>358</span>     @returns {this}
+<span class='line'>359</span>   */</span><span class="WHIT">
+<span class='line'>360</span>   </span><span class="NAME">setPath</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">path</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>361</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tuple</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.Object.tupleForPropertyPath</span><span class="PUNC">(</span><span class="NAME">path</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>362</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tuple</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>363</span>     </span><span class="NAME">tuple</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">set</span><span class="PUNC">(</span><span class="NAME">tuple</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>364</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>365</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>366</span> 
+<span class='line'>367</span>   
+<span class='line'>368</span>   </span><span class="COMM">/** 
+<span class='line'>369</span>     Convenience method to get an array of properties.
+<span class='line'>370</span>     
+<span class='line'>371</span>     Pass in multiple property keys or an array of property keys.  This
+<span class='line'>372</span>     method uses getPath() so you can also pass key paths.
+<span class='line'>373</span> 
+<span class='line'>374</span>     @returns {Array} Values of property keys.
+<span class='line'>375</span>   */</span><span class="WHIT">
+<span class='line'>376</span>   </span><span class="NAME">getEach</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>377</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">keys</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.$A</span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">flatten</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>378</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>379</span>     </span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">idx</span><span class="PUNC">=</span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">idx</span><span class="PUNC">&lt;</span><span class="NAME">keys.length</span><span class="PUNC">;</span><span class="NAME">idx</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>380</span>       </span><span class="NAME">ret</span><span class="PUNC">[</span><span class="NAME">ret.length</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getPath</span><span class="PUNC">(</span><span class="NAME">keys</span><span class="PUNC">[</span><span class="NAME">idx</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>381</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>382</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>383</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>384</span>   
+<span class='line'>385</span>   
+<span class='line'>386</span>   </span><span class="COMM">/**  
+<span class='line'>387</span>     Increments the value of a property.
+<span class='line'>388</span>     
+<span class='line'>389</span>     @param key {String} property name
+<span class='line'>390</span>     @returns {Number} new value of property
+<span class='line'>391</span>   */</span><span class="WHIT">
+<span class='line'>392</span>   </span><span class="NAME">incrementProperty</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
+<span class='line'>393</span>     </span><span class="NAME">this.set</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="PUNC">(</span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">+</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> 
+<span class='line'>394</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>395</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>396</span> 
+<span class='line'>397</span>   </span><span class="COMM">/**  
+<span class='line'>398</span>     decrements a property
+<span class='line'>399</span>     
+<span class='line'>400</span>     @param key {String} property name
+<span class='line'>401</span>     @returns {Number} new value of property
+<span class='line'>402</span>   */</span><span class="WHIT">
+<span class='line'>403</span>   </span><span class="NAME">decrementProperty</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>404</span>     </span><span class="NAME">this.set</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="PUNC">(</span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>405</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>406</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>407</span> 
+<span class='line'>408</span>   </span><span class="COMM">/**  
+<span class='line'>409</span>     Inverts a property.  Property should be a bool.
+<span class='line'>410</span>     
+<span class='line'>411</span>     @param key {String} property name
+<span class='line'>412</span>     @param value {Object} optional parameter for "true" value
+<span class='line'>413</span>     @param alt {Object} optional parameter for "false" value
+<span class='line'>414</span>     @returns {Object} new value
+<span class='line'>415</span>   */</span><span class="WHIT">
+<span class='line'>416</span>   </span><span class="NAME">toggleProperty</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="NAME">value</span><span class="PUNC">,</span><span class="NAME">alt</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
+<span class='line'>417</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>418</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">alt</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">alt</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>419</span>     </span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">alt</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>420</span>     </span><span class="NAME">this.set</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="NAME">value</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>421</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>422</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>423</span> 
+<span class='line'>424</span>   </span><span class="COMM">/**  
+<span class='line'>425</span>     Called whenever you try to get or set an undefined property.
+<span class='line'>426</span>     
+<span class='line'>427</span>     This is a generic property handler.  If you define it, it will be called
+<span class='line'>428</span>     when the named property is not yet set in the object.  The default does
+<span class='line'>429</span>     nothing.
+<span class='line'>430</span>     
+<span class='line'>431</span>     @param key {String} the key that was requested
+<span class='line'>432</span>     @param value {Object} The value if called as a setter, undefined if called as a getter.
+<span class='line'>433</span>     @returns {Object} The new value for key.
+<span class='line'>434</span>   */</span><span class="WHIT">
+<span class='line'>435</span>   </span><span class="NAME">unknownProperty</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="NAME">value</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>436</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="PUNC">(</span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>437</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>438</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>439</span> 
+<span class='line'>440</span>   </span><span class="COMM">/**  
+<span class='line'>441</span>     Generic property observer called whenever a property on the receiver 
+<span class='line'>442</span>     changes.
+<span class='line'>443</span>     
+<span class='line'>444</span>     If you need to observe a large number of properties on your object, it
+<span class='line'>445</span>     is sometimes more efficient to implement this observer only and then to
+<span class='line'>446</span>     handle requests yourself.  Although this observer will be triggered 
+<span class='line'>447</span>     more often than an observer registered on a specific property, it also
+<span class='line'>448</span>     does not need to be registered which can make it faster to setup your 
+<span class='line'>449</span>     object instance.
+<span class='line'>450</span>     
+<span class='line'>451</span>     You will often implement this observer using a switch statement on the
+<span class='line'>452</span>     key parameter, taking appropriate action. 
+<span class='line'>453</span>     
+<span class='line'>454</span>     @param observer {null} no longer used; usually null
+<span class='line'>455</span>     @param target {Object} the target of the change.  usually this
+<span class='line'>456</span>     @param key {String} the name of the property that changed
+<span class='line'>457</span>     @param value {Object} the new value of the property.
+<span class='line'>458</span>     @returns {void}
+<span class='line'>459</span>   */</span><span class="WHIT">
+<span class='line'>460</span>   </span><span class="NAME">propertyObserver</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">observer</span><span class="PUNC">,</span><span class="NAME">target</span><span class="PUNC">,</span><span class="NAME">key</span><span class="PUNC">,</span><span class="NAME">value</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>461</span> 
+<span class='line'>462</span>   </span><span class="COMM">/**  
+<span class='line'>463</span>     Begins a grouping of property changes.
+<span class='line'>464</span>     
+<span class='line'>465</span>     You can use this method to group property changes so that notifications
+<span class='line'>466</span>     will not be sent until the changes are finished.  If you plan to make a 
+<span class='line'>467</span>     large number of changes to an object at one time, you should call this 
+<span class='line'>468</span>     method at the beginning of the changes to suspend change notifications.
+<span class='line'>469</span>     When you are done making changes, all endPropertyChanges() to allow 
+<span class='line'>470</span>     notification to resume.
+<span class='line'>471</span>     
+<span class='line'>472</span>     @returns {this}
+<span class='line'>473</span>   */</span><span class="WHIT">
+<span class='line'>474</span>   </span><span class="NAME">beginPropertyChanges</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>475</span>     </span><span class="NAME">this._kvo</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">changes</span><span class="PUNC">++</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>476</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>477</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>478</span> 
+<span class='line'>479</span>   </span><span class="COMM">/**  
+<span class='line'>480</span>     Ends a grouping of property changes.
+<span class='line'>481</span>     
+<span class='line'>482</span>     You can use this method to group property changes so that notifications
+<span class='line'>483</span>     will not be sent until the changes are finished.  If you plan to make a 
+<span class='line'>484</span>     large number of changes to an object at one time, you should call 
+<span class='line'>485</span>     beginsPropertyChanges() at the beginning of the changes to suspend change 
+<span class='line'>486</span>     notifications. When you are done making changes, call this method to allow 
+<span class='line'>487</span>     notification to resume.
+<span class='line'>488</span>     
+<span class='line'>489</span>     @returns {this}
+<span class='line'>490</span>   */</span><span class="WHIT">
+<span class='line'>491</span>   </span><span class="NAME">endPropertyChanges</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>492</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">kvo</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._kvo</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">  </span><span class="NAME">kvo.changes</span><span class="PUNC">--</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>493</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">kvo.changes</span><span class="WHIT"> </span><span class="PUNC">&lt;=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this._notifyPropertyObservers</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>494</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>495</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>496</span> 
+<span class='line'>497</span>   </span><span class="COMM">/**  
+<span class='line'>498</span>     Notify the observer system that a property is about to change.
+<span class='line'>499</span> 
+<span class='line'>500</span>     Sometimes you need to change a value directly or indirectly without 
+<span class='line'>501</span>     actually calling get() or set() on it.  In this case, you can use this 
+<span class='line'>502</span>     method and propertyDidChange() instead.  Calling these two methods 
+<span class='line'>503</span>     together will notify all observers that the property has potentially 
+<span class='line'>504</span>     changed value.
+<span class='line'>505</span>     
+<span class='line'>506</span>     Note that you must always call propertyWillChange and propertyDidChange as 
+<span class='line'>507</span>     a pair.  If you do not, it may get the property change groups out of order 
+<span class='line'>508</span>     and cause notifications to be delivered more often than you would like.
+<span class='line'>509</span>     
+<span class='line'>510</span>     @param key {String} The property key that is about to change.
+<span class='line'>511</span>     @returns {this}
+<span class='line'>512</span>   */</span><span class="WHIT">
+<span class='line'>513</span>   </span><span class="NAME">propertyWillChange</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>514</span>     </span><span class="NAME">this._kvo</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">changes</span><span class="PUNC">++</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>515</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>516</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>517</span> 
+<span class='line'>518</span>   </span><span class="COMM">/**  
+<span class='line'>519</span>     Notify the observer system that a property has just changed.
+<span class='line'>520</span> 
+<span class='line'>521</span>     Sometimes you need to change a value directly or indirectly without 
+<span class='line'>522</span>     actually calling get() or set() on it.  In this case, you can use this 
+<span class='line'>523</span>     method and propertyWillChange() instead.  Calling these two methods 
+<span class='line'>524</span>     together will notify all observers that the property has potentially 
+<span class='line'>525</span>     changed value.
+<span class='line'>526</span>     
+<span class='line'>527</span>     Note that you must always call propertyWillChange and propertyDidChange as 
+<span class='line'>528</span>     a pair. If you do not, it may get the property change groups out of order 
+<span class='line'>529</span>     and cause notifications to be delivered more often than you would like.
+<span class='line'>530</span>     
+<span class='line'>531</span>     @param key {String} The property key that has just changed.
+<span class='line'>532</span>     @param value {Object} The new value of the key.  May be null.
+<span class='line'>533</span>     @returns {this}
+<span class='line'>534</span>   */</span><span class="WHIT">
+<span class='line'>535</span>   </span><span class="NAME">propertyDidChange</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="NAME">value</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>536</span>     </span><span class="NAME">this._kvo</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">changed</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>537</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">kvo</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._kvo</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">  </span><span class="NAME">kvo.changes</span><span class="PUNC">--</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">kvo.revision</span><span class="PUNC">++</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>538</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">kvo.changes</span><span class="WHIT"> </span><span class="PUNC">&lt;=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this._notifyPropertyObservers</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>539</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>540</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>541</span> 
+<span class='line'>542</span>   </span><span class="COMM">/**
+<span class='line'>543</span>     Convenience method to call propertyWillChange/propertyDidChange.
+<span class='line'>544</span>     
+<span class='line'>545</span>     Sometimes you need to notify observers that a property has changed value 
+<span class='line'>546</span>     without actually changing this value.  In those cases, you can use this 
+<span class='line'>547</span>     method as a convenience instead of calling propertyWillChange() and 
+<span class='line'>548</span>     propertyDidChange().
+<span class='line'>549</span>     
+<span class='line'>550</span>     @param key {String} The property key that has just changed.
+<span class='line'>551</span>     @param value {Object} The new value of the key.  May be null.
+<span class='line'>552</span>     @returns {this}
+<span class='line'>553</span>   */</span><span class="WHIT">
+<span class='line'>554</span>   </span><span class="NAME">notifyPropertyChange</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>555</span>     </span><span class="NAME">this.propertyWillChange</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>556</span>     </span><span class="NAME">this.propertyDidChange</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>557</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT"> 
+<span class='line'>558</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>559</span>   
+<span class='line'>560</span>   </span><span class="COMM">/**  
+<span class='line'>561</span>     Notifies all of observers of a property changes.
+<span class='line'>562</span>     
+<span class='line'>563</span>     Sometimes when you make a major update to your object, it is cheaper to
+<span class='line'>564</span>     simply notify all observers that their property might have changed than
+<span class='line'>565</span>     to figure out specifically which properties actually did change.
+<span class='line'>566</span>     
+<span class='line'>567</span>     In those cases, you can simply call this method to notify all property
+<span class='line'>568</span>     observers immediately.  Note that this ignores property groups.
+<span class='line'>569</span>     
+<span class='line'>570</span>     @returns {this}
+<span class='line'>571</span>   */</span><span class="WHIT">
+<span class='line'>572</span>   </span><span class="NAME">allPropertiesDidChange</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>573</span>     </span><span class="NAME">this._notifyPropertyObservers</span><span class="PUNC">(</span><span class="KEYW">true</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>574</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>575</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>576</span> 
+<span class='line'>577</span>   </span><span class="COMM">/**  
+<span class='line'>578</span>     Adds an observer on a property.
+<span class='line'>579</span>     
+<span class='line'>580</span>     This is the core method used to register an observer for a property.
+<span class='line'>581</span>     
+<span class='line'>582</span>     Once you call this method, anytime the key's value is set, your observer
+<span class='line'>583</span>     will be notified.  Note that the observers are triggered anytime the
+<span class='line'>584</span>     value is set, regardless of whether it has actually changed.  Your
+<span class='line'>585</span>     observer should be prepared to handle that.
+<span class='line'>586</span>     
+<span class='line'>587</span>     @param key {String} the key to observer
+<span class='line'>588</span>     @param func {String} the function to call when the key changes.
+<span class='line'>589</span>     @returns {SC.Object}
+<span class='line'>590</span>   */</span><span class="WHIT">
+<span class='line'>591</span>   </span><span class="NAME">addObserver</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="NAME">func</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>592</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">kvo</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._kvo</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>593</span> 
+<span class='line'>594</span>     </span><span class="COMM">// if the key contains a '.', then create a chained observer.</span><span class="WHIT">
+<span class='line'>595</span>     </span><span class="NAME">key</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">key.toString</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>596</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">parts</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">key.split</span><span class="PUNC">(</span><span class="STRN">'.'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>597</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">parts.length</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>598</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">co</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC._ChainObserver.createChain</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="NAME">parts</span><span class="PUNC">,</span><span class="NAME">func</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>599</span>       </span><span class="NAME">co.masterFunc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">func</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>600</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">chainObservers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">kvo.chainObservers</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>601</span>       </span><span class="NAME">chainObservers.push</span><span class="PUNC">(</span><span class="NAME">co</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>602</span>       </span><span class="NAME">kvo.chainObservers</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">chainObservers</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>603</span> 
+<span class='line'>604</span>     </span><span class="COMM">// otherwise, bind as a normal property</span><span class="WHIT">
+<span class='line'>605</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">      
+<span class='line'>606</span>       
+<span class='line'>607</span>       </span><span class="COMM">// if you add an observer beginning with '@', then we might need to </span><span class="WHIT">
+<span class='line'>608</span>       </span><span class="COMM">// create or register the property...</span><span class="WHIT">
+<span class='line'>609</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.reducedProperty</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">key.charAt</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'@'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>610</span>         </span><span class="NAME">this.reducedProperty</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// create if needed...</span><span class="WHIT">
+<span class='line'>611</span>       </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>612</span>       
+<span class='line'>613</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">observers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">kvo.observers</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">kvo.observers</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>614</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">found</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">loc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">observers.length</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>615</span>       </span><span class="KEYW">while</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">found</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">--</span><span class="NAME">loc</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">found</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">observers</span><span class="PUNC">[</span><span class="NAME">loc</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>616</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">found</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">observers.push</span><span class="PUNC">(</span><span class="NAME">func</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>617</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>618</span>     
+<span class='line'>619</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>620</span> 
+<span class='line'>621</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>622</span> 
+<span class='line'>623</span>   </span><span class="NAME">removeObserver</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="NAME">func</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>624</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">kvo</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._kvo</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>625</span> 
+<span class='line'>626</span>     </span><span class="COMM">// if the key contains a '.', this is a chained observer.</span><span class="WHIT">
+<span class='line'>627</span>     </span><span class="NAME">key</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">key.toString</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>628</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">parts</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">key.split</span><span class="PUNC">(</span><span class="STRN">'.'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>629</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">parts.length</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>630</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">chainObservers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">kvo.chainObserver</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>631</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">newObservers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>632</span>       </span><span class="NAME">chainObservers.each</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">co</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>633</span>         </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">co.masterFunc</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">newObservers.push</span><span class="PUNC">(</span><span class="NAME">co</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>634</span>       </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>635</span>       </span><span class="NAME">kvo.chainObservers</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">newObservers</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>636</span> 
+<span class='line'>637</span>     </span><span class="COMM">// otherwise, just like a normal observer.</span><span class="WHIT">
+<span class='line'>638</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>639</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">observers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">kvo.observers</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>640</span>       </span><span class="NAME">observers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">observers.without</span><span class="PUNC">(</span><span class="NAME">func</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>641</span>       </span><span class="NAME">kvo.observers</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">observers</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>642</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>643</span>     
+<span class='line'>644</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>645</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>646</span> 
+<span class='line'>647</span>   </span><span class="NAME">addProbe</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">this.addObserver</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="NAME">logChange</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>648</span>   </span><span class="NAME">removeProbe</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">this.removeObserver</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="NAME">logChange</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>649</span> 
+<span class='line'>650</span>   </span><span class="COMM">/**
+<span class='line'>651</span>     Logs the named properties to the console.
+<span class='line'>652</span>     
+<span class='line'>653</span>     @param propertyNames one or more property names
+<span class='line'>654</span>   */</span><span class="WHIT">
+<span class='line'>655</span>   </span><span class="NAME">logProperty</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>656</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">props</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.$A</span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>657</span>     </span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">idx</span><span class="PUNC">=</span><span class="NUMB">0</span><span class="PUNC">;</span><span class="NAME">idx</span><span class="PUNC">&lt;</span><span class="NAME">props.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">idx</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>658</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">prop</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">props</span><span class="PUNC">[</span><span class="NAME">idx</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>659</span>       </span><span class="NAME">console.log</span><span class="PUNC">(</span><span class="STRN">'%@:%@: '</span><span class="PUNC">.</span><span class="NAME">fmt</span><span class="PUNC">(</span><span class="NAME">this._guid</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">prop</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="NAME">prop</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>660</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>661</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>662</span>   
+<span class='line'>663</span>   </span><span class="COMM">/**  
+<span class='line'>664</span>     This method will listen for the observed value to change one time and 
+<span class='line'>665</span>     then will remove itself.  You can also set an optional timeout that
+<span class='line'>666</span>     will cause the function to be triggered (and the observer removed) after
+<span class='line'>667</span>     a set amount of time even if the value never changes.  The function
+<span class='line'>668</span>     can expect an extra parameter, 'didTimeout', set to true.
+<span class='line'>669</span>   
+<span class='line'>670</span>     The returned value is the function actually set as the observer. You
+<span class='line'>671</span>     can manually remove this observer by calling the cancel() method on it.
+<span class='line'>672</span>   */</span><span class="WHIT">
+<span class='line'>673</span>   </span><span class="NAME">observeOnce</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">timeout</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>674</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">timeoutObject</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>675</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">target</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>676</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">handler</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">theTarget</span><span class="PUNC">,</span><span class="NAME">theKey</span><span class="PUNC">,</span><span class="NAME">theValue</span><span class="PUNC">,</span><span class="NAME">didTimeout</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>677</span>       </span><span class="NAME">func</span><span class="PUNC">(</span><span class="NAME">theTarget</span><span class="PUNC">,</span><span class="NAME">theKey</span><span class="PUNC">,</span><span class="NAME">theValue</span><span class="PUNC">,</span><span class="NAME">didTimeout</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>678</span>       </span><span class="NAME">target.removeObserver</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="NAME">handler</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>679</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">timeoutObject</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">timeoutObject.invalidate</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>680</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>681</span> 
+<span class='line'>682</span>     </span><span class="NAME">target.addObserver</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="NAME">handler</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>683</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">timeout</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">timeoutObject</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>684</span>       </span><span class="NAME">handler</span><span class="PUNC">(</span><span class="NAME">target</span><span class="PUNC">,</span><span class="NAME">key</span><span class="PUNC">,</span><span class="NAME">target.get</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="KEYW">true</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>685</span>     </span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">invokeLater</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">timeout</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>686</span> 
+<span class='line'>687</span>     </span><span class="NAME">handler.cancel</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">target.removeObserver</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="NAME">handler</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>688</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">handler</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>689</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>690</span> 
+<span class='line'>691</span>   </span><span class="COMM">/**
+<span class='line'>692</span>     Use this to indicate that one key changes if other keys it depends on 
+<span class='line'>693</span>     change.
+<span class='line'>694</span>   */</span><span class="WHIT">  
+<span class='line'>695</span>   </span><span class="NAME">registerDependentKey</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>696</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">keys</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.$A</span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>697</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">dependent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">keys.shift</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>698</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">kvo</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._kvo</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>699</span>     </span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">loc</span><span class="PUNC">=</span><span class="NUMB">0</span><span class="PUNC">;</span><span class="NAME">loc</span><span class="PUNC">&lt;</span><span class="NAME">keys.length</span><span class="PUNC">;</span><span class="NAME">loc</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>700</span>     	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">key</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">keys</span><span class="PUNC">[</span><span class="NAME">loc</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>701</span>     	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">key</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">Array</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>702</span>     		</span><span class="NAME">key.push</span><span class="PUNC">(</span><span class="NAME">dependent</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>703</span>     		</span><span class="NAME">this.registerDependentKey.apply</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>704</span>     	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>705</span> 				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">dependents</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">kvo.dependents</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>706</span> 				</span><span class="NAME">dependents.push</span><span class="PUNC">(</span><span class="NAME">dependent</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>707</span> 				</span><span class="NAME">kvo.dependents</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">dependents</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>708</span>     	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>709</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>710</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>711</span> 
+<span class='line'>712</span>   </span><span class="COMM">// INTERNAL PROPERTY SUPPORT</span><span class="WHIT">
+<span class='line'>713</span> 
+<span class='line'>714</span>   </span><span class="COMM">// returns the kvo object.</span><span class="WHIT">
+<span class='line'>715</span>   </span><span class="NAME">_kvo</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>716</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this._kvod</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this._kvod</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
+<span class='line'>717</span>       </span><span class="NAME">changes</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">changed</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">observers</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">dependents</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>718</span>       </span><span class="NAME">chainObservers</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">revision</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT">
+<span class='line'>719</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>720</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._kvod</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>721</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>722</span> 
+<span class='line'>723</span>   </span><span class="NAME">propertyRevision</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>724</span>   
+<span class='line'>725</span>   </span><span class="COMM">// this is invoked when the properties changed.</span><span class="WHIT">
+<span class='line'>726</span>   </span><span class="NAME">_notifyPropertyObservers</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">allObservers</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>727</span>     </span><span class="COMM">// locals</span><span class="WHIT">
+<span class='line'>728</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">key</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">observers</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">keys</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>729</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">loc</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">oloc</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>730</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">kvo</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._kvo</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>731</span> 
+<span class='line'>732</span>     </span><span class="NAME">SC.Observers.flush</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// hookup as many observers as possible.</span><span class="WHIT">
+<span class='line'>733</span> 
+<span class='line'>734</span>     </span><span class="COMM">// increment revision</span><span class="WHIT">
+<span class='line'>735</span>     </span><span class="NAME">this.propertyRevision</span><span class="PUNC">++</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>736</span>     
+<span class='line'>737</span>     </span><span class="COMM">// find the keys to notify on.</span><span class="WHIT">
+<span class='line'>738</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">keySource</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">allObservers</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">kvo.observers</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">kvo.changed</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>739</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">allKeys</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>740</span>     
+<span class='line'>741</span>     </span><span class="COMM">// This private function is used to recursively discover all </span><span class="WHIT">
+<span class='line'>742</span>     </span><span class="COMM">// dependent keys.</span><span class="WHIT">
+<span class='line'>743</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">_addDependentKeys</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>744</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">allKeys</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>745</span>       </span><span class="NAME">allKeys</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">key</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>746</span> 
+<span class='line'>747</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">allObservers</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>748</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">dependents</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">kvo.dependents</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>749</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">dependents</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">dependents.length</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>750</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">loc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">dependents.length</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>751</span>         </span><span class="KEYW">while</span><span class="PUNC">(</span><span class="PUNC">--</span><span class="NAME">loc</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>752</span>           </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">depKey</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">dependents</span><span class="PUNC">[</span><span class="NAME">loc</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>753</span>           </span><span class="NAME">_addDependentKeys</span><span class="PUNC">(</span><span class="NAME">depKey</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>754</span>         </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>755</span>       </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>756</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>757</span> 
+<span class='line'>758</span>     </span><span class="COMM">// loop throught keys to notify.  find all dependent keys as well.</span><span class="WHIT">
+<span class='line'>759</span>     </span><span class="COMM">// note that this loops recursively.</span><span class="WHIT">
+<span class='line'>760</span>     </span><span class="KEYW">for</span><span class="PUNC">(</span><span class="NAME">key</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">keySource</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
+<span class='line'>761</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">keySource.hasOwnProperty</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">continue</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>762</span>       </span><span class="NAME">_addDependentKeys</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>763</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>764</span> 
+<span class='line'>765</span>     </span><span class="COMM">// Convert the found keys into an array</span><span class="WHIT">
+<span class='line'>766</span>     </span><span class="KEYW">for</span><span class="PUNC">(</span><span class="NAME">key</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">allKeys</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>767</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">allKeys.hasOwnProperty</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">continue</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>768</span>       </span><span class="NAME">keys.push</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>769</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>770</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">starObservers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">kvo.observers</span><span class="PUNC">[</span><span class="STRN">'*'</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>771</span> 
+<span class='line'>772</span>     </span><span class="COMM">// clear out changed to avoid recursion.</span><span class="WHIT">
+<span class='line'>773</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">changed</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">kvo.changed</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">kvo.changed</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>774</span> 
+<span class='line'>775</span>     </span><span class="COMM">// notify all observers.</span><span class="WHIT">
+<span class='line'>776</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">target</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> 
+<span class='line'>777</span>     </span><span class="NAME">loc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">keys.length</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>778</span>     
+<span class='line'>779</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">notifiedKeys</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// avoid duplicates.</span><span class="WHIT">
+<span class='line'>780</span>     </span><span class="KEYW">while</span><span class="PUNC">(</span><span class="PUNC">--</span><span class="NAME">loc</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>781</span>       </span><span class="NAME">key</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">keys</span><span class="PUNC">[</span><span class="NAME">loc</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">observers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">kvo.observers</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>782</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">notifiedKeys</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>783</span>         </span><span class="NAME">notifiedKeys</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">key</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>784</span>         </span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">allObservers</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">changed</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">changed</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>785</span> 
+<span class='line'>786</span>         </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">starObservers</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>787</span>           </span><span class="NAME">observers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">observers</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">observers.concat</span><span class="PUNC">(</span><span class="NAME">starObservers</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">starObservers</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">  
+<span class='line'>788</span>         </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>789</span> 
+<span class='line'>790</span>         </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">observers</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>791</span>           </span><span class="NAME">oloc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">observers.length</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>792</span>           </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">args</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NAME">target</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">key</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.propertyRevision</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>793</span>           </span><span class="KEYW">while</span><span class="PUNC">(</span><span class="PUNC">--</span><span class="NAME">oloc</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>794</span>             </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">observer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">observers</span><span class="PUNC">[</span><span class="NAME">oloc</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>795</span>             </span><span class="NAME">SC.NotificationQueue.add</span><span class="PUNC">(</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">observer</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">args</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>796</span>           </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// while(oloc)</span><span class="WHIT">
+<span class='line'>797</span>         </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if (observers) </span><span class="WHIT">
+<span class='line'>798</span> 
+<span class='line'>799</span>         </span><span class="COMM">// notify self.</span><span class="WHIT">
+<span class='line'>800</span>         </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.propertyObserver</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="NAME">SC.Object.prototype.propertyObserver</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>801</span>           </span><span class="NAME">SC.NotificationQueue.add</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.propertyObserver</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>802</span>             </span><span class="PUNC">[</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">target</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">key</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.propertyRevision</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>803</span>         </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>804</span>       </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>805</span> 
+<span class='line'>806</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// while(--loc)</span><span class="WHIT">
+<span class='line'>807</span> 
+<span class='line'>808</span>     </span><span class="NAME">SC.NotificationQueue.flush</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> 
+<span class='line'>809</span>   </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>810</span>     
+<span class='line'>811</span> </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>812</span> 
+<span class='line'>813</span> </span><span class="NAME">SC.mixin</span><span class="PUNC">(</span><span class="NAME">Array.prototype</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">SC.Observable</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>814</span> 
+<span class='line'>815</span> </span><span class="COMM">// ........................................................................</span><span class="WHIT">
+<span class='line'>816</span> </span><span class="COMM">// FUNCTION ENHANCEMENTS</span><span class="WHIT">
+<span class='line'>817</span> </span><span class="COMM">//</span><span class="WHIT">
+<span class='line'>818</span> </span><span class="COMM">// Enhance function.</span><span class="WHIT">
+<span class='line'>819</span> </span><span class="NAME">SC.mixin</span><span class="PUNC">(</span><span class="NAME">Function.prototype</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>820</span> </span><span class="COMM">/** @scope Function.prototype */</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>821</span>   
+<span class='line'>822</span>   </span><span class="COMM">/**
+<span class='line'>823</span>     Indicates that the function should be treated as a computed property.
+<span class='line'>824</span>     
+<span class='line'>825</span>     Computed properties are methods that you want to treat as if they were
+<span class='line'>826</span>     static properties.  When you use get() or set() on a computed property,
+<span class='line'>827</span>     the object will call the property method and return its value instead of 
+<span class='line'>828</span>     returning the method itself.  This makes it easy to create "virtual 
+<span class='line'>829</span>     properties" that are computed dynamically from other properties.
+<span class='line'>830</span>     
+<span class='line'>831</span>     Consider the following example:
+<span class='line'>832</span>     
+<span class='line'>833</span>     {{{
+<span class='line'>834</span>       contact = SC.Object.create({
+<span class='line'>835</span> 
+<span class='line'>836</span>         firstName: "Charles",
+<span class='line'>837</span>         lastName: "Jolley",
+<span class='line'>838</span>         
+<span class='line'>839</span>         // This is a computed property!
+<span class='line'>840</span>         fullName: function() {
+<span class='line'>841</span>           return this.getEach('firstName','lastName').compact().join(' ') ;
+<span class='line'>842</span>         }.property('firstName', 'lastName'),
+<span class='line'>843</span>         
+<span class='line'>844</span>         // this is not
+<span class='line'>845</span>         getFullName: function() {
+<span class='line'>846</span>           return this.getEach('firstName','lastName').compact().join(' ') ;
+<span class='line'>847</span>         }
+<span class='line'>848</span>       });
+<span class='line'>849</span> 
+<span class='line'>850</span>       contact.get('firstName') ;
+<span class='line'>851</span>       --> "Charles"
+<span class='line'>852</span>       
+<span class='line'>853</span>       contact.get('fullName') ;
+<span class='line'>854</span>       --> "Charles Jolley"
+<span class='line'>855</span>       
+<span class='line'>856</span>       contact.get('getFullName') ;
+<span class='line'>857</span>       --> function()
+<span class='line'>858</span>     }}}
+<span class='line'>859</span>     
+<span class='line'>860</span>     Note that when you get the fullName property, SproutCore will call the
+<span class='line'>861</span>     fullName() function and return its value whereas when you get() a property
+<span class='line'>862</span>     that contains a regular method (such as getFullName above), then the 
+<span class='line'>863</span>     function itself will be returned instead.
+<span class='line'>864</span>     
+<span class='line'>865</span>     h2. Using Dependent Keys
+<span class='line'>866</span> 
+<span class='line'>867</span>     Computed properties are often computed dynamically from other member 
+<span class='line'>868</span>     properties.  Whenever those properties change, you need to notify any
+<span class='line'>869</span>     object that is observing the computed property that the computed property
+<span class='line'>870</span>     has changed also.  We call these properties the computed property is based
+<span class='line'>871</span>     upon "dependent keys".
+<span class='line'>872</span>     
+<span class='line'>873</span>     For example, in the contact object above, the fullName property depends on
+<span class='line'>874</span>     the firstName and lastName property.  If either property value changes,
+<span class='line'>875</span>     any observer watching the fullName property will need to be notified as 
+<span class='line'>876</span>     well.
+<span class='line'>877</span>     
+<span class='line'>878</span>     You inform SproutCore of these dependent keys by passing the key names
+<span class='line'>879</span>     as parameters to the property() function.  Whenever the value of any key
+<span class='line'>880</span>     you name here changes, the computed property will be marked as changed
+<span class='line'>881</span>     also.
+<span class='line'>882</span>     
+<span class='line'>883</span>     You should always register dependent keys for computed properties to 
+<span class='line'>884</span>     ensure they update.
+<span class='line'>885</span>     
+<span class='line'>886</span>     h2. Using Computed Properties as Setters
+<span class='line'>887</span>     
+<span class='line'>888</span>     Computed properties can be used to modify the state of an object as well
+<span class='line'>889</span>     as to return a value.  Unlike many other key-value system, you use the 
+<span class='line'>890</span>     same method to both get and set values on a computed property.  To 
+<span class='line'>891</span>     write a setter, simply declare two extra parameters: key and value.
+<span class='line'>892</span>     
+<span class='line'>893</span>     Whenever your property function is called as a setter, the value 
+<span class='line'>894</span>     parameter will be set.  Whenever your property is called as a getter the
+<span class='line'>895</span>     value parameter will be undefined.
+<span class='line'>896</span>     
+<span class='line'>897</span>     For example, the following object will split any full name that you set
+<span class='line'>898</span>     into a first name and last name components and save them.
+<span class='line'>899</span>     
+<span class='line'>900</span>     {{{
+<span class='line'>901</span>       contact = SC.Object.create({
+<span class='line'>902</span>         
+<span class='line'>903</span>         fullName: function(key, value) {
+<span class='line'>904</span>           if (value !== undefined) {
+<span class='line'>905</span>             var parts = value.split(' ') ;
+<span class='line'>906</span>             this.beginPropertyChanges()
+<span class='line'>907</span>               .set('firstName', parts[0])
+<span class='line'>908</span>               .set('lastName', parts[1])
+<span class='line'>909</span>             .endPropertyChanges() ;
+<span class='line'>910</span>           }
+<span class='line'>911</span>           return this.getEach('firstName', 'lastName').compact().join(' ');
+<span class='line'>912</span>         }.property('firstName','lastName')
+<span class='line'>913</span>         
+<span class='line'>914</span>       }) ;
+<span class='line'>915</span>       
+<span class='line'>916</span>     }}}
+<span class='line'>917</span>     
+<span class='line'>918</span>     bq. *Why Use The Same Method for Getters and Setters?*  Most property-
+<span class='line'>919</span>     based frameworks expect you to write two methods for each property but
+<span class='line'>920</span>     SproutCore only uses one.  We do this because most of the time when
+<span class='line'>921</span>     you write a setter is is basically a getter plus some extra work.  There 
+<span class='line'>922</span>     is little added benefit in writing both methods when you can conditionally
+<span class='line'>923</span>     exclude part of it.  This helps to keep your code more compact and easier
+<span class='line'>924</span>     to maintain.
+<span class='line'>925</span>     
+<span class='line'>926</span>     @param dependentKeys {String...} optional set of dependent keys
+<span class='line'>927</span>     @returns {Function} the declared function instance
+<span class='line'>928</span>   */</span><span class="WHIT">
+<span class='line'>929</span>   </span><span class="NAME">property</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>930</span>     </span><span class="NAME">this.dependentKeys</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.$A</span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> 
+<span class='line'>931</span>     </span><span class="NAME">this.isProperty</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT"> 
+<span class='line'>932</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>933</span>   
+<span class='line'>934</span>   </span><span class="COMM">// Declare that a function should observe an object at the named path.  Note</span><span class="WHIT">
+<span class='line'>935</span>   </span><span class="COMM">// that the path is used only to construct the observation one time.</span><span class="WHIT">
+<span class='line'>936</span>   </span><span class="NAME">observes</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">propertyPaths</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
+<span class='line'>937</span>     </span><span class="NAME">this.propertyPaths</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.$A</span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> 
+<span class='line'>938</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>939</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>940</span>   
+<span class='line'>941</span>   </span><span class="NAME">typeConverter</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>942</span>     </span><span class="NAME">this.isTypeConverter</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>943</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>944</span>   
+<span class='line'>945</span>   </span><span class="COMM">/**
+<span class='line'>946</span>     Creates a timer that will execute the function after a specified 
+<span class='line'>947</span>     period of time.
+<span class='line'>948</span>     
+<span class='line'>949</span>     If you pass an optional set of arguments, the arguments will be passed
+<span class='line'>950</span>     to the function as well.  Otherwise the function should have the 
+<span class='line'>951</span>     signature:
+<span class='line'>952</span>     
+<span class='line'>953</span>     {{{
+<span class='line'>954</span>       function functionName(timer)
+<span class='line'>955</span>     }}}
+<span class='line'>956</span> 
+<span class='line'>957</span>     @param interval {Number} the time to wait, in msec
+<span class='line'>958</span>     @param target {Object} optional target object to use as this
+<span class='line'>959</span>     @returns {SC.Timer} scheduled timer
+<span class='line'>960</span>   */</span><span class="WHIT">
+<span class='line'>961</span>   </span><span class="NAME">invokeLater</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">target</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">interval</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>962</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">interval</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">interval</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>963</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">f</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>964</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">arguments.length</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>965</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">args</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="NAME">SC.$A</span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">slice</span><span class="PUNC">(</span><span class="NUMB">2</span><span class="PUNC">,</span><span class="NAME">arguments.length</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>966</span>       </span><span class="NAME">args.unshift</span><span class="PUNC">(</span><span class="NAME">target</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>967</span>       </span><span class="NAME">f</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">f.bind.apply</span><span class="PUNC">(</span><span class="NAME">f</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">args</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>968</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>969</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">SC.Timer.schedule</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">target</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">target</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">action</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">f</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">interval</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">interval</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>970</span>   </span><span class="PUNC">}</span><span class="WHIT">    
+<span class='line'>971</span>   
+<span class='line'>972</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>973</span> 
+<span class='line'>974</span> </span><span class="COMM">// ........................................................................</span><span class="WHIT">
+<span class='line'>975</span> </span><span class="COMM">// OBSERVER QUEUE</span><span class="WHIT">
+<span class='line'>976</span> </span><span class="COMM">//</span><span class="WHIT">
+<span class='line'>977</span> </span><span class="COMM">// This queue is used to hold observers when the object you tried to observe</span><span class="WHIT">
+<span class='line'>978</span> </span><span class="COMM">// does not exist yet.  This queue is flushed just before any property </span><span class="WHIT">
+<span class='line'>979</span> </span><span class="COMM">// notification is sent.</span><span class="WHIT">
+<span class='line'>980</span> </span><span class="NAME">SC.Observers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>981</span>   </span><span class="NAME">queue</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>982</span>   
+<span class='line'>983</span>   </span><span class="NAME">addObserver</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">propertyPath</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>984</span>     </span><span class="COMM">// try to get the tuple for this.</span><span class="WHIT">
+<span class='line'>985</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">propertyPath</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">"string"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>986</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tuple</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.Object.tupleForPropertyPath</span><span class="PUNC">(</span><span class="NAME">propertyPath</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>987</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>988</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tuple</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">propertyPath</span><span class="PUNC">;</span><span class="WHIT"> 
+<span class='line'>989</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>990</span>     
+<span class='line'>991</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tuple</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>992</span>       </span><span class="NAME">tuple</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">addObserver</span><span class="PUNC">(</span><span class="NAME">tuple</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="NAME">func</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>993</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>994</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ary</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.queue</span><span class="PUNC">[</span><span class="NAME">propertyPath</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>995</span>       </span><span class="NAME">ary.push</span><span class="PUNC">(</span><span class="NAME">func</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>996</span>       </span><span class="NAME">this.queue</span><span class="PUNC">[</span><span class="NAME">propertyPath</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ary</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>997</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>998</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>999</span>   
+<span class='line'>1000</span>   </span><span class="NAME">removeObserver</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">propertyPath</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1001</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tuple</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.Object.tupleForPropertyPath</span><span class="PUNC">(</span><span class="NAME">propertyPath</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1002</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tuple</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1003</span>       </span><span class="NAME">tuple</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">removeObserver</span><span class="PUNC">(</span><span class="NAME">tuple</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="NAME">func</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1004</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1005</span>     
+<span class='line'>1006</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ary</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.queue</span><span class="PUNC">[</span><span class="NAME">propertyPath</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1007</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ary</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1008</span>       </span><span class="NAME">ary</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ary.without</span><span class="PUNC">(</span><span class="NAME">func</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1009</span>       </span><span class="NAME">this.queue</span><span class="PUNC">[</span><span class="NAME">propertyPath</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ary</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1010</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1011</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1012</span>   
+<span class='line'>1013</span>   </span><span class="NAME">flush</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1014</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">newQueue</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1015</span>     </span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">path</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">this.queue</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1016</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">funcs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.queue</span><span class="PUNC">[</span><span class="NAME">path</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1017</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tuple</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.Object.tupleForPropertyPath</span><span class="PUNC">(</span><span class="NAME">path</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1018</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tuple</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1019</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">loc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">funcs.length</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1020</span>         </span><span class="KEYW">while</span><span class="PUNC">(</span><span class="PUNC">--</span><span class="NAME">loc</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1021</span>           </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">func</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">funcs</span><span class="PUNC">[</span><span class="NAME">loc</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1022</span>           </span><span class="NAME">tuple</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">addObserver</span><span class="PUNC">(</span><span class="NAME">tuple</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="NAME">func</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1023</span>         </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1024</span>       </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="NAME">newQueue</span><span class="PUNC">[</span><span class="NAME">path</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">funcs</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1025</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1026</span>     
+<span class='line'>1027</span>     </span><span class="COMM">// set queue to remaining items</span><span class="WHIT">
+<span class='line'>1028</span>     </span><span class="NAME">this.queue</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">newQueue</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> 
+<span class='line'>1029</span>   </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1030</span> </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1031</span> 
+<span class='line'>1032</span> </span><span class="COMM">// ........................................................................</span><span class="WHIT">
+<span class='line'>1033</span> </span><span class="COMM">// NOTIFCATION QUEUE</span><span class="WHIT">
+<span class='line'>1034</span> </span><span class="COMM">//</span><span class="WHIT">
+<span class='line'>1035</span> </span><span class="COMM">// Property notifications are placed into this queue first and then processed</span><span class="WHIT">
+<span class='line'>1036</span> </span><span class="COMM">// to keep the stack size down.</span><span class="WHIT">
+<span class='line'>1037</span> </span><span class="NAME">SC.NotificationQueue</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1038</span>   </span><span class="NAME">queue</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1039</span>   </span><span class="NAME">maxFlush</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">5000</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">// max time you can spend flushing before we reschedule.</span><span class="WHIT">
+<span class='line'>1040</span>   </span><span class="NAME">_flushing</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1041</span>   </span><span class="NAME">add</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">target</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">args</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">this.queue.push</span><span class="PUNC">(</span><span class="PUNC">[</span><span class="NAME">target</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">args</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>1042</span>   </span><span class="NAME">flush</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">force</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1043</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this._flushing</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">force</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1044</span>     </span><span class="NAME">this._flushing</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1045</span>     
+<span class='line'>1046</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">start</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">getTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1047</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">now</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">start</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1048</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">n</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1049</span>     </span><span class="KEYW">while</span><span class="PUNC">(</span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">now</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">start</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">this.maxFlush</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">n</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.queue.pop</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
+<span class='line'>1050</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">t</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">n</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">n</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1051</span>       </span><span class="NAME">n</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">apply</span><span class="PUNC">(</span><span class="NAME">t</span><span class="PUNC">,</span><span class="NAME">n</span><span class="PUNC">[</span><span class="NUMB">2</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1052</span>       </span><span class="NAME">now</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Date.now</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1053</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1054</span>     </span><span class="NAME">this._flushing</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1055</span>     
+<span class='line'>1056</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.queue.length</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
+<span class='line'>1057</span>       </span><span class="NAME">SC.NotificationQueue.flush.invokeLater</span><span class="PUNC">(</span><span class="NAME">SC.NotificationQueue</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1058</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1059</span>   </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>1060</span> </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1061</span> </span></pre></body></html>

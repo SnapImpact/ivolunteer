@@ -1,0 +1,3509 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="JsDoc Toolkit" />
+  
+  <title>JsDoc: SC</title>
+</head>
+
+<style type="text/css">
+  /* @override http://localhost:4020/static/sproutcore/-docs/data/default.css */
+
+/* @group Core */
+
+body.sc-doc {
+  background-color: white  ;
+  padding: 20px;
+}
+
+.sc-doc {
+  font: 64.5% Helvetica, Arial, Verdana, sans-serif;
+  line-height: 1em ;
+}
+
+/* Set standard size on some things. */
+.sc-doc p, 
+.sc-doc dd, 
+.sc-doc dt, 
+.sc-doc li, 
+.sc-doc table {
+  line-height: 1.3em;
+  font-size: 1.3em ;
+}
+
+.sc-doc h1 {
+  font-size: 3em;
+  margin: 0 0 1em 0;
+  text-transform: capitalize;
+}
+
+.sc-doc h2 {
+  padding: 0;
+  padding-bottom: 4px;
+  border-bottom: 1px #555 solid;
+  text-transform: capitalize;
+  margin: 1.5em 0 0;
+  font-size: 2.2em;
+}
+
+.sc-doc h3 {
+  font-size: 2em;
+  padding: 0;
+  margin: 3em 0 0 0;  
+}
+
+.sc-doc h4 {
+  font-weight: normal ;
+  font-size: 1.4em;
+  margin: 0.5em 0 0 0;
+  padding: 0;
+}
+
+.sc-doc h5 {
+  font-size: 1.3em;
+  padding: 0;
+  margin: 1.3em 0 0.5em 0;
+}
+
+.sc-doc p { margin: 0.5em 0; }
+ 
+.sc-doc a {
+  text-decoration: none ;
+}
+
+.sc-doc label {
+  font-weight: bold ;
+}
+
+.sc-doc .sc-theme .ghost {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+  opacity: 0.45;
+  -moz-opacity: .45 ;
+}
+
+.sc-doc dt {
+  font-style: italic;
+}
+
+.sc-doc dd {
+ margin: 0 0 1em 1em;
+}
+
+/* @end */
+
+/* @group Summary Table */
+
+.sc-doc table.summary {
+  min-width: 600px;
+  border: 1px #999 solid;
+  border-bottom: none ;
+  border-spacing: 0;
+  margin-bottom: 2em;
+}
+
+.sc-doc table.summary td {
+  border-bottom: 1px #999 solid;
+  border-collapse: collapse;
+  padding: 0.5em;
+  text-align: left ;
+}
+
+.sc-doc table.summary .even td {
+  background-color: #eef;
+}
+
+.sc-doc table.summary td.label {
+  font-weight: bold ;
+  width: 100px;
+  text-align: right ;
+  padding-right: 4px;
+}
+
+.sc-doc table.summary td.value {
+  min-width: 300px;
+  width: 300px;
+}
+
+/* @end */
+
+/* @group Field & Method Summary */
+
+.sc-doc .summary li {
+  list-style-type: none ;
+  position: relative;
+}
+
+.sc-doc .summary li code {
+  font-size: 1.1em;
+}
+
+.sc-doc .summary li .description {
+  display: none ;
+}
+
+.sc-doc .summary li:hover .description {
+  display: block ;
+  font-size: 0.86em;
+  position: absolute ;
+  left: 80px;
+  bottom: 2em;
+  padding: 0.3em 1em ;
+  background-color: #fff898;
+  border: 1px solid #bbae2f;
+  /* -webkit-box-shadow: rgba(0,0,0,0.3) 0px 2px 5px; */
+  color: #4b4000;
+  z-index: 100;
+}
+
+/* @end */
+
+/* @group Detail */
+
+.sc-doc .detail p.signature {
+  padding: 0;
+  margin: 1em 0;
+  font-family: Courier, mono;
+}
+
+.sc-doc .detail p.signature .type {
+  font-style: italic;
+}
+
+.sc-doc .detail p.signature .name {
+  font-weight: bold ;
+}
+
+/* @end */
+
+.sc-doc .jsdoc_ctime {
+  border-top: 1px #ccc solid ;
+  padding: 4px 0;
+  margin-top: 20px;
+  margin-bottom: 0px;
+  font-size: 1.0em;
+  text-align: center ;
+  color: #888 ;
+}
+
+/* @group Description */
+
+.sc-doc .description blockquote,
+.sc-doc .description p.code {
+  padding:  10px ;
+  margin: 10px 20px;
+  background-color: #f5f5f5 ;
+  border: 1px #ccc solid ;
+}
+
+/* @end */
+
+</style>
+
+<body class="sc-theme sc-doc">
+  <h1>
+    
+    Namespace SC
+  </h1>
+
+  <table class="summary">
+  
+
+  
+
+  
+
+  
+    <tr class="even">
+      <td class="label">Defined in:</td>
+      <td class="value"><a href="../symbols/src/_Library_Ruby_Gems_1.8_gems_sproutcore-0.9.19_frameworks_sproutcore_core.js.html">frameworks/sproutcore/core.js</a></td>
+    </tr>
+  
+
+  
+
+  
+  </table>
+
+  
+    <div class="description">
+      <p>The SproutCore namespace.  All SproutCore methods and functions are defined inside of this namespace.  You generally should not add new properties to this namespace as it may be overwritten by future versions of SproutCore.</p>
+
+<p>You can also use the shorthand "SC" instead of "SproutCore".</p>
+
+<p>SproutCore-Base is a framework that provides core functions for SproutCore including cross-platform functions, support for property observing and objects.  It's focus is on small size and performance.  You can use this in place of or along-side other cross-platform libraries such as jQuery or Prototype.</p>
+
+<p>The core Base framework is based on the jQuery API with a number of performance optimizations.</p>
+
+    </div>
+  
+
+  <!-- ============================== properties summary ===================== -->
+  
+    
+    
+    
+    
+      <div class="field-summary summary">
+        <h2>Property Summary</h2>
+        <ul>
+        
+          
+            <li>
+              <a href="../symbols/SC.html#.$type"><code>+&nbsp;(Object) $type</code></a>
+              
+                <div class="description">Alias for SC.typeOf()</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.html#.BLANK_IMAGE_URL"><code>+&nbsp;(Object) BLANK_IMAGE_URL</code></a>
+              
+                <div class="description">URL to a transparent GIF.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.html#.DRAG_REORDER"><code>+&nbsp;(Object) DRAG_REORDER</code></a>
+              
+                <div class="description">Special drag operation passed to delegate if the collection view proposes
+  to perform a reorder event.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.html#.DROP_ANY"><code>+&nbsp;(Object) DROP_ANY</code></a>
+              
+                <div class="description">Indicates that the collection view want's to know which operations would 
+  be allowed for either drop operation.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.html#.DROP_BEFORE"><code>+&nbsp;(Object) DROP_BEFORE</code></a>
+              
+                <div class="description">Indicates that the collection view expects to accept a drop BEFORE the 
+  specified item.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.html#.DROP_ON"><code>+&nbsp;(Object) DROP_ON</code></a>
+              
+                <div class="description">Indicates that the collection view expects to accept a drop ON the specified
+  item.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.html#.FormView"><code>+&nbsp;(Object) FormView</code></a>
+              
+                <div class="description">FormView provides a simple way for you to focus a group of views onto a 
+  single content object or set of content objects.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.html#.getGUID"><code>+&nbsp;(Object) getGUID</code></a>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.html#.HORIZONTAL_ORIENTATION"><code>+&nbsp;(Object) HORIZONTAL_ORIENTATION</code></a>
+              
+                <div class="description">Indicates that selection points should be selected using horizontal 
+  orientation.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.html#.imageCache"><code>+&nbsp;(Object) imageCache</code></a>
+              
+                <div class="description">The image cache will create Image objects to preload a set of 
+  images.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.html#.MIXED_STATE"><code>+&nbsp;(Object) MIXED_STATE</code></a>
+              
+                <div class="description">Indicates a value has a mixed state of both on and off.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.html#.NodeDescriptor"><code>+&nbsp;(Object) NodeDescriptor</code></a>
+              
+                <div class="description">This object can generate HTML DOM elements from a hash-based description of 
+  the nodes.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.html#.PathModule"><code>+&nbsp;(Object) PathModule</code></a>
+              
+                <div class="description">PathModule is high-performance API for locating DOM nodes in your HTML
+  document.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.html#.Platform"><code>+&nbsp;(Object) Platform</code></a>
+              
+                <div class="description">Browser and Platform info.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.html#.REMOVE_COLLECTION_ROOT_ELEMENT_DURING_RENDER"><code>+&nbsp;(Object) REMOVE_COLLECTION_ROOT_ELEMENT_DURING_RENDER</code></a>
+              
+                <div class="description">Enables an optimization that removes the root element from the DOM during 
+a render and then readds it when complete.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.html#.SplitView"><code>+&nbsp;(Object) SplitView</code></a>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.html#.VERTICAL_ORIENTATION"><code>+&nbsp;(Object) VERTICAL_ORIENTATION</code></a>
+              
+                <div class="description">Selection points should be selected using vertical orientation.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.html#.ZERO_POINT"><code>+&nbsp;(Object) ZERO_POINT</code></a>
+              
+                <div class="description">A Point at {0,0}</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.html#.ZERO_RANGE"><code>+&nbsp;(Object) ZERO_RANGE</code></a>
+              
+                <div class="description">A zero length range at zero.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.html#.ZOMBIE_GROUPS_ENABLED"><code>+&nbsp;(Object) ZOMBIE_GROUPS_ENABLED</code></a>
+              
+                <div class="description">Enables an optimization using zombie group views.</div>
+              
+            </li>
+          
+        
+        </ul>
+      </div>
+    
+  
+
+  
+
+<!-- ============================== methods summary ======================== -->
+  
+    <h2>Method Summary</h2>
+    
+    
+      <div class="method-summary summary">
+        <ul>
+          
+            <li>
+              <a href="#SC.$A">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Array
+                    
+                  
+                  $A(object)
+                </code>
+              </a>
+              
+                <div class="description">Converts the passed object to an Array.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.$error">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  $error(description, label, c)
+                </code>
+              </a>
+              
+                <div class="description">Shorthand form of the SC.Error.desc method.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.$ok">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  $ok(ret)
+                </code>
+              </a>
+              
+                <div class="description">Returns YES if the passed value is an error object, otherwise NO.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.callOnLoad">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;void
+                    
+                  
+                  callOnLoad(target, method)
+                </code>
+              </a>
+              
+                <div class="description">Call this method during setup of your app to queue up methods to be 
+    called once the entire document has finished loading.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.centerX">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  centerX(innerFrame, outerFrame)
+                </code>
+              </a>
+              
+                <div class="description">Returns the point that will center the frame X within the passed frame.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.centerY">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  centerY(innerFrame, outerFrame)
+                </code>
+              </a>
+              
+                <div class="description">Return the point that will center the frame Y within the passed frame.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.clone">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Object
+                    
+                  
+                  clone(object)
+                </code>
+              </a>
+              
+                <div class="description">Creates a clone of the passed object.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.cloneRange">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  cloneRange(r)
+                </code>
+              </a>
+              
+                <div class="description">Returns a clone of the range.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.cloneRect">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Rect
+                    
+                  
+                  cloneRect(r)
+                </code>
+              </a>
+              
+                <div class="description">Duplicates the passed rect.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.download">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  download(path)
+                </code>
+              </a>
+              
+                <div class="description">Starts a download of the file at the named path.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.extend">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  extend()
+                </code>
+              </a>
+              
+                <div class="description">Alternative to mixin.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.guidFor">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;String
+                    
+                  
+                  guidFor(obj)
+                </code>
+              </a>
+              
+                <div class="description">Returns a unique GUID for the object.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.hashFor">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;String
+                    
+                  
+                  hashFor(obj)
+                </code>
+              </a>
+              
+                <div class="description">Returns a unique hash code for the object.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.inspect">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  inspect(obj)
+                </code>
+              </a>
+              
+                <div class="description">Convenience method to inspect an object by converting it to a hash.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.intersectRanges">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  intersectRanges(r1, r2)
+                </code>
+              </a>
+              
+                <div class="description">Returns the intersection of the two ranges or SC.RANGE_NOT_FOUND</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.intersectRects">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Rect
+                    
+                  
+                  intersectRects(r1, r2)
+                </code>
+              </a>
+              
+                <div class="description">Returns the insersection between two rectangles.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.isArray">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Boolean
+                    
+                  
+                  isArray(obj)
+                </code>
+              </a>
+              
+                <div class="description">Returns YES if the passed object is an array or array-like.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.isEqual">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Boolean
+                    
+                  
+                  isEqual(a, b)
+                </code>
+              </a>
+              
+                <div class="description">This will compare the two object values using their hash codes.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.maxRange">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  maxRange(range)
+                </code>
+              </a>
+              
+                <div class="description">Returns the first value outside of the range.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.maxX">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  maxX(frame)
+                </code>
+              </a>
+              
+                <div class="description">Return the right edge of the frame.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.maxY">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  maxY(frame)
+                </code>
+              </a>
+              
+                <div class="description">Return the bottom edge of the frame</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.midX">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  midX(frame)
+                </code>
+              </a>
+              
+                <div class="description">Return the midpoint of the frame.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.midY">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  midY(frame)
+                </code>
+              </a>
+              
+                <div class="description">Return the midpoint of the frame</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.minRange">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  minRange(range)
+                </code>
+              </a>
+              
+                <div class="description">Returns first value of the range.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.minX">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  minX(frame)
+                </code>
+              </a>
+              
+                <div class="description">Return the left edge of the frame</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.minY">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  minY(frame)
+                </code>
+              </a>
+              
+                <div class="description">Return the top edge of the frame</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.mixin">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Object
+                    
+                  
+                  mixin(deep, target, properties)
+                </code>
+              </a>
+              
+                <div class="description">Adds properties to a target object.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.normalizeURL">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;String
+                    
+                  
+                  normalizeURL(url)
+                </code>
+              </a>
+              
+                <div class="description">Takes a URL of any type and normalizes it into a fully qualified URL with
+    hostname.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.pointInRect">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  pointInRect(point, f)
+                </code>
+              </a>
+              
+                <div class="description">Check if the given point is inside the rect.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.rangesEqual">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  rangesEqual(r1, r2)
+                </code>
+              </a>
+              
+                <div class="description">Returns true if the two passed ranges are equal.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.rectsEqual">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Boolean
+                    
+                  
+                  rectsEqual(r1, r2, delta)
+                </code>
+              </a>
+              
+                <div class="description">Return true if the two frames match.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.typeOf">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;String
+                    
+                  
+                  typeOf(item)
+                </code>
+              </a>
+              
+                <div class="description">Returns a consistant type for the passed item.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.unionRanges">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  unionRanges(r1, r2)
+                </code>
+              </a>
+              
+                <div class="description">Returns the union of two ranges.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.unionRects">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Rect
+                    
+                  
+                  unionRects(r1, r2)
+                </code>
+              </a>
+              
+                <div class="description">Returns the union between two rectangles</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.valueInRange">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  valueInRange(value, range)
+                </code>
+              </a>
+              
+                <div class="description">Returns true if the passed index is in the specified range</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.viewportOffset">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Point
+                    
+                  
+                  viewportOffset(el)
+                </code>
+              </a>
+              
+                <div class="description">Finds the absolute viewportOffset for a given element.</div>
+              
+            </li>
+          
+        </ul>
+      </div>
+    
+    
+    
+  
+
+<!-- ============================== field details ========================== -->    
+  
+    <div class="field-detail detail">
+      <a name="field_detail"><h2>Property Details</h2></a> 
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name=".$type"></a> 
+            <h3>$type</h3>
+            <p class="summary">Alias for SC.typeOf()</p>
+
+            
+
+            <p class="signature">
+              +
+              
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">$type</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name=".BLANK_IMAGE_URL"></a> 
+            <h3>BLANK_IMAGE_URL</h3>
+            <p class="summary">URL to a transparent GIF.</p>
+
+            
+
+            <p class="signature">
+              +
+              
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">BLANK_IMAGE_URL</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                <p>Used for spriting.</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name=".DRAG_REORDER"></a> 
+            <h3>DRAG_REORDER</h3>
+            <p class="summary">Special drag operation passed to delegate if the collection view proposes
+  to perform a reorder event.</p>
+
+            
+
+            <p class="signature">
+              +
+              
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">DRAG_REORDER</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name=".DROP_ANY"></a> 
+            <h3>DROP_ANY</h3>
+            <p class="summary">Indicates that the collection view want's to know which operations would 
+  be allowed for either drop operation.</p>
+
+            
+
+            <p class="signature">
+              +
+              
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">DROP_ANY</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name=".DROP_BEFORE"></a> 
+            <h3>DROP_BEFORE</h3>
+            <p class="summary">Indicates that the collection view expects to accept a drop BEFORE the 
+  specified item.</p>
+
+            
+
+            <p class="signature">
+              +
+              
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">DROP_BEFORE</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name=".DROP_ON"></a> 
+            <h3>DROP_ON</h3>
+            <p class="summary">Indicates that the collection view expects to accept a drop ON the specified
+  item.</p>
+
+            
+
+            <p class="signature">
+              +
+              
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">DROP_ON</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name=".FormView"></a> 
+            <h3>FormView</h3>
+            <p class="summary">FormView provides a simple way for you to focus a group of views onto a 
+  single content object or set of content objects.</p>
+
+            
+
+            <p class="signature">
+              +
+              
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">FormView</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                <p>It can also be used to "stage" input by buffering data from your views into the form before it is set on your actual content object.  This approach is generally deprecated however as the Controller objects now provide this same buffering feature in a more robust way.</p>
+
+<h2> How It Works</h2>
+
+<p>On startup, FormView will walk any child views looking for any views with the property "fieldKey".  Any views with this key will be saved as fields on the form.  You can access their value directly on the form by getting the value of fieldKey.</p>
+
+<p>Used this way, you can easily combine multiple views into a single, bindable object.  To gain the full functionality however, you should use the content commit capability.</p>
+
+<p>IMPORTANT:  FormView defines some properties of its own.  If you try to name your fields with properties already declared in FormView, they will be ignored and a warning will be logged to the console.</p>
+
+<h2> Content Commit</h2>
+
+<p>If you set the content object on a form view, then the form fields will automatically be bound to the same named keys on the content object.  When the content object value's change, the fields on the form will update automatically.  Likewise, if you change the value of the field, the value of the content object will generally be changed as wel.</p>
+
+<p>If you prefer, you can also turn on buffered commits by setting the commitChangesImmediately property to NO.  This will cause the form to buffer any changes to the field values and only forwards them to the content when you call commitChanges() on the form.  This method of buffering is still supported for some simple cases, however it is better to use the newer Controller objects that provide this same buffering in a more robust way.</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name=".getGUID"></a> 
+            <h3>getGUID</h3>
+            <p class="summary"></p>
+
+            
+              <p class="deprecated">Deprecated Use guidFor() instead.</p>
+            
+
+            <p class="signature">
+              +
+              
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">getGUID</span>
+            </p>
+
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name=".HORIZONTAL_ORIENTATION"></a> 
+            <h3>HORIZONTAL_ORIENTATION</h3>
+            <p class="summary">Indicates that selection points should be selected using horizontal 
+  orientation.</p>
+
+            
+
+            <p class="signature">
+              +
+              
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">HORIZONTAL_ORIENTATION</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name=".imageCache"></a> 
+            <h3>imageCache</h3>
+            <p class="summary">The image cache will create Image objects to preload a set of 
+  images.</p>
+
+            
+
+            <p class="signature">
+              +
+              
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">imageCache</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                <p>This will control the number of images being loaded to maximize browser throughput.</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name=".MIXED_STATE"></a> 
+            <h3>MIXED_STATE</h3>
+            <p class="summary">Indicates a value has a mixed state of both on and off.</p>
+
+            
+
+            <p class="signature">
+              +
+              
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">MIXED_STATE</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name=".NodeDescriptor"></a> 
+            <h3>NodeDescriptor</h3>
+            <p class="summary">This object can generate HTML DOM elements from a hash-based description of 
+  the nodes.</p>
+
+            
+
+            <p class="signature">
+              +
+              
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">NodeDescriptor</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                <p>See the NodeDescriptor wiki page for complete docs.</p>
+
+<p>See https://wiki.sproutit.com/engineering/show/NodeDescriptor</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name=".PathModule"></a> 
+            <h3>PathModule</h3>
+            <p class="summary">PathModule is high-performance API for locating DOM nodes in your HTML
+  document.</p>
+
+            
+
+            <p class="signature">
+              +
+              
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">PathModule</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                <p>It's designed to be used by searching elements from a parent node.</p>
+
+<p>PathModule is patched into Prototypes Element.Methods, which means that you can automatically access this API for any DOM element retrieved via the $() operator.  You can also mixin the PathModule api to your own objects.  Be sure to also have a property called rootElement that points to the root DOM element you want to search.</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name=".Platform"></a> 
+            <h3>Platform</h3>
+            <p class="summary">Browser and Platform info.</p>
+
+            
+
+            <p class="signature">
+              +
+              
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">Platform</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name=".REMOVE_COLLECTION_ROOT_ELEMENT_DURING_RENDER"></a> 
+            <h3>REMOVE_COLLECTION_ROOT_ELEMENT_DURING_RENDER</h3>
+            <p class="summary">Enables an optimization that removes the root element from the DOM during 
+a render and then readds it when complete.</p>
+
+            
+
+            <p class="signature">
+              +
+              
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">REMOVE_COLLECTION_ROOT_ELEMENT_DURING_RENDER</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                <p>This option is configurable for perf testing purposes.  You should not change it.</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name=".SplitView"></a> 
+            <h3>SplitView</h3>
+            <p class="summary"></p>
+
+            
+
+            <p class="signature">
+              +
+              
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">SplitView</span>
+            </p>
+
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name=".VERTICAL_ORIENTATION"></a> 
+            <h3>VERTICAL_ORIENTATION</h3>
+            <p class="summary">Selection points should be selected using vertical orientation.</p>
+
+            
+
+            <p class="signature">
+              +
+              
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">VERTICAL_ORIENTATION</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name=".ZERO_POINT"></a> 
+            <h3>ZERO_POINT</h3>
+            <p class="summary">A Point at {0,0}</p>
+
+            
+
+            <p class="signature">
+              +
+              
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">ZERO_POINT</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name=".ZERO_RANGE"></a> 
+            <h3>ZERO_RANGE</h3>
+            <p class="summary">A zero length range at zero.</p>
+
+            
+
+            <p class="signature">
+              +
+              
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">ZERO_RANGE</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name=".ZOMBIE_GROUPS_ENABLED"></a> 
+            <h3>ZOMBIE_GROUPS_ENABLED</h3>
+            <p class="summary">Enables an optimization using zombie group views.</p>
+
+            
+
+            <p class="signature">
+              +
+              
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">ZOMBIE_GROUPS_ENABLED</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                <p>This option is configurable for perf testing purposes.  You should not change it.</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+    </div>
+  
+
+<!-- ============================== method details ========================= -->    
+  
+    <div class="method-detail detail">
+      <a name="method_detail"><h2>Method Details</h2></a> 
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.$A"></a> 
+          <h3>$A()</h3>
+          <p class="summary">Converts the passed object to an Array.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Array&nbsp;
+                
+              
+            </span>
+            <span class="name">$A</span>
+            <span class="params">(object)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">object </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Array</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>If the object appears to be array-like, a new array will be cloned from it.  Otherwise, a new array will be created with the item itself as the only item in the array.</p>
+
+<p>This is an alias for Array.from() as well.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.$error"></a> 
+          <h3>$error()</h3>
+          <p class="summary">Shorthand form of the SC.Error.desc method.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">$error</span>
+            <span class="params">(description, label, c)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.$ok"></a> 
+          <h3>$ok()</h3>
+          <p class="summary">Returns YES if the passed value is an error object, otherwise NO.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">$ok</span>
+            <span class="params">(ret)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.callOnLoad"></a> 
+          <h3>callOnLoad()</h3>
+          <p class="summary">Call this method during setup of your app to queue up methods to be 
+    called once the entire document has finished loading.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  void&nbsp;
+                
+              
+            </span>
+            <span class="name">callOnLoad</span>
+            <span class="params">(target, method)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">target </span></dt>
+              
+              <dd><p>Or just pass a method.</p></dd>
+              
+            
+            
+            
+              <dt><span class="name">method </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">void</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>If you call this method once the document has already loaded, then the function will be called immediately.</p>
+
+<p>Any function you register with this method will be called just before main.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.centerX"></a> 
+          <h3>centerX()</h3>
+          <p class="summary">Returns the point that will center the frame X within the passed frame.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">centerX</span>
+            <span class="params">(innerFrame, outerFrame)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.centerY"></a> 
+          <h3>centerY()</h3>
+          <p class="summary">Return the point that will center the frame Y within the passed frame.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">centerY</span>
+            <span class="params">(innerFrame, outerFrame)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.clone"></a> 
+          <h3>clone()</h3>
+          <p class="summary">Creates a clone of the passed object.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Object&nbsp;
+                
+              
+            </span>
+            <span class="name">clone</span>
+            <span class="params">(object)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">object </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Object</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>This function can take just about any type of object and create a clone of it, including primitive values (which are not actually cloned because they are immutable).</p>
+
+<p>If the passed object implements the clone() method, then this function will simply call that method and return the result.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.cloneRange"></a> 
+          <h3>cloneRange()</h3>
+          <p class="summary">Returns a clone of the range.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">cloneRange</span>
+            <span class="params">(r)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.cloneRect"></a> 
+          <h3>cloneRect()</h3>
+          <p class="summary">Duplicates the passed rect.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Rect&nbsp;
+                
+              
+            </span>
+            <span class="name">cloneRect</span>
+            <span class="params">(r)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">r </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Rect</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>This is faster than Object.clone().</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.download"></a> 
+          <h3>download()</h3>
+          <p class="summary">Starts a download of the file at the named path.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">download</span>
+            <span class="params">(path)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>Use this method when you want to cause a file to be downloaded to a users desktop instead of having it display in the web browser.  Note that your server must return a header indicating that the file is intended for download also.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.extend"></a> 
+          <h3>extend()</h3>
+          <p class="summary">Alternative to mixin.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">extend</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>Provided for compatibility with jQuery.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.guidFor"></a> 
+          <h3>guidFor()</h3>
+          <p class="summary">Returns a unique GUID for the object.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  String&nbsp;
+                
+              
+            </span>
+            <span class="name">guidFor</span>
+            <span class="params">(obj)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">obj </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">String</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>If the object does not yet have a guid, one will be assigned to it.  You can call this on any object, SC.Object-based or not, but be aware that it will add a _guid property.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.hashFor"></a> 
+          <h3>hashFor()</h3>
+          <p class="summary">Returns a unique hash code for the object.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  String&nbsp;
+                
+              
+            </span>
+            <span class="name">hashFor</span>
+            <span class="params">(obj)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">obj </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">String</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>If the object implements a hash() method, the value of that method will be returned.  Otherwise, this will return the same value as guidFor().</p>
+
+<p>Unlike guidFor(), this method allows you to implement logic in your code to cause two separate instances of the same object to be treated as if they were equal for comparisons and other functions.</p>
+
+<p>IMPORTANT:  If you implement a hash() method, it MUST NOT return a number or a string that contains only a number.  Typically hash codes are strings that begin with a "%".</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.inspect"></a> 
+          <h3>inspect()</h3>
+          <p class="summary">Convenience method to inspect an object by converting it to a hash.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">inspect</span>
+            <span class="params">(obj)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.intersectRanges"></a> 
+          <h3>intersectRanges()</h3>
+          <p class="summary">Returns the intersection of the two ranges or SC.RANGE_NOT_FOUND</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">intersectRanges</span>
+            <span class="params">(r1, r2)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.intersectRects"></a> 
+          <h3>intersectRects()</h3>
+          <p class="summary">Returns the insersection between two rectangles.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Rect&nbsp;
+                
+              
+            </span>
+            <span class="name">intersectRects</span>
+            <span class="params">(r1, r2)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">r1 </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+            
+              <dt><span class="name">r2 </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Rect</span>&nbsp;-&nbsp;
+                <span class="description"><p>width || height will be 0 if they do not interset.</p></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.isArray"></a> 
+          <h3>isArray()</h3>
+          <p class="summary">Returns YES if the passed object is an array or array-like.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Boolean&nbsp;
+                
+              
+            </span>
+            <span class="name">isArray</span>
+            <span class="params">(obj)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">obj </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Boolean</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>Unlike SC.$type this method returns true even if the passed object is not formally array but appears to be array-like (i.e. has a length property, responds to .objectAt, etc.)</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.isEqual"></a> 
+          <h3>isEqual()</h3>
+          <p class="summary">This will compare the two object values using their hash codes.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Boolean&nbsp;
+                
+              
+            </span>
+            <span class="name">isEqual</span>
+            <span class="params">(a, b)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">a </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+            
+              <dt><span class="name">b </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Boolean</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.maxRange"></a> 
+          <h3>maxRange()</h3>
+          <p class="summary">Returns the first value outside of the range.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">maxRange</span>
+            <span class="params">(range)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.maxX"></a> 
+          <h3>maxX()</h3>
+          <p class="summary">Return the right edge of the frame.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">maxX</span>
+            <span class="params">(frame)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.maxY"></a> 
+          <h3>maxY()</h3>
+          <p class="summary">Return the bottom edge of the frame</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">maxY</span>
+            <span class="params">(frame)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.midX"></a> 
+          <h3>midX()</h3>
+          <p class="summary">Return the midpoint of the frame.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">midX</span>
+            <span class="params">(frame)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.midY"></a> 
+          <h3>midY()</h3>
+          <p class="summary">Return the midpoint of the frame</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">midY</span>
+            <span class="params">(frame)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.minRange"></a> 
+          <h3>minRange()</h3>
+          <p class="summary">Returns first value of the range.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">minRange</span>
+            <span class="params">(range)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.minX"></a> 
+          <h3>minX()</h3>
+          <p class="summary">Return the left edge of the frame</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">minX</span>
+            <span class="params">(frame)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.minY"></a> 
+          <h3>minY()</h3>
+          <p class="summary">Return the top edge of the frame</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">minY</span>
+            <span class="params">(frame)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.mixin"></a> 
+          <h3>mixin()</h3>
+          <p class="summary">Adds properties to a target object.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Object&nbsp;
+                
+              
+            </span>
+            <span class="name">mixin</span>
+            <span class="params">(deep, target, properties)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">deep </span></dt>
+              
+              <dd><p>If true, triggers a deep copy.</p></dd>
+              
+            
+            
+            
+              <dt><span class="name">target </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+            
+              <dt><span class="name">properties </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Object</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>Takes the root object and adds the attributes for any additional arguments passed.  This can also perform a deep copy if the first param is a bool that is YES.  This is generally not very safe though and not advised.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.normalizeURL"></a> 
+          <h3>normalizeURL()</h3>
+          <p class="summary">Takes a URL of any type and normalizes it into a fully qualified URL with
+    hostname.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  String&nbsp;
+                
+              
+            </span>
+            <span class="name">normalizeURL</span>
+            <span class="params">(url)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">url </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">String</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>For example:</p>
+
+
+<p class="code"><code>"some/path" =&gt; "http://localhost:4020/some/path"<br />"/some/path" =&gt; "http://localhost:4020/some/path"<br />"http://localhost:4020/some/path" =&gt; "http://localhost:4020/some/path"</code></p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.pointInRect"></a> 
+          <h3>pointInRect()</h3>
+          <p class="summary">Check if the given point is inside the rect.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">pointInRect</span>
+            <span class="params">(point, f)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.rangesEqual"></a> 
+          <h3>rangesEqual()</h3>
+          <p class="summary">Returns true if the two passed ranges are equal.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">rangesEqual</span>
+            <span class="params">(r1, r2)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>A null value is treated like RANGE_NOT_FOUND.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.rectsEqual"></a> 
+          <h3>rectsEqual()</h3>
+          <p class="summary">Return true if the two frames match.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Boolean&nbsp;
+                
+              
+            </span>
+            <span class="name">rectsEqual</span>
+            <span class="params">(r1, r2, delta)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">r1 </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+            
+              <dt><span class="name">r2 </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+            
+              <dt><span class="name">delta </span></dt>
+              
+              <dd><p>Defaults to 0.1</p></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Boolean</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.typeOf"></a> 
+          <h3>typeOf()</h3>
+          <p class="summary">Returns a consistant type for the passed item.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  String&nbsp;
+                
+              
+            </span>
+            <span class="name">typeOf</span>
+            <span class="params">(item)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">item </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">String</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>Use this instead of the built-in typeOf() to get the type of an item. It will return the same result across all browsers and includes a bit more detail.  Here is what will be returned:</p>
+
+<p>| Return Value Constant | Meaning | | SC.T_STRING | String primitive | | SC.T_NUMBER | Number primitive | | SC.T_BOOLEAN | Boolean primitive | | SC.T_NULL | Null value | | SC.T_UNDEFINED | Undefined value | | SC.T_FUNCTION | A function | | SC.T_ARRAY | An instance of Array | | SC.T_CLASS | A SproutCore class (created using SC.Object.extend()) | | SC.T_OBJECT | A SproutCore object instance | | SC.T_HASH | A JavaScript object not inheriting from SC.Object |</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.unionRanges"></a> 
+          <h3>unionRanges()</h3>
+          <p class="summary">Returns the union of two ranges.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">unionRanges</span>
+            <span class="params">(r1, r2)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>If one range is null, the other range will be returned.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.unionRects"></a> 
+          <h3>unionRects()</h3>
+          <p class="summary">Returns the union between two rectangles</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Rect&nbsp;
+                
+              
+            </span>
+            <span class="name">unionRects</span>
+            <span class="params">(r1, r2)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">r1 </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+            
+              <dt><span class="name">r2 </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Rect</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.valueInRange"></a> 
+          <h3>valueInRange()</h3>
+          <p class="summary">Returns true if the passed index is in the specified range</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">valueInRange</span>
+            <span class="params">(value, range)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.viewportOffset"></a> 
+          <h3>viewportOffset()</h3>
+          <p class="summary">Finds the absolute viewportOffset for a given element.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Point&nbsp;
+                
+              
+            </span>
+            <span class="name">viewportOffset</span>
+            <span class="params">(el)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">el </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Point</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+<p>This method is more accurate than the version provided by prototype.</p>
+
+<p>If you pass NULL to this method, it will return a { x:0, y:0 }</p>
+          </div>
+
+          
+        </div>
+      
+    </div>
+  
+  
+<!-- ============================== footer ================================= -->
+  <div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoctoolkit.org/" target="_parent">JsDoc Toolkit</a> 2.0.1 on Mon Oct 13 2008 23:25:29 GMT-0600 (MDT)</div>
+</body>
+</html>

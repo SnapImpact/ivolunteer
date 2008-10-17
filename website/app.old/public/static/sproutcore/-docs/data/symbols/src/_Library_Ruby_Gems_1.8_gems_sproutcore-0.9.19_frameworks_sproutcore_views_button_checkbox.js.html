@@ -1,0 +1,37 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+  .KEYW {color: #933;}
+  .COMM {color: #bbb; font-style: italic;}
+  .NUMB {color: #393;}
+  .STRN {color: #393;}
+  .REGX {color: #339;}
+  .line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+  </style></head><body><pre><span class='line'>  1</span> <span class="COMM">// ==========================================================================</span><span class="WHIT">
+<span class='line'>  2</span> </span><span class="COMM">// SC.CheckboxView</span><span class="WHIT">
+<span class='line'>  3</span> </span><span class="COMM">// ==========================================================================</span><span class="WHIT">
+<span class='line'>  4</span> 
+<span class='line'>  5</span> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'views/button/button'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  6</span> 
+<span class='line'>  7</span> </span><span class="COMM">/** @class
+<span class='line'>  8</span> 
+<span class='line'>  9</span>   Renders a checkbox button view specifically.
+<span class='line'> 10</span>   
+<span class='line'> 11</span>   This view is basically a button view preconfigured to generate the correct
+<span class='line'> 12</span>   HTML and to set to use a TOGGLE_BEHAVIOR for its buttons.
+<span class='line'> 13</span>   
+<span class='line'> 14</span>   This view renders a simulated checkbox that can display a mixed state and 
+<span class='line'> 15</span>   has other features not found in platform-native controls.  If you want to 
+<span class='line'> 16</span>   use the platform native version instead, see SC.CheckboxFieldView.
+<span class='line'> 17</span> 
+<span class='line'> 18</span>   @extends SC.ButtonView
+<span class='line'> 19</span>   @author    Charles Jolley 
+<span class='line'> 20</span>   @version 1.0
+<span class='line'> 21</span> */</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="NAME">SC.CheckboxView</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.ButtonView.extend</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="COMM">/** @scope SC.CheckboxView.prototype */</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 24</span> 
+<span class='line'> 25</span>   </span><span class="NAME">emptyElement</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'&lt;a href="javascript:;" class="sc-checkbox-view sc-button-view button checkbox">&lt;img src="%@" class="button" />&lt;span class="label">&lt;/span>&lt;/a>'</span><span class="PUNC">.</span><span class="NAME">fmt</span><span class="PUNC">(</span><span class="NAME">static_url</span><span class="PUNC">(</span><span class="STRN">'blank'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 26</span>   
+<span class='line'> 27</span>   </span><span class="NAME">buttonBehavior</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">SC.TOGGLE_BEHAVIOR</span><span class="WHIT">
+<span class='line'> 28</span>   
+<span class='line'> 29</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 30</span> </span></pre></body></html>

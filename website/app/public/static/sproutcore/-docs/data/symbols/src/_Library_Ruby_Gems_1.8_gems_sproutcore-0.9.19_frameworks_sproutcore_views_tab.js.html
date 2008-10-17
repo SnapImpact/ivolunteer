@@ -1,0 +1,136 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+  .KEYW {color: #933;}
+  .COMM {color: #bbb; font-style: italic;}
+  .NUMB {color: #393;}
+  .STRN {color: #393;}
+  .REGX {color: #339;}
+  .line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+  </style></head><body><pre><span class='line'>  1</span> <span class="COMM">// ========================================================================</span><span class="WHIT">
+<span class='line'>  2</span> </span><span class="COMM">// SproutCore</span><span class="WHIT">
+<span class='line'>  3</span> </span><span class="COMM">// copyright 2006-2008 Sprout Systems, Inc.</span><span class="WHIT">
+<span class='line'>  4</span> </span><span class="COMM">// ========================================================================</span><span class="WHIT">
+<span class='line'>  5</span> 
+<span class='line'>  6</span> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'views/view'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  7</span> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'views/container'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  8</span> 
+<span class='line'>  9</span> </span><span class="NAME">SC.TAB_VIEW_TAB_REGEXP</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="REGX">/Tab$/</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 10</span> 
+<span class='line'> 11</span> </span><span class="COMM">/** @class
+<span class='line'> 12</span> 
+<span class='line'> 13</span>   To use a TabView, just declare the views and buttons you want to manage
+<span class='line'> 14</span>   as outlets.  Then set the "nowShowing" property to the name of view.
+<span class='line'> 15</span> 
+<span class='line'> 16</span>   View names comes from either the name of the view property or from the
+<span class='line'> 17</span>   view's 'tabId' property, if it has one.  Declare tabs by adding properties 
+<span class='line'> 18</span>   ending in 'Tab' and buttons ending in 'Button'
+<span class='line'> 19</span>   
+<span class='line'> 20</span>   @extends SC.ContainerView
+<span class='line'> 21</span> */</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="NAME">SC.TabView</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.ContainerView.extend</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 23</span>   </span><span class="COMM">/** @scope SC.TabView.prototype */</span><span class="WHIT">
+<span class='line'> 24</span>   </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 25</span> 
+<span class='line'> 26</span>   </span><span class="COMM">/** 
+<span class='line'> 27</span>     set the tabId here that you to display minus the "Tab".  
+<span class='line'> 28</span>     
+<span class='line'> 29</span>     @type String
+<span class='line'> 30</span>   */</span><span class="WHIT">  
+<span class='line'> 31</span>   </span><span class="NAME">nowShowing</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 32</span>   
+<span class='line'> 33</span>   </span><span class="COMM">/**
+<span class='line'> 34</span>     instantiate tabs lazily as they are accessed.
+<span class='line'> 35</span>     
+<span class='line'> 36</span>     If set to true, tabs will be instanted from the SC.page object when they
+<span class='line'> 37</span>     are first accessed.  If your tabs have complex content, using lazy tabs 
+<span class='line'> 38</span>     can dramatically improve page load performance.
+<span class='line'> 39</span>   
+<span class='line'> 40</span>     @type Boolean
+<span class='line'> 41</span>   */</span><span class="WHIT">
+<span class='line'> 42</span>   </span><span class="NAME">lazyTabs</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 43</span>   
+<span class='line'> 44</span>   
+<span class='line'> 45</span>   </span><span class="COMM">// ...................................</span><span class="WHIT">
+<span class='line'> 46</span>   </span><span class="COMM">// INTERNAL</span><span class="WHIT">
+<span class='line'> 47</span>   </span><span class="COMM">//</span><span class="WHIT">
+<span class='line'> 48</span>   
+<span class='line'> 49</span>   </span><span class="COMM">/** @private */</span><span class="WHIT">
+<span class='line'> 50</span>   </span><span class="NAME">init</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 51</span>     </span><span class="NAME">arguments.callee.base.call</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 52</span>     
+<span class='line'> 53</span>     </span><span class="COMM">// find outlets and build list of tabs and buttons.</span><span class="WHIT">
+<span class='line'> 54</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tabs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 55</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">buttons</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 56</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">view</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 57</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">loc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.outlets</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">this.outlets.length</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 58</span>     </span><span class="KEYW">while</span><span class="PUNC">(</span><span class="PUNC">--</span><span class="NAME">loc</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 59</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">outlet</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.outlets</span><span class="PUNC">[</span><span class="NAME">loc</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 60</span>       </span><span class="COMM">// look for outlets ending in 'Tab'</span><span class="WHIT">
+<span class='line'> 61</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">outlet.match</span><span class="PUNC">(</span><span class="NAME">SC.TAB_VIEW_TAB_REGEXP</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
+<span class='line'> 62</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">key</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">outlet.slice</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="PUNC">-</span><span class="NUMB">3</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// remove 'Tab' </span><span class="WHIT">
+<span class='line'> 63</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tab</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">view.get</span><span class="PUNC">(</span><span class="NAME">outlet</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// find tab view</span><span class="WHIT">
+<span class='line'> 64</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">button</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">view.get</span><span class="PUNC">(</span><span class="NAME">key</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'Button'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// find button view (opt)</span><span class="WHIT">
+<span class='line'> 65</span>         </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tab</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 66</span>           </span><span class="COMM">// the key is either computed from the property name or from tabId.</span><span class="WHIT">
+<span class='line'> 67</span>           </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tabId</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">tab.get</span><span class="PUNC">(</span><span class="STRN">'tabId'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">key</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 68</span>           </span><span class="NAME">tabs</span><span class="PUNC">[</span><span class="NAME">tabId</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">tab</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 69</span>           </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">button</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">buttons</span><span class="PUNC">[</span><span class="NAME">tabId</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">button</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">          
+<span class='line'> 70</span>           
+<span class='line'> 71</span>           </span><span class="COMM">// also remove the tab from its parent view.</span><span class="WHIT">
+<span class='line'> 72</span>           </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tab.removeFromParent</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">tab.removeFromParent</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 73</span>           
+<span class='line'> 74</span>         </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if (tab)</span><span class="WHIT">
+<span class='line'> 75</span>       </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// if (outlet.slice)</span><span class="WHIT">
+<span class='line'> 76</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// while</span><span class="WHIT">
+<span class='line'> 77</span>     
+<span class='line'> 78</span>     </span><span class="NAME">this._tabs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">tabs</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">this._buttons</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">buttons</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 79</span>     </span><span class="NAME">this.nowShowingObserver</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// swap in/out the appropriate views.</span><span class="WHIT">
+<span class='line'> 80</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 81</span> 
+<span class='line'> 82</span>   </span><span class="COMM">/** @private
+<span class='line'> 83</span>       swaps the views in and out. 
+<span class='line'> 84</span>   */</span><span class="WHIT">
+<span class='line'> 85</span>   </span><span class="NAME">nowShowingObserver</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 86</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">nowShowing</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'nowShowing'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 87</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">nowShowing</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">this._oldNowShowing</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// nothing to do.</span><span class="WHIT">
+<span class='line'> 88</span>     </span><span class="NAME">this._oldNowShowing</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nowShowing</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 89</span>     </span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tabId</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">this._tabs</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 90</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tab</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._tabs</span><span class="PUNC">[</span><span class="NAME">tabId</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 91</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">button</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._buttons</span><span class="PUNC">[</span><span class="NAME">tabId</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 92</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tabId</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">nowShowing</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 93</span>         </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">button</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">button.set</span><span class="PUNC">(</span><span class="STRN">'isSelected'</span><span class="PUNC">,</span><span class="KEYW">true</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 94</span>       </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
+<span class='line'> 95</span>         </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tab</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">tab.set</span><span class="PUNC">(</span><span class="STRN">'isVisible'</span><span class="PUNC">,</span><span class="KEYW">false</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 96</span>         </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">button</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">button.set</span><span class="PUNC">(</span><span class="STRN">'isSelected'</span><span class="PUNC">,</span><span class="KEYW">false</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 97</span>       </span><span class="PUNC">}</span><span class="WHIT">      
+<span class='line'> 98</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 99</span>     
+<span class='line'>100</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">visibleTab</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._tabs</span><span class="PUNC">[</span><span class="NAME">nowShowing</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>101</span>     
+<span class='line'>102</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">visibleTab</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'lazyTabs'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>103</span>       </span><span class="NAME">this._tabs</span><span class="PUNC">[</span><span class="NAME">nowShowing</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">visibleTab</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.page.get</span><span class="PUNC">(</span><span class="STRN">'%@Tab'</span><span class="PUNC">.</span><span class="NAME">fmt</span><span class="PUNC">(</span><span class="NAME">nowShowing</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>104</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>105</span>     
+<span class='line'>106</span>     </span><span class="NAME">this.set</span><span class="PUNC">(</span><span class="STRN">'content'</span><span class="PUNC">,</span><span class="NAME">visibleTab</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>107</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">visibleTab</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">visibleTab.set</span><span class="PUNC">(</span><span class="STRN">'isVisible'</span><span class="PUNC">,</span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>108</span>     
+<span class='line'>109</span>   </span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">observes</span><span class="PUNC">(</span><span class="STRN">'nowShowing'</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>110</span>   
+<span class='line'>111</span>   </span><span class="COMM">/**
+<span class='line'>112</span>     Used by SC.FormView to find child fields.
+<span class='line'>113</span>     
+<span class='line'>114</span>     The TabView removes its child views from the hierarchy on startup, which 
+<span class='line'>115</span>     can prevent a view such as SC.FormView, that search their children for 
+<span class='line'>116</span>     configuration information from working properly.  To work around this 
+<span class='line'>117</span>     problem, SC.FormView and other views will use this method to get the child
+<span class='line'>118</span>     views they should search instead of looking at childNodes directly.
+<span class='line'>119</span>   
+<span class='line'>120</span>     Note that if you use lazy tabs, form fields will not work because the tabs
+<span class='line'>121</span>     are not instantiated until they are accessed.
+<span class='line'>122</span>   */</span><span class="WHIT">  
+<span class='line'>123</span>   </span><span class="NAME">childNodesForFormField</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>124</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Object.values</span><span class="PUNC">(</span><span class="NAME">this._tabs</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>125</span>   </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>126</span>   
+<span class='line'>127</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>128</span> 
+<span class='line'>129</span> </span></pre></body></html>

@@ -1,0 +1,330 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+  .KEYW {color: #933;}
+  .COMM {color: #bbb; font-style: italic;}
+  .NUMB {color: #393;}
+  .STRN {color: #393;}
+  .REGX {color: #339;}
+  .line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+  </style></head><body><pre><span class='line'>  1</span> <span class="COMM">// ========================================================================</span><span class="WHIT">
+<span class='line'>  2</span> </span><span class="COMM">// SproutCore</span><span class="WHIT">
+<span class='line'>  3</span> </span><span class="COMM">// copyright 2006-2008 Sprout Systems, Inc.</span><span class="WHIT">
+<span class='line'>  4</span> </span><span class="COMM">// ========================================================================</span><span class="WHIT">
+<span class='line'>  5</span> 
+<span class='line'>  6</span> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'core'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  7</span> 
+<span class='line'>  8</span> </span><span class="COMM">/**
+<span class='line'>  9</span>   @class
+<span class='line'> 10</span> 
+<span class='line'> 11</span>   The run loop provides a universal system for coordinating events within
+<span class='line'> 12</span>   your application.  The run loop processes timers as well as pending 
+<span class='line'> 13</span>   observer notifications within your application.
+<span class='line'> 14</span>   
+<span class='line'> 15</span>   Typically you will not work with a run loop directly but instead user 
+<span class='line'> 16</span>   SC.Timer objects and property observing to indirectly trigger actions on
+<span class='line'> 17</span>   the run loop.  The only time you may need to work with the run loop is if
+<span class='line'> 18</span>   you implement a setTimeout or event handler yourself.  In these cases, you
+<span class='line'> 19</span>   should begin and end your function handler with a call to beginRunLoop()
+<span class='line'> 20</span>   and endRunLoop().  This will give the run loop a chance to process any
+<span class='line'> 21</span>   pending events on your application.
+<span class='line'> 22</span>   
+<span class='line'> 23</span>   h2. Using the Loop Start Time
+<span class='line'> 24</span>   
+<span class='line'> 25</span>   Sometimes you need to schedule events such as timers and you want to make
+<span class='line'> 26</span>   sure all of the events you schedule occur at the same time.  If you want to
+<span class='line'> 27</span>   keep items in sync you can't use Date.now() because that value will 
+<span class='line'> 28</span>   increment as your code executes.  Instead, you should get the loop start
+<span class='line'> 29</span>   time and use that.  For example, if you want to schedule three timers to
+<span class='line'> 30</span>   repeat until 1 second, 2 seconds and 3 seconds from now you might do:
+<span class='line'> 31</span>   
+<span class='line'> 32</span>   {{{
+<span class='line'> 33</span>     var t1 = SC.Timer.schedule({ 
+<span class='line'> 34</span>       interval: 100,
+<span class='line'> 35</span>       action: 'timer1', 
+<span class='line'> 36</span>       repeats: YES, 
+<span class='line'> 37</span>       until: SC.runLoop.get('startTime') + 1000 }) ;
+<span class='line'> 38</span> 
+<span class='line'> 39</span>     var t2 = SC.Timer.schedule({ 
+<span class='line'> 40</span>       interval: 100,
+<span class='line'> 41</span>       action: 'timer1', 
+<span class='line'> 42</span>       repeats: YES, 
+<span class='line'> 43</span>       until: SC.runLoop.get('startTime') + 2000 }) ;
+<span class='line'> 44</span> 
+<span class='line'> 45</span>     var t3 = SC.Timer.schedule({ 
+<span class='line'> 46</span>       interval: 100,
+<span class='line'> 47</span>       action: 'timer1', 
+<span class='line'> 48</span>       repeats: YES, 
+<span class='line'> 49</span>       until: SC.runLoop.get('startTime') + 3000 }) ;
+<span class='line'> 50</span>   }}}
+<span class='line'> 51</span>   
+<span class='line'> 52</span>   This will ensure that each timer uses the exact same start time when 
+<span class='line'> 53</span>   scheduling.  This is critical if you want to keep animations in sync.
+<span class='line'> 54</span>   
+<span class='line'> 55</span>   @extends SC.Object
+<span class='line'> 56</span>   @author Charles Jolley
+<span class='line'> 57</span>   @version 1.0
+<span class='line'> 58</span>   @since SproutCore 1.0
+<span class='line'> 59</span> */</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="NAME">SC.runLoop</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.Object.create</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 61</span>   
+<span class='line'> 62</span>   </span><span class="COMM">/**
+<span class='line'> 63</span>     Maximum time we allow things to run before taking a break.
+<span class='line'> 64</span>   */</span><span class="WHIT">
+<span class='line'> 65</span>   </span><span class="NAME">maxRunTime</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">3000</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 66</span>   
+<span class='line'> 67</span>   </span><span class="COMM">/**
+<span class='line'> 68</span>     Called by an observable object to schedule an observer to be notified.
+<span class='line'> 69</span>     
+<span class='line'> 70</span>     @param target {Object} the target object
+<span class='line'> 71</span>     @param action {Function} the method to call
+<span class='line'> 72</span>     @param args {Array} array of arguments to pass on
+<span class='line'> 73</span>     @returns {void}
+<span class='line'> 74</span>   */</span><span class="WHIT">
+<span class='line'> 75</span>   </span><span class="NAME">notifyObserver</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">target</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">action</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">args</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 76</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this._notifications</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this._notifications</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 77</span>     </span><span class="NAME">this._notifications.push</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">target</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">target</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">action</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">action</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">args</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">args</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 78</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 79</span>   
+<span class='line'> 80</span>   </span><span class="COMM">/**
+<span class='line'> 81</span>     Tries to flush observer notifications.  The idea is that this will
+<span class='line'> 82</span>     continue to remove observers until all of the notifications have flushed
+<span class='line'> 83</span>     or until the max execution time has passed.  Called automatically from
+<span class='line'> 84</span>     endRunLoop().
+<span class='line'> 85</span>     
+<span class='line'> 86</span>     The way this works, it does not unshift pending notifications but
+<span class='line'> 87</span>     instead just sets them to null until the entire queue is flushed.  Then
+<span class='line'> 88</span>     it will reset the queue to a new array.  This is faster than shifting().
+<span class='line'> 89</span>     
+<span class='line'> 90</span>     @returns {void}
+<span class='line'> 91</span>   */</span><span class="WHIT">
+<span class='line'> 92</span>   </span><span class="NAME">deliverNotifications</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 93</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this._notifications</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">this._notifications.length</span><span class="WHIT"> </span><span class="PUNC">&lt;=</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 94</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this._notifying</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// do not allow recursion</span><span class="WHIT">
+<span class='line'> 95</span>     </span><span class="NAME">this._notifying</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 96</span>     
+<span class='line'> 97</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">start</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'startTime'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 98</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">max</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">start</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'maxRunTime'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 99</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">loc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>100</span>     </span><span class="KEYW">while</span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">Date.now</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">max</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">loc</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">this._notifications.length</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>101</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">notify</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._notifications</span><span class="PUNC">[</span><span class="NAME">loc</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>102</span>       </span><span class="NAME">this._notifications</span><span class="PUNC">[</span><span class="NAME">loc</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>103</span>       </span><span class="NAME">loc</span><span class="PUNC">++</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// IMPORTANT: Make sure you increment so that we always go on.</span><span class="WHIT">
+<span class='line'>104</span> 
+<span class='line'>105</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">notify</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>106</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">args</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">notify.args</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>107</span>         </span><span class="NAME">notify.action.call</span><span class="PUNC">(</span><span class="NAME">notify.target</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">args</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">args</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">args</span><span class="PUNC">[</span><span class="NUMB">2</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">args</span><span class="PUNC">[</span><span class="NUMB">3</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>108</span>       </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>109</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>110</span>     
+<span class='line'>111</span>     </span><span class="COMM">// if we made it through and the queue is empty, reset it</span><span class="WHIT">
+<span class='line'>112</span>     </span><span class="COMM">// otherwise, leave the queue in place and schedule another runloop.</span><span class="WHIT">
+<span class='line'>113</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">loc</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NAME">this._notifications.length</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>114</span>       </span><span class="NAME">this._notifications</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>115</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>116</span>       </span><span class="NAME">this.invokeLater</span><span class="PUNC">(</span><span class="NAME">this.deliverNotifications</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>117</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>118</span>     
+<span class='line'>119</span>     </span><span class="NAME">this._notifying</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>120</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>121</span>   
+<span class='line'>122</span>   </span><span class="COMM">/**
+<span class='line'>123</span>     Call this method whenver you begin executing code.  
+<span class='line'>124</span>   
+<span class='line'>125</span>     This is typically invoked automatically for you from event handlers and 
+<span class='line'>126</span>     the timeout handler.  If you call setTimeout() or setInterval() yourself, 
+<span class='line'>127</span>     you may need to invoke this yourself.
+<span class='line'>128</span>   
+<span class='line'>129</span>     @returns {void}
+<span class='line'>130</span>   */</span><span class="WHIT">
+<span class='line'>131</span>   </span><span class="NAME">beginRunLoop</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>132</span>     </span><span class="NAME">this._start</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Date.now</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">  
+<span class='line'>133</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>134</span> 
+<span class='line'>135</span>   </span><span class="COMM">/**
+<span class='line'>136</span>     Call this method whenever you are done executing code.
+<span class='line'>137</span>     
+<span class='line'>138</span>     This is typically invoked automatically for you from event handlers and
+<span class='line'>139</span>     the timeout handler.  If you call setTimeout() or setInterval() yourself
+<span class='line'>140</span>     you may need to invoke this yourself.
+<span class='line'>141</span>     
+<span class='line'>142</span>     @returns {void}
+<span class='line'>143</span>   */</span><span class="WHIT">
+<span class='line'>144</span>   </span><span class="NAME">endRunLoop</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>145</span>     </span><span class="COMM">// send any pending notifications.</span><span class="WHIT">
+<span class='line'>146</span>     </span><span class="COMM">//this.deliverNotifications() ;</span><span class="WHIT">
+<span class='line'>147</span>     
+<span class='line'>148</span>     </span><span class="COMM">// flush any expired timers, possibly cancelling the timeout.</span><span class="WHIT">
+<span class='line'>149</span>     </span><span class="NAME">this._flushExpiredTimers</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>150</span>     </span><span class="NAME">this._start</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>151</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>152</span> 
+<span class='line'>153</span>   </span><span class="COMM">/**
+<span class='line'>154</span>     The time the current run loop began executing.
+<span class='line'>155</span>     
+<span class='line'>156</span>     All timers scheduled during this run loop will begin executing as if 
+<span class='line'>157</span>     they were scheduled at this time.
+<span class='line'>158</span>   
+<span class='line'>159</span>     @type {Number}
+<span class='line'>160</span>     @field
+<span class='line'>161</span>   */</span><span class="WHIT">
+<span class='line'>162</span>   </span><span class="NAME">startTime</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>163</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this._start</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this._start</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Date.now</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>164</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._start</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">  
+<span class='line'>165</span>   </span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">property</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>166</span> 
+<span class='line'>167</span>   </span><span class="COMM">// timers are stored in the hash with a double linked list to keep them</span><span class="WHIT">
+<span class='line'>168</span>   </span><span class="COMM">// in order.</span><span class="WHIT">
+<span class='line'>169</span>   </span><span class="NAME">scheduleTimer</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">timer</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">runTime</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>170</span>     
+<span class='line'>171</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">timer</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">"scheduleTimer requires a timer"</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// nothing to do</span><span class="WHIT">
+<span class='line'>172</span>     
+<span class='line'>173</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this._timers</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this._timers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>174</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">guid</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.guidFor</span><span class="PUNC">(</span><span class="NAME">timer</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>175</span> 
+<span class='line'>176</span>     </span><span class="COMM">// either remove the timer record or create a new one and add it.</span><span class="WHIT">
+<span class='line'>177</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">t</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._timers</span><span class="PUNC">[</span><span class="NAME">guid</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>178</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">t</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>179</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">t.prev</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">t.prev.next</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">t.next</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>180</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">t.next</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">t.next.prev</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">t.prev</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>181</span>       </span><span class="NAME">t.next</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">t.prev</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>182</span>       </span><span class="NAME">t.at</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">runTime</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>183</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>184</span>       </span><span class="NAME">t</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._timers</span><span class="PUNC">[</span><span class="NAME">guid</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
+<span class='line'>185</span>         </span><span class="NAME">timer</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">timer</span><span class="PUNC">,</span><span class="WHIT"> 
+<span class='line'>186</span>         </span><span class="NAME">at</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">runTime</span><span class="PUNC">,</span><span class="WHIT"> 
+<span class='line'>187</span>         </span><span class="NAME">guid</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">guid</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>188</span>         </span><span class="NAME">next</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">prev</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT"> 
+<span class='line'>189</span>       </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>190</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>191</span> 
+<span class='line'>192</span>     </span><span class="COMM">// now walk the chain to figure out where to insert the timer.  If the</span><span class="WHIT">
+<span class='line'>193</span>     </span><span class="COMM">// timer goes at the front, also reschedule the next timeout.</span><span class="WHIT">
+<span class='line'>194</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">cur</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._next</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>195</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">cur</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">cur.at</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NAME">runTime</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>196</span>       </span><span class="NAME">this._next</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">t</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>197</span>       </span><span class="NAME">t.next</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cur</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>198</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">cur</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">cur.prev</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">t.next</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>199</span>       </span><span class="NAME">this._rescheduleTimeout</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>200</span>       
+<span class='line'>201</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>202</span>       </span><span class="COMM">// find the item to insert after</span><span class="WHIT">
+<span class='line'>203</span>       </span><span class="KEYW">while</span><span class="PUNC">(</span><span class="NAME">cur.next</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">cur.next.at</span><span class="WHIT"> </span><span class="PUNC">&lt;=</span><span class="WHIT"> </span><span class="NAME">runTime</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">cur</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cur.next</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>204</span>       </span><span class="NAME">t.next</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cur.next</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>205</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">cur.next</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">cur.next.prev</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">t</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>206</span>       </span><span class="NAME">cur.next</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">t</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>207</span>       </span><span class="NAME">t.prev</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">cur</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>208</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>209</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>210</span>   
+<span class='line'>211</span>   </span><span class="NAME">cancelTimer</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">timer</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>212</span>     
+<span class='line'>213</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">timer</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">//nothing to do</span><span class="WHIT">
+<span class='line'>214</span>     
+<span class='line'>215</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this._timers</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this._timers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>216</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">guid</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.guidFor</span><span class="PUNC">(</span><span class="NAME">timer</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>217</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">t</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._timers</span><span class="PUNC">[</span><span class="NAME">guid</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>218</span>     
+<span class='line'>219</span>     </span><span class="COMM">// if a timer record was found, remove it from the list.  </span><span class="WHIT">
+<span class='line'>220</span>     </span><span class="COMM">// if timer was at the front, reschedule the timeout.</span><span class="WHIT">
+<span class='line'>221</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">t</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>222</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">t.next</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">t.next.prev</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">t.prev</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>223</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">t.prev</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">t.prev.next</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">t.next</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>224</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this._next</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">t</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>225</span>         </span><span class="NAME">this._next</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">t.next</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>226</span>         </span><span class="NAME">this._rescheduleTimeout</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>227</span>       </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>228</span>       </span><span class="NAME">t.next</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">t.prev</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">t.timer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// clear objects</span><span class="WHIT">
+<span class='line'>229</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>230</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>231</span> 
+<span class='line'>232</span>   </span><span class="NAME">timerPausedStateDidChange</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">timer</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>233</span>     </span><span class="NAME">this._rescheduleTimeout</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>234</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>235</span>   
+<span class='line'>236</span>   </span><span class="COMM">// determines the next time the timeout needs to trigger and reschedules</span><span class="WHIT">
+<span class='line'>237</span>   </span><span class="COMM">// if necessary.  If you pass in the next timer to use, then it will be </span><span class="WHIT">
+<span class='line'>238</span>   </span><span class="COMM">// scheduled instead of searching the timers.</span><span class="WHIT">
+<span class='line'>239</span>   </span><span class="NAME">_rescheduleTimeout</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>240</span>     
+<span class='line'>241</span>     </span><span class="COMM">// if we are currently flushing, don't do this since it will happen</span><span class="WHIT">
+<span class='line'>242</span>     </span><span class="COMM">// later anyway</span><span class="WHIT">
+<span class='line'>243</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this._flushing</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>244</span>     
+<span class='line'>245</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this._timers</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this._timers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>246</span>     
+<span class='line'>247</span>     </span><span class="COMM">// find next timer to trigger.  If the first unpaused timer.</span><span class="WHIT">
+<span class='line'>248</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">rec</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._next</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>249</span>     </span><span class="KEYW">while</span><span class="PUNC">(</span><span class="NAME">rec</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">rec.timer</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">rec.timer.get</span><span class="PUNC">(</span><span class="STRN">'isPaused'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">rec</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rec.next</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>250</span> 
+<span class='line'>251</span>     </span><span class="COMM">// if no next timer was found, then cancel any timer.</span><span class="WHIT">
+<span class='line'>252</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">rec</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>253</span>       </span><span class="NAME">this._timeoutAt</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>254</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this._timeout</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">clearTimeout</span><span class="PUNC">(</span><span class="NAME">this._timeout</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>255</span>       </span><span class="NAME">this._timeout</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>256</span> 
+<span class='line'>257</span>     </span><span class="COMM">// determine if we need to reschedule</span><span class="WHIT">
+<span class='line'>258</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">this._timeoutAt</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">rec.at</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">this._timeoutAt</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>259</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this._timeout</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">clearTimeout</span><span class="PUNC">(</span><span class="NAME">this._timeout</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>260</span> 
+<span class='line'>261</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">delay</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Math.max</span><span class="PUNC">(</span><span class="NAME">rec.at</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">Date.now</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>262</span>       </span><span class="NAME">this._timeout</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">setTimeout</span><span class="PUNC">(</span><span class="NAME">this._timeoutAction</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">delay</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>263</span>       </span><span class="NAME">this.timeoutAt</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rec.at</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>264</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>265</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>266</span>   
+<span class='line'>267</span>   </span><span class="COMM">// called when the timeout is executed.  Find any timers that have </span><span class="WHIT">
+<span class='line'>268</span>   </span><span class="COMM">// expired and call them.  </span><span class="WHIT">
+<span class='line'>269</span>   </span><span class="NAME">_timeoutAction</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>270</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">rl</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.runLoop</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>271</span>     </span><span class="NAME">rl._timeout</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">rl._timeoutAt</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>272</span>     </span><span class="NAME">rl.beginRunLoop</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>273</span>     </span><span class="NAME">rl._flushExpiredTimers</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>274</span>     </span><span class="NAME">rl.endRunLoop</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>275</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>276</span>   
+<span class='line'>277</span>   </span><span class="COMM">// finds any timers that might have expired.  This will also find the</span><span class="WHIT">
+<span class='line'>278</span>   </span><span class="COMM">// next timer to execute and reschedule it if needed.</span><span class="WHIT">
+<span class='line'>279</span>   </span><span class="NAME">_flushExpiredTimers</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>280</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this._timers</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this._timers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>281</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">now</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'startTime'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>282</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">max</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">now</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'maxRunTime'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">  </span><span class="COMM">// max time we are allowed to run timers</span><span class="WHIT">
+<span class='line'>283</span> 
+<span class='line'>284</span>     </span><span class="NAME">this._flushing</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>285</span>     
+<span class='line'>286</span>     </span><span class="COMM">// work down the list, do not fire a timer more than once per loop.</span><span class="WHIT">
+<span class='line'>287</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">fired</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>288</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">rec</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._next</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>289</span>     </span><span class="KEYW">while</span><span class="PUNC">(</span><span class="NAME">rec</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">rec.at</span><span class="WHIT"> </span><span class="PUNC">&lt;=</span><span class="WHIT"> </span><span class="NAME">now</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">Date.now</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">max</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>290</span>       
+<span class='line'>291</span>       </span><span class="COMM">// if rec has been fired, go on to next one.</span><span class="WHIT">
+<span class='line'>292</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">guid</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.guidFor</span><span class="PUNC">(</span><span class="NAME">rec.timer</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>293</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">fired</span><span class="PUNC">[</span><span class="NAME">guid</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>294</span>         </span><span class="NAME">rec</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rec.next</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>295</span>         
+<span class='line'>296</span>       </span><span class="COMM">// otherwise, remove rec from list and then fire it.</span><span class="WHIT">
+<span class='line'>297</span>       </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>298</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">next</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rec.next</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>299</span>         
+<span class='line'>300</span>         </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this._next</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">rec</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this._next</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rec.next</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>301</span>         </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">rec.next</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">rec.next.prev</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rec.prev</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>302</span>         </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">rec.prev</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">rec.prev.next</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rec.next</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>303</span>         </span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">this._timers</span><span class="PUNC">[</span><span class="NAME">rec.guid</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>304</span>         
+<span class='line'>305</span>         </span><span class="NAME">fired</span><span class="PUNC">[</span><span class="NAME">guid</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> 
+<span class='line'>306</span>         </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">rec.timer</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">rec.timer.fire</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>307</span>         
+<span class='line'>308</span>         </span><span class="COMM">// finish clean up.</span><span class="WHIT">
+<span class='line'>309</span>         </span><span class="NAME">rec.next</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rec.prev</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rec.timer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>310</span>         </span><span class="NAME">rec</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">next</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>311</span>       </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>312</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>313</span>     
+<span class='line'>314</span>     </span><span class="NAME">this._flushing</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>315</span>     
+<span class='line'>316</span>     </span><span class="COMM">// schedule next timer if needed.</span><span class="WHIT">
+<span class='line'>317</span>     </span><span class="NAME">this._rescheduleTimeout</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>318</span>   </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>319</span>   
+<span class='line'>320</span>   
+<span class='line'>321</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>322</span> 
+<span class='line'>323</span> </span></pre></body></html>

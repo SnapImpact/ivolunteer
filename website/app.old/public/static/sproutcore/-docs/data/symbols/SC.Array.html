@@ -1,0 +1,996 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="JsDoc Toolkit" />
+  
+  <title>JsDoc: SC.Array</title>
+</head>
+
+<style type="text/css">
+  /* @override http://localhost:4020/static/sproutcore/-docs/data/default.css */
+
+/* @group Core */
+
+body.sc-doc {
+  background-color: white  ;
+  padding: 20px;
+}
+
+.sc-doc {
+  font: 64.5% Helvetica, Arial, Verdana, sans-serif;
+  line-height: 1em ;
+}
+
+/* Set standard size on some things. */
+.sc-doc p, 
+.sc-doc dd, 
+.sc-doc dt, 
+.sc-doc li, 
+.sc-doc table {
+  line-height: 1.3em;
+  font-size: 1.3em ;
+}
+
+.sc-doc h1 {
+  font-size: 3em;
+  margin: 0 0 1em 0;
+  text-transform: capitalize;
+}
+
+.sc-doc h2 {
+  padding: 0;
+  padding-bottom: 4px;
+  border-bottom: 1px #555 solid;
+  text-transform: capitalize;
+  margin: 1.5em 0 0;
+  font-size: 2.2em;
+}
+
+.sc-doc h3 {
+  font-size: 2em;
+  padding: 0;
+  margin: 3em 0 0 0;  
+}
+
+.sc-doc h4 {
+  font-weight: normal ;
+  font-size: 1.4em;
+  margin: 0.5em 0 0 0;
+  padding: 0;
+}
+
+.sc-doc h5 {
+  font-size: 1.3em;
+  padding: 0;
+  margin: 1.3em 0 0.5em 0;
+}
+
+.sc-doc p { margin: 0.5em 0; }
+ 
+.sc-doc a {
+  text-decoration: none ;
+}
+
+.sc-doc label {
+  font-weight: bold ;
+}
+
+.sc-doc .sc-theme .ghost {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+  opacity: 0.45;
+  -moz-opacity: .45 ;
+}
+
+.sc-doc dt {
+  font-style: italic;
+}
+
+.sc-doc dd {
+ margin: 0 0 1em 1em;
+}
+
+/* @end */
+
+/* @group Summary Table */
+
+.sc-doc table.summary {
+  min-width: 600px;
+  border: 1px #999 solid;
+  border-bottom: none ;
+  border-spacing: 0;
+  margin-bottom: 2em;
+}
+
+.sc-doc table.summary td {
+  border-bottom: 1px #999 solid;
+  border-collapse: collapse;
+  padding: 0.5em;
+  text-align: left ;
+}
+
+.sc-doc table.summary .even td {
+  background-color: #eef;
+}
+
+.sc-doc table.summary td.label {
+  font-weight: bold ;
+  width: 100px;
+  text-align: right ;
+  padding-right: 4px;
+}
+
+.sc-doc table.summary td.value {
+  min-width: 300px;
+  width: 300px;
+}
+
+/* @end */
+
+/* @group Field & Method Summary */
+
+.sc-doc .summary li {
+  list-style-type: none ;
+  position: relative;
+}
+
+.sc-doc .summary li code {
+  font-size: 1.1em;
+}
+
+.sc-doc .summary li .description {
+  display: none ;
+}
+
+.sc-doc .summary li:hover .description {
+  display: block ;
+  font-size: 0.86em;
+  position: absolute ;
+  left: 80px;
+  bottom: 2em;
+  padding: 0.3em 1em ;
+  background-color: #fff898;
+  border: 1px solid #bbae2f;
+  /* -webkit-box-shadow: rgba(0,0,0,0.3) 0px 2px 5px; */
+  color: #4b4000;
+  z-index: 100;
+}
+
+/* @end */
+
+/* @group Detail */
+
+.sc-doc .detail p.signature {
+  padding: 0;
+  margin: 1em 0;
+  font-family: Courier, mono;
+}
+
+.sc-doc .detail p.signature .type {
+  font-style: italic;
+}
+
+.sc-doc .detail p.signature .name {
+  font-weight: bold ;
+}
+
+/* @end */
+
+.sc-doc .jsdoc_ctime {
+  border-top: 1px #ccc solid ;
+  padding: 4px 0;
+  margin-top: 20px;
+  margin-bottom: 0px;
+  font-size: 1.0em;
+  text-align: center ;
+  color: #888 ;
+}
+
+/* @group Description */
+
+.sc-doc .description blockquote,
+.sc-doc .description p.code {
+  padding:  10px ;
+  margin: 10px 20px;
+  background-color: #f5f5f5 ;
+  border: 1px #ccc solid ;
+}
+
+/* @end */
+
+</style>
+
+<body class="sc-theme sc-doc">
+  <h1>
+    
+    Namespace SC.Array
+  </h1>
+
+  <table class="summary">
+  
+
+  
+
+  
+    <tr class="even">
+      <td class="label">Extends:</td>
+      <td class="value">
+        <a href="../symbols/SC.Enumerable.html#constructor">SC.Enumerable</a>
+      </td>
+    </tr>
+  
+
+  
+    <tr class="odd">
+      <td class="label">Defined in:</td>
+      <td class="value"><a href="../symbols/src/_Library_Ruby_Gems_1.8_gems_sproutcore-0.9.19_frameworks_sproutcore_mixins_array.js.html">frameworks/sproutcore/mixins/array.js</a></td>
+    </tr>
+  
+
+  
+    <tr class="even">
+      <td class="label">Availability:</td>
+      <td class="value">
+        since SproutCore 0.9.0
+      </td>
+    </tr>
+  
+
+  
+  </table>
+
+  
+    <div class="description">
+      <p>This module implements Observer-friendly Array-like behavior.  This mixin is picked up by the Array class as well as other controllers, etc. that want to appear to be arrays.</p>
+
+<p>Unlike SC.Enumerable, this mixin defines methods specifically for collections that provide index-ordered access to their contents.  When you are designing code that needs to accept any kind of Array-like object, you should use these methods instead of Array primitives because these will properly notify observers of changes to the array.</p>
+
+<p>Although these methods are efficient, they do add a layer of indirection to your application so it is a good idea to use them only when you need the flexibility of using both true JavaScript arrays and "virtual" arrays such as controllers and collections.</p>
+
+<p>You can use the methods defined in this module to access and modify array contents in a KVO-friendly way.  You can also be notified whenever the membership if an array changes by observing the "[]" property.</p>
+
+<p>To support SC.Array in your own class, you must override two primitives to use it: replace() and objectAt().</p>
+
+<p>Note that the SC.Array mixin also incorporates the SC.Enumerable mixin.  All SC.Array-like objects are also enumerable.</p>
+
+    </div>
+  
+
+  <!-- ============================== properties summary ===================== -->
+  
+
+  
+    <dl class="inheritsList">
+    
+    </dl>
+  
+
+<!-- ============================== methods summary ======================== -->
+  
+    <h2>Method Summary</h2>
+    
+    
+      <div class="method-summary summary">
+        <ul>
+          
+            <li>
+              <a href="#SC.Array.insertAt">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  insertAt(idx, object)
+                </code>
+              </a>
+              
+                <div class="description">This will use the primitive replace() method to insert an object at the 
+  specified index.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Array.isEqual">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  isEqual(ary)
+                </code>
+              </a>
+              
+                <div class="description">Compares each item in the array.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Array.objectAt">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  objectAt(idx)
+                </code>
+              </a>
+              
+                <div class="description">This is one of the primitives you must implement to support SC.Array.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Array.popObject">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  popObject()
+                </code>
+              </a>
+              
+                <div class="description">Pop object from array or nil if none are left.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Array.pushObject">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  pushObject(obj)
+                </code>
+              </a>
+              
+                <div class="description">Push the object onto the end of the array.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Array.removeAt">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  removeAt(idx)
+                </code>
+              </a>
+              
+                <div class="description">Remove an object at the specified index using the replace() primitive method.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Array.removeObject">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  removeObject(obj)
+                </code>
+              </a>
+              
+                <div class="description">Search the array of this object, removing any occurrences of it.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Array.replace">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  replace(idx, amt, objects)
+                </code>
+              </a>
+              
+                <div class="description">This is one of the primitves you must implement to support SC.Array.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Array.shiftObject">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  shiftObject()
+                </code>
+              </a>
+              
+                <div class="description">Shift an object from start of array or nil if none are left.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Array.slice">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Array
+                    
+                  
+                  slice(beginIndex, endIndex)
+                </code>
+              </a>
+              
+                <div class="description">Returns a new array that is a slice of the receiver.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Array.unshiftObject">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  unshiftObject(obj)
+                </code>
+              </a>
+              
+                <div class="description">Unshift an object to start of array.</div>
+              
+            </li>
+          
+        </ul>
+      </div>
+    
+    
+    
+      <dl class="inheritsList">
+      <dt>Methods borrowed from class <a href="../symbols/SC.Enumerable.html#constructor">SC.Enumerable</a>: </dt><dd><a href="../symbols/SC.Enumerable.html#.enumerator">enumerator</a>, <a href="../symbols/SC.Enumerable.html#.every">every</a>, <a href="../symbols/SC.Enumerable.html#.everyProperty">everyProperty</a>, <a href="../symbols/SC.Enumerable.html#.filter">filter</a>, <a href="../symbols/SC.Enumerable.html#.filterProperty">filterProperty</a>, <a href="../symbols/SC.Enumerable.html#.forEach">forEach</a>, <a href="../symbols/SC.Enumerable.html#.invoke">invoke</a>, <a href="../symbols/SC.Enumerable.html#.invokeWhile">invokeWhile</a>, <a href="../symbols/SC.Enumerable.html#.map">map</a>, <a href="../symbols/SC.Enumerable.html#.mapProperty">mapProperty</a>, <a href="../symbols/SC.Enumerable.html#.nextObject">nextObject</a>, <a href="../symbols/SC.Enumerable.html#.reduce">reduce</a>, <a href="../symbols/SC.Enumerable.html#.some">some</a>, <a href="../symbols/SC.Enumerable.html#.someProperty">someProperty</a>, <a href="../symbols/SC.Enumerable.html#.toArray">toArray</a></dd>
+      </dl>
+    
+  
+
+<!-- ============================== field details ========================== -->    
+  
+
+<!-- ============================== method details ========================= -->    
+  
+    <div class="method-detail detail">
+      <a name="method_detail"><h2>Method Details</h2></a> 
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Array.insertAt"></a> 
+          <h3>insertAt()</h3>
+          <p class="summary">This will use the primitive replace() method to insert an object at the 
+  specified index.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">insertAt</span>
+            <span class="params">(idx, object)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="type">Number</span>&nbsp;<span class="name">idx </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+            
+              <dt><span class="type">Object</span>&nbsp;<span class="name">object </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Array.isEqual"></a> 
+          <h3>isEqual()</h3>
+          <p class="summary">Compares each item in the array.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">isEqual</span>
+            <span class="params">(ary)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>Returns true if they are equal.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Array.objectAt"></a> 
+          <h3>objectAt()</h3>
+          <p class="summary">This is one of the primitives you must implement to support SC.Array.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">objectAt</span>
+            <span class="params">(idx)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="type">Number</span>&nbsp;<span class="name">idx </span></dt>
+              
+              <dd><p>If idx exceeds the current length, return null.</p></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+<p>Returns the object at the named index.  If your object supports retrieving the value of an array item using get() (i.e. myArray.get(0)), then you do not need to implement this method yourself.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Array.popObject"></a> 
+          <h3>popObject()</h3>
+          <p class="summary">Pop object from array or nil if none are left.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">popObject</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>Works just like pop() but it is KVO-compliant.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Array.pushObject"></a> 
+          <h3>pushObject()</h3>
+          <p class="summary">Push the object onto the end of the array.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">pushObject</span>
+            <span class="params">(obj)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>Works just like push() but it is KVO-compliant.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Array.removeAt"></a> 
+          <h3>removeAt()</h3>
+          <p class="summary">Remove an object at the specified index using the replace() primitive method.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">removeAt</span>
+            <span class="params">(idx)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="type">Number</span>&nbsp;<span class="name">idx </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Array.removeObject"></a> 
+          <h3>removeObject()</h3>
+          <p class="summary">Search the array of this object, removing any occurrences of it.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">removeObject</span>
+            <span class="params">(obj)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="type">object</span>&nbsp;<span class="name">obj </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Array.replace"></a> 
+          <h3>replace()</h3>
+          <p class="summary">This is one of the primitves you must implement to support SC.Array.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">replace</span>
+            <span class="params">(idx, amt, objects)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="type">Number</span>&nbsp;<span class="name">idx </span></dt>
+              
+              <dd><p>If idx >= length, then append to the end of the array.</p></dd>
+              
+            
+            
+            
+              <dt><span class="type">Number</span>&nbsp;<span class="name">amt </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+            
+              <dt><span class="type">Array</span>&nbsp;<span class="name">objects </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>You should replace amt objects started at idx with the objects in the passed array.  You should also call this.enumerableContentDidChange() ;</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Array.shiftObject"></a> 
+          <h3>shiftObject()</h3>
+          <p class="summary">Shift an object from start of array or nil if none are left.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">shiftObject</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>Works just like shift() but it is KVO-compliant.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Array.slice"></a> 
+          <h3>slice()</h3>
+          <p class="summary">Returns a new array that is a slice of the receiver.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Array&nbsp;
+                
+              
+            </span>
+            <span class="name">slice</span>
+            <span class="params">(beginIndex, endIndex)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">beginIndex </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+            
+              <dt><span class="name">endIndex </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Array</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>This implementation uses the observable array methods to retrieve the objects for the new slice.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Array.unshiftObject"></a> 
+          <h3>unshiftObject()</h3>
+          <p class="summary">Unshift an object to start of array.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">unshiftObject</span>
+            <span class="params">(obj)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>Works just like unshift() but it is KVO-compliant.</p>
+          </div>
+
+          
+        </div>
+      
+    </div>
+  
+  
+<!-- ============================== footer ================================= -->
+  <div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoctoolkit.org/" target="_parent">JsDoc Toolkit</a> 2.0.1 on Thu Oct 02 2008 13:39:02 GMT-0600 (MDT)</div>
+</body>
+</html>

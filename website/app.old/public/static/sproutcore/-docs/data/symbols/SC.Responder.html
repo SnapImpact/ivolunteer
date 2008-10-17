@@ -1,0 +1,997 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="JsDoc Toolkit" />
+  
+  <title>JsDoc: SC.Responder</title>
+</head>
+
+<style type="text/css">
+  /* @override http://localhost:4020/static/sproutcore/-docs/data/default.css */
+
+/* @group Core */
+
+body.sc-doc {
+  background-color: white  ;
+  padding: 20px;
+}
+
+.sc-doc {
+  font: 64.5% Helvetica, Arial, Verdana, sans-serif;
+  line-height: 1em ;
+}
+
+/* Set standard size on some things. */
+.sc-doc p, 
+.sc-doc dd, 
+.sc-doc dt, 
+.sc-doc li, 
+.sc-doc table {
+  line-height: 1.3em;
+  font-size: 1.3em ;
+}
+
+.sc-doc h1 {
+  font-size: 3em;
+  margin: 0 0 1em 0;
+  text-transform: capitalize;
+}
+
+.sc-doc h2 {
+  padding: 0;
+  padding-bottom: 4px;
+  border-bottom: 1px #555 solid;
+  text-transform: capitalize;
+  margin: 1.5em 0 0;
+  font-size: 2.2em;
+}
+
+.sc-doc h3 {
+  font-size: 2em;
+  padding: 0;
+  margin: 3em 0 0 0;  
+}
+
+.sc-doc h4 {
+  font-weight: normal ;
+  font-size: 1.4em;
+  margin: 0.5em 0 0 0;
+  padding: 0;
+}
+
+.sc-doc h5 {
+  font-size: 1.3em;
+  padding: 0;
+  margin: 1.3em 0 0.5em 0;
+}
+
+.sc-doc p { margin: 0.5em 0; }
+ 
+.sc-doc a {
+  text-decoration: none ;
+}
+
+.sc-doc label {
+  font-weight: bold ;
+}
+
+.sc-doc .sc-theme .ghost {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+  opacity: 0.45;
+  -moz-opacity: .45 ;
+}
+
+.sc-doc dt {
+  font-style: italic;
+}
+
+.sc-doc dd {
+ margin: 0 0 1em 1em;
+}
+
+/* @end */
+
+/* @group Summary Table */
+
+.sc-doc table.summary {
+  min-width: 600px;
+  border: 1px #999 solid;
+  border-bottom: none ;
+  border-spacing: 0;
+  margin-bottom: 2em;
+}
+
+.sc-doc table.summary td {
+  border-bottom: 1px #999 solid;
+  border-collapse: collapse;
+  padding: 0.5em;
+  text-align: left ;
+}
+
+.sc-doc table.summary .even td {
+  background-color: #eef;
+}
+
+.sc-doc table.summary td.label {
+  font-weight: bold ;
+  width: 100px;
+  text-align: right ;
+  padding-right: 4px;
+}
+
+.sc-doc table.summary td.value {
+  min-width: 300px;
+  width: 300px;
+}
+
+/* @end */
+
+/* @group Field & Method Summary */
+
+.sc-doc .summary li {
+  list-style-type: none ;
+  position: relative;
+}
+
+.sc-doc .summary li code {
+  font-size: 1.1em;
+}
+
+.sc-doc .summary li .description {
+  display: none ;
+}
+
+.sc-doc .summary li:hover .description {
+  display: block ;
+  font-size: 0.86em;
+  position: absolute ;
+  left: 80px;
+  bottom: 2em;
+  padding: 0.3em 1em ;
+  background-color: #fff898;
+  border: 1px solid #bbae2f;
+  /* -webkit-box-shadow: rgba(0,0,0,0.3) 0px 2px 5px; */
+  color: #4b4000;
+  z-index: 100;
+}
+
+/* @end */
+
+/* @group Detail */
+
+.sc-doc .detail p.signature {
+  padding: 0;
+  margin: 1em 0;
+  font-family: Courier, mono;
+}
+
+.sc-doc .detail p.signature .type {
+  font-style: italic;
+}
+
+.sc-doc .detail p.signature .name {
+  font-weight: bold ;
+}
+
+/* @end */
+
+.sc-doc .jsdoc_ctime {
+  border-top: 1px #ccc solid ;
+  padding: 4px 0;
+  margin-top: 20px;
+  margin-bottom: 0px;
+  font-size: 1.0em;
+  text-align: center ;
+  color: #888 ;
+}
+
+/* @group Description */
+
+.sc-doc .description blockquote,
+.sc-doc .description p.code {
+  padding:  10px ;
+  margin: 10px 20px;
+  background-color: #f5f5f5 ;
+  border: 1px #ccc solid ;
+}
+
+/* @end */
+
+</style>
+
+<body class="sc-theme sc-doc">
+  <h1>
+    
+    Class SC.Responder
+  </h1>
+
+  <table class="summary">
+  
+
+  
+
+  
+    <tr class="even">
+      <td class="label">Extends:</td>
+      <td class="value">
+        <a href="../symbols/SC.Object.html#constructor">SC.Object</a>
+      </td>
+    </tr>
+  
+
+  
+    <tr class="odd">
+      <td class="label">Defined in:</td>
+      <td class="value"><a href="../symbols/src/_Library_Ruby_Gems_1.8_gems_sproutcore-0.9.19_frameworks_sproutcore_foundation_responder.js.html">frameworks/sproutcore/foundation/responder.js</a></td>
+    </tr>
+  
+
+  
+
+  
+  </table>
+
+  
+    <div class="description">
+      <p>A responder is capable of responding to events such as mouse clicks and key presses.</p>
+
+<p>All views are a type of responder, but you can extend this class yourself as well to implement your own responders if you need to.</p>
+    </div>
+  
+
+  <!-- ============================== properties summary ===================== -->
+  
+    
+    
+    
+    
+      <div class="field-summary summary">
+        <h2>Property Summary</h2>
+        <ul>
+        
+          
+            <li>
+              <a href="../symbols/SC.Responder.html#acceptsFirstResponder"><code>-&nbsp;(Object) acceptsFirstResponder</code></a>
+              
+                <div class="description">This method will be called just before you become first responder to see
+    if you want to be first responder.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.Responder.html#isFirstResponder"><code>-&nbsp;(Object) isFirstResponder</code></a>
+              
+                <div class="description">This property is true whenever you are the first responder.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.Responder.html#nextResponder"><code>-&nbsp;(Object) nextResponder</code></a>
+              
+                <div class="description">This property is the next responder that should be allowed to handle
+    events if you don't want to handle it.</div>
+              
+            </li>
+          
+        
+        </ul>
+      </div>
+    
+  
+
+  
+    <dl class="inheritsList">
+    <dt>Properties borrowed from class <a href="../symbols/SC.Object.html#constructor">SC.Object</a>: </dt><dd><a href="../symbols/SC.Object.html#.isClass">isClass</a>, <a href="../symbols/SC.Object.html#isObject">isObject</a>, <a href="../symbols/SC.Object.html#outlets">outlets</a></dd>
+    </dl>
+  
+
+<!-- ============================== methods summary ======================== -->
+  
+    <h2>Method Summary</h2>
+    
+    
+      <div class="method-summary summary">
+        <ul>
+          
+            <li>
+              <a href="#SC.Responder#becomeFirstResponder">
+                <code class="type">
+                  
+                  -
+                  &nbsp;
+                  
+                  becomeFirstResponder()
+                </code>
+              </a>
+              
+                <div class="description">Call this method to become the first responder.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Responder#didBecomeFirstResponder">
+                <code class="type">
+                  
+                  -
+                  &nbsp;
+                  
+                  didBecomeFirstResponder()
+                </code>
+              </a>
+              
+                <div class="description">This method will be called just before you become the first responder
+    so you can make changes.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Responder#doCommand">
+                <code class="type">
+                  
+                  -
+                  &nbsp;
+                  
+                    
+                      &nbsp;SC.Responder
+                    
+                  
+                  doCommand(method)
+                </code>
+              </a>
+              
+                <div class="description">Attempt to perform a method.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Responder#flagsChanged">
+                <code class="type">
+                  
+                  -
+                  &nbsp;
+                  
+                  flagsChanged(pressedFlags, evt)
+                </code>
+              </a>
+              
+                <div class="description">This method is invoked whenever the user changes the flag keys that are
+    pressed.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Responder#inputManager">
+                <code class="type">
+                  
+                  -
+                  &nbsp;
+                  
+                  inputManager()
+                </code>
+              </a>
+              
+                <div class="description">Set this value to an SC.InputManager instance if you want to use a 
+    custom input manager for this specific instance.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Responder#keyDown">
+                <code class="type">
+                  
+                  -
+                  &nbsp;
+                  
+                  keyDown(evt)
+                </code>
+              </a>
+              
+                <div class="description">this method is invoked on the firstResponder whenever the user presses
+    a key.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Responder#keyUp">
+                <code class="type">
+                  
+                  -
+                  &nbsp;
+                  
+                  keyUp(evt)
+                </code>
+              </a>
+              
+                <div class="description">This method is invoked on the firstResponder whenever the user releases
+    a key.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Responder#performKeyEquivalent">
+                <code class="type">
+                  
+                  -
+                  &nbsp;
+                  
+                  performKeyEquivalent(keystring, evt)
+                </code>
+              </a>
+              
+                <div class="description">This will be called if a keydown event isn't handled by the responder chain.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Responder#resignFirstResponder">
+                <code class="type">
+                  
+                  -
+                  &nbsp;
+                  
+                  resignFirstResponder()
+                </code>
+              </a>
+              
+                <div class="description">Call this method if you no longer want to be first responder.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Responder#willLoseFirstResponder">
+                <code class="type">
+                  
+                  -
+                  &nbsp;
+                  
+                  willLoseFirstResponder()
+                </code>
+              </a>
+              
+                <div class="description">This method will be called just before you lose first responder status.</div>
+              
+            </li>
+          
+        </ul>
+      </div>
+    
+    
+    
+      <dl class="inheritsList">
+      <dt>Methods borrowed from class <a href="../symbols/SC.Object.html#constructor">SC.Object</a>: </dt><dd><a href="../symbols/SC.Object.html#$super">$super</a>, <a href="../symbols/SC.Object.html#awake">awake</a>, <a href="../symbols/SC.Object.html#.create">create</a>, <a href="../symbols/SC.Object.html#.createArray">createArray</a>, <a href="../symbols/SC.Object.html#.extend">extend</a>, <a href="../symbols/SC.Object.html#init">init</a>, <a href="../symbols/SC.Object.html#instanceOf">instanceOf</a>, <a href="../symbols/SC.Object.html#invokeLater">invokeLater</a>, <a href="../symbols/SC.Object.html#keys">keys</a>, <a href="../symbols/SC.Object.html#kindOf">kindOf</a>, <a href="../symbols/SC.Object.html#mixin">mixin</a>, <a href="../symbols/SC.Object.html#.objectClassName">objectClassName</a>, <a href="../symbols/SC.Object.html#.outlet">outlet</a>, <a href="../symbols/SC.Object.html#respondsTo">respondsTo</a>, <a href="../symbols/SC.Object.html#tryToPerform">tryToPerform</a></dd><dt>Methods borrowed from class <a href="../symbols/SC.Observable.html#constructor">SC.Observable</a>: </dt><dd><a href="../symbols/SC.Observable.html#.addObserver">addObserver</a>, <a href="../symbols/SC.Observable.html#.allPropertiesDidChange">allPropertiesDidChange</a>, <a href="../symbols/SC.Observable.html#.automaticallyNotifiesObserversFor">automaticallyNotifiesObserversFor</a>, <a href="../symbols/SC.Observable.html#.beginPropertyChanges">beginPropertyChanges</a>, <a href="../symbols/SC.Observable.html#.bind">bind</a>, <a href="../symbols/SC.Observable.html#.decrementProperty">decrementProperty</a>, <a href="../symbols/SC.Observable.html#.didChangeFor">didChangeFor</a>, <a href="../symbols/SC.Observable.html#.endPropertyChanges">endPropertyChanges</a>, <a href="../symbols/SC.Observable.html#.get">get</a>, <a href="../symbols/SC.Observable.html#.getEach">getEach</a>, <a href="../symbols/SC.Observable.html#.getPath">getPath</a>, <a href="../symbols/SC.Observable.html#.incrementProperty">incrementProperty</a>, <a href="../symbols/SC.Observable.html#.logProperty">logProperty</a>, <a href="../symbols/SC.Observable.html#.notifyPropertyChange">notifyPropertyChange</a>, <a href="../symbols/SC.Observable.html#.observeOnce">observeOnce</a>, <a href="../symbols/SC.Observable.html#.propertyDidChange">propertyDidChange</a>, <a href="../symbols/SC.Observable.html#.propertyObserver">propertyObserver</a>, <a href="../symbols/SC.Observable.html#.propertyWillChange">propertyWillChange</a>, <a href="../symbols/SC.Observable.html#.registerDependentKey">registerDependentKey</a>, <a href="../symbols/SC.Observable.html#.set">set</a>, <a href="../symbols/SC.Observable.html#.setIfChanged">setIfChanged</a>, <a href="../symbols/SC.Observable.html#.setPath">setPath</a>, <a href="../symbols/SC.Observable.html#.toggleProperty">toggleProperty</a>, <a href="../symbols/SC.Observable.html#.unknownProperty">unknownProperty</a></dd>
+      </dl>
+    
+  
+
+<!-- ============================== field details ========================== -->    
+  
+    <div class="field-detail detail">
+      <a name="field_detail"><h2>Property Details</h2></a> 
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name="acceptsFirstResponder"></a> 
+            <h3>acceptsFirstResponder</h3>
+            <p class="summary">This method will be called just before you become first responder to see
+    if you want to be first responder.</p>
+
+            
+
+            <p class="signature">
+              
+              -
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">acceptsFirstResponder</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                <p>If you don't want to handle keyboard events, return false. (this is the default).  Note that this is a property.</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name="isFirstResponder"></a> 
+            <h3>isFirstResponder</h3>
+            <p class="summary">This property is true whenever you are the first responder.</p>
+
+            
+
+            <p class="signature">
+              
+              -
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">isFirstResponder</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                <p>Observable.</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name="nextResponder"></a> 
+            <h3>nextResponder</h3>
+            <p class="summary">This property is the next responder that should be allowed to handle
+    events if you don't want to handle it.</p>
+
+            
+
+            <p class="signature">
+              
+              -
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">nextResponder</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                <p>For views, this is automatically set to your parentNode.</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+    </div>
+  
+
+<!-- ============================== method details ========================= -->    
+  
+    <div class="method-detail detail">
+      <a name="method_detail"><h2>Method Details</h2></a> 
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Responder#becomeFirstResponder"></a> 
+          <h3>becomeFirstResponder()</h3>
+          <p class="summary">Call this method to become the first responder.</p>
+
+          
+
+          <p class="signature">
+            
+            -
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">becomeFirstResponder</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>You will now be the first to receive keyboard events, etc.  Return false if you could not be made first responder for some reason.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Responder#didBecomeFirstResponder"></a> 
+          <h3>didBecomeFirstResponder()</h3>
+          <p class="summary">This method will be called just before you become the first responder
+    so you can make changes.</p>
+
+          
+
+          <p class="signature">
+            
+            -
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">didBecomeFirstResponder</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Responder#doCommand"></a> 
+          <h3>doCommand()</h3>
+          <p class="summary">Attempt to perform a method.</p>
+
+          
+
+          <p class="signature">
+            
+            -
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  SC.Responder&nbsp;
+                
+              
+            </span>
+            <span class="name">doCommand</span>
+            <span class="params">(method)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="type">String</span>&nbsp;<span class="name">method </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">SC.Responder</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>If either the method does not exist, or the method returns false, send the request to the nextResponder.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Responder#flagsChanged"></a> 
+          <h3>flagsChanged()</h3>
+          <p class="summary">This method is invoked whenever the user changes the flag keys that are
+    pressed.</p>
+
+          
+
+          <p class="signature">
+            
+            -
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">flagsChanged</span>
+            <span class="params">(pressedFlags, evt)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>pressedFlags is a hash.  The default version passes on to the nextRespoonder.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Responder#inputManager"></a> 
+          <h3>inputManager()</h3>
+          <p class="summary">Set this value to an SC.InputManager instance if you want to use a 
+    custom input manager for this specific instance.</p>
+
+          
+
+          <p class="signature">
+            
+            -
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">inputManager</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>If you want to override the input manager used for all responders, replace SC.Responder.inputManager.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Responder#keyDown"></a> 
+          <h3>keyDown()</h3>
+          <p class="summary">this method is invoked on the firstResponder whenever the user presses
+    a key.</p>
+
+          
+
+          <p class="signature">
+            
+            -
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">keyDown</span>
+            <span class="params">(evt)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>You can interpret this yourself or call interpretKeyEvents() which will use the inputManager to handle the event.  The default version just passes this onto the next responder.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Responder#keyUp"></a> 
+          <h3>keyUp()</h3>
+          <p class="summary">This method is invoked on the firstResponder whenever the user releases
+    a key.</p>
+
+          
+
+          <p class="signature">
+            
+            -
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">keyUp</span>
+            <span class="params">(evt)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>Default version just passes onto the next responder.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Responder#performKeyEquivalent"></a> 
+          <h3>performKeyEquivalent()</h3>
+          <p class="summary">This will be called if a keydown event isn't handled by the responder chain.</p>
+
+          
+
+          <p class="signature">
+            
+            -
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">performKeyEquivalent</span>
+            <span class="params">(keystring, evt)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Responder#resignFirstResponder"></a> 
+          <h3>resignFirstResponder()</h3>
+          <p class="summary">Call this method if you no longer want to be first responder.</p>
+
+          
+
+          <p class="signature">
+            
+            -
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">resignFirstResponder</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>Normally you don't need to do this since you will lose firstResponder status when the user focuses a different view.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Responder#willLoseFirstResponder"></a> 
+          <h3>willLoseFirstResponder()</h3>
+          <p class="summary">This method will be called just before you lose first responder status.</p>
+
+          
+
+          <p class="signature">
+            
+            -
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">willLoseFirstResponder</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+    </div>
+  
+  
+<!-- ============================== footer ================================= -->
+  <div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoctoolkit.org/" target="_parent">JsDoc Toolkit</a> 2.0.1 on Thu Oct 02 2008 13:39:06 GMT-0600 (MDT)</div>
+</body>
+</html>

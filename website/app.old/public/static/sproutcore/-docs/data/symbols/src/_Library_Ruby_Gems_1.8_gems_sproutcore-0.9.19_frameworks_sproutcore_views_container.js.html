@@ -1,0 +1,75 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+  .KEYW {color: #933;}
+  .COMM {color: #bbb; font-style: italic;}
+  .NUMB {color: #393;}
+  .STRN {color: #393;}
+  .REGX {color: #339;}
+  .line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+  </style></head><body><pre><span class='line'>  1</span> <span class="COMM">// ========================================================================</span><span class="WHIT">
+<span class='line'>  2</span> </span><span class="COMM">// SproutCore</span><span class="WHIT">
+<span class='line'>  3</span> </span><span class="COMM">// copyright 2006-2008 Sprout Systems, Inc.</span><span class="WHIT">
+<span class='line'>  4</span> </span><span class="COMM">// ========================================================================</span><span class="WHIT">
+<span class='line'>  5</span> 
+<span class='line'>  6</span> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'views/view'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  7</span> 
+<span class='line'>  8</span> </span><span class="COMM">/** 
+<span class='line'>  9</span>   @class
+<span class='line'> 10</span>   
+<span class='line'> 11</span>   A container view will place the view of its content property inside
+<span class='line'> 12</span>   of itself as its only child.  You can override this with a custom
+<span class='line'> 13</span>   replaceContent() method if you want to do something different when the
+<span class='line'> 14</span>   content changes.
+<span class='line'> 15</span>   
+<span class='line'> 16</span>   @extends SC.View
+<span class='line'> 17</span> 
+<span class='line'> 18</span> */</span><span class="WHIT">
+<span class='line'> 19</span> </span><span class="NAME">SC.ContainerView</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.View.extend</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 20</span>   </span><span class="COMM">/** @scope SC.ContainerView.prototype */</span><span class="WHIT">
+<span class='line'> 21</span>   </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 22</span>   
+<span class='line'> 23</span>   </span><span class="COMM">/** change this property value to replace the content of the container.
+<span class='line'> 24</span>       @type SC.View
+<span class='line'> 25</span>   */</span><span class="WHIT">
+<span class='line'> 26</span>   </span><span class="NAME">content</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 27</span>   
+<span class='line'> 28</span>   </span><span class="COMM">/** @private */</span><span class="WHIT">
+<span class='line'> 29</span>   </span><span class="NAME">contentBindingDefault</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">SC.Binding.Single</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 30</span>   
+<span class='line'> 31</span>   </span><span class="COMM">/** 
+<span class='line'> 32</span>     define an outlet named rootView to use that view as the container.
+<span class='line'> 33</span>     
+<span class='line'> 34</span>     Normally container view will set its own child views to the content you
+<span class='line'> 35</span>     set. Instead, you can set the rootView property to point to a child view 
+<span class='line'> 36</span>     of the container and the child views in that view will be changed instead.
+<span class='line'> 37</span>     
+<span class='line'> 38</span>     @type SC.View
+<span class='line'> 39</span>   */</span><span class="WHIT">
+<span class='line'> 40</span>   </span><span class="NAME">rootView</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 41</span> 
+<span class='line'> 42</span>   </span><span class="COMM">/**
+<span class='line'> 43</span>     Replaces any child views with the passed new content.  
+<span class='line'> 44</span>     
+<span class='line'> 45</span>     This method is automatically called whenever your content property 
+<span class='line'> 46</span>     changes.  You can override it if you want to provide some behavior other
+<span class='line'> 47</span>     than the default.
+<span class='line'> 48</span>     
+<span class='line'> 49</span>     @param {SC.View} newContent the new content view or null.
+<span class='line'> 50</span>   */</span><span class="WHIT">
+<span class='line'> 51</span>   </span><span class="NAME">replaceContent</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">newContent</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 52</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">containerView</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'rootView'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 53</span>     </span><span class="NAME">containerView.clear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 54</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">newView</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">newContent</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 55</span>     
+<span class='line'> 56</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">newView</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 57</span>       </span><span class="NAME">newView.viewFrameWillChange</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 58</span>       </span><span class="NAME">containerView.appendChild</span><span class="PUNC">(</span><span class="NAME">newView</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 59</span>       </span><span class="NAME">newView.viewFrameDidChange</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 60</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 61</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 62</span>   
+<span class='line'> 63</span>   </span><span class="NAME">_contentObserver</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 64</span>     </span><span class="NAME">this.replaceContent</span><span class="PUNC">(</span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'content'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 65</span>   </span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">observes</span><span class="PUNC">(</span><span class="STRN">'content'</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 66</span>   
+<span class='line'> 67</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 68</span> </span></pre></body></html>

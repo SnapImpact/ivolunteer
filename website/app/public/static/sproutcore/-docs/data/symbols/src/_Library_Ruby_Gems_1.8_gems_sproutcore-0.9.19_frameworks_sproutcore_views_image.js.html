@@ -1,0 +1,262 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+  .KEYW {color: #933;}
+  .COMM {color: #bbb; font-style: italic;}
+  .NUMB {color: #393;}
+  .STRN {color: #393;}
+  .REGX {color: #339;}
+  .line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+  </style></head><body><pre><span class='line'>  1</span> <span class="COMM">// ========================================================================</span><span class="WHIT">
+<span class='line'>  2</span> </span><span class="COMM">// SproutCore</span><span class="WHIT">
+<span class='line'>  3</span> </span><span class="COMM">// copyright 2006-2008 Sprout Systems, Inc.</span><span class="WHIT">
+<span class='line'>  4</span> </span><span class="COMM">// ========================================================================</span><span class="WHIT">
+<span class='line'>  5</span> 
+<span class='line'>  6</span> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'views/view'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  7</span> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'mixins/control'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  8</span> 
+<span class='line'>  9</span> </span><span class="NAME">lc_cnt</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 10</span> 
+<span class='line'> 11</span> </span><span class="NAME">SC.IMAGE_STATE_NONE</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'none'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 12</span> </span><span class="NAME">SC.IMAGE_STATE_LOADING</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'loading'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 13</span> </span><span class="NAME">SC.IMAGE_STATE_LOADED</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'loaded'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 14</span> </span><span class="NAME">SC.IMAGE_STATE_FAILED</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'failed'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 15</span> 
+<span class='line'> 16</span> </span><span class="COMM">/**
+<span class='line'> 17</span>   URL to a transparent GIF.  Used for spriting.
+<span class='line'> 18</span> */</span><span class="WHIT">
+<span class='line'> 19</span> </span><span class="NAME">SC.BLANK_IMAGE_URL</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">static_url</span><span class="PUNC">(</span><span class="STRN">'blank.gif'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 20</span> 
+<span class='line'> 21</span> </span><span class="COMM">/**
+<span class='line'> 22</span>   @class
+<span class='line'> 23</span> 
+<span class='line'> 24</span>   Displays an image in the browser.  
+<span class='line'> 25</span>   
+<span class='line'> 26</span>   The ImageView can be used to efficiently display images in the browser.
+<span class='line'> 27</span>   It includes a built in support for a number of features that can improve
+<span class='line'> 28</span>   your page load time if you use a lot of images including a image loading
+<span class='line'> 29</span>   queue and automatic support for CSS spriting.
+<span class='line'> 30</span> 
+<span class='line'> 31</span>   @extends SC.View
+<span class='line'> 32</span>   @extends SC.Control
+<span class='line'> 33</span>   @author Charles Jolley
+<span class='line'> 34</span> */</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="NAME">SC.ImageView</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.View.extend</span><span class="PUNC">(</span><span class="NAME">SC.Control</span><span class="PUNC">,</span><span class="WHIT"> 
+<span class='line'> 36</span> </span><span class="COMM">/** @scope SC.ImageView.prototype */</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 37</span>   
+<span class='line'> 38</span>   </span><span class="COMM">/** Image views contain an img tag. */</span><span class="WHIT">
+<span class='line'> 39</span>   </span><span class="NAME">emptyElement</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'&lt;img src="%@" class="sc-image-view" />'</span><span class="PUNC">.</span><span class="NAME">fmt</span><span class="PUNC">(</span><span class="NAME">SC.BLANK_IMAGE_URL</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 40</span>   
+<span class='line'> 41</span>   </span><span class="COMM">/**
+<span class='line'> 42</span>     Current load status of the image.
+<span class='line'> 43</span>     
+<span class='line'> 44</span>     This status changes as an image is loaded from the server.  If spriting
+<span class='line'> 45</span>     is used, this will always be loaded.  Must be one of the following
+<span class='line'> 46</span>     constants: SC.IMAGE_STATE_NONE, SC.IMAGE_STATE_LOADING, 
+<span class='line'> 47</span>     SC.IMAGE_STATE_LOADED, SC.IMAGE_STATE_FAILED
+<span class='line'> 48</span>   */</span><span class="WHIT">
+<span class='line'> 49</span>   </span><span class="NAME">status</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">SC.IMAGE_STATE_NONE</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 50</span>   
+<span class='line'> 51</span>   </span><span class="COMM">/**
+<span class='line'> 52</span>     A url or CSS class name.
+<span class='line'> 53</span>     
+<span class='line'> 54</span>     This is the image you want the view to display.  It should be either a
+<span class='line'> 55</span>     url or css class name.  You can also set the content and 
+<span class='line'> 56</span>     contentValueKey properties to have this value extracted 
+<span class='line'> 57</span>     automatically.
+<span class='line'> 58</span>     
+<span class='line'> 59</span>     If you want to use CSS spriting, set this value to a CSS class name.  If
+<span class='line'> 60</span>     you need to use multiple class names to set your icon, separate them by
+<span class='line'> 61</span>     spaces.
+<span class='line'> 62</span>   */</span><span class="WHIT">
+<span class='line'> 63</span>   </span><span class="NAME">value</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 64</span>   </span><span class="NAME">_value</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 65</span> 
+<span class='line'> 66</span>   </span><span class="COMM">/**
+<span class='line'> 67</span>     Invoked whenever the content or value changes. (To be removed in 
+<span class='line'> 68</span>     SproutCore 1.0)
+<span class='line'> 69</span>     
+<span class='line'> 70</span>     This method is no longer necessary since we have the standard SC.Control
+<span class='line'> 71</span>     behavior.
+<span class='line'> 72</span>     
+<span class='line'> 73</span>     @deprecated
+<span class='line'> 74</span>     @param {Object} content The content object.
+<span class='line'> 75</span>     @returns {String} the URL or CSS class name
+<span class='line'> 76</span>   */</span><span class="WHIT">
+<span class='line'> 77</span>   </span><span class="NAME">transform</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">content</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">content</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 78</span>   
+<span class='line'> 79</span>   </span><span class="NAME">valueObserver</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 80</span>     
+<span class='line'> 81</span>     </span><span class="COMM">// get the new URL.</span><span class="WHIT">
+<span class='line'> 82</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'value'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 83</span>     
+<span class='line'> 84</span>     </span><span class="COMM">// invoke the old transform method if it is defined</span><span class="WHIT">
+<span class='line'> 85</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.transform</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">SC.ImageView.prototype.transform</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 86</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'content'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="STRN">''</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 87</span>       </span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.transform</span><span class="PUNC">(</span><span class="NAME">content</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 88</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 89</span>     
+<span class='line'> 90</span>     </span><span class="COMM">// if the value has not changed, do nothing.</span><span class="WHIT">
+<span class='line'> 91</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">this._value</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 92</span>     
+<span class='line'> 93</span>     </span><span class="COMM">// if the old value was a class name, then we need to remove it.</span><span class="WHIT">
+<span class='line'> 94</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this._value</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this._value.length</span><span class="PUNC">></span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">SC.ImageView.valueIsUrl</span><span class="PUNC">(</span><span class="NAME">this._value</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 95</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">classNames</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._value.split</span><span class="PUNC">(</span><span class="STRN">' '</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 96</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">idx</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">classNames.length</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 97</span>       </span><span class="KEYW">while</span><span class="PUNC">(</span><span class="PUNC">--</span><span class="NAME">idx</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
+<span class='line'> 98</span>         </span><span class="NAME">this.removeClassName</span><span class="PUNC">(</span><span class="NAME">classNames</span><span class="PUNC">[</span><span class="NAME">idx</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> 
+<span class='line'> 99</span>       </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>100</span>       </span><span class="NAME">this.removeClassName</span><span class="PUNC">(</span><span class="STRN">'sc-sprite'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>101</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>102</span>     </span><span class="NAME">this._value</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>103</span>     
+<span class='line'>104</span>     </span><span class="COMM">// if the new value is empty, just clear the img.</span><span class="WHIT">
+<span class='line'>105</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">value.length</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>106</span>       </span><span class="NAME">this.rootElement.src</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.BLANK_IMAGE_URL</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>107</span>       </span><span class="NAME">this.set</span><span class="PUNC">(</span><span class="STRN">'status'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">SC.IMAGE_STATE_NONE</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>108</span>       </span><span class="NAME">this._imageUrl</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">//clear</span><span class="WHIT">
+<span class='line'>109</span>       
+<span class='line'>110</span>     </span><span class="COMM">// if a new value was set that is a URL, load the image URL.</span><span class="WHIT">
+<span class='line'>111</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">SC.ImageView.valueIsUrl</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>112</span>       </span><span class="NAME">this.beginPropertyChanges</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>113</span>       </span><span class="NAME">this.set</span><span class="PUNC">(</span><span class="STRN">'status'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">SC.IMAGE_STATE_LOADING</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>114</span>       </span><span class="NAME">this._imageUrl</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// save to verify later.</span><span class="WHIT">
+<span class='line'>115</span>       </span><span class="NAME">SC.imageCache.loadImage</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this._onLoadComplete</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>116</span>       </span><span class="NAME">this.endPropertyChanges</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>117</span>       
+<span class='line'>118</span>     </span><span class="COMM">// if the new is a CSS class name, set an empty image and add class name </span><span class="WHIT">
+<span class='line'>119</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>120</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">classNames</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value.split</span><span class="PUNC">(</span><span class="STRN">' '</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>121</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">idx</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">classNames.length</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>122</span>       </span><span class="KEYW">while</span><span class="PUNC">(</span><span class="PUNC">--</span><span class="NAME">idx</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this.addClassName</span><span class="PUNC">(</span><span class="NAME">classNames</span><span class="PUNC">[</span><span class="NAME">idx</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>123</span>       </span><span class="NAME">this.addClassName</span><span class="PUNC">(</span><span class="STRN">'sc-sprite'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>124</span>       </span><span class="NAME">this.rootElement.src</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.BLANK_IMAGE_URL</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>125</span>       </span><span class="NAME">this.set</span><span class="PUNC">(</span><span class="STRN">'status'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">SC.IMAGE_STATE_LOADED</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>126</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>127</span>   </span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">observes</span><span class="PUNC">(</span><span class="STRN">'value'</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>128</span>   
+<span class='line'>129</span> 
+<span class='line'>130</span>   </span><span class="COMM">/** 
+<span class='line'>131</span>     Invoked once an image loads.  If an image has already been loaded,
+<span class='line'>132</span>     this method will be invoked immediately.
+<span class='line'>133</span>   */</span><span class="WHIT">
+<span class='line'>134</span>   </span><span class="NAME">_onLoadComplete</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">status</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">img</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">  
+<span class='line'>135</span>     
+<span class='line'>136</span>     </span><span class="COMM">// sometimes this method gets called later after the url has already</span><span class="WHIT">
+<span class='line'>137</span>     </span><span class="COMM">// changed.  If this is the case, bail...</span><span class="WHIT">
+<span class='line'>138</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">url</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">this._imageUrl</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>139</span>     
+<span class='line'>140</span>     </span><span class="NAME">this.beginPropertyChanges</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>141</span>     </span><span class="NAME">this.set</span><span class="PUNC">(</span><span class="STRN">'imageWidth'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">img.width</span><span class="PUNC">,</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>142</span>     </span><span class="NAME">this.set</span><span class="PUNC">(</span><span class="STRN">'imageHeight'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">img.height</span><span class="PUNC">,</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>143</span>     </span><span class="NAME">this.set</span><span class="PUNC">(</span><span class="STRN">'status'</span><span class="PUNC">,</span><span class="NAME">status</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>144</span>     </span><span class="NAME">this.endPropertyChanges</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>145</span>     
+<span class='line'>146</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">status</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">SC.IMAGE_STATE_LOADED</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>147</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.imageDidLoad</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this.imageDidLoad</span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>148</span>       </span><span class="NAME">this.rootElement.src</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT">  </span><span class="NAME">url</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>149</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>150</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.imageDidFail</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this.imageDidFail</span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">status</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>151</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>152</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>153</span>   
+<span class='line'>154</span>   </span><span class="NAME">init</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>155</span>     </span><span class="NAME">sc_super</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>156</span>     </span><span class="NAME">this.valueObserver</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>157</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.rootElement.src</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>158</span>       </span><span class="NAME">this.set</span><span class="PUNC">(</span><span class="STRN">'imageWidth'</span><span class="PUNC">,</span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">this.rootElement.width</span><span class="PUNC">,</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>159</span>       </span><span class="NAME">this.set</span><span class="PUNC">(</span><span class="STRN">'imageHeight'</span><span class="PUNC">,</span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">this.rootElement.height</span><span class="PUNC">,</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>160</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>161</span>   </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>162</span>   
+<span class='line'>163</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>164</span> 
+<span class='line'>165</span> </span><span class="COMM">/**
+<span class='line'>166</span>   Returns YES if the passed value looks like an URL and not a CSS class
+<span class='line'>167</span>   name.
+<span class='line'>168</span> */</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="NAME">SC.ImageView.valueIsUrl</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>170</span>   </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">value.indexOf</span><span class="PUNC">(</span><span class="STRN">'/'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">value.indexOf</span><span class="PUNC">(</span><span class="STRN">'.'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>171</span> </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>172</span> 
+<span class='line'>173</span> </span><span class="COMM">/**
+<span class='line'>174</span>   The image cache will create Image objects to preload a set of 
+<span class='line'>175</span>   images.  This will control the number of images being loaded to maximize
+<span class='line'>176</span>   browser throughput.
+<span class='line'>177</span> */</span><span class="WHIT">
+<span class='line'>178</span> </span><span class="NAME">SC.imageCache</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.Object.create</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">  
+<span class='line'>179</span>   
+<span class='line'>180</span>   </span><span class="COMM">// this restricts the maximum number of images that can load in.</span><span class="WHIT">
+<span class='line'>181</span>   </span><span class="NAME">loadLimit</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">4</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>182</span>   
+<span class='line'>183</span>   </span><span class="COMM">// this is the primary entry point for the imageCache.  Use this method to</span><span class="WHIT">
+<span class='line'>184</span>   </span><span class="COMM">// ask the cache to load an image and then invoke the callback when its</span><span class="WHIT">
+<span class='line'>185</span>   </span><span class="COMM">// available.  You can pass either a function or an object + a function.</span><span class="WHIT">
+<span class='line'>186</span>   </span><span class="COMM">// Your callback should have this pattern:</span><span class="WHIT">
+<span class='line'>187</span>   </span><span class="COMM">//</span><span class="WHIT">
+<span class='line'>188</span>   </span><span class="COMM">// method(url, status, imgObject)</span><span class="WHIT">
+<span class='line'>189</span>   </span><span class="COMM">// url: the original URL you passed in.</span><span class="WHIT">
+<span class='line'>190</span>   </span><span class="COMM">// status: loaded | error | aborted</span><span class="WHIT">
+<span class='line'>191</span>   </span><span class="COMM">// imgObject: the image object.  This parameter is optional.</span><span class="WHIT">
+<span class='line'>192</span>   </span><span class="COMM">//</span><span class="WHIT">
+<span class='line'>193</span>   </span><span class="NAME">loadImage</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">objOrFunc</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">method</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>194</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">dta</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._images</span><span class="PUNC">[</span><span class="NAME">url</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this._images</span><span class="PUNC">[</span><span class="NAME">url</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">url</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">url</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>195</span>       </span><span class="NAME">img</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">handlers</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">status</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'unknown'</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>196</span> 
+<span class='line'>197</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">dta.img</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>198</span>       </span><span class="NAME">this._queue.push</span><span class="PUNC">(</span><span class="NAME">dta</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>199</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this._imgTimeout</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>200</span>         </span><span class="NAME">this._imgTimeout</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.invokeLater</span><span class="PUNC">(</span><span class="NAME">this.loadNextImage</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">100</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>201</span>       </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>202</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>203</span> 
+<span class='line'>204</span>     </span><span class="COMM">// you can pass either just a function or an object + a method.  This will</span><span class="WHIT">
+<span class='line'>205</span>     </span><span class="COMM">// handle both.</span><span class="WHIT">
+<span class='line'>206</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">handler</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">method</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NAME">objOrFunc</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">method</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">objOrFunc</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>207</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">dta.status</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">'unknown'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>208</span>       </span><span class="NAME">dta.handlers.push</span><span class="PUNC">(</span><span class="NAME">handler</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>209</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">handler</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>210</span>       </span><span class="NAME">handler</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">call</span><span class="PUNC">(</span><span class="NAME">handler</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">url</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">dta.status</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">dta.img</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>211</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>212</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>213</span>   
+<span class='line'>214</span>   </span><span class="COMM">// this is called to load images that need </span><span class="WHIT">
+<span class='line'>215</span>   </span><span class="NAME">loadNextImage</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>216</span>     </span><span class="NAME">this._imgTimeout</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>217</span>     </span><span class="KEYW">while</span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">this._queue.length</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this._loading.length</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">this.loadLimit</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">   
+<span class='line'>218</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">dta</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._queue.pop</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>219</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">url</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">dta.url</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>220</span>       </span><span class="NAME">dta.img</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Image</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>221</span>       </span><span class="NAME">dta.img.onabort</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._onAbort.bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="NAME">url</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>222</span>       </span><span class="NAME">dta.img.onerror</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._onError.bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="NAME">url</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>223</span>       </span><span class="NAME">dta.img.onload</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._onLoad.bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">url</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>224</span>       </span><span class="NAME">dta.img.src</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">dta.url</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>225</span> 
+<span class='line'>226</span>       </span><span class="COMM">// add to loading queue.</span><span class="WHIT">
+<span class='line'>227</span>       </span><span class="NAME">this._loading.push</span><span class="PUNC">(</span><span class="NAME">dta.url</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>228</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>229</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>230</span>   
+<span class='line'>231</span>   </span><span class="NAME">_onAbort</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">this._changeStatus</span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'aborted'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>232</span>   </span><span class="NAME">_onError</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">this._changeStatus</span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'error'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>233</span>   </span><span class="NAME">_onLoad</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">this._changeStatus</span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'loaded'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>234</span> 
+<span class='line'>235</span>   </span><span class="COMM">// update the status in the queue and call any queued handlers.</span><span class="WHIT">
+<span class='line'>236</span>   </span><span class="NAME">_changeStatus</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">status</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>237</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">dta</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._images</span><span class="PUNC">[</span><span class="NAME">url</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>238</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">dta</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>239</span>     </span><span class="NAME">dta.status</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">status</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>240</span>     
+<span class='line'>241</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">handler</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>242</span>     </span><span class="KEYW">while</span><span class="PUNC">(</span><span class="NAME">handler</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">dta.handlers.pop</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>243</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">handler</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">handler</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">call</span><span class="PUNC">(</span><span class="NAME">handler</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">url</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">dta.status</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">dta.img</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>244</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>245</span>     
+<span class='line'>246</span>     </span><span class="COMM">// get the next image, if needed.</span><span class="WHIT">
+<span class='line'>247</span>     </span><span class="NAME">this._loading</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._loading.without</span><span class="PUNC">(</span><span class="NAME">dta.url</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>248</span>     </span><span class="NAME">this.loadNextImage</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>249</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>250</span>   
+<span class='line'>251</span>   </span><span class="NAME">_images</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>252</span>   </span><span class="NAME">_loading</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>253</span>   </span><span class="NAME">_queue</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="WHIT">
+<span class='line'>254</span>     
+<span class='line'>255</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span></pre></body></html>

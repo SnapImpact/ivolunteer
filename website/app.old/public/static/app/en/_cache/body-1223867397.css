@@ -1,0 +1,77 @@
+/* Start ----------------------------------------------------- body.css*/
+
+/* Default CSS for welcome page.  Delete this styling and replace it with your own. */
+
+#control_tabs {
+	position: absolute ;
+	left: 20px;
+	right: 20px;
+	top: 0px;
+	bottom: 20px;
+	border: 1px #aaa solid ;
+}
+
+#control_tabs .root {
+	overflow: auto ;
+	position: absolute ;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+	margin: 0;
+}
+
+#control_tabs .segments {
+	z-index: 99;
+}
+
+#control_tabs .root h1 {
+  margin: 25px; 
+  margin-bottom: 10px;
+  margin-top: 50px;
+}
+
+#control_tabs .root p {
+  margin-left: 25px; 
+  margin-right: 25px;
+}
+
+
+/* @group Organizations */
+
+.organizations_tab .list-view-label {
+	position: absolute ;
+	left: 14px;
+	top: 20px;
+	width: 200px;
+}
+
+.organizations_tab .grid-view-label {
+	position: absolute ;
+	left: 220px;
+	top: 20px;
+	right: 20px;
+}
+
+.organizations_tab .list_scroll_view {
+	position: absolute ;
+	left: 12px;
+	top: 40px;
+	bottom: 12px;
+	width: 200px;
+}
+
+.organizations_tab .grid_scroll_view {
+	position: absolute ;
+	left: 220px;
+	top: 40px;
+	bottom: 12px;
+	right: 12px;
+}
+
+/* @end */
+
+
+
+/* End ------------------------------------------------------- body.css*/
+

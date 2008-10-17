@@ -1,0 +1,407 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+  .KEYW {color: #933;}
+  .COMM {color: #bbb; font-style: italic;}
+  .NUMB {color: #393;}
+  .STRN {color: #393;}
+  .REGX {color: #339;}
+  .line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+  </style></head><body><pre><span class='line'>  1</span> <span class="COMM">// ========================================================================</span><span class="WHIT">
+<span class='line'>  2</span> </span><span class="COMM">// SproutCore</span><span class="WHIT">
+<span class='line'>  3</span> </span><span class="COMM">// copyright 2006-2008 Sprout Systems, Inc.</span><span class="WHIT">
+<span class='line'>  4</span> </span><span class="COMM">// ========================================================================</span><span class="WHIT">
+<span class='line'>  5</span> 
+<span class='line'>  6</span> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'core'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  7</span> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'foundation/object'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  8</span> 
+<span class='line'>  9</span> </span><span class="COMM">/**
+<span class='line'> 10</span>   @class
+<span class='line'> 11</span> 
+<span class='line'> 12</span>   A Timer executes a method after a defined period of time.  Timers are 
+<span class='line'> 13</span>   significantly more efficient than using setTimeout() or setInterval() 
+<span class='line'> 14</span>   because they are cooperatively scheduled using the run loop.  Timers are
+<span class='line'> 15</span>   also gauranteed to fire at the same time, making it far easier to keep 
+<span class='line'> 16</span>   multiple timers in sync.
+<span class='line'> 17</span>   
+<span class='line'> 18</span>   h2. Overview
+<span class='line'> 19</span>   
+<span class='line'> 20</span>   Timers were created for SproutCore as a way to efficiently defer execution
+<span class='line'> 21</span>   of code fragments for use in Animations, event handling, and other tasks.
+<span class='line'> 22</span>   
+<span class='line'> 23</span>   Browsers are typically fairly inconsistant about when they will fire a 
+<span class='line'> 24</span>   timeout or interval based on what the browser is currently doing.  Timeouts 
+<span class='line'> 25</span>   and intervals are also fairly expensive for a browser to execute, which 
+<span class='line'> 26</span>   means if you schedule a large number of them it can quickly slow down the 
+<span class='line'> 27</span>   browser considerably.
+<span class='line'> 28</span>   
+<span class='line'> 29</span>   Timers, on the other handle, are scheduled cooperatively using the 
+<span class='line'> 30</span>   SC.runLoop, which uses exactly one timeout to fire itself when needed and 
+<span class='line'> 31</span>   then executes by timers that need to fire on its own.  This approach can
+<span class='line'> 32</span>   be many timers faster than using timers and gaurantees that timers scheduled
+<span class='line'> 33</span>   to execute at the same time generally will do so, keeping animations and
+<span class='line'> 34</span>   other operations in sync.
+<span class='line'> 35</span>   
+<span class='line'> 36</span>   h2. Scheduling a Timer
+<span class='line'> 37</span> 
+<span class='line'> 38</span>   To schedule a basic timer, you can simply call SC.Timer.schedule() with 
+<span class='line'> 39</span>   a target and action you wish to have invoked:
+<span class='line'> 40</span>   
+<span class='line'> 41</span>   {{{
+<span class='line'> 42</span>     var timer = SC.Timer.schedule({ 
+<span class='line'> 43</span>       target: myObject, action: 'timerFired', interval: 100 
+<span class='line'> 44</span>     });
+<span class='line'> 45</span>   }}}
+<span class='line'> 46</span> 
+<span class='line'> 47</span>   When this timer fires, it will call the timerFired() method on myObject.
+<span class='line'> 48</span>   
+<span class='line'> 49</span>   In addition to calling a method on a particular object, you can also use
+<span class='line'> 50</span>   a timer to execute a variety of other types of code:
+<span class='line'> 51</span>   
+<span class='line'> 52</span>   - If you include an action name, but not a target object, then the action will be passed down the responder chain.
+<span class='line'> 53</span>   - If you include a property path for the action property (e.g. 'MyApp.someController.someMethod'), then the method you name will be executed.
+<span class='line'> 54</span>   - If you include a function in the action property, then the function will be executed.  If you also include a target object, the function will be called with this set to the target object.
+<span class='line'> 55</span> 
+<span class='line'> 56</span>   In general these properties are read-only.  Changing an interval, target,
+<span class='line'> 57</span>   or action after creating a timer will have an unknown effect.
+<span class='line'> 58</span> 
+<span class='line'> 59</span>   h2. Scheduling Repeating Timers
+<span class='line'> 60</span>   
+<span class='line'> 61</span>   In addition to scheduling one time timers, you can also schedule timers to
+<span class='line'> 62</span>   execute periodically until some termination date.  You make a timer
+<span class='line'> 63</span>   repeating by adding the repeats: YES property:
+<span class='line'> 64</span>   
+<span class='line'> 65</span>   {{{
+<span class='line'> 66</span>     var timer = SC.Timer.schedule({
+<span class='line'> 67</span>       target: myObject, 
+<span class='line'> 68</span>       action: 'updateAnimation', 
+<span class='line'> 69</span>       interval: 100,
+<span class='line'> 70</span>       repeats: YES, 
+<span class='line'> 71</span>       until: Time.now() + 1000
+<span class='line'> 72</span>     }) ;
+<span class='line'> 73</span>   }}}
+<span class='line'> 74</span>   
+<span class='line'> 75</span>   The above example will execute the myObject.updateAnimation() every 100msec
+<span class='line'> 76</span>   for 1 second from the current time.  
+<span class='line'> 77</span>   
+<span class='line'> 78</span>   If you want a timer to repeat without expiration, you can simply omit the
+<span class='line'> 79</span>   until: property.  The timer will then repeat until you invalidate it.
+<span class='line'> 80</span>   
+<span class='line'> 81</span>   h2. Pausing and Invalidating Timers
+<span class='line'> 82</span>   
+<span class='line'> 83</span>   If you have created a timer but you no longer want it to execute, you can
+<span class='line'> 84</span>   call the invalidate() method on it.  This will remove the timer from the 
+<span class='line'> 85</span>   run loop and clear certain properties so that it will not run again.
+<span class='line'> 86</span>   
+<span class='line'> 87</span>   You can use the invalidate() method on both repeating and one-time timers.
+<span class='line'> 88</span>   
+<span class='line'> 89</span>   If you do not want to invalidate a timer completely but you just want to
+<span class='line'> 90</span>   stop the timer from execution temporarily, you can alternatively set the
+<span class='line'> 91</span>   isPaused property to YES:
+<span class='line'> 92</span>   
+<span class='line'> 93</span>   {{{
+<span class='line'> 94</span>     timer.set('isPaused', YES) ;
+<span class='line'> 95</span>     // Perform some critical function; timer will not execute
+<span class='line'> 96</span>     timer.set('isPaused', NO) ;
+<span class='line'> 97</span>   }}}
+<span class='line'> 98</span>   
+<span class='line'> 99</span>   When a timer is paused, it will be scheduled and will fire like normal, 
+<span class='line'>100</span>   but it will not actually execute the action method when it fires.  For a 
+<span class='line'>101</span>   one time timer, this means that if you have the timer paused when it fires,
+<span class='line'>102</span>   it may never actually execute the action method.  For repeating timers, 
+<span class='line'>103</span>   this means the timer will remain scheduled but simply will not execute its
+<span class='line'>104</span>   action while the timer is paused.
+<span class='line'>105</span>   
+<span class='line'>106</span>   h2. Firing Timers
+<span class='line'>107</span>   
+<span class='line'>108</span>   If you need a timer to execute immediately, you can always call the fire()
+<span class='line'>109</span>   method yourself.  This will execute the timer action, if the timer is not
+<span class='line'>110</span>   paused.  For a one time timer, it will also invalidate the timer and remove
+<span class='line'>111</span>   it from the run loop.  Repeating timers can be fired anytime and it will
+<span class='line'>112</span>   not interrupt their regular scheduled times.
+<span class='line'>113</span> 
+<span class='line'>114</span>   
+<span class='line'>115</span>   @extends SC.Object
+<span class='line'>116</span>   @author Charles Jolley
+<span class='line'>117</span>   @version 1.0
+<span class='line'>118</span>   @since version 1.0
+<span class='line'>119</span> */</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="NAME">SC.Timer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.Object.extend</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="COMM">/** @scope SC.Timer.prototype */</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>122</span> 
+<span class='line'>123</span>   </span><span class="COMM">/**
+<span class='line'>124</span>     The target object whose method will be invoked when the time fires.
+<span class='line'>125</span>     
+<span class='line'>126</span>     You can set either a target/action property or you can pass a specific
+<span class='line'>127</span>     method.
+<span class='line'>128</span>     
+<span class='line'>129</span>     @type {Object}
+<span class='line'>130</span>     @field
+<span class='line'>131</span>   */</span><span class="WHIT">
+<span class='line'>132</span>   </span><span class="NAME">target</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>133</span>   
+<span class='line'>134</span>   </span><span class="COMM">/**
+<span class='line'>135</span>     The action to execute.
+<span class='line'>136</span>     
+<span class='line'>137</span>     The action can be a method name, a property path, or a function.  If you
+<span class='line'>138</span>     pass a method name, it will be invoked on the target object or it will 
+<span class='line'>139</span>     be called up the responder chain if target is null.  If you pass a 
+<span class='line'>140</span>     property path and it resolves to a function then the function will be 
+<span class='line'>141</span>     called.  If you pass a function instead, then the function will be 
+<span class='line'>142</span>     called in the context of the target object.
+<span class='line'>143</span>     
+<span class='line'>144</span>     @type {String, Function}
+<span class='line'>145</span>   */</span><span class="WHIT">
+<span class='line'>146</span>   </span><span class="NAME">action</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>147</span>   
+<span class='line'>148</span>   </span><span class="COMM">/**
+<span class='line'>149</span>     The time interval in milliseconds.
+<span class='line'>150</span>     
+<span class='line'>151</span>     You generally set this when you create the timer.  If you do not set it
+<span class='line'>152</span>     then the timer will fire as soon as possible in the next run loop.
+<span class='line'>153</span>     
+<span class='line'>154</span>     @type {Number}
+<span class='line'>155</span>   */</span><span class="WHIT">
+<span class='line'>156</span>   </span><span class="NAME">interval</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>157</span>   
+<span class='line'>158</span>   </span><span class="COMM">/**
+<span class='line'>159</span>     Timer start date offset.
+<span class='line'>160</span>     
+<span class='line'>161</span>     The start date determines when the timer will be scheduled.  The first
+<span class='line'>162</span>     time the timer fires will be interval milliseconds after the start 
+<span class='line'>163</span>     date. 
+<span class='line'>164</span>     
+<span class='line'>165</span>     Generally you will not set this property yourself.  Instead it will be 
+<span class='line'>166</span>     set automatically to the current run loop start date when you schedule 
+<span class='line'>167</span>     the timer.  This ensures that all timers scheduled in the same run loop
+<span class='line'>168</span>     cycle will execute in the sync with one another.
+<span class='line'>169</span>     
+<span class='line'>170</span>     The value of this property is an offset like waht you get if you call
+<span class='line'>171</span>     Date.now().
+<span class='line'>172</span>     
+<span class='line'>173</span>     @type {Number}
+<span class='line'>174</span>   */</span><span class="WHIT">
+<span class='line'>175</span>   </span><span class="NAME">startTime</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>176</span>   
+<span class='line'>177</span>   </span><span class="COMM">/**
+<span class='line'>178</span>     YES if you want the timer to execute repeatedly.
+<span class='line'>179</span>     
+<span class='line'>180</span>     @type {Boolean}
+<span class='line'>181</span>   */</span><span class="WHIT">
+<span class='line'>182</span>   </span><span class="NAME">repeats</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>183</span>   
+<span class='line'>184</span>   </span><span class="COMM">/**
+<span class='line'>185</span>     Last date when the timer will execute.
+<span class='line'>186</span>     
+<span class='line'>187</span>     If you have set repeats to YES, then you can also set this property to
+<span class='line'>188</span>     have the timer automatically stop executing past a certain date.
+<span class='line'>189</span>     
+<span class='line'>190</span>     This property should contain an offset value like startOffset.  However if
+<span class='line'>191</span>     you set it to a Date object on create, it will be converted to an offset
+<span class='line'>192</span>     for you.
+<span class='line'>193</span>     
+<span class='line'>194</span>     If this property is null, then the timer will continue to repeat until you
+<span class='line'>195</span>     call invalidate().
+<span class='line'>196</span>     
+<span class='line'>197</span>     @type {Date, Number}
+<span class='line'>198</span>   */</span><span class="WHIT">
+<span class='line'>199</span>   </span><span class="NAME">until</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>200</span>   
+<span class='line'>201</span>   </span><span class="COMM">/**
+<span class='line'>202</span>     Set to YES to pause the timer.
+<span class='line'>203</span>     
+<span class='line'>204</span>     Pausing a timer does not remove it from the run loop, but it will 
+<span class='line'>205</span>     temporarily suspend it from firing.  You should use this property if
+<span class='line'>206</span>     you will want the timer to fire again the future, but you want to prevent
+<span class='line'>207</span>     it from firing temporarily.
+<span class='line'>208</span>     
+<span class='line'>209</span>     If you are done with a timer, you should call invalidate() instead of 
+<span class='line'>210</span>     setting this property.
+<span class='line'>211</span>     
+<span class='line'>212</span>     @type {Boolean}
+<span class='line'>213</span>   */</span><span class="WHIT">
+<span class='line'>214</span>   </span><span class="NAME">isPaused</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>215</span> 
+<span class='line'>216</span>   </span><span class="COMM">/**
+<span class='line'>217</span>     YES onces the timer has been scheduled for the first time.
+<span class='line'>218</span>   */</span><span class="WHIT">
+<span class='line'>219</span>   </span><span class="NAME">isScheduled</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>220</span>   
+<span class='line'>221</span>   </span><span class="COMM">/**
+<span class='line'>222</span>     YES if the timer can still execute.
+<span class='line'>223</span>     
+<span class='line'>224</span>     This read only property will return YES as long as the timer may possibly
+<span class='line'>225</span>     fire again in the future.  Once a timer has become invalid, it cannot 
+<span class='line'>226</span>     become valid again. 
+<span class='line'>227</span>     
+<span class='line'>228</span>     @field
+<span class='line'>229</span>     @type {Boolean}
+<span class='line'>230</span>   */</span><span class="WHIT">
+<span class='line'>231</span>   </span><span class="NAME">isValid</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>232</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">this._invalid</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>233</span>   </span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">property</span><span class="PUNC">(</span><span class="STRN">'isPaused'</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>234</span>   
+<span class='line'>235</span>   </span><span class="COMM">/**
+<span class='line'>236</span>     Returns the next time offset when the property will fire.
+<span class='line'>237</span>     
+<span class='line'>238</span>     This property changes automatically after a timer has fired.  If the 
+<span class='line'>239</span>     timer is invalid this will return 0.
+<span class='line'>240</span>     
+<span class='line'>241</span>     @field
+<span class='line'>242</span>     @type {Number}
+<span class='line'>243</span>   */</span><span class="WHIT">
+<span class='line'>244</span>   </span><span class="NAME">fireTime</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>245</span>   
+<span class='line'>246</span>   </span><span class="COMM">/**
+<span class='line'>247</span>     Invalidates the timer so that it will not execute again.  If a timer has
+<span class='line'>248</span>     been scheduled, it will be removed from the run loop immediately.
+<span class='line'>249</span>     
+<span class='line'>250</span>     @returns {SC.Timer} The receiver
+<span class='line'>251</span>   */</span><span class="WHIT">
+<span class='line'>252</span>   </span><span class="NAME">invalidate</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>253</span>     </span><span class="NAME">this.propertyWillChange</span><span class="PUNC">(</span><span class="STRN">'isValid'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>254</span>     </span><span class="NAME">this._invalid</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>255</span>     </span><span class="NAME">SC.runLoop.cancelTimer</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>256</span>     </span><span class="NAME">this.propertyDidChange</span><span class="PUNC">(</span><span class="STRN">'isValid'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>257</span>     </span><span class="NAME">this.action</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.target</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// avoid memory leaks</span><span class="WHIT">
+<span class='line'>258</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>259</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>260</span>   
+<span class='line'>261</span>   </span><span class="COMM">/**
+<span class='line'>262</span>     Immediately fires the timer.
+<span class='line'>263</span>     
+<span class='line'>264</span>     If the timer is not-repeating, it will be invalidated.  If it is repeating
+<span class='line'>265</span>     you can call this method without interrupting its normal schedule.
+<span class='line'>266</span>     
+<span class='line'>267</span>     @returns {void}
+<span class='line'>268</span>   */</span><span class="WHIT">
+<span class='line'>269</span>   </span><span class="NAME">fire</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>270</span>     
+<span class='line'>271</span>     </span><span class="COMM">// whenever the timer fires, calculate the next fireTime immediately.</span><span class="WHIT">
+<span class='line'>272</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">nextFireTime</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._computeNextFireTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>273</span>     
+<span class='line'>274</span>     </span><span class="COMM">// now perform the fire action unless paused.</span><span class="WHIT">
+<span class='line'>275</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'isPaused'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this.performAction</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>276</span>     
+<span class='line'>277</span>      </span><span class="COMM">// reschedule the timer if needed...</span><span class="WHIT">
+<span class='line'>278</span>      </span><span class="PUNC">(</span><span class="NAME">nextFireTime</span><span class="PUNC">></span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">this.schedule</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.invalidate</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>279</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>280</span> 
+<span class='line'>281</span>   </span><span class="COMM">/**
+<span class='line'>282</span>     Actually fires the action. You can override this method if you need
+<span class='line'>283</span>     to change how the timer fires its action.
+<span class='line'>284</span>   */</span><span class="WHIT">
+<span class='line'>285</span>   </span><span class="NAME">performAction</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>286</span>     </span><span class="COMM">// if the action is a function, just try to call it.</span><span class="WHIT">
+<span class='line'>287</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">$type</span><span class="PUNC">(</span><span class="NAME">this.action</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">T_FUNCTION</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>288</span>       </span><span class="NAME">this.action.call</span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">this.target</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>289</span> 
+<span class='line'>290</span>     </span><span class="COMM">// otherwise, action should be a string.  If it has a period, treat it</span><span class="WHIT">
+<span class='line'>291</span>     </span><span class="COMM">// like a property path.</span><span class="WHIT">
+<span class='line'>292</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.action.indexOf</span><span class="PUNC">(</span><span class="STRN">'.'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>293</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">path</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.action.split</span><span class="PUNC">(</span><span class="STRN">'.'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>294</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">property</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">path.pop</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>295</span> 
+<span class='line'>296</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">target</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.Object.objectForPropertyPath</span><span class="PUNC">(</span><span class="NAME">path</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">window</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>297</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">action</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">target.get</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">target.get</span><span class="PUNC">(</span><span class="NAME">property</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">target</span><span class="PUNC">[</span><span class="NAME">property</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>298</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">action</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">$type</span><span class="PUNC">(</span><span class="NAME">action</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">T_FUNCTION</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>299</span>         </span><span class="NAME">action.call</span><span class="PUNC">(</span><span class="NAME">target</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>300</span>       </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>301</span>         </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="STRN">'%@: Timer could not find a function at %@'</span><span class="PUNC">.</span><span class="NAME">fmt</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.action</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>302</span>       </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>303</span> 
+<span class='line'>304</span>     </span><span class="COMM">// otherwise, try to execute action direction on target or send down</span><span class="WHIT">
+<span class='line'>305</span>     </span><span class="COMM">// responder chain.</span><span class="WHIT">
+<span class='line'>306</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="NAME">SC.app.sendAction</span><span class="PUNC">(</span><span class="NAME">this.action</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.target</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>307</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>308</span>   
+<span class='line'>309</span>   </span><span class="COMM">/**
+<span class='line'>310</span>     Schedules the timer to execute in the runloop. 
+<span class='line'>311</span>     
+<span class='line'>312</span>     This method is called automatically if you create the timer using the
+<span class='line'>313</span>     schedule() class method.  If you create the timer manually, you will
+<span class='line'>314</span>     need to call this method yourself for the timer to execute.
+<span class='line'>315</span>     
+<span class='line'>316</span>     @returns {SC.Timer} The receiver
+<span class='line'>317</span>   */</span><span class="WHIT">
+<span class='line'>318</span>   </span><span class="NAME">schedule</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>319</span> 
+<span class='line'>320</span>     </span><span class="NAME">this.beginPropertyChanges</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>321</span>     
+<span class='line'>322</span>     </span><span class="COMM">// if start time was not set explicitly when the timer was created, </span><span class="WHIT">
+<span class='line'>323</span>     </span><span class="COMM">// get it from the run loop.  This way timer scheduling will always</span><span class="WHIT">
+<span class='line'>324</span>     </span><span class="COMM">// occur in sync.</span><span class="WHIT">
+<span class='line'>325</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.startTime</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this.set</span><span class="PUNC">(</span><span class="STRN">'startTime'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">SC.runLoop.get</span><span class="PUNC">(</span><span class="STRN">'startTime'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>326</span>     
+<span class='line'>327</span>     </span><span class="COMM">// If this is the first time the timer was scheduled, compute the fireTime</span><span class="WHIT">
+<span class='line'>328</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">fireTime</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.fireTime</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'fireTime'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this._computeNextFireTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// sets the fire time...</span><span class="WHIT">
+<span class='line'>329</span>     
+<span class='line'>330</span>     </span><span class="COMM">// now schedule the timer if needed.</span><span class="WHIT">
+<span class='line'>331</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this._invalid</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>332</span>       </span><span class="NAME">this.set</span><span class="PUNC">(</span><span class="STRN">'isScheduled'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>333</span>       </span><span class="NAME">SC.runLoop.scheduleTimer</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">fireTime</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>334</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>335</span>     
+<span class='line'>336</span>     </span><span class="NAME">this.endPropertyChanges</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>337</span>     
+<span class='line'>338</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>339</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>340</span>   
+<span class='line'>341</span>   </span><span class="NAME">init</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>342</span>     </span><span class="NAME">arguments.callee.base.call</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>343</span>     
+<span class='line'>344</span>     </span><span class="COMM">// convert startTime and until to times if they are dates.</span><span class="WHIT">
+<span class='line'>345</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.startTime</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>346</span>       </span><span class="NAME">this.startTime</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.startTime.getTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>347</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>348</span>     
+<span class='line'>349</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.until</span><span class="WHIT"> </span><span class="KEYW">instanceof</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>350</span>       </span><span class="NAME">this.until</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.until.getTime</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>351</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>352</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>353</span>   
+<span class='line'>354</span>   </span><span class="COMM">// if the paused state changes, notify the runloop so that it can </span><span class="WHIT">
+<span class='line'>355</span>   </span><span class="COMM">// reschedule its timeout.</span><span class="WHIT">
+<span class='line'>356</span>   </span><span class="NAME">_isPausedObserver</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>357</span>     </span><span class="NAME">SC.runLoop.timerPausedStateDidChange</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>358</span>   </span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">observes</span><span class="PUNC">(</span><span class="STRN">'isPaused'</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>359</span> 
+<span class='line'>360</span>   </span><span class="COMM">/** @private
+<span class='line'>361</span>     Computes the next fireTime and updates the property.
+<span class='line'>362</span>     
+<span class='line'>363</span>     @returns the next fire time (also set on fireTime property)
+<span class='line'>364</span>   */</span><span class="WHIT">
+<span class='line'>365</span>   </span><span class="NAME">_computeNextFireTime</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>366</span>     
+<span class='line'>367</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">fireTime</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>368</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this._invalid</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'isValid'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>369</span> 
+<span class='line'>370</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">now</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Date.now</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>371</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">start</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'startTime'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">now</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>372</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">until</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'until'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>373</span>       
+<span class='line'>374</span>       </span><span class="COMM">// only calculate if we have not passed unitl.</span><span class="WHIT">
+<span class='line'>375</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">until</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">until</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">now</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">until</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>376</span> 
+<span class='line'>377</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">interval</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'interval'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>378</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">repeats</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'repeats'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>379</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">cycle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Math.ceil</span><span class="PUNC">(</span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">now</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">start</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="REGX">/ interval)+0.01) ;
+<span class='line'>380</span>         if (cycle &lt; 1) cycle = 1 ;
+<span class='line'>381</span>         
+<span class='line'>382</span>         fireTime = ((cycle &lt;= 1) || repeats) ? start + (cycle * interval) : 0;
+<span class='line'>383</span>       }
+<span class='line'>384</span>     }
+<span class='line'>385</span>     
+<span class='line'>386</span>     this.setIfChanged('fireTime', fireTime) ;
+<span class='line'>387</span>     return fireTime ;
+<span class='line'>388</span>   }
+<span class='line'>389</span>   
+<span class='line'>390</span> }) ;
+<span class='line'>391</span> 
+<span class='line'>392</span> /</span><span class="PUNC">*</span><span class="PUNC">*</span><span class="WHIT">
+<span class='line'>393</span>   </span><span class="TOKN">@</span><span class="NAME">scope</span><span class="WHIT"> </span><span class="NAME">SC.Timer</span><span class="WHIT">
+<span class='line'>394</span>   
+<span class='line'>395</span>   </span><span class="NAME">Created</span><span class="WHIT"> </span><span class="NAME">a</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">timer</span><span class="WHIT"> </span><span class="KEYW">with</span><span class="WHIT"> </span><span class="NAME">the</span><span class="WHIT"> </span><span class="NAME">passed</span><span class="WHIT"> </span><span class="NAME">properties</span><span class="WHIT"> </span><span class="NAME">and</span><span class="WHIT"> </span><span class="NAME">schedules</span><span class="WHIT"> </span><span class="NAME">it</span><span class="WHIT"> </span><span class="NAME">to</span><span class="WHIT"> 
+<span class='line'>396</span>   </span><span class="NAME">execute.</span><span class="WHIT">  </span><span class="NAME">This</span><span class="WHIT"> </span><span class="NAME">is</span><span class="WHIT"> </span><span class="NAME">the</span><span class="WHIT"> </span><span class="NAME">same</span><span class="WHIT"> </span><span class="NAME">as</span><span class="WHIT"> </span><span class="NAME">calling</span><span class="WHIT"> </span><span class="NAME">SC.Time.create</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">props</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">schedule</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="WHIT">
+<span class='line'>397</span>   
+<span class='line'>398</span>   </span><span class="TOKN">@</span><span class="NAME">params</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">Hash</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="NAME">props</span><span class="WHIT"> </span><span class="NAME">Any</span><span class="WHIT"> </span><span class="NAME">properties</span><span class="WHIT"> </span><span class="NAME">you</span><span class="WHIT"> </span><span class="NAME">want</span><span class="WHIT"> </span><span class="NAME">to</span><span class="WHIT"> </span><span class="NAME">set</span><span class="WHIT"> </span><span class="NAME">on</span><span class="WHIT"> </span><span class="NAME">the</span><span class="WHIT"> </span><span class="NAME">timer.</span><span class="WHIT">
+<span class='line'>399</span>   </span><span class="TOKN">@</span><span class="NAME">returns</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">SC.Timer</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">timer</span><span class="WHIT"> </span><span class="NAME">instance.</span><span class="WHIT">
+<span class='line'>400</span> </span><span class="PUNC">*</span><span class="TOKN"></span></pre></body></html>

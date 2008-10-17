@@ -1,0 +1,1560 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="JsDoc Toolkit" />
+  
+  <title>JsDoc: SC.Enumerable</title>
+</head>
+
+<style type="text/css">
+  /* @override http://localhost:4020/static/sproutcore/-docs/data/default.css */
+
+/* @group Core */
+
+body.sc-doc {
+  background-color: white  ;
+  padding: 20px;
+}
+
+.sc-doc {
+  font: 64.5% Helvetica, Arial, Verdana, sans-serif;
+  line-height: 1em ;
+}
+
+/* Set standard size on some things. */
+.sc-doc p, 
+.sc-doc dd, 
+.sc-doc dt, 
+.sc-doc li, 
+.sc-doc table {
+  line-height: 1.3em;
+  font-size: 1.3em ;
+}
+
+.sc-doc h1 {
+  font-size: 3em;
+  margin: 0 0 1em 0;
+  text-transform: capitalize;
+}
+
+.sc-doc h2 {
+  padding: 0;
+  padding-bottom: 4px;
+  border-bottom: 1px #555 solid;
+  text-transform: capitalize;
+  margin: 1.5em 0 0;
+  font-size: 2.2em;
+}
+
+.sc-doc h3 {
+  font-size: 2em;
+  padding: 0;
+  margin: 3em 0 0 0;  
+}
+
+.sc-doc h4 {
+  font-weight: normal ;
+  font-size: 1.4em;
+  margin: 0.5em 0 0 0;
+  padding: 0;
+}
+
+.sc-doc h5 {
+  font-size: 1.3em;
+  padding: 0;
+  margin: 1.3em 0 0.5em 0;
+}
+
+.sc-doc p { margin: 0.5em 0; }
+ 
+.sc-doc a {
+  text-decoration: none ;
+}
+
+.sc-doc label {
+  font-weight: bold ;
+}
+
+.sc-doc .sc-theme .ghost {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+  opacity: 0.45;
+  -moz-opacity: .45 ;
+}
+
+.sc-doc dt {
+  font-style: italic;
+}
+
+.sc-doc dd {
+ margin: 0 0 1em 1em;
+}
+
+/* @end */
+
+/* @group Summary Table */
+
+.sc-doc table.summary {
+  min-width: 600px;
+  border: 1px #999 solid;
+  border-bottom: none ;
+  border-spacing: 0;
+  margin-bottom: 2em;
+}
+
+.sc-doc table.summary td {
+  border-bottom: 1px #999 solid;
+  border-collapse: collapse;
+  padding: 0.5em;
+  text-align: left ;
+}
+
+.sc-doc table.summary .even td {
+  background-color: #eef;
+}
+
+.sc-doc table.summary td.label {
+  font-weight: bold ;
+  width: 100px;
+  text-align: right ;
+  padding-right: 4px;
+}
+
+.sc-doc table.summary td.value {
+  min-width: 300px;
+  width: 300px;
+}
+
+/* @end */
+
+/* @group Field & Method Summary */
+
+.sc-doc .summary li {
+  list-style-type: none ;
+  position: relative;
+}
+
+.sc-doc .summary li code {
+  font-size: 1.1em;
+}
+
+.sc-doc .summary li .description {
+  display: none ;
+}
+
+.sc-doc .summary li:hover .description {
+  display: block ;
+  font-size: 0.86em;
+  position: absolute ;
+  left: 80px;
+  bottom: 2em;
+  padding: 0.3em 1em ;
+  background-color: #fff898;
+  border: 1px solid #bbae2f;
+  /* -webkit-box-shadow: rgba(0,0,0,0.3) 0px 2px 5px; */
+  color: #4b4000;
+  z-index: 100;
+}
+
+/* @end */
+
+/* @group Detail */
+
+.sc-doc .detail p.signature {
+  padding: 0;
+  margin: 1em 0;
+  font-family: Courier, mono;
+}
+
+.sc-doc .detail p.signature .type {
+  font-style: italic;
+}
+
+.sc-doc .detail p.signature .name {
+  font-weight: bold ;
+}
+
+/* @end */
+
+.sc-doc .jsdoc_ctime {
+  border-top: 1px #ccc solid ;
+  padding: 4px 0;
+  margin-top: 20px;
+  margin-bottom: 0px;
+  font-size: 1.0em;
+  text-align: center ;
+  color: #888 ;
+}
+
+/* @group Description */
+
+.sc-doc .description blockquote,
+.sc-doc .description p.code {
+  padding:  10px ;
+  margin: 10px 20px;
+  background-color: #f5f5f5 ;
+  border: 1px #ccc solid ;
+}
+
+/* @end */
+
+</style>
+
+<body class="sc-theme sc-doc">
+  <h1>
+    
+    Namespace SC.Enumerable
+  </h1>
+
+  <table class="summary">
+  
+
+  
+
+  
+
+  
+    <tr class="even">
+      <td class="label">Defined in:</td>
+      <td class="value"><a href="../symbols/src/_Library_Ruby_Gems_1.8_gems_sproutcore-0.9.19_frameworks_sproutcore_mixins_enumerable.js.html">frameworks/sproutcore/mixins/enumerable.js</a></td>
+    </tr>
+  
+
+  
+    <tr class="odd">
+      <td class="label">Availability:</td>
+      <td class="value">
+        since SproutCore 1.0
+      </td>
+    </tr>
+  
+
+  
+  </table>
+
+  
+    <div class="description">
+      <p>This mixin defines the common interface implemented by enumerable objects in SproutCore.  Most of these methods follow the standard Array iteration API defined up to JavaScript 1.8 (excluding language-specific features that cannot be emulated in older versions of JavaScript).</p>
+
+<p>This mixin is applied automatically to the Array class on page load, so you can use any of these methods on simple arrays.  If Array already implements one of these methods, the mixin will not override them.</p>
+
+<h3> Writing Your Own Enumerable</h3>
+
+<p>To make your own custom class enumerable, you need two items:</p>
+
+<p>1. You must have a length property.  This property should change whenever the number of items in your enumerable object changes.  If you using this with an SC.Object subclass, you should be sure to change the length property using set().</p>
+
+<p>2. If you must implement nextObject().  See documentation.</p>
+
+<p>Once you have these two methods implement, apply the SC.Enumerable mixin to your class and you will be able to enumerate the contents of your object like any other collection.</p>
+
+<h3> Using SproutCore Enumeration with Other Libraries</h3>
+
+<p>Many other libraries provide some kind of iterator or enumeration like facility.  This is often where the most common API conflicts occur. SproutCore's API is designed to be as friendly as possible with other libraries by implementing only methods that mostly correspond to the JavaScript 1.8 API.</p>
+
+    </div>
+  
+
+  <!-- ============================== properties summary ===================== -->
+  
+
+  
+
+<!-- ============================== methods summary ======================== -->
+  
+    <h2>Method Summary</h2>
+    
+    
+      <div class="method-summary summary">
+        <ul>
+          
+            <li>
+              <a href="#SC.Enumerable.enumerator">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;SC.Enumerator
+                    
+                  
+                  enumerator()
+                </code>
+              </a>
+              
+                <div class="description">Returns a new enumerator for this object.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Enumerable.every">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Boolean
+                    
+                  
+                  every(callback, target)
+                </code>
+              </a>
+              
+                <div class="description">Returns YES if the passed function returns YES for every item in the
+    enumeration.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Enumerable.everyProperty">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Array
+                    
+                  
+                  everyProperty(value, value)
+                </code>
+              </a>
+              
+                <div class="description">Returns YES if the passed property resolves to true for all items in the
+    enumerable.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Enumerable.filter">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Array
+                    
+                  
+                  filter(callback, target)
+                </code>
+              </a>
+              
+                <div class="description">Returns an array with all of the items in the enumeration that the passed
+    function returns YES for.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Enumerable.filterProperty">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Array
+                    
+                  
+                  filterProperty(value, value)
+                </code>
+              </a>
+              
+                <div class="description">Returns an array with just the items with the matched property.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Enumerable.forEach">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Object
+                    
+                  
+                  forEach(callback, target)
+                </code>
+              </a>
+              
+                <div class="description">Iterates through the enumerable, calling the passed function on each
+    item.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Enumerable.invoke">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Array
+                    
+                  
+                  invoke(methodName, args)
+                </code>
+              </a>
+              
+                <div class="description">Invokes the named method on every object in the receiver that
+    implements it.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Enumerable.invokeWhile">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Array
+                    
+                  
+                  invokeWhile(targetValue, methodName, args)
+                </code>
+              </a>
+              
+                <div class="description">Invokes the passed method and optional arguments on the receiver elements
+    as long as the methods return value matches the target value.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Enumerable.map">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Array
+                    
+                  
+                  map(callback, target)
+                </code>
+              </a>
+              
+                <div class="description">Maps all of the items in the enumeration to another value, returning 
+    a new array.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Enumerable.mapProperty">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Array
+                    
+                  
+                  mapProperty(key)
+                </code>
+              </a>
+              
+                <div class="description">Similar to map, this specialized function returns the value of the named
+    property on all items in the enumeration.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Enumerable.nextObject">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Object
+                    
+                  
+                  nextObject(index, previousObject, context)
+                </code>
+              </a>
+              
+                <div class="description">Implement this method to make your class enumerable.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Enumerable.reduce">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Array
+                    
+                  
+                  reduce(callback, initialValue, reducerProperty)
+                </code>
+              </a>
+              
+                <div class="description">This will combine the values of the enumerator into a single value.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Enumerable.some">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Array
+                    
+                  
+                  some(callback, target)
+                </code>
+              </a>
+              
+                <div class="description">Returns YES if the passed function returns true for any item in the 
+    enumeration.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Enumerable.someProperty">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Boolean
+                    
+                  
+                  someProperty(value, value)
+                </code>
+              </a>
+              
+                <div class="description">Returns YES if the passed property resolves to true for any item in the
+    enumerable.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Enumerable.toArray">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Array
+                    
+                  
+                  toArray()
+                </code>
+              </a>
+              
+                <div class="description">Simply converts the enumerable into a genuine array.</div>
+              
+            </li>
+          
+        </ul>
+      </div>
+    
+    
+    
+  
+
+<!-- ============================== field details ========================== -->    
+  
+
+<!-- ============================== method details ========================= -->    
+  
+    <div class="method-detail detail">
+      <a name="method_detail"><h2>Method Details</h2></a> 
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Enumerable.enumerator"></a> 
+          <h3>enumerator()</h3>
+          <p class="summary">Returns a new enumerator for this object.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  SC.Enumerator&nbsp;
+                
+              
+            </span>
+            <span class="name">enumerator</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">SC.Enumerator</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>See SC.Enumerator for documentation on how to use this object.  Enumeration is an alternative to using one of the other iterators described here.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Enumerable.every"></a> 
+          <h3>every()</h3>
+          <p class="summary">Returns YES if the passed function returns YES for every item in the
+    enumeration.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Boolean&nbsp;
+                
+              
+            </span>
+            <span class="name">every</span>
+            <span class="params">(callback, target)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Boolean</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>This corresponds with the every() method in JavaScript 1.6.</p>
+
+<p>The callback method you provide should have the following signature (all parameters are optional):</p>
+
+
+<p class="code"><code>function(item, index, enumerable) ;</code></p>
+
+<ul>	<li><strong>item</strong> is the current item in the iteration.</li>
+	<li><strong>index</strong> is the current index in the iteration</li>
+	<li><strong>enumerable</strong> is the enumerable object itself.</li>
+</ul>
+
+<p>It should return the YES or NO.</p>
+
+<p>Note that in addition to a callback, you can also pass an optional target object that will be set as "this" on the context.  This is a good way to give your iterator function access to the current object.</p>
+
+<h4> Example Usage</h4>
+
+
+<p class="code"><code>if (people.every(isEngineer)) { Paychecks.addBigBonus(); }</code></p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Enumerable.everyProperty"></a> 
+          <h3>everyProperty()</h3>
+          <p class="summary">Returns YES if the passed property resolves to true for all items in the
+    enumerable.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Array&nbsp;
+                
+              
+            </span>
+            <span class="name">everyProperty</span>
+            <span class="params">(value, value)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">value </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Array</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>This method is often simpler/faster than using a callback.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Enumerable.filter"></a> 
+          <h3>filter()</h3>
+          <p class="summary">Returns an array with all of the items in the enumeration that the passed
+    function returns YES for.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Array&nbsp;
+                
+              
+            </span>
+            <span class="name">filter</span>
+            <span class="params">(callback, target)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Array</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>This method corresponds to filter() defined in JavaScript 1.6.</p>
+
+<p>The callback method you provide should have the following signature (all parameters are optional):</p>
+
+
+<p class="code"><code>function(item, index, enumerable) ;</code></p>
+
+<ul>	<li><strong>item</strong> is the current item in the iteration.</li>
+	<li><strong>index</strong> is the current index in the iteration</li>
+	<li><strong>enumerable</strong> is the enumerable object itself.</li>
+</ul>
+
+<p>It should return the YES to include the item in the results, NO otherwise.</p>
+
+<p>Note that in addition to a callback, you can also pass an optional target object that will be set as "this" on the context.  This is a good way to give your iterator function access to the current object.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Enumerable.filterProperty"></a> 
+          <h3>filterProperty()</h3>
+          <p class="summary">Returns an array with just the items with the matched property.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Array&nbsp;
+                
+              
+            </span>
+            <span class="name">filterProperty</span>
+            <span class="params">(value, value)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">value </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Array</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>You can pass an optional second argument with the target value.  Otherwise this will match any property that evaluates to true.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Enumerable.forEach"></a> 
+          <h3>forEach()</h3>
+          <p class="summary">Iterates through the enumerable, calling the passed function on each
+    item.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Object&nbsp;
+                
+              
+            </span>
+            <span class="name">forEach</span>
+            <span class="params">(callback, target)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Object</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>This method corresponds to the forEach() method defined in JavaScript 1.6.</p>
+
+<p>The callback method you provide should have the following signature (all parameters are optional):</p>
+
+
+<p class="code"><code>function(item, index, enumerable) ;</code></p>
+
+<ul>	<li><strong>item</strong> is the current item in the iteration.</li>
+	<li><strong>index</strong> is the current index in the iteration</li>
+	<li><strong>enumerable</strong> is the enumerable object itself.</li>
+</ul>
+
+<p>Note that in addition to a callback, you can also pass an optional target object that will be set as "this" on the context.  This is a good way to give your iterator function access to the current object.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Enumerable.invoke"></a> 
+          <h3>invoke()</h3>
+          <p class="summary">Invokes the named method on every object in the receiver that
+    implements it.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Array&nbsp;
+                
+              
+            </span>
+            <span class="name">invoke</span>
+            <span class="params">(methodName, args)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">methodName </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+            
+              <dt><span class="name">args </span></dt>
+              
+              <dd><p>..} optional arguments to pass as well.</p></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Array</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>This method corresponds to the implementation in Prototype 1.6.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Enumerable.invokeWhile"></a> 
+          <h3>invokeWhile()</h3>
+          <p class="summary">Invokes the passed method and optional arguments on the receiver elements
+    as long as the methods return value matches the target value.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Array&nbsp;
+                
+              
+            </span>
+            <span class="name">invokeWhile</span>
+            <span class="params">(targetValue, methodName, args)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">targetValue </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+            
+              <dt><span class="name">methodName </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+            
+              <dt><span class="name">args </span></dt>
+              
+              <dd><p>..} optional arguments to pass as well.</p></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Array</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>This is a useful way to attempt to apply changes to a collection of objects unless or until one fails.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Enumerable.map"></a> 
+          <h3>map()</h3>
+          <p class="summary">Maps all of the items in the enumeration to another value, returning 
+    a new array.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Array&nbsp;
+                
+              
+            </span>
+            <span class="name">map</span>
+            <span class="params">(callback, target)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Array</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>This method corresponds to map() defined in JavaScript 1.6.</p>
+
+<p>The callback method you provide should have the following signature (all parameters are optional):</p>
+
+
+<p class="code"><code>function(item, index, enumerable) ;</code></p>
+
+<ul>	<li><strong>item</strong> is the current item in the iteration.</li>
+	<li><strong>index</strong> is the current index in the iteration</li>
+	<li><strong>enumerable</strong> is the enumerable object itself.</li>
+</ul>
+
+<p>It should return the mapped value.</p>
+
+<p>Note that in addition to a callback, you can also pass an optional target object that will be set as "this" on the context.  This is a good way to give your iterator function access to the current object.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Enumerable.mapProperty"></a> 
+          <h3>mapProperty()</h3>
+          <p class="summary">Similar to map, this specialized function returns the value of the named
+    property on all items in the enumeration.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Array&nbsp;
+                
+              
+            </span>
+            <span class="name">mapProperty</span>
+            <span class="params">(key)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Array</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Enumerable.nextObject"></a> 
+          <h3>nextObject()</h3>
+          <p class="summary">Implement this method to make your class enumerable.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Object&nbsp;
+                
+              
+            </span>
+            <span class="name">nextObject</span>
+            <span class="params">(index, previousObject, context)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">index </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+            
+              <dt><span class="name">previousObject </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+            
+              <dt><span class="name">context </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Object</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>This method will be call repeatedly during enumeration.  The index value will always begin with 0 and increment monotonically.  You don't have to rely on the index value to determine what object to return, but you should always check the value and start from the beginning when you see the requested index is 0.</p>
+
+<p>The previousObject is the object that was returned from the last call to nextObject for the current iteration.  This is a useful way to manage iteration if you are tracing a linked list, for example.</p>
+
+<p>Finally the context paramter will always contain a hash you can use as a "scratchpad" to maintain any other state you need in order to iterate properly.  The context object is reused and is not reset between iterations so make sure you setup the context with a fresh state whenever the index parameter is 0.</p>
+
+<p>Generally iterators will continue to call nextObject until the index reaches the your current length-1.  If you run out of data before this time for some reason, you should simply return undefined.</p>
+
+<p>The default impementation of this method simply looks up the index. This works great on any Array-like objects.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Enumerable.reduce"></a> 
+          <h3>reduce()</h3>
+          <p class="summary">This will combine the values of the enumerator into a single value.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Array&nbsp;
+                
+              
+            </span>
+            <span class="name">reduce</span>
+            <span class="params">(callback, initialValue, reducerProperty)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Array</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>It is a useful way to collect a summary value from an enumeration.  This corresponds to the reduce() method defined in JavaScript 1.8.</p>
+
+<p>The callback method you provide should have the following signature (all parameters are optional):</p>
+
+
+<p class="code"><code>function(previousValue, item, index, enumerable) ;</code></p>
+
+<ul>	<li><strong>previousValue</strong> is the value returned by the last call to the iterator.</li>
+	<li><strong>item</strong> is the current item in the iteration.</li>
+	<li><strong>index</strong> is the current index in the iteration</li>
+	<li><strong>enumerable</strong> is the enumerable object itself.</li>
+</ul>
+
+<p>Return the new cumulative value.</p>
+
+<p>In addition to the callback you can also pass an initialValue.  An error will be raised if you do not pass an initial value and the enumerator is empty.</p>
+
+<p>Note that unlike the other methods, this method does not allow you to pass a target object to set as this for the callback.  It's part of the spec. Sorry.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Enumerable.some"></a> 
+          <h3>some()</h3>
+          <p class="summary">Returns YES if the passed function returns true for any item in the 
+    enumeration.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Array&nbsp;
+                
+              
+            </span>
+            <span class="name">some</span>
+            <span class="params">(callback, target)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Array</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>This corresponds with the every() method in JavaScript 1.6.</p>
+
+<p>The callback method you provide should have the following signature (all parameters are optional):</p>
+
+
+<p class="code"><code>function(item, index, enumerable) ;</code></p>
+
+<ul>	<li><strong>item</strong> is the current item in the iteration.</li>
+	<li><strong>index</strong> is the current index in the iteration</li>
+	<li><strong>enumerable</strong> is the enumerable object itself.</li>
+</ul>
+
+<p>It should return the YES to include the item in the results, NO otherwise.</p>
+
+<p>Note that in addition to a callback, you can also pass an optional target object that will be set as "this" on the context.  This is a good way to give your iterator function access to the current object.</p>
+
+<h4> Usage Example</h4>
+
+
+<p class="code"><code>if (people.some(isManager)) { Paychecks.addBiggerBonus(); }</code></p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Enumerable.someProperty"></a> 
+          <h3>someProperty()</h3>
+          <p class="summary">Returns YES if the passed property resolves to true for any item in the
+    enumerable.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Boolean&nbsp;
+                
+              
+            </span>
+            <span class="name">someProperty</span>
+            <span class="params">(value, value)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">value </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Boolean</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>This method is often simpler/faster than using a callback.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Enumerable.toArray"></a> 
+          <h3>toArray()</h3>
+          <p class="summary">Simply converts the enumerable into a genuine array.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Array&nbsp;
+                
+              
+            </span>
+            <span class="name">toArray</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Array</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>The order, of course, is not gauranteed.  Corresponds to the method implemented by Prototype.</p>
+
+<p>You can also call Array.from().</p>
+          </div>
+
+          
+        </div>
+      
+    </div>
+  
+  
+<!-- ============================== footer ================================= -->
+  <div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoctoolkit.org/" target="_parent">JsDoc Toolkit</a> 2.0.1 on Thu Oct 02 2008 13:39:04 GMT-0600 (MDT)</div>
+</body>
+</html>

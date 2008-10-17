@@ -1,0 +1,138 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+  .KEYW {color: #933;}
+  .COMM {color: #bbb; font-style: italic;}
+  .NUMB {color: #393;}
+  .STRN {color: #393;}
+  .REGX {color: #339;}
+  .line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+  </style></head><body><pre><span class='line'>  1</span> <span class="COMM">// ==========================================================================</span><span class="WHIT">
+<span class='line'>  2</span> </span><span class="COMM">// SC.ListItemView</span><span class="WHIT">
+<span class='line'>  3</span> </span><span class="COMM">// ==========================================================================</span><span class="WHIT">
+<span class='line'>  4</span> 
+<span class='line'>  5</span> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'views/view'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  6</span> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'mixins/delegate_support'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  7</span> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'mixins/control'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  8</span> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'views/button/disclosure'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  9</span> 
+<span class='line'> 10</span> </span><span class="COMM">/** @class
+<span class='line'> 11</span> 
+<span class='line'> 12</span>   Displays a group view in a source list.  Handles displaying a disclosure
+<span class='line'> 13</span>   triangle which can be used to show/hide children.
+<span class='line'> 14</span> 
+<span class='line'> 15</span>   @extends SC.View
+<span class='line'> 16</span>   @extends SC.DelegateSupport
+<span class='line'> 17</span>   @author   Charles Jolley 
+<span class='line'> 18</span>   @version 0.1
+<span class='line'> 19</span> */</span><span class="WHIT">
+<span class='line'> 20</span> 
+<span class='line'> 21</span> </span><span class="NAME">SC.SourceListGroupView</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.View.extend</span><span class="PUNC">(</span><span class="NAME">SC.Control</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">SC.DelegateSupport</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 22</span>   
+<span class='line'> 23</span>   </span><span class="NAME">emptyElement</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">'&lt;div class="sc-source-list-group">'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 24</span>     </span><span class="STRN">'&lt;a href="javascript:;" class="sc-source-list-label sc-disclosure-view sc-button-view button disclosure no-disclosure">'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 25</span>     </span><span class="STRN">'&lt;img src="%@" class="button" />'</span><span class="PUNC">.</span><span class="NAME">fmt</span><span class="PUNC">(</span><span class="NAME">static_url</span><span class="PUNC">(</span><span class="STRN">'blank'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 26</span>     </span><span class="STRN">'&lt;span class="label">&lt;/span>&lt;/a>'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 27</span>   </span><span class="STRN">'&lt;/div>'</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">join</span><span class="PUNC">(</span><span class="STRN">''</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 28</span>   
+<span class='line'> 29</span>   </span><span class="COMM">/**
+<span class='line'> 30</span>     The group value to display for this group.
+<span class='line'> 31</span>   */</span><span class="WHIT">
+<span class='line'> 32</span>   </span><span class="NAME">content</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 33</span>   
+<span class='line'> 34</span>   </span><span class="COMM">/**
+<span class='line'> 35</span>     The current group visibility.  Used by the source list to determine 
+<span class='line'> 36</span>     the layout size of the group.
+<span class='line'> 37</span>   */</span><span class="WHIT">
+<span class='line'> 38</span>   </span><span class="NAME">isGroupVisible</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 39</span>   
+<span class='line'> 40</span>   </span><span class="COMM">/** 
+<span class='line'> 41</span>     YES if group is showing its titlebar.
+<span class='line'> 42</span>     
+<span class='line'> 43</span>     Group views will typically hide their header if the content is set to 
+<span class='line'> 44</span>     null.  You can also override this method to always hide the header if 
+<span class='line'> 45</span>     you want and the SourceListView will not leave room for it.
+<span class='line'> 46</span>   */</span><span class="WHIT">
+<span class='line'> 47</span>   </span><span class="NAME">hasGroupTitle</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 48</span>   
+<span class='line'> 49</span>   </span><span class="NAME">groupTitleKey</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 50</span>   
+<span class='line'> 51</span>   </span><span class="NAME">groupVisibleKey</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 52</span>   
+<span class='line'> 53</span>   </span><span class="NAME">contentPropertyDidChange</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">target</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 54</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'content'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 55</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">labelView</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.outlet</span><span class="PUNC">(</span><span class="STRN">'labelView'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 56</span>     
+<span class='line'> 57</span>     </span><span class="COMM">// hide labelView if content is null.</span><span class="WHIT">
+<span class='line'> 58</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">content</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 59</span>       </span><span class="NAME">labelView.setIfChanged</span><span class="PUNC">(</span><span class="STRN">'isVisible'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 60</span>       </span><span class="NAME">this.setIfChanged</span><span class="PUNC">(</span><span class="STRN">'hasGroupTitle'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 61</span>       </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 62</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 63</span>       </span><span class="NAME">labelView.setIfChanged</span><span class="PUNC">(</span><span class="STRN">'isVisible'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span>       </span><span class="NAME">this.setIfChanged</span><span class="PUNC">(</span><span class="STRN">'hasGroupTitle'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 65</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 66</span>     
+<span class='line'> 67</span>    </span><span class="COMM">// set the title if that changed.</span><span class="WHIT">
+<span class='line'> 68</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">groupTitleKey</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getDelegateProperty</span><span class="PUNC">(</span><span class="NAME">this.displayDelegate</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'groupTitleKey'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 69</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">key</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">'*'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">groupTitleKey</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">key</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">groupTitleKey</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 70</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">title</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">content</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">content.get</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">groupTitleKey</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">content.get</span><span class="PUNC">(</span><span class="NAME">groupTitleKey</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">content</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 71</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">title</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="NAME">this._title</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 72</span>         </span><span class="NAME">this._title</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">title</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 73</span>         </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">title</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">title</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">title.capitalize</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 74</span>         </span><span class="NAME">labelView.set</span><span class="PUNC">(</span><span class="STRN">'title'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">title</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 75</span>       </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 76</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 77</span>     
+<span class='line'> 78</span>     </span><span class="COMM">// set the group visibility if changed</span><span class="WHIT">
+<span class='line'> 79</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">groupVisibleKey</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getDelegateProperty</span><span class="PUNC">(</span><span class="NAME">this.displayDelegate</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'groupVisibleKey'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 80</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">key</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">'*'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">groupVisibleKey</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">key</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">groupVisibleKey</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 81</span> 
+<span class='line'> 82</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">groupVisibleKey</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 83</span>         
+<span class='line'> 84</span>         </span><span class="NAME">labelView.removeClassName</span><span class="PUNC">(</span><span class="STRN">'no-disclosure'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 85</span> 
+<span class='line'> 86</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">isVisible</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">content</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">content.get</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="PUNC">!</span><span class="NAME">content.get</span><span class="PUNC">(</span><span class="NAME">groupVisibleKey</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 87</span>         </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">isVisible</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'isGroupVisible'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 88</span>           </span><span class="NAME">this.set</span><span class="PUNC">(</span><span class="STRN">'isGroupVisible'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">isVisible</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 89</span>           </span><span class="NAME">labelView.set</span><span class="PUNC">(</span><span class="STRN">'value'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">isVisible</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 90</span>         </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 91</span>         
+<span class='line'> 92</span>       </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="NAME">labelView.addClassName</span><span class="PUNC">(</span><span class="STRN">'no-disclosure'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 93</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 94</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 95</span>   
+<span class='line'> 96</span>   </span><span class="COMM">// called when the user clicks on the disclosure triangle</span><span class="WHIT">
+<span class='line'> 97</span>   </span><span class="NAME">disclosureValueDidChange</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">newValue</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 98</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">newValue</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'isGroupVisible'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// nothing to do</span><span class="WHIT">
+<span class='line'> 99</span>     
+<span class='line'>100</span>     </span><span class="COMM">// update group if necessary</span><span class="WHIT">
+<span class='line'>101</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">group</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'content'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>102</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">groupVisibleKey</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getDelegateProperty</span><span class="PUNC">(</span><span class="NAME">this.displayDelegate</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'groupVisibleKey'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>103</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">group</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">group.set</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">groupVisibleKey</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>104</span>       </span><span class="NAME">group.set</span><span class="PUNC">(</span><span class="NAME">groupVisibleKey</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">newValue</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>105</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>106</span>     
+<span class='line'>107</span>     </span><span class="COMM">// update my own value and then update my collection view.</span><span class="WHIT">
+<span class='line'>108</span>     </span><span class="NAME">this.set</span><span class="PUNC">(</span><span class="STRN">'isGroupVisible'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">newValue</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>109</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.owner</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.owner.updateChildren</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this.owner.updateChildren</span><span class="PUNC">(</span><span class="KEYW">true</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>110</span>     
+<span class='line'>111</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>112</span>   
+<span class='line'>113</span>   </span><span class="COMM">/** @private */</span><span class="WHIT">
+<span class='line'>114</span>   </span><span class="NAME">labelView</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">SC.DisclosureView.extend</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>115</span>     
+<span class='line'>116</span>     </span><span class="COMM">/** 
+<span class='line'>117</span>       Always default to open disclosures.
+<span class='line'>118</span>     */</span><span class="WHIT">
+<span class='line'>119</span>     </span><span class="NAME">value</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>120</span>     
+<span class='line'>121</span>     </span><span class="COMM">// if the disclosure value changes, call the owner's method.  Note</span><span class="WHIT">
+<span class='line'>122</span>     </span><span class="COMM">// normally you would do this with a binding, but since this is a semi-</span><span class="WHIT">
+<span class='line'>123</span>     </span><span class="COMM">// private class anyway, there is no reason to go to all that trouble.</span><span class="WHIT">
+<span class='line'>124</span>     </span><span class="NAME">_valueObserver</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>125</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.owner</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this.owner.disclosureValueDidChange</span><span class="PUNC">(</span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'value'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>126</span>     </span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">observes</span><span class="PUNC">(</span><span class="STRN">'value'</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>127</span>     
+<span class='line'>128</span>   </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">outletFor</span><span class="PUNC">(</span><span class="STRN">'.sc-source-list-label:1:1'</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>129</span>   
+<span class='line'>130</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>131</span> </span></pre></body></html>

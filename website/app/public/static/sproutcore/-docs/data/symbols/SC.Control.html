@@ -1,0 +1,825 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="JsDoc Toolkit" />
+  
+  <title>JsDoc: SC.Control</title>
+</head>
+
+<style type="text/css">
+  /* @override http://localhost:4020/static/sproutcore/-docs/data/default.css */
+
+/* @group Core */
+
+body.sc-doc {
+  background-color: white  ;
+  padding: 20px;
+}
+
+.sc-doc {
+  font: 64.5% Helvetica, Arial, Verdana, sans-serif;
+  line-height: 1em ;
+}
+
+/* Set standard size on some things. */
+.sc-doc p, 
+.sc-doc dd, 
+.sc-doc dt, 
+.sc-doc li, 
+.sc-doc table {
+  line-height: 1.3em;
+  font-size: 1.3em ;
+}
+
+.sc-doc h1 {
+  font-size: 3em;
+  margin: 0 0 1em 0;
+  text-transform: capitalize;
+}
+
+.sc-doc h2 {
+  padding: 0;
+  padding-bottom: 4px;
+  border-bottom: 1px #555 solid;
+  text-transform: capitalize;
+  margin: 1.5em 0 0;
+  font-size: 2.2em;
+}
+
+.sc-doc h3 {
+  font-size: 2em;
+  padding: 0;
+  margin: 3em 0 0 0;  
+}
+
+.sc-doc h4 {
+  font-weight: normal ;
+  font-size: 1.4em;
+  margin: 0.5em 0 0 0;
+  padding: 0;
+}
+
+.sc-doc h5 {
+  font-size: 1.3em;
+  padding: 0;
+  margin: 1.3em 0 0.5em 0;
+}
+
+.sc-doc p { margin: 0.5em 0; }
+ 
+.sc-doc a {
+  text-decoration: none ;
+}
+
+.sc-doc label {
+  font-weight: bold ;
+}
+
+.sc-doc .sc-theme .ghost {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+  opacity: 0.45;
+  -moz-opacity: .45 ;
+}
+
+.sc-doc dt {
+  font-style: italic;
+}
+
+.sc-doc dd {
+ margin: 0 0 1em 1em;
+}
+
+/* @end */
+
+/* @group Summary Table */
+
+.sc-doc table.summary {
+  min-width: 600px;
+  border: 1px #999 solid;
+  border-bottom: none ;
+  border-spacing: 0;
+  margin-bottom: 2em;
+}
+
+.sc-doc table.summary td {
+  border-bottom: 1px #999 solid;
+  border-collapse: collapse;
+  padding: 0.5em;
+  text-align: left ;
+}
+
+.sc-doc table.summary .even td {
+  background-color: #eef;
+}
+
+.sc-doc table.summary td.label {
+  font-weight: bold ;
+  width: 100px;
+  text-align: right ;
+  padding-right: 4px;
+}
+
+.sc-doc table.summary td.value {
+  min-width: 300px;
+  width: 300px;
+}
+
+/* @end */
+
+/* @group Field & Method Summary */
+
+.sc-doc .summary li {
+  list-style-type: none ;
+  position: relative;
+}
+
+.sc-doc .summary li code {
+  font-size: 1.1em;
+}
+
+.sc-doc .summary li .description {
+  display: none ;
+}
+
+.sc-doc .summary li:hover .description {
+  display: block ;
+  font-size: 0.86em;
+  position: absolute ;
+  left: 80px;
+  bottom: 2em;
+  padding: 0.3em 1em ;
+  background-color: #fff898;
+  border: 1px solid #bbae2f;
+  /* -webkit-box-shadow: rgba(0,0,0,0.3) 0px 2px 5px; */
+  color: #4b4000;
+  z-index: 100;
+}
+
+/* @end */
+
+/* @group Detail */
+
+.sc-doc .detail p.signature {
+  padding: 0;
+  margin: 1em 0;
+  font-family: Courier, mono;
+}
+
+.sc-doc .detail p.signature .type {
+  font-style: italic;
+}
+
+.sc-doc .detail p.signature .name {
+  font-weight: bold ;
+}
+
+/* @end */
+
+.sc-doc .jsdoc_ctime {
+  border-top: 1px #ccc solid ;
+  padding: 4px 0;
+  margin-top: 20px;
+  margin-bottom: 0px;
+  font-size: 1.0em;
+  text-align: center ;
+  color: #888 ;
+}
+
+/* @group Description */
+
+.sc-doc .description blockquote,
+.sc-doc .description p.code {
+  padding:  10px ;
+  margin: 10px 20px;
+  background-color: #f5f5f5 ;
+  border: 1px #ccc solid ;
+}
+
+/* @end */
+
+</style>
+
+<body class="sc-theme sc-doc">
+  <h1>
+    
+    Namespace SC.Control
+  </h1>
+
+  <table class="summary">
+  
+
+  
+
+  
+
+  
+    <tr class="even">
+      <td class="label">Defined in:</td>
+      <td class="value"><a href="../symbols/src/_Library_Ruby_Gems_1.8_gems_sproutcore-0.9.19_frameworks_sproutcore_mixins_control.js.html">frameworks/sproutcore/mixins/control.js</a></td>
+    </tr>
+  
+
+  
+
+  
+  </table>
+
+  
+    <div class="description">
+      <p>A Control is a view that also implements some basic state functionality. Apply this mixin to any view that you want to have standard control functionality including showing a selected state, enabled state, focus state, etc.</p>
+
+<h2> About Values and Content</h2>
+
+<p>Controls typically are used to represent a single value, such as a number, boolean or string.  The value a control is managing is typically stored in a "value" property.  You will typically use the value property when working with controls such as buttons and text fields in a form.</p>
+
+<p>An alternative way of working with a control is to use it to manage some specific aspect of a content object.  For example, you might use a label view control to display the "name" property of a Contact record.  This approach is often necessary when using the control as part of a collection view.</p>
+
+<p>You can use the content-approach to work with a control by setting the "content" and "contentValueKey" properties of the control.  The "content" property is the content object you want to manage, while the "contentValueKey" is the name of the property on the content object you want the control to display.</p>
+
+<p>The default implementation of the Control mixin will essentially map the contentValueKey of a content object to the value property of the control.  Thus if you are writing a custom control yourself, you can simply work with the value property and the content object support will come for free.  Just write an observer for the value property and update your view accordingly.</p>
+
+<p>If you are working with a control that needs to display multiple aspects of a single content object (for example showing an icon and label), then you can override the contentValueDidChange() method instead of observing the value property.  This method will be called anytime <em>any</em> property on the content object changes.  You should use this method to check the properties you care about on the content object and update your view if anything you care about has changed.</p>
+
+<h2> Delegate Support</h2>
+
+<p>Controls can optionally get the contentDisplayProperty from a displayDelegate, if it is set.  The displayDelegate is often used to delegate common display-related configurations such as which content value to show.  Anytime your control is shown as part of a collection view, the collection view will be automatically set as its displayDelegate.</p>
+
+    </div>
+  
+
+  <!-- ============================== properties summary ===================== -->
+  
+    
+    
+    
+    
+      <div class="field-summary summary">
+        <h2>Property Summary</h2>
+        <ul>
+        
+          
+            <li>
+              <a href="../symbols/SC.Control.html#.content"><code>+&nbsp;(Object) content</code></a>
+              
+                <div class="description">The content object represented by this control.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.Control.html#.contentValueKey"><code>+&nbsp;(Object) contentValueKey</code></a>
+              
+                <div class="description">The property on the content object that would want to represent the 
+    value of this control.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.Control.html#.isEnabled"><code>+&nbsp;(Object) isEnabled</code></a>
+              
+                <div class="description">Set to true when the item is enabled.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.Control.html#.isSelected"><code>+&nbsp;(Object) isSelected</code></a>
+              
+                <div class="description">Set to true when the item is selected.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.Control.html#.value"><code>+&nbsp;(Object) value</code></a>
+              
+                <div class="description">The value represented by this control.</div>
+              
+            </li>
+          
+        
+        </ul>
+      </div>
+    
+  
+
+  
+
+<!-- ============================== methods summary ======================== -->
+  
+    <h2>Method Summary</h2>
+    
+    
+      <div class="method-summary summary">
+        <ul>
+          
+            <li>
+              <a href="#SC.Control.contentPropertyDidChange">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  contentPropertyDidChange(target, key)
+                </code>
+              </a>
+              
+                <div class="description">Invoked whenever any property on the content object changes.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Control.isEnabledObserver">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  isEnabledObserver()
+                </code>
+              </a>
+              
+                <div class="description">Default observer for the isEnabled state.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Control.isFocusedObserver">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  isFocusedObserver()
+                </code>
+              </a>
+              
+                <div class="description">Default observer for the isFirstResponder state.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Control.isSelectedObserver">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  isSelectedObserver()
+                </code>
+              </a>
+              
+                <div class="description">Default observer for selected state changes
+    
+    The default will simply add either a "mixed" or "sel" class name to the
+    root element of your view based on the state.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Control.updateContentWithValueObserver">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  updateContentWithValueObserver()
+                </code>
+              </a>
+              
+                <div class="description">Relays changes to the value back to the content object if you are using
+    a content object.</div>
+              
+            </li>
+          
+        </ul>
+      </div>
+    
+    
+    
+  
+
+<!-- ============================== field details ========================== -->    
+  
+    <div class="field-detail detail">
+      <a name="field_detail"><h2>Property Details</h2></a> 
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name=".content"></a> 
+            <h3>content</h3>
+            <p class="summary">The content object represented by this control.</p>
+
+            
+
+            <p class="signature">
+              +
+              
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">content</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+
+<p>Often you need to use a control to display some single aspect of an object, especially if you are using the control as an item view in a collection view.</p>
+
+<p>In those cases, you can set the content and contentValueKey for the control.  This will cause the control to observe the content object for changes to the value property and then set the value of that property on the "value" property of this object.</p>
+
+<p>Note that unless you are using this control as part of a form or collection view, then it would be better to instead bind the value of the control directly to a controller property.</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name=".contentValueKey"></a> 
+            <h3>contentValueKey</h3>
+            <p class="summary">The property on the content object that would want to represent the 
+    value of this control.</p>
+
+            
+
+            <p class="signature">
+              +
+              
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">contentValueKey</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                <p>This property should only be set before the content object is first set.  If you have a displayDelegate, then you can also use the contentValueKey of the displayDelegate.</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name=".isEnabled"></a> 
+            <h3>isEnabled</h3>
+            <p class="summary">Set to true when the item is enabled.</p>
+
+            
+
+            <p class="signature">
+              +
+              
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">isEnabled</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+
+<p>This property is observable and bindable.</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name=".isSelected"></a> 
+            <h3>isSelected</h3>
+            <p class="summary">Set to true when the item is selected.</p>
+
+            
+
+            <p class="signature">
+              +
+              
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">isSelected</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+
+<p>This property is observable and bindable.</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name=".value"></a> 
+            <h3>value</h3>
+            <p class="summary">The value represented by this control.</p>
+
+            
+
+            <p class="signature">
+              +
+              
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">value</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+
+<p>Most controls represent a value of some type, such as a number, string or image URL.  This property should hold that value.  It is bindable and observable.  Changing this value will immediately change the appearance of the control.  Likewise, editing the control will immediately change this value.</p>
+
+<p>If instead of setting a single value on a control, you would like to set a content object and have the control display a single property of that control, then you should use the content property instead.</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+    </div>
+  
+
+<!-- ============================== method details ========================= -->    
+  
+    <div class="method-detail detail">
+      <a name="method_detail"><h2>Method Details</h2></a> 
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Control.contentPropertyDidChange"></a> 
+          <h3>contentPropertyDidChange()</h3>
+          <p class="summary">Invoked whenever any property on the content object changes.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">contentPropertyDidChange</span>
+            <span class="params">(target, key)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="type">Object</span>&nbsp;<span class="name">target </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+            
+              <dt><span class="type">String</span>&nbsp;<span class="name">key </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>The default implementation will update the value property of the view if the contentValueKey property has changed.  You can override this method to implement whatever additional changes you would like.</p>
+
+<p>The key will typically contain the name of the property that changed or '*' if the content object itself has changed.  You should generally do a total reset of '*' is changed.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Control.isEnabledObserver"></a> 
+          <h3>isEnabledObserver()</h3>
+          <p class="summary">Default observer for the isEnabled state.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">isEnabledObserver</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>The default will simply add or remove a "disabled" class name to the root element of your view based on the state.  You can override this with your own behavior if you prefer.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Control.isFocusedObserver"></a> 
+          <h3>isFocusedObserver()</h3>
+          <p class="summary">Default observer for the isFirstResponder state.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">isFocusedObserver</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>The default will add or remove a "focus" class name ot the root element of your view based on the state.  You can override this with your own behavior if you prefer.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Control.isSelectedObserver"></a> 
+          <h3>isSelectedObserver()</h3>
+          <p class="summary">Default observer for selected state changes
+    
+    The default will simply add either a "mixed" or "sel" class name to the
+    root element of your view based on the state.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">isSelectedObserver</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>You can override this with your own behavior if you prefer.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Control.updateContentWithValueObserver"></a> 
+          <h3>updateContentWithValueObserver()</h3>
+          <p class="summary">Relays changes to the value back to the content object if you are using
+    a content object.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">updateContentWithValueObserver</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>This observer is triggered whenever the value changes.  It will only do something if it finds you are using the content property and contentValueKey and the new value does not match the old value of the content object.</p>
+
+<p>If you are using contentValueKey in some other way than typically implemented by this mixin, then you may want to override this method as well.</p>
+          </div>
+
+          
+        </div>
+      
+    </div>
+  
+  
+<!-- ============================== footer ================================= -->
+  <div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoctoolkit.org/" target="_parent">JsDoc Toolkit</a> 2.0.1 on Mon Oct 13 2008 23:25:31 GMT-0600 (MDT)</div>
+</body>
+</html>

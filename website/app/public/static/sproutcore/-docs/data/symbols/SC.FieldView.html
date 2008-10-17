@@ -1,0 +1,945 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="JsDoc Toolkit" />
+  
+  <title>JsDoc: SC.FieldView</title>
+</head>
+
+<style type="text/css">
+  /* @override http://localhost:4020/static/sproutcore/-docs/data/default.css */
+
+/* @group Core */
+
+body.sc-doc {
+  background-color: white  ;
+  padding: 20px;
+}
+
+.sc-doc {
+  font: 64.5% Helvetica, Arial, Verdana, sans-serif;
+  line-height: 1em ;
+}
+
+/* Set standard size on some things. */
+.sc-doc p, 
+.sc-doc dd, 
+.sc-doc dt, 
+.sc-doc li, 
+.sc-doc table {
+  line-height: 1.3em;
+  font-size: 1.3em ;
+}
+
+.sc-doc h1 {
+  font-size: 3em;
+  margin: 0 0 1em 0;
+  text-transform: capitalize;
+}
+
+.sc-doc h2 {
+  padding: 0;
+  padding-bottom: 4px;
+  border-bottom: 1px #555 solid;
+  text-transform: capitalize;
+  margin: 1.5em 0 0;
+  font-size: 2.2em;
+}
+
+.sc-doc h3 {
+  font-size: 2em;
+  padding: 0;
+  margin: 3em 0 0 0;  
+}
+
+.sc-doc h4 {
+  font-weight: normal ;
+  font-size: 1.4em;
+  margin: 0.5em 0 0 0;
+  padding: 0;
+}
+
+.sc-doc h5 {
+  font-size: 1.3em;
+  padding: 0;
+  margin: 1.3em 0 0.5em 0;
+}
+
+.sc-doc p { margin: 0.5em 0; }
+ 
+.sc-doc a {
+  text-decoration: none ;
+}
+
+.sc-doc label {
+  font-weight: bold ;
+}
+
+.sc-doc .sc-theme .ghost {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+  opacity: 0.45;
+  -moz-opacity: .45 ;
+}
+
+.sc-doc dt {
+  font-style: italic;
+}
+
+.sc-doc dd {
+ margin: 0 0 1em 1em;
+}
+
+/* @end */
+
+/* @group Summary Table */
+
+.sc-doc table.summary {
+  min-width: 600px;
+  border: 1px #999 solid;
+  border-bottom: none ;
+  border-spacing: 0;
+  margin-bottom: 2em;
+}
+
+.sc-doc table.summary td {
+  border-bottom: 1px #999 solid;
+  border-collapse: collapse;
+  padding: 0.5em;
+  text-align: left ;
+}
+
+.sc-doc table.summary .even td {
+  background-color: #eef;
+}
+
+.sc-doc table.summary td.label {
+  font-weight: bold ;
+  width: 100px;
+  text-align: right ;
+  padding-right: 4px;
+}
+
+.sc-doc table.summary td.value {
+  min-width: 300px;
+  width: 300px;
+}
+
+/* @end */
+
+/* @group Field & Method Summary */
+
+.sc-doc .summary li {
+  list-style-type: none ;
+  position: relative;
+}
+
+.sc-doc .summary li code {
+  font-size: 1.1em;
+}
+
+.sc-doc .summary li .description {
+  display: none ;
+}
+
+.sc-doc .summary li:hover .description {
+  display: block ;
+  font-size: 0.86em;
+  position: absolute ;
+  left: 80px;
+  bottom: 2em;
+  padding: 0.3em 1em ;
+  background-color: #fff898;
+  border: 1px solid #bbae2f;
+  /* -webkit-box-shadow: rgba(0,0,0,0.3) 0px 2px 5px; */
+  color: #4b4000;
+  z-index: 100;
+}
+
+/* @end */
+
+/* @group Detail */
+
+.sc-doc .detail p.signature {
+  padding: 0;
+  margin: 1em 0;
+  font-family: Courier, mono;
+}
+
+.sc-doc .detail p.signature .type {
+  font-style: italic;
+}
+
+.sc-doc .detail p.signature .name {
+  font-weight: bold ;
+}
+
+/* @end */
+
+.sc-doc .jsdoc_ctime {
+  border-top: 1px #ccc solid ;
+  padding: 4px 0;
+  margin-top: 20px;
+  margin-bottom: 0px;
+  font-size: 1.0em;
+  text-align: center ;
+  color: #888 ;
+}
+
+/* @group Description */
+
+.sc-doc .description blockquote,
+.sc-doc .description p.code {
+  padding:  10px ;
+  margin: 10px 20px;
+  background-color: #f5f5f5 ;
+  border: 1px #ccc solid ;
+}
+
+/* @end */
+
+</style>
+
+<body class="sc-theme sc-doc">
+  <h1>
+    
+    Class SC.FieldView
+  </h1>
+
+  <table class="summary">
+  
+
+  
+
+  
+    <tr class="even">
+      <td class="label">Extends:</td>
+      <td class="value">
+        <a href="../symbols/SC.Control.html#constructor">SC.Control</a>, <a href="../symbols/SC.Validatable.html#constructor">SC.Validatable</a>, <a href="../symbols/SC.View.html#constructor">SC.View</a>
+      </td>
+    </tr>
+  
+
+  
+    <tr class="odd">
+      <td class="label">Defined in:</td>
+      <td class="value"><a href="../symbols/src/_Library_Ruby_Gems_1.8_gems_sproutcore-0.9.19_frameworks_sproutcore_views_field_field.js.html">frameworks/sproutcore/views/field/field.js</a></td>
+    </tr>
+  
+
+  
+
+  
+    <tr class="even">
+      <td class="label">Version:</td>
+      <td class="value">1.0</td>
+    </tr>
+  
+  </table>
+
+  
+    <div class="description">
+      <p>Generic base class for working with views that depend on the "input" HTML tag such as text fields.</p>
+
+<p>You can work with subclasses of SC.FieldView or extend this class with your own values as well.  Unlike most other HTML elements, web browsers have built-in support for editing the value of an input field.  This class handles blending the browser input methods with the editing and events handling provided by the framework.</p>
+    </div>
+  
+
+  <!-- ============================== properties summary ===================== -->
+  
+    
+    
+    
+    
+      <div class="field-summary summary">
+        <h2>Property Summary</h2>
+        <ul>
+        
+          
+            <li>
+              <a href="../symbols/SC.FieldView.html#errorLabel"><code>-&nbsp;(Object) errorLabel</code></a>
+              
+                <div class="description">The human readable label for this field for use in error strings.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.FieldView.html#fieldKey"><code>-&nbsp;(Object) fieldKey</code></a>
+              
+                <div class="description">name of key this field should display as part of a form.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.FieldView.html#fieldLabel"><code>-&nbsp;(Object) fieldLabel</code></a>
+              
+                <div class="description">The human readable label you want shown for errors.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.FieldView.html#fieldValue"><code>-&nbsp;(Object) fieldValue</code></a>
+              
+                <div class="description">The raw value of the field, ignoring validation.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.FieldView.html#value"><code>-&nbsp;(Object) value</code></a>
+              
+                <div class="description">The value of the field.</div>
+              
+            </li>
+          
+        
+        </ul>
+      </div>
+    
+  
+
+  
+    <dl class="inheritsList">
+    <dt>Properties borrowed from class <a href="../symbols/SC.View.html#constructor">SC.View</a>: </dt><dd><a href="../symbols/SC.View.html#childNodes">childNodes</a>, <a href="../symbols/SC.View.html#classNames">classNames</a>, <a href="../symbols/SC.View.html#clippingFrame">clippingFrame</a>, <a href="../symbols/SC.View.html#containerElement">containerElement</a>, <a href="../symbols/SC.View.html#displayIsVisible">displayIsVisible</a>, <a href="../symbols/SC.View.html#emptyElement">emptyElement</a>, <a href="../symbols/SC.View.html#firstChild">firstChild</a>, <a href="../symbols/SC.View.html#frame">frame</a>, <a href="../symbols/SC.View.html#innerHTML">innerHTML</a>, <a href="../symbols/SC.View.html#innerText">innerText</a>, <a href="../symbols/SC.View.html#isAnimationEnabled">isAnimationEnabled</a>, <a href="../symbols/SC.View.html#isModal">isModal</a>, <a href="../symbols/SC.View.html#isPanel">isPanel</a>, <a href="../symbols/SC.View.html#isScrollable">isScrollable</a>, <a href="../symbols/SC.View.html#isVisible">isVisible</a>, <a href="../symbols/SC.View.html#isVisibleInWindow">isVisibleInWindow</a>, <a href="../symbols/SC.View.html#lastChild">lastChild</a>, <a href="../symbols/SC.View.html#localize">localize</a>, <a href="../symbols/SC.View.html#nextSibling">nextSibling</a>, <a href="../symbols/SC.View.html#offsetParent">offsetParent</a>, <a href="../symbols/SC.View.html#origin">origin</a>, <a href="../symbols/SC.View.html#pane">pane</a>, <a href="../symbols/SC.View.html#parentNode">parentNode</a>, <a href="../symbols/SC.View.html#previousSibling">previousSibling</a>, <a href="../symbols/SC.View.html#rootElement">rootElement</a>, <a href="../symbols/SC.View.html#scrollFrame">scrollFrame</a>, <a href="../symbols/SC.View.html#size">size</a>, <a href="../symbols/SC.View.html#toolTip">toolTip</a></dd><dt>Properties borrowed from class <a href="../symbols/SC.Responder.html#constructor">SC.Responder</a>: </dt><dd><a href="../symbols/SC.Responder.html#acceptsFirstResponder">acceptsFirstResponder</a>, <a href="../symbols/SC.Responder.html#isFirstResponder">isFirstResponder</a>, <a href="../symbols/SC.Responder.html#nextResponder">nextResponder</a></dd><dt>Properties borrowed from class <a href="../symbols/SC.Object.html#constructor">SC.Object</a>: </dt><dd><a href="../symbols/SC.Object.html#.isClass">isClass</a>, <a href="../symbols/SC.Object.html#isObject">isObject</a>, <a href="../symbols/SC.Object.html#outlets">outlets</a></dd><dt>Properties borrowed from class <a href="../symbols/SC.Control.html#constructor">SC.Control</a>: </dt><dd><a href="../symbols/SC.Control.html#.content">content</a>, <a href="../symbols/SC.Control.html#.contentValueKey">contentValueKey</a>, <a href="../symbols/SC.Control.html#.isEnabled">isEnabled</a>, <a href="../symbols/SC.Control.html#.isSelected">isSelected</a></dd><dt>Properties borrowed from class <a href="../symbols/SC.Validatable.html#constructor">SC.Validatable</a>: </dt><dd><a href="../symbols/SC.Validatable.html#.isValid">isValid</a>, <a href="../symbols/SC.Validatable.html#.ownerForm">ownerForm</a>, <a href="../symbols/SC.Validatable.html#.validator">validator</a></dd>
+    </dl>
+  
+
+<!-- ============================== methods summary ======================== -->
+  
+    <h2>Method Summary</h2>
+    
+    
+      <div class="method-summary summary">
+        <ul>
+          
+            <li>
+              <a href="#SC.FieldView#disableField">
+                <code class="type">
+                  
+                  -
+                  &nbsp;
+                  
+                  disableField()
+                </code>
+              </a>
+              
+                <div class="description">Override to disable editing of the field
+    
+    The default just sets the disabled property on the root element.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.FieldView#enableField">
+                <code class="type">
+                  
+                  -
+                  &nbsp;
+                  
+                  enableField()
+                </code>
+              </a>
+              
+                <div class="description">Override to enable editing of this field.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.FieldView#fieldValueDidChange">
+                <code class="type">
+                  
+                  -
+                  &nbsp;
+                  
+                    
+                      &nbsp;
+                    
+                  
+                  fieldValueDidChange(partialChange)
+                </code>
+              </a>
+              
+                <div class="description">Call by your subclass anytime you want the view to pick up the current 
+    value from the form and post it out.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.FieldView#getFieldValue">
+                <code class="type">
+                  
+                  -
+                  &nbsp;
+                  
+                  getFieldValue()
+                </code>
+              </a>
+              
+                <div class="description">Override to retrieve the actual value of the field.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.FieldView#isEnabledObserver">
+                <code class="type">
+                  
+                  -
+                  &nbsp;
+                  
+                  isEnabledObserver()
+                </code>
+              </a>
+              
+                <div class="description">Overrides enabled observer to also call enableField()/disableField() 
+    methods.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.FieldView#setFieldValue">
+                <code class="type">
+                  
+                  -
+                  &nbsp;
+                  
+                  setFieldValue(newValue)
+                </code>
+              </a>
+              
+                <div class="description">Override to set the actual value of the field.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.FieldView#validateSubmit">
+                <code class="type">
+                  
+                  -
+                  &nbsp;
+                  
+                  validateSubmit()
+                </code>
+              </a>
+              
+                <div class="description">Called to perform validation on the field just before the form 
+    is submitted.</div>
+              
+            </li>
+          
+        </ul>
+      </div>
+    
+    
+    
+      <dl class="inheritsList">
+      <dt>Methods borrowed from class <a href="../symbols/SC.View.html#constructor">SC.View</a>: </dt><dd><a href="../symbols/SC.View.html#addClassName">addClassName</a>, <a href="../symbols/SC.View.html#appendChild">appendChild</a>, <a href="../symbols/SC.View.html#clear">clear</a>, <a href="../symbols/SC.View.html#clippingFrameDidChange">clippingFrameDidChange</a>, <a href="../symbols/SC.View.html#convertFrameFromView">convertFrameFromView</a>, <a href="../symbols/SC.View.html#convertFrameToView">convertFrameToView</a>, <a href="../symbols/SC.View.html#destroy">destroy</a>, <a href="../symbols/SC.View.html#didAddChild">didAddChild</a>, <a href="../symbols/SC.View.html#didAddToParent">didAddToParent</a>, <a href="../symbols/SC.View.html#didRemoveChild">didRemoveChild</a>, <a href="../symbols/SC.View.html#didRemoveFromParent">didRemoveFromParent</a>, <a href="../symbols/SC.View.html#getAttribute">getAttribute</a>, <a href="../symbols/SC.View.html#getStyle">getStyle</a>, <a href="../symbols/SC.View.html#hasAttribute">hasAttribute</a>, <a href="../symbols/SC.View.html#hasClassName">hasClassName</a>, <a href="../symbols/SC.View.html#hasManualLayout">hasManualLayout</a>, <a href="../symbols/SC.View.html#innerFrame">innerFrame</a>, <a href="../symbols/SC.View.html#insertBefore">insertBefore</a>, <a href="../symbols/SC.View.html#needsClippingFrame">needsClippingFrame</a>, <a href="../symbols/SC.View.html#needsFrameChanges">needsFrameChanges</a>, <a href="../symbols/SC.View.html#recacheFrames">recacheFrames</a>, <a href="../symbols/SC.View.html#removeChild">removeChild</a>, <a href="../symbols/SC.View.html#removeClassName">removeClassName</a>, <a href="../symbols/SC.View.html#removeFromParent">removeFromParent</a>, <a href="../symbols/SC.View.html#replaceChild">replaceChild</a>, <a href="../symbols/SC.View.html#resizeChildrenWithOldSize">resizeChildrenWithOldSize</a>, <a href="../symbols/SC.View.html#resizeWithOldParentSize">resizeWithOldParentSize</a>, <a href="../symbols/SC.View.html#setAttribute">setAttribute</a>, <a href="../symbols/SC.View.html#setClassName">setClassName</a>, <a href="../symbols/SC.View.html#setStyle">setStyle</a>, <a href="../symbols/SC.View.html#toggleClassName">toggleClassName</a>, <a href="../symbols/SC.View.html#transitionTo">transitionTo</a>, <a href="../symbols/SC.View.html#unknownProperty">unknownProperty</a>, <a href="../symbols/SC.View.html#update">update</a>, <a href="../symbols/SC.View.html#viewFrameDidChange">viewFrameDidChange</a>, <a href="../symbols/SC.View.html#viewFrameWillChange">viewFrameWillChange</a>, <a href="../symbols/SC.View.html#willAddChild">willAddChild</a>, <a href="../symbols/SC.View.html#willAddToParent">willAddToParent</a>, <a href="../symbols/SC.View.html#willRemoveChild">willRemoveChild</a>, <a href="../symbols/SC.View.html#willRemoveFromParent">willRemoveFromParent</a></dd><dt>Methods borrowed from class <a href="../symbols/SC.Responder.html#constructor">SC.Responder</a>: </dt><dd><a href="../symbols/SC.Responder.html#becomeFirstResponder">becomeFirstResponder</a>, <a href="../symbols/SC.Responder.html#didBecomeFirstResponder">didBecomeFirstResponder</a>, <a href="../symbols/SC.Responder.html#doCommand">doCommand</a>, <a href="../symbols/SC.Responder.html#flagsChanged">flagsChanged</a>, <a href="../symbols/SC.Responder.html#inputManager">inputManager</a>, <a href="../symbols/SC.Responder.html#keyDown">keyDown</a>, <a href="../symbols/SC.Responder.html#keyUp">keyUp</a>, <a href="../symbols/SC.Responder.html#performKeyEquivalent">performKeyEquivalent</a>, <a href="../symbols/SC.Responder.html#resignFirstResponder">resignFirstResponder</a>, <a href="../symbols/SC.Responder.html#willLoseFirstResponder">willLoseFirstResponder</a></dd><dt>Methods borrowed from class <a href="../symbols/SC.Object.html#constructor">SC.Object</a>: </dt><dd><a href="../symbols/SC.Object.html#$super">$super</a>, <a href="../symbols/SC.Object.html#awake">awake</a>, <a href="../symbols/SC.Object.html#.create">create</a>, <a href="../symbols/SC.Object.html#.createArray">createArray</a>, <a href="../symbols/SC.Object.html#.extend">extend</a>, <a href="../symbols/SC.Object.html#init">init</a>, <a href="../symbols/SC.Object.html#instanceOf">instanceOf</a>, <a href="../symbols/SC.Object.html#invokeLater">invokeLater</a>, <a href="../symbols/SC.Object.html#keys">keys</a>, <a href="../symbols/SC.Object.html#kindOf">kindOf</a>, <a href="../symbols/SC.Object.html#mixin">mixin</a>, <a href="../symbols/SC.Object.html#.objectClassName">objectClassName</a>, <a href="../symbols/SC.Object.html#.outlet">outlet</a>, <a href="../symbols/SC.Object.html#respondsTo">respondsTo</a>, <a href="../symbols/SC.Object.html#tryToPerform">tryToPerform</a></dd><dt>Methods borrowed from class <a href="../symbols/SC.Observable.html#constructor">SC.Observable</a>: </dt><dd><a href="../symbols/SC.Observable.html#.addObserver">addObserver</a>, <a href="../symbols/SC.Observable.html#.allPropertiesDidChange">allPropertiesDidChange</a>, <a href="../symbols/SC.Observable.html#.automaticallyNotifiesObserversFor">automaticallyNotifiesObserversFor</a>, <a href="../symbols/SC.Observable.html#.beginPropertyChanges">beginPropertyChanges</a>, <a href="../symbols/SC.Observable.html#.bind">bind</a>, <a href="../symbols/SC.Observable.html#.decrementProperty">decrementProperty</a>, <a href="../symbols/SC.Observable.html#.didChangeFor">didChangeFor</a>, <a href="../symbols/SC.Observable.html#.endPropertyChanges">endPropertyChanges</a>, <a href="../symbols/SC.Observable.html#.get">get</a>, <a href="../symbols/SC.Observable.html#.getEach">getEach</a>, <a href="../symbols/SC.Observable.html#.getPath">getPath</a>, <a href="../symbols/SC.Observable.html#.incrementProperty">incrementProperty</a>, <a href="../symbols/SC.Observable.html#.logProperty">logProperty</a>, <a href="../symbols/SC.Observable.html#.notifyPropertyChange">notifyPropertyChange</a>, <a href="../symbols/SC.Observable.html#.observeOnce">observeOnce</a>, <a href="../symbols/SC.Observable.html#.propertyDidChange">propertyDidChange</a>, <a href="../symbols/SC.Observable.html#.propertyObserver">propertyObserver</a>, <a href="../symbols/SC.Observable.html#.propertyWillChange">propertyWillChange</a>, <a href="../symbols/SC.Observable.html#.registerDependentKey">registerDependentKey</a>, <a href="../symbols/SC.Observable.html#.set">set</a>, <a href="../symbols/SC.Observable.html#.setIfChanged">setIfChanged</a>, <a href="../symbols/SC.Observable.html#.setPath">setPath</a>, <a href="../symbols/SC.Observable.html#.toggleProperty">toggleProperty</a></dd><dt>Methods borrowed from class <a href="../symbols/SC.DelegateSupport.html#constructor">SC.DelegateSupport</a>: </dt><dd><a href="../symbols/SC.DelegateSupport.html#.getDelegateProperty">getDelegateProperty</a>, <a href="../symbols/SC.DelegateSupport.html#.invokeDelegateMethod">invokeDelegateMethod</a></dd><dt>Methods borrowed from class <a href="../symbols/SC.Control.html#constructor">SC.Control</a>: </dt><dd><a href="../symbols/SC.Control.html#.contentPropertyDidChange">contentPropertyDidChange</a>, <a href="../symbols/SC.Control.html#.isFocusedObserver">isFocusedObserver</a>, <a href="../symbols/SC.Control.html#.isSelectedObserver">isSelectedObserver</a>, <a href="../symbols/SC.Control.html#.updateContentWithValueObserver">updateContentWithValueObserver</a></dd><dt>Methods borrowed from class <a href="../symbols/SC.Validatable.html#constructor">SC.Validatable</a>: </dt><dd><a href="../symbols/SC.Validatable.html#.fieldValueForObject">fieldValueForObject</a>, <a href="../symbols/SC.Validatable.html#.isValidObserver">isValidObserver</a>, <a href="../symbols/SC.Validatable.html#.objectForFieldValue">objectForFieldValue</a>, <a href="../symbols/SC.Validatable.html#.performValidate">performValidate</a>, <a href="../symbols/SC.Validatable.html#.performValidateSubmit">performValidateSubmit</a></dd>
+      </dl>
+    
+  
+
+<!-- ============================== field details ========================== -->    
+  
+    <div class="field-detail detail">
+      <a name="field_detail"><h2>Property Details</h2></a> 
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name="errorLabel"></a> 
+            <h3>errorLabel</h3>
+            <p class="summary">The human readable label for this field for use in error strings.</p>
+
+            
+
+            <p class="signature">
+              
+              -
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">errorLabel</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+
+<p>This is either the fieldLabel or a humanized form of the fieldKey.</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name="fieldKey"></a> 
+            <h3>fieldKey</h3>
+            <p class="summary">name of key this field should display as part of a form.</p>
+
+            
+
+            <p class="signature">
+              
+              -
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">fieldKey</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+
+<p>If you add a field as part of an SC.FormView, then the form view will automatically bind the field to the property key you name here on the content object.</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name="fieldLabel"></a> 
+            <h3>fieldLabel</h3>
+            <p class="summary">The human readable label you want shown for errors.</p>
+
+            
+
+            <p class="signature">
+              
+              -
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">fieldLabel</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                <p>May be a loc string.</p>
+
+<p>If your field fails validation, then this is the name that will be shown in the error explanation.</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name="fieldValue"></a> 
+            <h3>fieldValue</h3>
+            <p class="summary">The raw value of the field, ignoring validation.</p>
+
+            
+
+            <p class="signature">
+              
+              -
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">fieldValue</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+
+<p>You generally should not override this.  Instead override setFieldValue() and getFieldValue().</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name="value"></a> 
+            <h3>value</h3>
+            <p class="summary">The value of the field.</p>
+
+            
+
+            <p class="signature">
+              
+              -
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">value</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+
+<p>The form view will pick up whatever value is published here.  Generally you do not need to observe this property directly.  Instead you should override setFieldValue(), getFieldValue() and the error property.</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+    </div>
+  
+
+<!-- ============================== method details ========================= -->    
+  
+    <div class="method-detail detail">
+      <a name="method_detail"><h2>Method Details</h2></a> 
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.FieldView#disableField"></a> 
+          <h3>disableField()</h3>
+          <p class="summary">Override to disable editing of the field
+    
+    The default just sets the disabled property on the root element.</p>
+
+          
+
+          <p class="signature">
+            
+            -
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">disableField</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.FieldView#enableField"></a> 
+          <h3>enableField()</h3>
+          <p class="summary">Override to enable editing of this field.</p>
+
+          
+
+          <p class="signature">
+            
+            -
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">enableField</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>The default just sets the disabled property on the root element.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.FieldView#fieldValueDidChange"></a> 
+          <h3>fieldValueDidChange()</h3>
+          <p class="summary">Call by your subclass anytime you want the view to pick up the current 
+    value from the form and post it out.</p>
+
+          
+
+          <p class="signature">
+            
+            -
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  &nbsp;
+                
+              
+            </span>
+            <span class="name">fieldValueDidChange</span>
+            <span class="params">(partialChange)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">partialChange </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.FieldView#getFieldValue"></a> 
+          <h3>getFieldValue()</h3>
+          <p class="summary">Override to retrieve the actual value of the field.</p>
+
+          
+
+          <p class="signature">
+            
+            -
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">getFieldValue</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>The default implementation gets the value attribute of the rootElement.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.FieldView#isEnabledObserver"></a> 
+          <h3>isEnabledObserver()</h3>
+          <p class="summary">Overrides enabled observer to also call enableField()/disableField() 
+    methods.</p>
+
+          
+
+          <p class="signature">
+            
+            -
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">isEnabledObserver</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.FieldView#setFieldValue"></a> 
+          <h3>setFieldValue()</h3>
+          <p class="summary">Override to set the actual value of the field.</p>
+
+          
+
+          <p class="signature">
+            
+            -
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">setFieldValue</span>
+            <span class="params">(newValue)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="type">Object</span>&nbsp;<span class="name">newValue </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>The default implementations set the value on the new value.  The value will have already been converted to a field value using any validator.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.FieldView#validateSubmit"></a> 
+          <h3>validateSubmit()</h3>
+          <p class="summary">Called to perform validation on the field just before the form 
+    is submitted.</p>
+
+          
+
+          <p class="signature">
+            
+            -
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">validateSubmit</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>If you have a validator attached, this will get the validators.</p>
+          </div>
+
+          
+        </div>
+      
+    </div>
+  
+  
+<!-- ============================== footer ================================= -->
+  <div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoctoolkit.org/" target="_parent">JsDoc Toolkit</a> 2.0.1 on Mon Oct 13 2008 23:25:32 GMT-0600 (MDT)</div>
+</body>
+</html>

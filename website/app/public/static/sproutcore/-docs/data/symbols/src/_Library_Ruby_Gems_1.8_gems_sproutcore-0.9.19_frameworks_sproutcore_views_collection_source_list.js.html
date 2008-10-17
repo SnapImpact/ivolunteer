@@ -1,0 +1,466 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+  .KEYW {color: #933;}
+  .COMM {color: #bbb; font-style: italic;}
+  .NUMB {color: #393;}
+  .STRN {color: #393;}
+  .REGX {color: #339;}
+  .line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+  </style></head><body><pre><span class='line'>  1</span> <span class="COMM">// ==========================================================================</span><span class="WHIT">
+<span class='line'>  2</span> </span><span class="COMM">// SC.SourceListView</span><span class="WHIT">
+<span class='line'>  3</span> </span><span class="COMM">// ==========================================================================</span><span class="WHIT">
+<span class='line'>  4</span> 
+<span class='line'>  5</span> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'views/collection/collection'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  6</span> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'views/button/disclosure'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  7</span> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'views/source_list_group'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  8</span> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'views/list_item'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  9</span> 
+<span class='line'> 10</span> </span><span class="NAME">SC.BENCHMARK_SOURCE_LIST_VIEW</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 11</span> 
+<span class='line'> 12</span> </span><span class="COMM">/** @class
+<span class='line'> 13</span> 
+<span class='line'> 14</span>   Displays a source list like the source list in iTunes.
+<span class='line'> 15</span> 
+<span class='line'> 16</span>   @extends SC.CollectionView
+<span class='line'> 17</span>   @author    Charles Jolley  
+<span class='line'> 18</span>   @version 1.0
+<span class='line'> 19</span> */</span><span class="WHIT">
+<span class='line'> 20</span> </span><span class="NAME">SC.SourceListView</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.CollectionView.extend</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="COMM">/** @scope SC.SourceListView.prototype */</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 22</span>   
+<span class='line'> 23</span>   </span><span class="NAME">emptyElement</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'&lt;div class="sc-source-list-view">&lt;/div>'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 24</span>   
+<span class='line'> 25</span>   </span><span class="COMM">/**
+<span class='line'> 26</span>     name of property on the content object to use for the source list text.
+<span class='line'> 27</span>   */</span><span class="WHIT">
+<span class='line'> 28</span>   </span><span class="NAME">contentValueKey</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 29</span>   
+<span class='line'> 30</span>   </span><span class="COMM">/**
+<span class='line'> 31</span>     Set to YES if you want the content value to be editable.
+<span class='line'> 32</span>   */</span><span class="WHIT">
+<span class='line'> 33</span>   </span><span class="NAME">contentValueIsEditable</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 34</span>   
+<span class='line'> 35</span>   </span><span class="COMM">/**
+<span class='line'> 36</span>     Allows reordering without modifiying the selection
+<span class='line'> 37</span>   */</span><span class="WHIT">
+<span class='line'> 38</span>   
+<span class='line'> 39</span>   </span><span class="NAME">selectOnMouseDown</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 40</span>   
+<span class='line'> 41</span>   </span><span class="COMM">/**
+<span class='line'> 42</span>     Set to YES if you want source list items to display an icon.
+<span class='line'> 43</span>     
+<span class='line'> 44</span>     If this property is set, list items will leave space for a display 
+<span class='line'> 45</span>     icon to the left of the text label.  To actually display an icon in that
+<span class='line'> 46</span>     space, you will also need to set the contenIconUrlProperty or the 
+<span class='line'> 47</span>     contentIconClassNameProperty or both.
+<span class='line'> 48</span>   */</span><span class="WHIT">
+<span class='line'> 49</span>   </span><span class="NAME">hasContentIcon</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 50</span>   
+<span class='line'> 51</span>   </span><span class="COMM">/**
+<span class='line'> 52</span>     Set if YES if you want the source list to display a branch arrow.
+<span class='line'> 53</span>     
+<span class='line'> 54</span>     If this property is set, list items will leave space on the right edge
+<span class='line'> 55</span>     to display a branch arrow, indicating the user can click on the item to
+<span class='line'> 56</span>     reveal a menu or another level of content. 
+<span class='line'> 57</span>     
+<span class='line'> 58</span>     To actually display a branch arrow, you must also set the 
+<span class='line'> 59</span>     contentIsBranchKey.
+<span class='line'> 60</span>   */</span><span class="WHIT">
+<span class='line'> 61</span>   </span><span class="NAME">hasContentBranch</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 62</span>   
+<span class='line'> 63</span>   </span><span class="COMM">/**
+<span class='line'> 64</span>     Name of the content object property that contains the icon .
+<span class='line'> 65</span>     
+<span class='line'> 66</span>     This is the *name* of the property you want the list items to inspect
+<span class='line'> 67</span>     on content objects to retrieve an icon image URL.  For example, if you
+<span class='line'> 68</span>     set this property to 'icon', then the icon displayed for each item will
+<span class='line'> 69</span>     be the URL returned by content.get('icon').
+<span class='line'> 70</span> 
+<span class='line'> 71</span>     The value of this property must be either a URL or a CSS class name.  If
+<span class='line'> 72</span>     you use a CSS class name, then the image src will be set to a blank 
+<span class='line'> 73</span>     image and the class name will be applied automatically so you can use 
+<span class='line'> 74</span>     spriting.  If a URL is returned it will be set as the src property on
+<span class='line'> 75</span>     the image tag.
+<span class='line'> 76</span>   */</span><span class="WHIT">
+<span class='line'> 77</span>   </span><span class="NAME">contentIconKey</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 78</span>   
+<span class='line'> 79</span>   </span><span class="COMM">/**
+<span class='line'> 80</span>     Name of content object property that contains the unread count.
+<span class='line'> 81</span>     
+<span class='line'> 82</span>     The unread count is used to indicate to a user when an item in the 
+<span class='line'> 83</span>     source list contains items that need their attention.  If the unread 
+<span class='line'> 84</span>     count on a content object is a non-zero number, it will be displayed on
+<span class='line'> 85</span>     the right side of the list item.
+<span class='line'> 86</span>     
+<span class='line'> 87</span>     This is the *name* of the property you want the list item to inspect
+<span class='line'> 88</span>     on content objects to receive the unread count for the item.  For example,
+<span class='line'> 89</span>     if you set this property to "unread", then the unread count will be
+<span class='line'> 90</span>     the value returned by content.get('unread').
+<span class='line'> 91</span>     
+<span class='line'> 92</span>     If you do not want to use unread counts, leave this property to null.
+<span class='line'> 93</span>   */</span><span class="WHIT">
+<span class='line'> 94</span>   </span><span class="NAME">contentUnreadCountKey</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 95</span>   
+<span class='line'> 96</span>   </span><span class="COMM">/**
+<span class='line'> 97</span>     Name of the content object property that contains the branch state.
+<span class='line'> 98</span>     
+<span class='line'> 99</span>     If an item is a branch, then a branch arrow will be displayed at the
+<span class='line'>100</span>     right edge indicating that clicking on the item will reveal another
+<span class='line'>101</span>     level or content or possibly a popup menu.
+<span class='line'>102</span>     
+<span class='line'>103</span>     To display the branch, you must also set hasContentBranch to YES.
+<span class='line'>104</span>     
+<span class='line'>105</span>     This is the *name* of the property you want the list item to inspect 
+<span class='line'>106</span>     on the content objects to retrieve the branch state.  For example, if
+<span class='line'>107</span>     you set this property to "isBranch", then the branch state will be the
+<span class='line'>108</span>     value returned by content.get('isBranch').
+<span class='line'>109</span>   */</span><span class="WHIT">
+<span class='line'>110</span>   </span><span class="NAME">contentIsBranchKey</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>111</span>   
+<span class='line'>112</span>   </span><span class="COMM">/**
+<span class='line'>113</span>     Key that contains the group name.
+<span class='line'>114</span>     
+<span class='line'>115</span>     If set, the title shown in the group label will be the value returned
+<span class='line'>116</span>     by this property on the group object.
+<span class='line'>117</span>   */</span><span class="WHIT">
+<span class='line'>118</span>   </span><span class="NAME">groupTitleKey</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>119</span> 
+<span class='line'>120</span>   </span><span class="COMM">/**
+<span class='line'>121</span>     Key that contains group visibility.
+<span class='line'>122</span>     
+<span class='line'>123</span>     If set, the group label will display a disclosure triangle matching the
+<span class='line'>124</span>     value of this property.
+<span class='line'>125</span>   */</span><span class="WHIT">
+<span class='line'>126</span>   </span><span class="NAME">groupVisibleKey</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>127</span>   
+<span class='line'>128</span>   </span><span class="COMM">/** 
+<span class='line'>129</span>     The common row height for list view items.
+<span class='line'>130</span>     
+<span class='line'>131</span>     The value should be an integer expressed in pixels.
+<span class='line'>132</span>   */</span><span class="WHIT">
+<span class='line'>133</span>   </span><span class="NAME">rowHeight</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">32</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>134</span>   
+<span class='line'>135</span>   </span><span class="COMM">/**
+<span class='line'>136</span>     Source list view items are usually list item views.  You can override 
+<span class='line'>137</span>     this if you wish.
+<span class='line'>138</span>   */</span><span class="WHIT">
+<span class='line'>139</span>   </span><span class="NAME">exampleView</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">SC.ListItemView</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>140</span>   
+<span class='line'>141</span>   </span><span class="COMM">/**
+<span class='line'>142</span>     The standard group view provided by source list view generally 
+<span class='line'>143</span>     provides all the functionality you need.
+<span class='line'>144</span>   */</span><span class="WHIT">
+<span class='line'>145</span>   </span><span class="NAME">exampleGroupView</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">SC.SourceListGroupView</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>146</span>   
+<span class='line'>147</span>   
+<span class='line'>148</span>   </span><span class="COMM">// .......................................</span><span class="WHIT">
+<span class='line'>149</span>   </span><span class="COMM">// LAYOUT METHODS</span><span class="WHIT">
+<span class='line'>150</span>   </span><span class="COMM">//</span><span class="WHIT">
+<span class='line'>151</span> 
+<span class='line'>152</span>   </span><span class="COMM">// whenever updateChildren is called with a deep method, flush the</span><span class="WHIT">
+<span class='line'>153</span>   </span><span class="COMM">// cached group rows to make sure we get an accurate count.</span><span class="WHIT">
+<span class='line'>154</span>   </span><span class="NAME">updateChildren</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">deep</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>155</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">deep</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">this._groupRows</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>156</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">sc_super</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">  
+<span class='line'>157</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>158</span>   
+<span class='line'>159</span>   </span><span class="COMM">// determines if the group at the specified content index is visible or</span><span class="WHIT">
+<span class='line'>160</span>   </span><span class="COMM">// not.  This will look either at a property on the group or on the</span><span class="WHIT">
+<span class='line'>161</span>   </span><span class="COMM">// SourceListGroupView.</span><span class="WHIT">
+<span class='line'>162</span>   </span><span class="NAME">groupAtContentIndexIsVisible</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">contentIndex</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>163</span>     
+<span class='line'>164</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'groupBy'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// no grouping</span><span class="WHIT">
+<span class='line'>165</span> 
+<span class='line'>166</span>     </span><span class="COMM">// get the group value and try to find a matching view, which may</span><span class="WHIT">
+<span class='line'>167</span>     </span><span class="COMM">// or may not exist yet.</span><span class="WHIT">
+<span class='line'>168</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">groupValue</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.groupValueAtContentIndex</span><span class="PUNC">(</span><span class="NAME">contentIndex</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>169</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">groupView</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.groupViewForGroupValue</span><span class="PUNC">(</span><span class="NAME">groupValue</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>170</span>     
+<span class='line'>171</span>     </span><span class="COMM">// if the groupView exists, use that.  The visible state is stored here</span><span class="WHIT">
+<span class='line'>172</span>     </span><span class="COMM">// in case the group does not actually support storing its own visibility.</span><span class="WHIT">
+<span class='line'>173</span>     </span><span class="COMM">// ignore groupView if it does not support isGroupVisible</span><span class="WHIT">
+<span class='line'>174</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>175</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">groupView</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">groupView.get</span><span class="PUNC">(</span><span class="STRN">'isGroupVisible'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>176</span> 
+<span class='line'>177</span>     </span><span class="COMM">// otherwise try to get from the group itself.</span><span class="WHIT">
+<span class='line'>178</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">groupView</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">groupValue</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">groupValue.get</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>179</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">key</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'groupVisibleKey'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>180</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="PUNC">!</span><span class="NAME">groupValue.get</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>181</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>182</span>     
+<span class='line'>183</span>     </span><span class="COMM">// if the above methods failed for some reason, just leave the group visible</span><span class="WHIT">
+<span class='line'>184</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>185</span>     
+<span class='line'>186</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>187</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>188</span>     
+<span class='line'>189</span>   </span><span class="COMM">// calculates the number of rows consumed by each group.  stores a hash of</span><span class="WHIT">
+<span class='line'>190</span>   </span><span class="COMM">// contentIndexes and rows. </span><span class="WHIT">
+<span class='line'>191</span>   </span><span class="NAME">computedGroupRows</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>192</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this._groupRows</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._groupRows</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>193</span>     
+<span class='line'>194</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">loc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> 
+<span class='line'>195</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Array.from</span><span class="PUNC">(</span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'content'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">  
+<span class='line'>196</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">max</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">content.get</span><span class="PUNC">(</span><span class="STRN">'length'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>197</span>     
+<span class='line'>198</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>199</span>     </span><span class="KEYW">while</span><span class="PUNC">(</span><span class="NAME">loc</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">max</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>200</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">range</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.groupRangeForContentIndex</span><span class="PUNC">(</span><span class="NAME">loc</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>201</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">isVisible</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.groupAtContentIndexIsVisible</span><span class="PUNC">(</span><span class="NAME">range.start</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>202</span>       </span><span class="NAME">ret</span><span class="PUNC">[</span><span class="NAME">range.start</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">isVisible</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">range.length</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>203</span> 
+<span class='line'>204</span>       </span><span class="COMM">// add a header row space if neede</span><span class="WHIT">
+<span class='line'>205</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">groupValue</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.groupValueAtContentIndex</span><span class="PUNC">(</span><span class="NAME">range.start</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>206</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">groupValue</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">[</span><span class="NAME">range.start</span><span class="PUNC">]</span><span class="PUNC">++</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>207</span>       
+<span class='line'>208</span>       </span><span class="NAME">loc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">range.length</span><span class="WHIT"> </span><span class="PUNC">&lt;=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">max</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">SC.maxRange</span><span class="PUNC">(</span><span class="NAME">range</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>209</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>210</span>     
+<span class='line'>211</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._groupRows</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>212</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>213</span> 
+<span class='line'>214</span>   </span><span class="COMM">// Returns the number of rows in the specified range.</span><span class="WHIT">
+<span class='line'>215</span>   </span><span class="NAME">countRowsInRange</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">range</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>216</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">groupRows</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.computedGroupRows</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>217</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">max</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.maxRange</span><span class="PUNC">(</span><span class="NAME">range</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>218</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">loc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.minRange</span><span class="PUNC">(</span><span class="NAME">range</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>219</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>220</span>     
+<span class='line'>221</span>     </span><span class="KEYW">while</span><span class="PUNC">(</span><span class="NAME">loc</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">max</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>222</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">range</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.groupRangeForContentIndex</span><span class="PUNC">(</span><span class="NAME">loc</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>223</span>       </span><span class="NAME">loc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">range.length</span><span class="WHIT"> </span><span class="PUNC">&lt;=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">max</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">SC.maxRange</span><span class="PUNC">(</span><span class="NAME">range</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>224</span>       </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">groupRows</span><span class="PUNC">[</span><span class="NAME">range.start</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">range</span><span class="PUNC">+</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>225</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>226</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>227</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>228</span>   
+<span class='line'>229</span>   </span><span class="NAME">computeFrame</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>230</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'content'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>231</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">rowHeight</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'rowHeight'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NUMB">20</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>232</span> 
+<span class='line'>233</span>     </span><span class="COMM">// find number of groups.  </span><span class="WHIT">
+<span class='line'>234</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">rows</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.countRowsInRange</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">start</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">length</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">content.get</span><span class="PUNC">(</span><span class="STRN">'length'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>235</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">rows</span><span class="WHIT"> </span><span class="PUNC">&lt;=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">rows</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>236</span> 
+<span class='line'>237</span>     </span><span class="COMM">// get parent width</span><span class="WHIT">
+<span class='line'>238</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">parent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'parentNode'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>239</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">f</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">parent</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">parent.get</span><span class="PUNC">(</span><span class="STRN">'innerFrame'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">width</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">100</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">height</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">100</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>240</span>     </span><span class="NAME">f.x</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">f.y</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>241</span>     </span><span class="NAME">f.height</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Math.max</span><span class="PUNC">(</span><span class="NAME">f.height</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rows</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">rowHeight</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>242</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">f</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>243</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>244</span> 
+<span class='line'>245</span>   
+<span class='line'>246</span>   </span><span class="COMM">// disable incremental rendering for now</span><span class="WHIT">
+<span class='line'>247</span>   </span><span class="NAME">contentRangeInFrame</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">frame</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>248</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'content'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>249</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">len</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">content</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">content.get</span><span class="PUNC">(</span><span class="STRN">'length'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>250</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">start</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">length</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">len</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>251</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>252</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>253</span> 
+<span class='line'>254</span>   
+<span class='line'>255</span>   </span><span class="COMM">/** @private */</span><span class="WHIT">
+<span class='line'>256</span>   </span><span class="NAME">layoutItemView</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">itemView</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">contentIndex</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">firstLayout</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>257</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">SC.BENCHMARK_SOURCE_LIST_VIEW</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>258</span>       </span><span class="NAME">SC.Benchmark.start</span><span class="PUNC">(</span><span class="STRN">'SC.SourceListView.layoutItemViewsFor'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>259</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>260</span>     
+<span class='line'>261</span>     </span><span class="COMM">// if itemView's group is not visible, then just set to invisible.</span><span class="WHIT">
+<span class='line'>262</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.groupAtContentIndexIsVisible</span><span class="PUNC">(</span><span class="NAME">contentIndex</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>263</span>       </span><span class="NAME">itemView.set</span><span class="PUNC">(</span><span class="STRN">'isVisible'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>264</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>265</span> 
+<span class='line'>266</span>       </span><span class="COMM">// if item was not visible, make it visible.  Also force layout.</span><span class="WHIT">
+<span class='line'>267</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">itemView.get</span><span class="PUNC">(</span><span class="STRN">'isVisible'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>268</span>         </span><span class="NAME">firstLayout</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">        
+<span class='line'>269</span>         </span><span class="NAME">itemView.set</span><span class="PUNC">(</span><span class="STRN">'isVisible'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>270</span>       </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>271</span> 
+<span class='line'>272</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">rowHeight</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'rowHeight'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>273</span> 
+<span class='line'>274</span> 
+<span class='line'>275</span>       </span><span class="COMM">// layout relative to top of group.  Leave open row for title</span><span class="WHIT">
+<span class='line'>276</span>       </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">"groupBy"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>277</span>       </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>278</span>         
+<span class='line'>279</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">range</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.groupRangeForContentIndex</span><span class="PUNC">(</span><span class="NAME">contentIndex</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>280</span>         </span><span class="NAME">contentIndex</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">contentIndex</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">range.start</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>281</span> 
+<span class='line'>282</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">groupValue</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.groupValueAtContentIndex</span><span class="PUNC">(</span><span class="NAME">range.start</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>283</span>         </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">groupValue</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">contentIndex</span><span class="PUNC">++</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>284</span>       </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>285</span> 
+<span class='line'>286</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">f</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
+<span class='line'>287</span>         </span><span class="NAME">x</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> 
+<span class='line'>288</span>         </span><span class="NAME">y</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">contentIndex</span><span class="PUNC">*</span><span class="NAME">rowHeight</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>289</span>         </span><span class="NAME">height</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">rowHeight</span><span class="PUNC">,</span><span class="WHIT"> 
+<span class='line'>290</span>         </span><span class="NAME">width</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'innerFrame'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">width</span><span class="WHIT"> 
+<span class='line'>291</span>       </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>292</span> 
+<span class='line'>293</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">firstLayout</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">SC.rectsEqual</span><span class="PUNC">(</span><span class="NAME">itemView.get</span><span class="PUNC">(</span><span class="STRN">'frame'</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">f</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>294</span>         </span><span class="NAME">itemView.set</span><span class="PUNC">(</span><span class="STRN">'frame'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">f</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">      
+<span class='line'>295</span>       </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>296</span> 
+<span class='line'>297</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>298</span>     
+<span class='line'>299</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">SC.BENCHMARK_SOURCE_LIST_VIEW</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>300</span>       </span><span class="NAME">SC.Benchmark.end</span><span class="PUNC">(</span><span class="STRN">'SC.SourceListView.layoutItemViewsFor'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>301</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>302</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>303</span>   
+<span class='line'>304</span>   </span><span class="NAME">layoutGroupView</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">groupView</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">groupValue</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">contentIndexHint</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">firstLayout</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>305</span>     
+<span class='line'>306</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">SC.BENCHMARK_SOURCE_LIST_VIEW</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>307</span>       </span><span class="NAME">SC.Benchmark.start</span><span class="PUNC">(</span><span class="STRN">'SC.SourceListView.layoutGroupView'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>308</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>309</span>     
+<span class='line'>310</span>     </span><span class="COMM">//console.log('layoutGroupView', groupValue) ;</span><span class="WHIT">
+<span class='line'>311</span>     
+<span class='line'>312</span>     </span><span class="COMM">// find the range this group will belong to</span><span class="WHIT">
+<span class='line'>313</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">range</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.groupRangeForContentIndex</span><span class="PUNC">(</span><span class="NAME">contentIndexHint</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>314</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">isVisible</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.groupAtContentIndexIsVisible</span><span class="PUNC">(</span><span class="NAME">range.start</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>315</span>     
+<span class='line'>316</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">priorRows</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.countRowsInRange</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">start</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">length</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">range.start</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>317</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">rowHeight</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'rowHeight'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>318</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">parentView</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">groupView.get</span><span class="PUNC">(</span><span class="STRN">'parentView'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>319</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">rows</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">isVisible</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">range.length</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>320</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">groupValue</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">rows</span><span class="PUNC">++</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>321</span> 
+<span class='line'>322</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">f</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
+<span class='line'>323</span>       </span><span class="NAME">x</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> 
+<span class='line'>324</span>       </span><span class="NAME">y</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">priorRows</span><span class="PUNC">*</span><span class="NAME">rowHeight</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>325</span>       </span><span class="NAME">height</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">rowHeight</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">rows</span><span class="PUNC">,</span><span class="WHIT"> 
+<span class='line'>326</span>       </span><span class="NAME">width</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">parentView</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">get</span><span class="PUNC">(</span><span class="STRN">'innerFrame'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">width</span><span class="WHIT"> 
+<span class='line'>327</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>328</span>     
+<span class='line'>329</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">firstLayout</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">SC.rectsEqual</span><span class="PUNC">(</span><span class="NAME">groupView.get</span><span class="PUNC">(</span><span class="STRN">'frame'</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">f</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>330</span>       </span><span class="NAME">groupView.set</span><span class="PUNC">(</span><span class="STRN">'frame'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">f</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">      
+<span class='line'>331</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>332</span> 
+<span class='line'>333</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">SC.BENCHMARK_SOURCE_LIST_VIEW</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>334</span>       </span><span class="NAME">SC.Benchmark.end</span><span class="PUNC">(</span><span class="STRN">'SC.SourceListView.layoutGroupView'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">    
+<span class='line'>335</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>336</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>337</span>   
+<span class='line'>338</span>   </span><span class="COMM">// .......................................</span><span class="WHIT">
+<span class='line'>339</span>   </span><span class="COMM">// INSERTION POINT METHODS</span><span class="WHIT">
+<span class='line'>340</span>   </span><span class="COMM">//</span><span class="WHIT">
+<span class='line'>341</span>   
+<span class='line'>342</span>   </span><span class="NAME">insertionOrientation</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">SC.VERTICAL_ORIENTATION</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>343</span>   
+<span class='line'>344</span>   </span><span class="NAME">insertionPointClass</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">SC.View.extend</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>345</span>     </span><span class="NAME">emptyElement</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'&lt;div class="list-insertion-point">&lt;span class="anchor">&lt;/span>&lt;/div>'</span><span class="WHIT">
+<span class='line'>346</span>   </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>347</span>   
+<span class='line'>348</span>   </span><span class="NAME">showInsertionPoint</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">itemView</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">dropOperation</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>349</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">itemView</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>350</span> 
+<span class='line'>351</span>     </span><span class="COMM">// if drop on, then just add a class...</span><span class="WHIT">
+<span class='line'>352</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">dropOperation</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">SC.DROP_ON</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>353</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">itemView</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">this._dropOnInsertionPoint</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>354</span>         </span><span class="NAME">this.hideInsertionPoint</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>355</span>         </span><span class="NAME">itemView.addClassName</span><span class="PUNC">(</span><span class="STRN">'drop-target'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>356</span>         </span><span class="NAME">this._dropOnInsertionPoint</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">itemView</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>357</span>       </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>358</span>       
+<span class='line'>359</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>360</span>       
+<span class='line'>361</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this._dropOnInsertionPoint</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>362</span>         </span><span class="NAME">this._dropOnInsertionPoint.removeClassName</span><span class="PUNC">(</span><span class="STRN">'drop-target'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>363</span>         </span><span class="NAME">this._dropOnInsertionPoint</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>364</span>       </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>365</span>     
+<span class='line'>366</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this._insertionPointView</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>367</span>         </span><span class="NAME">this._insertionPointView</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.insertionPointClass.create</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>368</span>       </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>369</span>     
+<span class='line'>370</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">insertionPoint</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._insertionPointView</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>371</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">f</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.calculateInsertionPointFrame</span><span class="PUNC">(</span><span class="NAME">itemView</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>372</span>       </span><span class="NAME">insertionPoint.set</span><span class="PUNC">(</span><span class="STRN">'frame'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">f</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>373</span> 
+<span class='line'>374</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">insertionPoint.parentNode</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="NAME">itemView.parentNode</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>375</span>         </span><span class="NAME">itemView.parentNode.appendChild</span><span class="PUNC">(</span><span class="NAME">insertionPoint</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>376</span>       </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>377</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>378</span>     
+<span class='line'>379</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>380</span>   
+<span class='line'>381</span>   </span><span class="COMM">/**
+<span class='line'>382</span>     This is the default frame for the insertion point.  Override this method 
+<span class='line'>383</span>     if your insertion point's styling needs to be customized, or if you need 
+<span class='line'>384</span>     more control of the insertion point's positioning (i.e., heirarchical 
+<span class='line'>385</span>     placement)
+<span class='line'>386</span>   */</span><span class="WHIT">
+<span class='line'>387</span>   </span><span class="NAME">calculateInsertionPointFrame</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">itemView</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>388</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">height</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">8</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">itemView.get</span><span class="PUNC">(</span><span class="STRN">'frame'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">width</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">itemView.owner.get</span><span class="PUNC">(</span><span class="STRN">'frame'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">width</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>389</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>390</span> 
+<span class='line'>391</span>   </span><span class="NAME">hideInsertionPoint</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>392</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">insertionPoint</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._insertionPointView</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>393</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">insertionPoint</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">insertionPoint.removeFromParent</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>394</span> 
+<span class='line'>395</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this._dropOnInsertionPoint</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>396</span>       </span><span class="NAME">this._dropOnInsertionPoint.removeClassName</span><span class="PUNC">(</span><span class="STRN">'drop-target'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>397</span>       </span><span class="NAME">this._dropOnInsertionPoint</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>398</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>399</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>400</span>   
+<span class='line'>401</span>   </span><span class="COMM">// We can do this much faster programatically using the rowHeight</span><span class="WHIT">
+<span class='line'>402</span>   </span><span class="NAME">insertionIndexForLocation</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">loc</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">dropOperation</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">  
+<span class='line'>403</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">f</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'innerFrame'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>404</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">sf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'scrollFrame'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>405</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">rowHeight</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'rowHeight'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>406</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">headerRowCount</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">"groupBy"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>407</span>     
+<span class='line'>408</span>     </span><span class="COMM">// find the offset to work with.</span><span class="WHIT">
+<span class='line'>409</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">loc.y</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">f.y</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">sf.y</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>410</span>     
+<span class='line'>411</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// the return value</span><span class="WHIT">
+<span class='line'>412</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">retOp</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.DROP_BEFORE</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>413</span> 
+<span class='line'>414</span>     </span><span class="COMM">// search groups until we find one that matches</span><span class="WHIT">
+<span class='line'>415</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">top</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>416</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">idx</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>417</span>     </span><span class="KEYW">while</span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">ret</span><span class="PUNC">&lt;</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">range</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.groupRangeForContentIndex</span><span class="PUNC">(</span><span class="NAME">idx</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">length</span><span class="PUNC">></span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>418</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">max</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">top</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">range.length</span><span class="PUNC">+</span><span class="NAME">headerRowCount</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">rowHeight</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>419</span>       
+<span class='line'>420</span>       </span><span class="COMM">// the offset is within the group, find the row in the group.  Remember</span><span class="WHIT">
+<span class='line'>421</span>       </span><span class="COMM">// that the top row is actually the label, so we should return -1 if </span><span class="WHIT">
+<span class='line'>422</span>       </span><span class="COMM">// we hit there.</span><span class="WHIT">
+<span class='line'>423</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">max</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>424</span>         </span><span class="NAME">offset</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">top</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>425</span>           
+<span class='line'>426</span>         </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Math.floor</span><span class="PUNC">(</span><span class="NAME">offset</span><span class="WHIT"> </span><span class="REGX">/ rowHeight) ;
+<span class='line'>427</span> 
+<span class='line'>428</span>         /</span><span class="REGX">/ find the percent through the row...
+<span class='line'>429</span>         var percentage = (offset /</span><span class="WHIT"> </span><span class="NAME">rowHeight</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>430</span>         
+<span class='line'>431</span>         </span><span class="COMM">// if the dropOperation is SC.DROP_ON and we are in the center 60%</span><span class="WHIT">
+<span class='line'>432</span>         </span><span class="COMM">// then return the current item.</span><span class="WHIT">
+<span class='line'>433</span>         </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">dropOperation</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">SC.DROP_ON</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>434</span>           </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">percentage</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0.80</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">++</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>435</span>           </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">percentage</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NUMB">0.20</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">percentage</span><span class="WHIT"> </span><span class="PUNC">&lt;=</span><span class="WHIT"> </span><span class="NUMB">0.80</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>436</span>             </span><span class="NAME">retOp</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.DROP_ON</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>437</span>           </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>438</span>         </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>439</span>           </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">percentage</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0.45</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">++</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>440</span>         </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>441</span>         
+<span class='line'>442</span>         </span><span class="COMM">// handle dropping on top row...</span><span class="WHIT">
+<span class='line'>443</span>         </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">headerRowCount</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">SC.DROP_BEFORE</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// top row!</span><span class="WHIT">
+<span class='line'>444</span>         
+<span class='line'>445</span>         </span><span class="COMM">// convert to index</span><span class="WHIT">
+<span class='line'>446</span>         </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">headerRowCount</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">idx</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>447</span> 
+<span class='line'>448</span>       </span><span class="COMM">// we are not yet within the group, go on to the next group.</span><span class="WHIT">
+<span class='line'>449</span>       </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>450</span>         </span><span class="NAME">idx</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">range.length</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>451</span>         </span><span class="NAME">top</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">max</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>452</span>       </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>453</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>454</span>     
+<span class='line'>455</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NAME">ret</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">retOp</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>456</span>   </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>457</span>   
+<span class='line'>458</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>459</span> </span></pre></body></html>

@@ -1,0 +1,48 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+  .KEYW {color: #933;}
+  .COMM {color: #bbb; font-style: italic;}
+  .NUMB {color: #393;}
+  .STRN {color: #393;}
+  .REGX {color: #339;}
+  .line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+  </style></head><body><pre><span class='line'>  1</span> <span class="COMM">// ========================================================================</span><span class="WHIT">
+<span class='line'>  2</span> </span><span class="COMM">// SproutCore</span><span class="WHIT">
+<span class='line'>  3</span> </span><span class="COMM">// copyright 2006-2008 Sprout Systems, Inc.</span><span class="WHIT">
+<span class='line'>  4</span> </span><span class="COMM">// ========================================================================</span><span class="WHIT">
+<span class='line'>  5</span> 
+<span class='line'>  6</span> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'views/field/field'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  7</span> 
+<span class='line'>  8</span> </span><span class="COMM">/**
+<span class='line'>  9</span>   @class
+<span class='line'> 10</span>   
+<span class='line'> 11</span>   Supports using platform native checkboxs with the input field.  If you 
+<span class='line'> 12</span>   would like to make use of the extended SproutCore checkbox features
+<span class='line'> 13</span>   including a mixed state and theming support, use SC.CheckboxView instead.
+<span class='line'> 14</span>   
+<span class='line'> 15</span>   @extends SC.FieldView
+<span class='line'> 16</span>   @author Charles Jolley
+<span class='line'> 17</span>   @version 1.0
+<span class='line'> 18</span> */</span><span class="WHIT">
+<span class='line'> 19</span> </span><span class="NAME">SC.CheckboxFieldView</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.FieldView.extend</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 20</span> </span><span class="COMM">/** @scope SC.CheckboxFieldView.prototype */</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 21</span>   
+<span class='line'> 22</span>   </span><span class="NAME">emptyElement</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'&lt;input type="checkbox" value="1" />'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 23</span>   
+<span class='line'> 24</span>   </span><span class="NAME">setFieldValue</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 25</span>     </span><span class="NAME">this.rootElement.checked</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="PUNC">!</span><span class="NAME">value</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 26</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 27</span>   
+<span class='line'> 28</span>   </span><span class="NAME">getFieldValue</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 29</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.rootElement.checked</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 30</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 31</span>   
+<span class='line'> 32</span>   </span><span class="NAME">valueBindingDefault</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">SC.Binding.Bool</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 33</span>   
+<span class='line'> 34</span>   </span><span class="NAME">init</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 35</span>     </span><span class="NAME">sc_super</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 36</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">f</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.fieldValueDidChange.bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 37</span>     </span><span class="NAME">Event.observe</span><span class="PUNC">(</span><span class="NAME">this.rootElement</span><span class="PUNC">,</span><span class="STRN">'click'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">f</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 38</span>   </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 39</span>   
+<span class='line'> 40</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 41</span> </span></pre></body></html>

@@ -1,0 +1,1476 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="JsDoc Toolkit" />
+  
+  <title>JsDoc: SC.Scrollable</title>
+</head>
+
+<style type="text/css">
+  /* @override http://localhost:4020/static/sproutcore/-docs/data/default.css */
+
+/* @group Core */
+
+body.sc-doc {
+  background-color: white  ;
+  padding: 20px;
+}
+
+.sc-doc {
+  font: 64.5% Helvetica, Arial, Verdana, sans-serif;
+  line-height: 1em ;
+}
+
+/* Set standard size on some things. */
+.sc-doc p, 
+.sc-doc dd, 
+.sc-doc dt, 
+.sc-doc li, 
+.sc-doc table {
+  line-height: 1.3em;
+  font-size: 1.3em ;
+}
+
+.sc-doc h1 {
+  font-size: 3em;
+  margin: 0 0 1em 0;
+  text-transform: capitalize;
+}
+
+.sc-doc h2 {
+  padding: 0;
+  padding-bottom: 4px;
+  border-bottom: 1px #555 solid;
+  text-transform: capitalize;
+  margin: 1.5em 0 0;
+  font-size: 2.2em;
+}
+
+.sc-doc h3 {
+  font-size: 2em;
+  padding: 0;
+  margin: 3em 0 0 0;  
+}
+
+.sc-doc h4 {
+  font-weight: normal ;
+  font-size: 1.4em;
+  margin: 0.5em 0 0 0;
+  padding: 0;
+}
+
+.sc-doc h5 {
+  font-size: 1.3em;
+  padding: 0;
+  margin: 1.3em 0 0.5em 0;
+}
+
+.sc-doc p { margin: 0.5em 0; }
+ 
+.sc-doc a {
+  text-decoration: none ;
+}
+
+.sc-doc label {
+  font-weight: bold ;
+}
+
+.sc-doc .sc-theme .ghost {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+  opacity: 0.45;
+  -moz-opacity: .45 ;
+}
+
+.sc-doc dt {
+  font-style: italic;
+}
+
+.sc-doc dd {
+ margin: 0 0 1em 1em;
+}
+
+/* @end */
+
+/* @group Summary Table */
+
+.sc-doc table.summary {
+  min-width: 600px;
+  border: 1px #999 solid;
+  border-bottom: none ;
+  border-spacing: 0;
+  margin-bottom: 2em;
+}
+
+.sc-doc table.summary td {
+  border-bottom: 1px #999 solid;
+  border-collapse: collapse;
+  padding: 0.5em;
+  text-align: left ;
+}
+
+.sc-doc table.summary .even td {
+  background-color: #eef;
+}
+
+.sc-doc table.summary td.label {
+  font-weight: bold ;
+  width: 100px;
+  text-align: right ;
+  padding-right: 4px;
+}
+
+.sc-doc table.summary td.value {
+  min-width: 300px;
+  width: 300px;
+}
+
+/* @end */
+
+/* @group Field & Method Summary */
+
+.sc-doc .summary li {
+  list-style-type: none ;
+  position: relative;
+}
+
+.sc-doc .summary li code {
+  font-size: 1.1em;
+}
+
+.sc-doc .summary li .description {
+  display: none ;
+}
+
+.sc-doc .summary li:hover .description {
+  display: block ;
+  font-size: 0.86em;
+  position: absolute ;
+  left: 80px;
+  bottom: 2em;
+  padding: 0.3em 1em ;
+  background-color: #fff898;
+  border: 1px solid #bbae2f;
+  /* -webkit-box-shadow: rgba(0,0,0,0.3) 0px 2px 5px; */
+  color: #4b4000;
+  z-index: 100;
+}
+
+/* @end */
+
+/* @group Detail */
+
+.sc-doc .detail p.signature {
+  padding: 0;
+  margin: 1em 0;
+  font-family: Courier, mono;
+}
+
+.sc-doc .detail p.signature .type {
+  font-style: italic;
+}
+
+.sc-doc .detail p.signature .name {
+  font-weight: bold ;
+}
+
+/* @end */
+
+.sc-doc .jsdoc_ctime {
+  border-top: 1px #ccc solid ;
+  padding: 4px 0;
+  margin-top: 20px;
+  margin-bottom: 0px;
+  font-size: 1.0em;
+  text-align: center ;
+  color: #888 ;
+}
+
+/* @group Description */
+
+.sc-doc .description blockquote,
+.sc-doc .description p.code {
+  padding:  10px ;
+  margin: 10px 20px;
+  background-color: #f5f5f5 ;
+  border: 1px #ccc solid ;
+}
+
+/* @end */
+
+</style>
+
+<body class="sc-theme sc-doc">
+  <h1>
+    
+    Namespace SC.Scrollable
+  </h1>
+
+  <table class="summary">
+  
+
+  
+
+  
+
+  
+    <tr class="even">
+      <td class="label">Defined in:</td>
+      <td class="value"><a href="../symbols/src/_Library_Ruby_Gems_1.8_gems_sproutcore-0.9.19_frameworks_sproutcore_mixins_scrollable.js.html">frameworks/sproutcore/mixins/scrollable.js</a></td>
+    </tr>
+  
+
+  
+
+  
+  </table>
+
+  
+    <div class="description">
+      <p>Any views you implement that are scrollable should include this mixin to provide basic support for scrolling actions.  You can also override any of these methods as needed for your own specific behaviors.</p>
+
+<p>Often times instead of adding SC.Scrollable to your view, you should place your view inside of an SC.ScrollView.  See that class for more info.</p>
+
+<p>Note that isScrollable must always be true.</p>
+
+    </div>
+  
+
+  <!-- ============================== properties summary ===================== -->
+  
+    
+    
+    
+    
+      <div class="field-summary summary">
+        <h2>Property Summary</h2>
+        <ul>
+        
+          
+            <li>
+              <a href="../symbols/SC.Scrollable.html#.horizontalLineScroll"><code>+&nbsp;(Object) horizontalLineScroll</code></a>
+              
+                <div class="description">Amount to scroll one horizontal line.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.Scrollable.html#.isScrollable"><code>+&nbsp;(Object) isScrollable</code></a>
+              
+                <div class="description">Informs the view system that the receiver is scrollable.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.Scrollable.html#.verticalLineScroll"><code>+&nbsp;(Object) verticalLineScroll</code></a>
+              
+                <div class="description">Amount to scroll one vertical line.</div>
+              
+            </li>
+          
+        
+        </ul>
+      </div>
+    
+  
+
+  
+
+<!-- ============================== methods summary ======================== -->
+  
+    <h2>Method Summary</h2>
+    
+    
+      <div class="method-summary summary">
+        <ul>
+          
+            <li>
+              <a href="#SC.Scrollable.hasHorizontalScroller">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  hasHorizontalScroller()
+                </code>
+              </a>
+              
+                <div class="description">Returns true if the receiver has enough horizontal content to require 
+    scrolling.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Scrollable.hasVerticalScroller">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  hasVerticalScroller()
+                </code>
+              </a>
+              
+                <div class="description">Returns true if the receiver has enough vertical content to require 
+    scrolling.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Scrollable.horizontalPageScroll">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  horizontalPageScroll()
+                </code>
+              </a>
+              
+                <div class="description">Amount to scroll one horizontal page.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Scrollable.scrollBy">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Point
+                    
+                  
+                  scrollBy(amount)
+                </code>
+              </a>
+              
+                <div class="description">Scrolls the receiver in the horizontal and vertical directions by the 
+    amount specified, if allowed.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Scrollable.scrollDownLine">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Number
+                    
+                  
+                  scrollDownLine(lines)
+                </code>
+              </a>
+              
+                <div class="description">Scrolls the receiver down one line if allowed.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Scrollable.scrollDownPage">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Number
+                    
+                  
+                  scrollDownPage(pages)
+                </code>
+              </a>
+              
+                <div class="description">Scrolls the receiver down one page if allowed.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Scrollable.scrollLeftLine">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Number
+                    
+                  
+                  scrollLeftLine(lines)
+                </code>
+              </a>
+              
+                <div class="description">Scrolls the receiver left one line if allowed.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Scrollable.scrollLeftPage">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Number
+                    
+                  
+                  scrollLeftPage(pages)
+                </code>
+              </a>
+              
+                <div class="description">Scrolls the receiver left one page if allowed.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Scrollable.scrollRightLine">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Number
+                    
+                  
+                  scrollRightLine(lines)
+                </code>
+              </a>
+              
+                <div class="description">Scrolls the receiver right one line if allowed.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Scrollable.scrollRightPage">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Number
+                    
+                  
+                  scrollRightPage(pages)
+                </code>
+              </a>
+              
+                <div class="description">Scrolls the receiver right one page if allowed.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Scrollable.scrollTo">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  scrollTo(x, y)
+                </code>
+              </a>
+              
+                <div class="description">Scrolls the receiver to the specified x,y coordinate</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Scrollable.scrollToVisible">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  scrollToVisible(view)
+                </code>
+              </a>
+              
+                <div class="description">Scroll the view to make the passed frame visible.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Scrollable.scrollUpLine">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Number
+                    
+                  
+                  scrollUpLine(lines)
+                </code>
+              </a>
+              
+                <div class="description">Scrolls the receiver down up line if allowed.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Scrollable.scrollUpPage">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Number
+                    
+                  
+                  scrollUpPage(pages)
+                </code>
+              </a>
+              
+                <div class="description">Scrolls the receiver down up page if allowed.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Scrollable.verticalPageScroll">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  verticalPageScroll()
+                </code>
+              </a>
+              
+                <div class="description">Amount to scroll one vertical page.</div>
+              
+            </li>
+          
+        </ul>
+      </div>
+    
+    
+    
+  
+
+<!-- ============================== field details ========================== -->    
+  
+    <div class="field-detail detail">
+      <a name="field_detail"><h2>Property Details</h2></a> 
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name=".horizontalLineScroll"></a> 
+            <h3>horizontalLineScroll</h3>
+            <p class="summary">Amount to scroll one horizontal line.</p>
+
+            
+
+            <p class="signature">
+              +
+              
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">horizontalLineScroll</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+
+<p>Used by the default implementation of scrollLeftLine() and scrollRightLine(). Defaults to 20px.</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name=".isScrollable"></a> 
+            <h3>isScrollable</h3>
+            <p class="summary">Informs the view system that the receiver is scrollable.</p>
+
+            
+
+            <p class="signature">
+              +
+              
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">isScrollable</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+
+<p>Must always be true.</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name=".verticalLineScroll"></a> 
+            <h3>verticalLineScroll</h3>
+            <p class="summary">Amount to scroll one vertical line.</p>
+
+            
+
+            <p class="signature">
+              +
+              
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">verticalLineScroll</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+
+<p>Used by the default implementation of scrollDownLine() and scrollUpLine().  Defaults to 20px.</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+    </div>
+  
+
+<!-- ============================== method details ========================= -->    
+  
+    <div class="method-detail detail">
+      <a name="method_detail"><h2>Method Details</h2></a> 
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Scrollable.hasHorizontalScroller"></a> 
+          <h3>hasHorizontalScroller()</h3>
+          <p class="summary">Returns true if the receiver has enough horizontal content to require 
+    scrolling.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">hasHorizontalScroller</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>If you do not want to allow horizontal scrolling, override this to be false and set the appropriate CSS.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Scrollable.hasVerticalScroller"></a> 
+          <h3>hasVerticalScroller()</h3>
+          <p class="summary">Returns true if the receiver has enough vertical content to require 
+    scrolling.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">hasVerticalScroller</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>If you do not want to allow vertical scrolling, override this to be false and set the appropriate CSS.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Scrollable.horizontalPageScroll"></a> 
+          <h3>horizontalPageScroll()</h3>
+          <p class="summary">Amount to scroll one horizontal page.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">horizontalPageScroll</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>Used by the default implementation of scrollLeftPage() and scrollRightPage().  Defaults to current innerFrame width.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Scrollable.scrollBy"></a> 
+          <h3>scrollBy()</h3>
+          <p class="summary">Scrolls the receiver in the horizontal and vertical directions by the 
+    amount specified, if allowed.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Point&nbsp;
+                
+              
+            </span>
+            <span class="name">scrollBy</span>
+            <span class="params">(amount)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="type">Point</span>&nbsp;<span class="name">amount </span></dt>
+              
+              <dd><p>Must include x, y or both</p></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Point</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Scrollable.scrollDownLine"></a> 
+          <h3>scrollDownLine()</h3>
+          <p class="summary">Scrolls the receiver down one line if allowed.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Number&nbsp;
+                
+              
+            </span>
+            <span class="name">scrollDownLine</span>
+            <span class="params">(lines)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="type">Number</span>&nbsp;<span class="name">lines </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Number</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Scrollable.scrollDownPage"></a> 
+          <h3>scrollDownPage()</h3>
+          <p class="summary">Scrolls the receiver down one page if allowed.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Number&nbsp;
+                
+              
+            </span>
+            <span class="name">scrollDownPage</span>
+            <span class="params">(pages)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="type">Number</span>&nbsp;<span class="name">pages </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Number</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Scrollable.scrollLeftLine"></a> 
+          <h3>scrollLeftLine()</h3>
+          <p class="summary">Scrolls the receiver left one line if allowed.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Number&nbsp;
+                
+              
+            </span>
+            <span class="name">scrollLeftLine</span>
+            <span class="params">(lines)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="type">Number</span>&nbsp;<span class="name">lines </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Number</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Scrollable.scrollLeftPage"></a> 
+          <h3>scrollLeftPage()</h3>
+          <p class="summary">Scrolls the receiver left one page if allowed.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Number&nbsp;
+                
+              
+            </span>
+            <span class="name">scrollLeftPage</span>
+            <span class="params">(pages)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="type">Number</span>&nbsp;<span class="name">pages </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Number</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Scrollable.scrollRightLine"></a> 
+          <h3>scrollRightLine()</h3>
+          <p class="summary">Scrolls the receiver right one line if allowed.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Number&nbsp;
+                
+              
+            </span>
+            <span class="name">scrollRightLine</span>
+            <span class="params">(lines)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="type">Number</span>&nbsp;<span class="name">lines </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Number</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Scrollable.scrollRightPage"></a> 
+          <h3>scrollRightPage()</h3>
+          <p class="summary">Scrolls the receiver right one page if allowed.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Number&nbsp;
+                
+              
+            </span>
+            <span class="name">scrollRightPage</span>
+            <span class="params">(pages)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="type">Number</span>&nbsp;<span class="name">pages </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Number</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Scrollable.scrollTo"></a> 
+          <h3>scrollTo()</h3>
+          <p class="summary">Scrolls the receiver to the specified x,y coordinate</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">scrollTo</span>
+            <span class="params">(x, y)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Scrollable.scrollToVisible"></a> 
+          <h3>scrollToVisible()</h3>
+          <p class="summary">Scroll the view to make the passed frame visible.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">scrollToVisible</span>
+            <span class="params">(view)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="type">SC.View</span>&nbsp;<span class="name">view </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>Frame must be relative to the receiver's offsetParent.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Scrollable.scrollUpLine"></a> 
+          <h3>scrollUpLine()</h3>
+          <p class="summary">Scrolls the receiver down up line if allowed.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Number&nbsp;
+                
+              
+            </span>
+            <span class="name">scrollUpLine</span>
+            <span class="params">(lines)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="type">Number</span>&nbsp;<span class="name">lines </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Number</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Scrollable.scrollUpPage"></a> 
+          <h3>scrollUpPage()</h3>
+          <p class="summary">Scrolls the receiver down up page if allowed.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Number&nbsp;
+                
+              
+            </span>
+            <span class="name">scrollUpPage</span>
+            <span class="params">(pages)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="type">Number</span>&nbsp;<span class="name">pages </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Number</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Scrollable.verticalPageScroll"></a> 
+          <h3>verticalPageScroll()</h3>
+          <p class="summary">Amount to scroll one vertical page.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">verticalPageScroll</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>Used by the default implementation of scrollUpPage() and scrollDownPage(). Defaults to current innerFrame height.</p>
+          </div>
+
+          
+        </div>
+      
+    </div>
+  
+  
+<!-- ============================== footer ================================= -->
+  <div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoctoolkit.org/" target="_parent">JsDoc Toolkit</a> 2.0.1 on Mon Oct 13 2008 23:25:34 GMT-0600 (MDT)</div>
+</body>
+</html>

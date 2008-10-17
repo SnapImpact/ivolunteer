@@ -1,0 +1,205 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+  .KEYW {color: #933;}
+  .COMM {color: #bbb; font-style: italic;}
+  .NUMB {color: #393;}
+  .STRN {color: #393;}
+  .REGX {color: #339;}
+  .line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+  </style></head><body><pre><span class='line'>  1</span> <span class="COMM">// ========================================================================</span><span class="WHIT">
+<span class='line'>  2</span> </span><span class="COMM">// SproutCore</span><span class="WHIT">
+<span class='line'>  3</span> </span><span class="COMM">// copyright 2006-2008 Sprout Systems, Inc.</span><span class="WHIT">
+<span class='line'>  4</span> </span><span class="COMM">// ========================================================================</span><span class="WHIT">
+<span class='line'>  5</span> 
+<span class='line'>  6</span> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'mixins/selection_support'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  7</span> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'controllers/object'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  8</span> 
+<span class='line'>  9</span> </span><span class="COMM">/** @class
+<span class='line'> 10</span> 
+<span class='line'> 11</span>   A CollectionController works just like an ObjectController except that
+<span class='line'> 12</span>   it includes support for a few extra items including the arrangedObjects
+<span class='line'> 13</span>   property (which may have a filter applied), and a selection.
+<span class='line'> 14</span> 
+<span class='line'> 15</span>   This expects the content object to be a Collection object.
+<span class='line'> 16</span> 
+<span class='line'> 17</span>   @extends SC.ObjectController
+<span class='line'> 18</span> */</span><span class="WHIT">
+<span class='line'> 19</span> </span><span class="NAME">SC.CollectionController</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.ObjectController.extend</span><span class="PUNC">(</span><span class="NAME">SC.SelectionSupport</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 20</span> </span><span class="COMM">/** @scope SC.CollectionController.prototype */</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 21</span> 
+<span class='line'> 22</span>   </span><span class="COMM">// ...................................</span><span class="WHIT">
+<span class='line'> 23</span>   </span><span class="COMM">// PROPERTIES</span><span class="WHIT">
+<span class='line'> 24</span>   </span><span class="COMM">//</span><span class="WHIT">
+<span class='line'> 25</span> 
+<span class='line'> 26</span>   </span><span class="COMM">/**
+<span class='line'> 27</span>     This is the current set of objects for the UI.
+<span class='line'> 28</span>     
+<span class='line'> 29</span>     @type Array
+<span class='line'> 30</span>   */</span><span class="WHIT">
+<span class='line'> 31</span>   </span><span class="NAME">arrangedObjects</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 32</span>   
+<span class='line'> 33</span> 
+<span class='line'> 34</span>   </span><span class="COMM">/**
+<span class='line'> 35</span>     If true, new, add, remove will work.
+<span class='line'> 36</span>   
+<span class='line'> 37</span>     @type bool
+<span class='line'> 38</span>   */</span><span class="WHIT">
+<span class='line'> 39</span>   </span><span class="NAME">canEditCollection</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 40</span> 
+<span class='line'> 41</span>   </span><span class="COMM">/**
+<span class='line'> 42</span>     Set to the total number of items to show on a single page.  If set to
+<span class='line'> 43</span>     zero, then no pagination will be performed.
+<span class='line'> 44</span>   
+<span class='line'> 45</span>     @type number
+<span class='line'> 46</span>   */</span><span class="WHIT">
+<span class='line'> 47</span>   </span><span class="NAME">pageSize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 48</span>   
+<span class='line'> 49</span>   </span><span class="COMM">/**
+<span class='line'> 50</span>     [RO] read only property with the current total number of pages.
+<span class='line'> 51</span>   */</span><span class="WHIT">
+<span class='line'> 52</span>   </span><span class="NAME">pageCount</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 53</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">pageSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'pageSize'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 54</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">pageSize</span><span class="WHIT"> </span><span class="PUNC">&lt;=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 55</span>     
+<span class='line'> 56</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'content'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 57</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">count</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">content</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">content.get</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">content.get</span><span class="PUNC">(</span><span class="STRN">'count'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 58</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">count</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">count</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 59</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Math.ceil</span><span class="PUNC">(</span><span class="NAME">count</span><span class="WHIT"> </span><span class="REGX">/ pageSize) ;
+<span class='line'> 60</span>   }.property(),
+<span class='line'> 61</span>   
+<span class='line'> 62</span>   /</span><span class="PUNC">*</span><span class="PUNC">*</span><span class="WHIT">
+<span class='line'> 63</span>     </span><span class="NAME">Set</span><span class="WHIT"> </span><span class="NAME">to</span><span class="WHIT"> </span><span class="NAME">the</span><span class="WHIT"> </span><span class="NAME">current</span><span class="WHIT"> </span><span class="NAME">page.</span><span class="WHIT">  </span><span class="NAME">This</span><span class="WHIT"> </span><span class="NAME">will</span><span class="WHIT"> </span><span class="NAME">change</span><span class="WHIT"> </span><span class="NAME">the</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="WHIT"> </span><span class="NAME">and</span><span class="WHIT"> </span><span class="NAME">limit</span><span class="WHIT"> </span><span class="NAME">shown</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT">
+<span class='line'> 64</span>     </span><span class="NAME">the</span><span class="WHIT"> </span><span class="NAME">collection.</span><span class="WHIT">  </span><span class="NAME">If</span><span class="WHIT"> </span><span class="NAME">you</span><span class="WHIT"> </span><span class="KEYW">try</span><span class="WHIT"> </span><span class="NAME">to</span><span class="WHIT"> </span><span class="NAME">set</span><span class="WHIT"> </span><span class="NAME">the</span><span class="WHIT"> </span><span class="NAME">page</span><span class="WHIT"> </span><span class="NAME">to</span><span class="WHIT"> </span><span class="NAME">a</span><span class="WHIT"> </span><span class="NAME">number</span><span class="WHIT"> </span><span class="NAME">greater</span><span class="WHIT"> </span><span class="NAME">than</span><span class="WHIT"> </span><span class="NAME">the</span><span class="WHIT">
+<span class='line'> 65</span>     </span><span class="NAME">maximum</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">then</span><span class="WHIT"> </span><span class="NAME">it</span><span class="WHIT"> </span><span class="NAME">will</span><span class="WHIT"> </span><span class="NAME">be</span><span class="WHIT"> </span><span class="NAME">set</span><span class="WHIT"> </span><span class="NAME">to</span><span class="WHIT"> </span><span class="NAME">the</span><span class="WHIT"> </span><span class="NAME">last</span><span class="WHIT"> </span><span class="NAME">page.</span><span class="WHIT">
+<span class='line'> 66</span>   </span><span class="PUNC">*</span><span class="REGX">/
+<span class='line'> 67</span>   currentPage: function(key, value) {
+<span class='line'> 68</span>     if (value !== undefined) {
+<span class='line'> 69</span>       /</span><span class="REGX">/ constrain pages.
+<span class='line'> 70</span>       if (this._currentPage != value) {
+<span class='line'> 71</span>         var pc = Math.max(this.get('pageCount')-1,0);
+<span class='line'> 72</span>         if (value > pc) value = pc ;
+<span class='line'> 73</span>         if (value &lt; 0) value = 0 ;
+<span class='line'> 74</span>         this._currentPage = value ;
+<span class='line'> 75</span>       }
+<span class='line'> 76</span>     }
+<span class='line'> 77</span>     return this._currentPage || 0 ;  
+<span class='line'> 78</span>   }.property(),
+<span class='line'> 79</span>   
+<span class='line'> 80</span>   /</span><span class="REGX">/ ...................................
+<span class='line'> 81</span>   /</span><span class="REGX">/ METHODS
+<span class='line'> 82</span>   /</span><span class="REGX">/
+<span class='line'> 83</span> 
+<span class='line'> 84</span>   /</span><span class="REGX">/ adds a new object to the current collection, if allowed, and sets it
+<span class='line'> 85</span>   /</span><span class="REGX">/ as the current selection.
+<span class='line'> 86</span>   newObject: function(settings) {
+<span class='line'> 87</span>     var content = this.get('content') ;
+<span class='line'> 88</span>     if (!content || !this.get('canEditCollection')) return ; /</span><span class="REGX">/ only if allowed 
+<span class='line'> 89</span>     try {
+<span class='line'> 90</span>       if (content.newRecord) { 
+<span class='line'> 91</span>         var rec = content.newRecord(settings) ;
+<span class='line'> 92</span>         var t = function() {
+<span class='line'> 93</span>           this.set('selection',(rec) ? [rec] : []) ;
+<span class='line'> 94</span>           this._editingNewRecord = rec ;
+<span class='line'> 95</span>         }.invokeLater(this, 1) ;
+<span class='line'> 96</span>         return rec;
+<span class='line'> 97</span>       }
+<span class='line'> 98</span>     }   
+<span class='line'> 99</span>     catch (e) {
+<span class='line'>100</span>       /</span><span class="REGX">/ DO SOMETHING
+<span class='line'>101</span>     }
+<span class='line'>102</span>   },
+<span class='line'>103</span> 
+<span class='line'>104</span>   addObjects: function(objects) {
+<span class='line'>105</span>     var content = this.get('content') ;
+<span class='line'>106</span>     if (!content || !this.get('canEditCollection')) return ; /</span><span class="REGX">/ only if allowed 
+<span class='line'>107</span>     try {
+<span class='line'>108</span>       objects = SC.$A(arguments).flatten() ;
+<span class='line'>109</span>       if (content.addRecords) { 
+<span class='line'>110</span>         content.addRecords(objects) ;
+<span class='line'>111</span>         this.set('selection',(objects) ? objects : []) ;
+<span class='line'>112</span>       }
+<span class='line'>113</span>     }   
+<span class='line'>114</span>     catch (e) {
+<span class='line'>115</span>       /</span><span class="REGX">/ DO SOMETHING
+<span class='line'>116</span>     }
+<span class='line'>117</span>   },
+<span class='line'>118</span>   
+<span class='line'>119</span>   addSelection: function() { 
+<span class='line'>120</span>     return this.addObjects(this.get('selection'));
+<span class='line'>121</span>   },
+<span class='line'>122</span>   
+<span class='line'>123</span>   /</span><span class="REGX">/ adds a new object to the current collection, if allowed, and sets it
+<span class='line'>124</span>   /</span><span class="REGX">/ as the current selection.
+<span class='line'>125</span>   removeObjects: function(objects) {
+<span class='line'>126</span>     var content = this.get('content') ;
+<span class='line'>127</span>     if (!content || !this.get('canEditCollection')) return ; /</span><span class="REGX">/ only if allowed 
+<span class='line'>128</span>     try {
+<span class='line'>129</span>       objects = SC.$A(arguments).flatten() ;
+<span class='line'>130</span>       if (content.removeRecords) { 
+<span class='line'>131</span>         var rec = content.removeRecords(objects) ;
+<span class='line'>132</span>         var sel = (this.get('selection') || []).without(objects) ;
+<span class='line'>133</span>         this.set('selection',(sel) ? sel : []) ;
+<span class='line'>134</span>       }
+<span class='line'>135</span>     }   
+<span class='line'>136</span>     catch (e) {
+<span class='line'>137</span>       /</span><span class="REGX">/ DO SOMETHING
+<span class='line'>138</span>     }
+<span class='line'>139</span>   },
+<span class='line'>140</span> 
+<span class='line'>141</span>   removeSelection: function() {
+<span class='line'>142</span>     return this.removeObjects(this.get('selection')) ;
+<span class='line'>143</span>   },
+<span class='line'>144</span> 
+<span class='line'>145</span>   /</span><span class="REGX">/ this method is called if a new object was created through the controller
+<span class='line'>146</span>   /</span><span class="REGX">/ and then the selection was changed from the new record without the 
+<span class='line'>147</span>   /</span><span class="REGX">/ record being saved first.  By default, this will remove the object, but
+<span class='line'>148</span>   /</span><span class="REGX">/ you could override it to just do a commit.
+<span class='line'>149</span>   newObjectDidLoseFocus: function(rec) { rec.destroy() ; },
+<span class='line'>150</span>   
+<span class='line'>151</span>   /</span><span class="REGX">/ ...................................
+<span class='line'>152</span>   /</span><span class="REGX">/ PRIVATE
+<span class='line'>153</span>   /</span><span class="REGX">/
+<span class='line'>154</span>   
+<span class='line'>155</span>   _newRecordDidLoseFocus: function(rec) {
+<span class='line'>156</span>     if (rec.get('newRecord')) this.newObjectDidLoseFocus(rec) ;
+<span class='line'>157</span>   },
+<span class='line'>158</span>   
+<span class='line'>159</span>   /</span><span class="REGX">/ Update the current page.
+<span class='line'>160</span>   _pageObserver: function() {
+<span class='line'>161</span>     /</span><span class="REGX">/ get content -- nothing to do if no content.
+<span class='line'>162</span>     var content = this.get('content') ; 
+<span class='line'>163</span>     if (content instanceof Array) content = content[0] ;
+<span class='line'>164</span>     if (!content) return ; 
+<span class='line'>165</span>     
+<span class='line'>166</span>     var curOffset = content.get('offset') || 0 ;
+<span class='line'>167</span>     var curLimit = content.get('limit') || 0 ;
+<span class='line'>168</span>     var count = content.get('count') || 0 ;
+<span class='line'>169</span> 
+<span class='line'>170</span>     /</span><span class="REGX">/ calculate the offset and limit.
+<span class='line'>171</span>     var currentPage = this.get('currentPage') ;
+<span class='line'>172</span>     var pageSize = this.get('pageSize') ;
+<span class='line'>173</span>     var newOffset, newLimit ;
+<span class='line'>174</span>     if (pageSize == 0) {
+<span class='line'>175</span>       newOffset = 0; newLimit = 0 ;
+<span class='line'>176</span>     } else {
+<span class='line'>177</span>       newOffset = currentPage * pageSize ;
+<span class='line'>178</span>       newLimit = pageSize ;      
+<span class='line'>179</span>     }
+<span class='line'>180</span>     
+<span class='line'>181</span>     /</span><span class="REGX">/ set new page info.
+<span class='line'>182</span>     if ((newOffset != curOffset) || (newLimit != curLimit)) {
+<span class='line'>183</span>       content.beginPropertyChanges() ;
+<span class='line'>184</span>       content.set('offset',newOffset) ;
+<span class='line'>185</span>       content.set('limit',newLimit) ;
+<span class='line'>186</span>       content.endPropertyChanges() ;
+<span class='line'>187</span>     }    
+<span class='line'>188</span>   }.observes('currentPage','pageCount','pageSize'),
+<span class='line'>189</span>   
+<span class='line'>190</span>   /</span><span class="REGX">/ invoked whenever the list changes.  Updated the arrangedObjects and
+<span class='line'>191</span>   /</span><span class="REGX">/ potentially the selection.
+<span class='line'>192</span>   _recordsObserver: function(target,key,value) {
+<span class='line'>193</span>     var old = this.get('arrangedObjects') ;
+<span class='line'>194</span>     value = Array.from(target.get(key)) ;
+<span class='line'>195</span>     
+<span class='line'>196</span>     this.set('arrangedObjects',value.slice()) ;
+<span class='line'>197</span>     
+<span class='line'>198</span>     /</span><span class="TOKN"></span></pre></body></html>

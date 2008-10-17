@@ -1,0 +1,2190 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="JsDoc Toolkit" />
+  
+  <title>JsDoc: SC.Observable</title>
+</head>
+
+<style type="text/css">
+  /* @override http://localhost:4020/static/sproutcore/-docs/data/default.css */
+
+/* @group Core */
+
+body.sc-doc {
+  background-color: white  ;
+  padding: 20px;
+}
+
+.sc-doc {
+  font: 64.5% Helvetica, Arial, Verdana, sans-serif;
+  line-height: 1em ;
+}
+
+/* Set standard size on some things. */
+.sc-doc p, 
+.sc-doc dd, 
+.sc-doc dt, 
+.sc-doc li, 
+.sc-doc table {
+  line-height: 1.3em;
+  font-size: 1.3em ;
+}
+
+.sc-doc h1 {
+  font-size: 3em;
+  margin: 0 0 1em 0;
+  text-transform: capitalize;
+}
+
+.sc-doc h2 {
+  padding: 0;
+  padding-bottom: 4px;
+  border-bottom: 1px #555 solid;
+  text-transform: capitalize;
+  margin: 1.5em 0 0;
+  font-size: 2.2em;
+}
+
+.sc-doc h3 {
+  font-size: 2em;
+  padding: 0;
+  margin: 3em 0 0 0;  
+}
+
+.sc-doc h4 {
+  font-weight: normal ;
+  font-size: 1.4em;
+  margin: 0.5em 0 0 0;
+  padding: 0;
+}
+
+.sc-doc h5 {
+  font-size: 1.3em;
+  padding: 0;
+  margin: 1.3em 0 0.5em 0;
+}
+
+.sc-doc p { margin: 0.5em 0; }
+ 
+.sc-doc a {
+  text-decoration: none ;
+}
+
+.sc-doc label {
+  font-weight: bold ;
+}
+
+.sc-doc .sc-theme .ghost {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+  opacity: 0.45;
+  -moz-opacity: .45 ;
+}
+
+.sc-doc dt {
+  font-style: italic;
+}
+
+.sc-doc dd {
+ margin: 0 0 1em 1em;
+}
+
+/* @end */
+
+/* @group Summary Table */
+
+.sc-doc table.summary {
+  min-width: 600px;
+  border: 1px #999 solid;
+  border-bottom: none ;
+  border-spacing: 0;
+  margin-bottom: 2em;
+}
+
+.sc-doc table.summary td {
+  border-bottom: 1px #999 solid;
+  border-collapse: collapse;
+  padding: 0.5em;
+  text-align: left ;
+}
+
+.sc-doc table.summary .even td {
+  background-color: #eef;
+}
+
+.sc-doc table.summary td.label {
+  font-weight: bold ;
+  width: 100px;
+  text-align: right ;
+  padding-right: 4px;
+}
+
+.sc-doc table.summary td.value {
+  min-width: 300px;
+  width: 300px;
+}
+
+/* @end */
+
+/* @group Field & Method Summary */
+
+.sc-doc .summary li {
+  list-style-type: none ;
+  position: relative;
+}
+
+.sc-doc .summary li code {
+  font-size: 1.1em;
+}
+
+.sc-doc .summary li .description {
+  display: none ;
+}
+
+.sc-doc .summary li:hover .description {
+  display: block ;
+  font-size: 0.86em;
+  position: absolute ;
+  left: 80px;
+  bottom: 2em;
+  padding: 0.3em 1em ;
+  background-color: #fff898;
+  border: 1px solid #bbae2f;
+  /* -webkit-box-shadow: rgba(0,0,0,0.3) 0px 2px 5px; */
+  color: #4b4000;
+  z-index: 100;
+}
+
+/* @end */
+
+/* @group Detail */
+
+.sc-doc .detail p.signature {
+  padding: 0;
+  margin: 1em 0;
+  font-family: Courier, mono;
+}
+
+.sc-doc .detail p.signature .type {
+  font-style: italic;
+}
+
+.sc-doc .detail p.signature .name {
+  font-weight: bold ;
+}
+
+/* @end */
+
+.sc-doc .jsdoc_ctime {
+  border-top: 1px #ccc solid ;
+  padding: 4px 0;
+  margin-top: 20px;
+  margin-bottom: 0px;
+  font-size: 1.0em;
+  text-align: center ;
+  color: #888 ;
+}
+
+/* @group Description */
+
+.sc-doc .description blockquote,
+.sc-doc .description p.code {
+  padding:  10px ;
+  margin: 10px 20px;
+  background-color: #f5f5f5 ;
+  border: 1px #ccc solid ;
+}
+
+/* @end */
+
+</style>
+
+<body class="sc-theme sc-doc">
+  <h1>
+    
+    Namespace SC.Observable
+  </h1>
+
+  <table class="summary">
+  
+
+  
+
+  
+
+  
+    <tr class="even">
+      <td class="label">Defined in:</td>
+      <td class="value"><a href="../symbols/src/_Library_Ruby_Gems_1.8_gems_sproutcore-0.9.19_frameworks_sproutcore_mixins_observable.js.html">frameworks/sproutcore/mixins/observable.js</a></td>
+    </tr>
+  
+
+  
+
+  
+  </table>
+
+  
+    <div class="description">
+      <p>Key-Value-Observing (KVO) simply allows one object to observe changes to a property on another object. It is one of the fundamental ways that models, controllers and views communicate with each other in a SproutCore application.  Any object that has this module applied to it can be used in KVO-operations.</p>
+
+<p>This module is applied automatically to all objects that inherit from SC.Object, which includes most objects bundled with the SproutCore framework.  You will not generally apply this module to classes yourself, but you will use the features provided by this module frequently, so it is important to understand how to use it.</p>
+
+<h2> Enabling Key Value Observing</h2>
+
+<p>With KVO, you can write functions that will be called automatically whenever a property on a particular object changes.  You can use this feature to reduce the amount of "glue code" that you often write to tie the various parts of your application together.</p>
+
+<p>To use KVO, just use the KVO-aware methods get() and set() to access properties instead of accessing properties directly.  Instead of writing:</p>
+
+
+<p class="code"><code>var aName = contact.firstName ;<br />contact.firstName = 'Charles' ;</code></p>
+
+<p>use:</p>
+
+
+<p class="code"><code>var aName = contact.get('firstName') ;<br />contact.set('firstName', 'Charles') ;</code></p>
+
+<p>get() and set() work just like the normal "dot operators" provided by JavaScript but they provide you with much more power, including not only observing but computed properties as well.</p>
+
+<h2> Observing Property Changes</h2>
+
+<p>You typically observe property changes simply by adding the observes() call to the end of your method declarations in classes that you write.  For example:</p>
+
+
+<p class="code"><code>SC.Object.create({<br />valueObserver: function() {<br />// Executes whenever the "Value" property changes<br />}.observes('value')<br />}) ;</code></p>
+
+<p>Although this is the most common way to add an observer, this capability is actually built into the SC.Object class on top of two methods defined in this mixin called addObserver() and removeObserver().  You can use these two methods to add and remove observers yourself if you need to do so at run time.</p>
+
+<p>To add an observer for a property, just call:</p>
+
+
+<p class="code"><code>object.addObserver('propertyKey', targetObject, targetAction) ;</code></p>
+
+<p>This will call the 'targetAction' method on the targetObject to be called whenever the value of the propertyKey changes.</p>
+
+
+<h2> Implementing Manual Change Notifications</h2>
+
+<p>Sometimes you may want to control the rate at which notifications for a property are delivered, for example by checking first to make sure that the value has changed.</p>
+
+<p>To do this, you need to implement a computed property for the property you want to change and override automaticallyNotifiesObserversFor().</p>
+
+<p>The example below will only notify if the "balance" property value actually changes:</p>
+
+
+<p class="code"><code><br />automaticallyNotifiesObserversFor: function(key) {<br />return (key === 'balance') ? NO : sc_super() ;<br />},<br /><br />balance: function(key, value) {<br />var balance = this._balance ;<br />if ((value !== undefined) &amp;&amp; (balance !== value)) {<br />this.propertyWillChange(key) ;<br />balance = this._balance = value ;<br />this.propertyDidChange(key) ;<br />}<br />return balance ;<br />}<br /></code></p>
+
+    </div>
+  
+
+  <!-- ============================== properties summary ===================== -->
+  
+
+  
+
+<!-- ============================== methods summary ======================== -->
+  
+    <h2>Method Summary</h2>
+    
+    
+      <div class="method-summary summary">
+        <ul>
+          
+            <li>
+              <a href="#SC.Observable.addObserver">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;SC.Object
+                    
+                  
+                  addObserver(key, func)
+                </code>
+              </a>
+              
+                <div class="description">Adds an observer on a property.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Observable.allPropertiesDidChange">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;this
+                    
+                  
+                  allPropertiesDidChange()
+                </code>
+              </a>
+              
+                <div class="description">Notifies all of observers of a property changes.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Observable.automaticallyNotifiesObserversFor">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Boolean
+                    
+                  
+                  automaticallyNotifiesObserversFor(key)
+                </code>
+              </a>
+              
+                <div class="description">Determines whether observers should be automatically notified of changes
+    to a key.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Observable.beginPropertyChanges">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;this
+                    
+                  
+                  beginPropertyChanges()
+                </code>
+              </a>
+              
+                <div class="description">Begins a grouping of property changes.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Observable.bind">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  bind(toKey, fromPropertyPath)
+                </code>
+              </a>
+              
+                <div class="description">Manually add a new binding to an object.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Observable.decrementProperty">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Number
+                    
+                  
+                  decrementProperty(key)
+                </code>
+              </a>
+              
+                <div class="description">decrements a property</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Observable.didChangeFor">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  didChangeFor(context)
+                </code>
+              </a>
+              
+                <div class="description">didChangeFor makes it easy for you to verify that you haven't seen any
+    changed values.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Observable.endPropertyChanges">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;this
+                    
+                  
+                  endPropertyChanges()
+                </code>
+              </a>
+              
+                <div class="description">Ends a grouping of property changes.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Observable.get">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Object
+                    
+                  
+                  get(key)
+                </code>
+              </a>
+              
+                <div class="description">Retrieves the value of key from the object.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Observable.getEach">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Array
+                    
+                  
+                  getEach()
+                </code>
+              </a>
+              
+                <div class="description">Convenience method to get an array of properties.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Observable.getPath">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  getPath(path)
+                </code>
+              </a>
+              
+                <div class="description">Navigates the property path, returning the value at that point.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Observable.incrementProperty">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Number
+                    
+                  
+                  incrementProperty(key)
+                </code>
+              </a>
+              
+                <div class="description">Increments the value of a property.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Observable.logProperty">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  logProperty(propertyNames)
+                </code>
+              </a>
+              
+                <div class="description">Logs the named properties to the console.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Observable.notifyPropertyChange">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;this
+                    
+                  
+                  notifyPropertyChange(key, value)
+                </code>
+              </a>
+              
+                <div class="description">Convenience method to call propertyWillChange/propertyDidChange.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Observable.observeOnce">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  observeOnce(key, func, timeout)
+                </code>
+              </a>
+              
+                <div class="description">This method will listen for the observed value to change one time and 
+    then will remove itself.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Observable.propertyDidChange">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;this
+                    
+                  
+                  propertyDidChange(key, value)
+                </code>
+              </a>
+              
+                <div class="description">Notify the observer system that a property has just changed.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Observable.propertyObserver">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;void
+                    
+                  
+                  propertyObserver(observer, target, key, value)
+                </code>
+              </a>
+              
+                <div class="description">Generic property observer called whenever a property on the receiver 
+    changes.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Observable.propertyWillChange">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;this
+                    
+                  
+                  propertyWillChange(key)
+                </code>
+              </a>
+              
+                <div class="description">Notify the observer system that a property is about to change.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Observable.registerDependentKey">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                  registerDependentKey(key)
+                </code>
+              </a>
+              
+                <div class="description">Use this to indicate that one key changes if other keys it depends on 
+    change.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Observable.set">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;this
+                    
+                  
+                  set(key, value)
+                </code>
+              </a>
+              
+                <div class="description">Sets the key equal to value.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Observable.setIfChanged">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;this
+                    
+                  
+                  setIfChanged(key, value)
+                </code>
+              </a>
+              
+                <div class="description">Sets the property only if the passed value is different from the
+    current value.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Observable.setPath">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;this
+                    
+                  
+                  setPath(path, value)
+                </code>
+              </a>
+              
+                <div class="description">Navigates the property path, finally setting the value.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Observable.toggleProperty">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Object
+                    
+                  
+                  toggleProperty(key, value, alt)
+                </code>
+              </a>
+              
+                <div class="description">Inverts a property.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Observable.unknownProperty">
+                <code class="type">
+                  +
+                  
+                  &nbsp;
+                  
+                    
+                      &nbsp;Object
+                    
+                  
+                  unknownProperty(key, value)
+                </code>
+              </a>
+              
+                <div class="description">Called whenever you try to get or set an undefined property.</div>
+              
+            </li>
+          
+        </ul>
+      </div>
+    
+    
+    
+  
+
+<!-- ============================== field details ========================== -->    
+  
+
+<!-- ============================== method details ========================= -->    
+  
+    <div class="method-detail detail">
+      <a name="method_detail"><h2>Method Details</h2></a> 
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Observable.addObserver"></a> 
+          <h3>addObserver()</h3>
+          <p class="summary">Adds an observer on a property.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  SC.Object&nbsp;
+                
+              
+            </span>
+            <span class="name">addObserver</span>
+            <span class="params">(key, func)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">key </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+            
+              <dt><span class="name">func </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">SC.Object</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>This is the core method used to register an observer for a property.</p>
+
+<p>Once you call this method, anytime the key's value is set, your observer will be notified.  Note that the observers are triggered anytime the value is set, regardless of whether it has actually changed.  Your observer should be prepared to handle that.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Observable.allPropertiesDidChange"></a> 
+          <h3>allPropertiesDidChange()</h3>
+          <p class="summary">Notifies all of observers of a property changes.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  this&nbsp;
+                
+              
+            </span>
+            <span class="name">allPropertiesDidChange</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">this</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>Sometimes when you make a major update to your object, it is cheaper to simply notify all observers that their property might have changed than to figure out specifically which properties actually did change.</p>
+
+<p>In those cases, you can simply call this method to notify all property observers immediately.  Note that this ignores property groups.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Observable.automaticallyNotifiesObserversFor"></a> 
+          <h3>automaticallyNotifiesObserversFor()</h3>
+          <p class="summary">Determines whether observers should be automatically notified of changes
+    to a key.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Boolean&nbsp;
+                
+              
+            </span>
+            <span class="name">automaticallyNotifiesObserversFor</span>
+            <span class="params">(key)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">key </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Boolean</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>If you are manually implementing change notifications for a property, you can override this method to return NO for properties you do not want the observing system to automatically notify for.</p>
+
+<p>The default implementation always returns YES.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Observable.beginPropertyChanges"></a> 
+          <h3>beginPropertyChanges()</h3>
+          <p class="summary">Begins a grouping of property changes.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  this&nbsp;
+                
+              
+            </span>
+            <span class="name">beginPropertyChanges</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">this</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>You can use this method to group property changes so that notifications will not be sent until the changes are finished.  If you plan to make a large number of changes to an object at one time, you should call this method at the beginning of the changes to suspend change notifications. When you are done making changes, all endPropertyChanges() to allow notification to resume.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Observable.bind"></a> 
+          <h3>bind()</h3>
+          <p class="summary">Manually add a new binding to an object.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">bind</span>
+            <span class="params">(toKey, fromPropertyPath)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>This is the same as doing the more familiar propertyBinding: 'property.path' approach.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Observable.decrementProperty"></a> 
+          <h3>decrementProperty()</h3>
+          <p class="summary">decrements a property</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Number&nbsp;
+                
+              
+            </span>
+            <span class="name">decrementProperty</span>
+            <span class="params">(key)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">key </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Number</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Observable.didChangeFor"></a> 
+          <h3>didChangeFor()</h3>
+          <p class="summary">didChangeFor makes it easy for you to verify that you haven't seen any
+    changed values.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">didChangeFor</span>
+            <span class="params">(context)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>You need to use this if your method observes multiple properties.  To use this, call it like this:</p>
+
+<p>if (this.didChangeFor('render','height','width')) { // DO SOMETHING HERE IF CHANGED. }</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Observable.endPropertyChanges"></a> 
+          <h3>endPropertyChanges()</h3>
+          <p class="summary">Ends a grouping of property changes.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  this&nbsp;
+                
+              
+            </span>
+            <span class="name">endPropertyChanges</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">this</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>You can use this method to group property changes so that notifications will not be sent until the changes are finished.  If you plan to make a large number of changes to an object at one time, you should call beginsPropertyChanges() at the beginning of the changes to suspend change notifications. When you are done making changes, call this method to allow notification to resume.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Observable.get"></a> 
+          <h3>get()</h3>
+          <p class="summary">Retrieves the value of key from the object.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Object&nbsp;
+                
+              
+            </span>
+            <span class="name">get</span>
+            <span class="params">(key)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">key </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Object</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>This method is generally very similar to using object[key] or object.key, however it supports both computed properties and the unknownProperty handler. Computed Properties*</p>
+
+<p>Computed properties are methods defined with the property() modifier declared at the end, such as:</p>
+
+
+<p class="code"><code>fullName: function() {<br />return this.getEach('firstName', 'lastName').compact().join(' ');<br />}.property('firstName', 'lastName')</code></p>
+
+<p>When you call get() on a computed property, the property function will be called and the return value will be returned instead of the function itself. Unknown Properties*</p>
+
+<p>Likewise, if you try to call get() on a property whose values is undefined, the unknownProperty() method will be called on the object. If this method reutrns any value other than undefined, it will be returned instead.  This allows you to implement "virtual" properties that are not defined upfront.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Observable.getEach"></a> 
+          <h3>getEach()</h3>
+          <p class="summary">Convenience method to get an array of properties.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Array&nbsp;
+                
+              
+            </span>
+            <span class="name">getEach</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Array</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>Pass in multiple property keys or an array of property keys.  This method uses getPath() so you can also pass key paths.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Observable.getPath"></a> 
+          <h3>getPath()</h3>
+          <p class="summary">Navigates the property path, returning the value at that point.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">getPath</span>
+            <span class="params">(path)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>If any object in the path is undefined, returns undefined.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Observable.incrementProperty"></a> 
+          <h3>incrementProperty()</h3>
+          <p class="summary">Increments the value of a property.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Number&nbsp;
+                
+              
+            </span>
+            <span class="name">incrementProperty</span>
+            <span class="params">(key)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">key </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Number</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Observable.logProperty"></a> 
+          <h3>logProperty()</h3>
+          <p class="summary">Logs the named properties to the console.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">logProperty</span>
+            <span class="params">(propertyNames)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">propertyNames </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Observable.notifyPropertyChange"></a> 
+          <h3>notifyPropertyChange()</h3>
+          <p class="summary">Convenience method to call propertyWillChange/propertyDidChange.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  this&nbsp;
+                
+              
+            </span>
+            <span class="name">notifyPropertyChange</span>
+            <span class="params">(key, value)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">key </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+            
+              <dt><span class="name">value </span></dt>
+              
+              <dd><p>May be null.</p></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">this</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>Sometimes you need to notify observers that a property has changed value without actually changing this value.  In those cases, you can use this method as a convenience instead of calling propertyWillChange() and propertyDidChange().</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Observable.observeOnce"></a> 
+          <h3>observeOnce()</h3>
+          <p class="summary">This method will listen for the observed value to change one time and 
+    then will remove itself.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">observeOnce</span>
+            <span class="params">(key, func, timeout)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>You can also set an optional timeout that will cause the function to be triggered (and the observer removed) after a set amount of time even if the value never changes.  The function can expect an extra parameter, 'didTimeout', set to true.</p>
+
+<p>The returned value is the function actually set as the observer. You can manually remove this observer by calling the cancel() method on it.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Observable.propertyDidChange"></a> 
+          <h3>propertyDidChange()</h3>
+          <p class="summary">Notify the observer system that a property has just changed.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  this&nbsp;
+                
+              
+            </span>
+            <span class="name">propertyDidChange</span>
+            <span class="params">(key, value)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">key </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+            
+              <dt><span class="name">value </span></dt>
+              
+              <dd><p>May be null.</p></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">this</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>Sometimes you need to change a value directly or indirectly without actually calling get() or set() on it.  In this case, you can use this method and propertyWillChange() instead.  Calling these two methods together will notify all observers that the property has potentially changed value.</p>
+
+<p>Note that you must always call propertyWillChange and propertyDidChange as a pair. If you do not, it may get the property change groups out of order and cause notifications to be delivered more often than you would like.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Observable.propertyObserver"></a> 
+          <h3>propertyObserver()</h3>
+          <p class="summary">Generic property observer called whenever a property on the receiver 
+    changes.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  void&nbsp;
+                
+              
+            </span>
+            <span class="name">propertyObserver</span>
+            <span class="params">(observer, target, key, value)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">observer </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+            
+              <dt><span class="name">target </span></dt>
+              
+              <dd><p>usually this</p></dd>
+              
+            
+            
+            
+              <dt><span class="name">key </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+            
+              <dt><span class="name">value </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">void</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>If you need to observe a large number of properties on your object, it is sometimes more efficient to implement this observer only and then to handle requests yourself.  Although this observer will be triggered more often than an observer registered on a specific property, it also does not need to be registered which can make it faster to setup your object instance.</p>
+
+<p>You will often implement this observer using a switch statement on the key parameter, taking appropriate action.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Observable.propertyWillChange"></a> 
+          <h3>propertyWillChange()</h3>
+          <p class="summary">Notify the observer system that a property is about to change.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  this&nbsp;
+                
+              
+            </span>
+            <span class="name">propertyWillChange</span>
+            <span class="params">(key)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">key </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">this</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>Sometimes you need to change a value directly or indirectly without actually calling get() or set() on it.  In this case, you can use this method and propertyDidChange() instead.  Calling these two methods together will notify all observers that the property has potentially changed value.</p>
+
+<p>Note that you must always call propertyWillChange and propertyDidChange as a pair.  If you do not, it may get the property change groups out of order and cause notifications to be delivered more often than you would like.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Observable.registerDependentKey"></a> 
+          <h3>registerDependentKey()</h3>
+          <p class="summary">Use this to indicate that one key changes if other keys it depends on 
+    change.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">registerDependentKey</span>
+            <span class="params">(key)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Observable.set"></a> 
+          <h3>set()</h3>
+          <p class="summary">Sets the key equal to value.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  this&nbsp;
+                
+              
+            </span>
+            <span class="name">set</span>
+            <span class="params">(key, value)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">key </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+            
+              <dt><span class="name">value </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">this</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>This method is generally very similar to calling object[key] = value or object.key = value, except that it provides support for computed properties, the unknownProperty() method and property observers. Computed Properties*</p>
+
+<p>If you try to set a value on a key that has a computed property handler defined (see the get() method for an example), then set() will call that method, passing both the value and key instead of simply changing the value itself.  This is useful for those times when you need to implement a property that is composed of one or more member properties. Unknown Properties*</p>
+
+<p>If you try to set a value on a key that is undefined in the target object, then the unknownProperty() handler will be called instead.  This gives you an opportunity to implement complex "virtual" properties that are not predefined on the obejct.  If unknownProperty() returns undefined, then set() will simply set the value on the object. Property Observers*</p>
+
+<p>In addition to changing the property, set() will also register a property change with the object.  Unless you have placed this call inside of a beginPropertyChanges() and endPropertyChanges(), any "local" observers (i.e. observer methods declared on the same object), will be called immediately.  Any "remote" observers (i.e. observer methods declared on another object) will be placed in a queue and called at a later time in a coelesced manner. Chaining*</p>
+
+<p>In addition to property changes, set() returns the value of the object itself so you can do chaining like this:</p>
+
+
+<p class="code"><code>record.set('firstName', 'Charles').set('lastName', 'Jolley');</code></p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Observable.setIfChanged"></a> 
+          <h3>setIfChanged()</h3>
+          <p class="summary">Sets the property only if the passed value is different from the
+    current value.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  this&nbsp;
+                
+              
+            </span>
+            <span class="name">setIfChanged</span>
+            <span class="params">(key, value)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">key </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+            
+              <dt><span class="name">value </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">this</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>Depending on how expensive a get() is on this property, this may be more efficient.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Observable.setPath"></a> 
+          <h3>setPath()</h3>
+          <p class="summary">Navigates the property path, finally setting the value.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  this&nbsp;
+                
+              
+            </span>
+            <span class="name">setPath</span>
+            <span class="params">(path, value)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">path </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+            
+              <dt><span class="name">value </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">this</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Observable.toggleProperty"></a> 
+          <h3>toggleProperty()</h3>
+          <p class="summary">Inverts a property.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Object&nbsp;
+                
+              
+            </span>
+            <span class="name">toggleProperty</span>
+            <span class="params">(key, value, alt)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">key </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+            
+              <dt><span class="name">value </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+            
+              <dt><span class="name">alt </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Object</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>Property should be a bool.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Observable.unknownProperty"></a> 
+          <h3>unknownProperty()</h3>
+          <p class="summary">Called whenever you try to get or set an undefined property.</p>
+
+          
+
+          <p class="signature">
+            +
+            
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Object&nbsp;
+                
+              
+            </span>
+            <span class="name">unknownProperty</span>
+            <span class="params">(key, value)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+          
+            <h5>Parameters</h5>
+            
+            
+              <dt><span class="name">key </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+            
+              <dt><span class="name">value </span></dt>
+              
+              <dd></dd>
+              
+            
+            
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Object</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>This is a generic property handler.  If you define it, it will be called when the named property is not yet set in the object.  The default does nothing.</p>
+          </div>
+
+          
+        </div>
+      
+    </div>
+  
+  
+<!-- ============================== footer ================================= -->
+  <div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoctoolkit.org/" target="_parent">JsDoc Toolkit</a> 2.0.1 on Thu Oct 02 2008 13:39:05 GMT-0600 (MDT)</div>
+</body>
+</html>

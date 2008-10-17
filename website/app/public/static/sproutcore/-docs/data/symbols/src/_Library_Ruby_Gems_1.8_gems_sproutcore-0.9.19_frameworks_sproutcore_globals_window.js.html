@@ -1,0 +1,506 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+  .KEYW {color: #933;}
+  .COMM {color: #bbb; font-style: italic;}
+  .NUMB {color: #393;}
+  .STRN {color: #393;}
+  .REGX {color: #339;}
+  .line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+  </style></head><body><pre><span class='line'>  1</span> <span class="COMM">// ========================================================================</span><span class="WHIT">
+<span class='line'>  2</span> </span><span class="COMM">// SproutCore</span><span class="WHIT">
+<span class='line'>  3</span> </span><span class="COMM">// copyright 2006-2008 Sprout Systems, Inc.</span><span class="WHIT">
+<span class='line'>  4</span> </span><span class="COMM">// ========================================================================</span><span class="WHIT">
+<span class='line'>  5</span> 
+<span class='line'>  6</span> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'core'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  7</span> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'foundation/responder'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  8</span> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'panes/pane'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  9</span> 
+<span class='line'> 10</span> </span><span class="NAME">SC.CAPTURE_BACKSPACE_KEY</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 11</span> 
+<span class='line'> 12</span> </span><span class="COMM">// The window global object is automatically setup for each window that you </span><span class="WHIT">
+<span class='line'> 13</span> </span><span class="COMM">// load.  Window listens for mouse and keyboard events and routes them to the</span><span class="WHIT">
+<span class='line'> 14</span> </span><span class="COMM">// first responder.  Using the firstResponder method you can control who gets</span><span class="WHIT">
+<span class='line'> 15</span> </span><span class="COMM">// to respond to keyboard events.</span><span class="WHIT">
+<span class='line'> 16</span> </span><span class="NAME">SC.window</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.PaneView.extend</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 17</span>   
+<span class='line'> 18</span>   </span><span class="COMM">// This finds the first view responding to the event.</span><span class="WHIT">
+<span class='line'> 19</span>   </span><span class="NAME">firstViewForEvent</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 20</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">el</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Event.element</span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 21</span>     </span><span class="KEYW">while</span><span class="PUNC">(</span><span class="NAME">el</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">el</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="NAME">document</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">el._configured</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">el</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">el.parentNode</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 22</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">el</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">el</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.View.findViewForElement</span><span class="PUNC">(</span><span class="NAME">el</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 23</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">el</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">el</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 24</span>   	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">el</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 25</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 26</span> 
+<span class='line'> 27</span>   </span><span class="COMM">// ........................................................................</span><span class="WHIT">
+<span class='line'> 28</span>   </span><span class="COMM">// Window Size/Resizing</span><span class="WHIT">
+<span class='line'> 29</span>   </span><span class="COMM">//</span><span class="WHIT">
+<span class='line'> 30</span> 
+<span class='line'> 31</span>   </span><span class="NAME">innerFrame</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
+<span class='line'> 32</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.frame</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> 
+<span class='line'> 33</span>   </span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">property</span><span class="PUNC">(</span><span class="STRN">'frame'</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 34</span>   
+<span class='line'> 35</span>   </span><span class="NAME">clippingFrame</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
+<span class='line'> 36</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.frame</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> 
+<span class='line'> 37</span>   </span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">property</span><span class="PUNC">(</span><span class="STRN">'frame'</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 38</span> 
+<span class='line'> 39</span>   </span><span class="NAME">scrollFrame</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
+<span class='line'> 40</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.frame</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> 
+<span class='line'> 41</span>   </span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">property</span><span class="PUNC">(</span><span class="STRN">'frame'</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 42</span>   
+<span class='line'> 43</span>   </span><span class="NAME">frame</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 44</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">size</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'size'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 45</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">width</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">size.width</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">height</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">size.height</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 46</span>   </span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">property</span><span class="PUNC">(</span><span class="STRN">'size'</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 47</span>   
+<span class='line'> 48</span>   </span><span class="COMM">// this returns the size of the window, possibly reading it from the browser</span><span class="WHIT">
+<span class='line'> 49</span>   </span><span class="COMM">// if needed.</span><span class="WHIT">
+<span class='line'> 50</span>   </span><span class="NAME">size</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 51</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this._size</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 52</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">window.innerHeight</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 53</span>         </span><span class="NAME">this._size</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
+<span class='line'> 54</span>           </span><span class="NAME">width</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">window.innerWidth</span><span class="PUNC">,</span><span class="WHIT"> 
+<span class='line'> 55</span>           </span><span class="NAME">height</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">window.innerHeight</span><span class="WHIT">
+<span class='line'> 56</span>         </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 57</span>       </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">document.documentElement</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">document.documentElement.clientHeight</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 58</span>         </span><span class="NAME">this._size</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
+<span class='line'> 59</span>           </span><span class="NAME">width</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">document.documentElement.clientWidth</span><span class="PUNC">,</span><span class="WHIT"> 
+<span class='line'> 60</span>           </span><span class="NAME">height</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">document.documentElement.clientHeight</span><span class="WHIT">
+<span class='line'> 61</span>         </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 62</span>       </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">document.body</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 63</span>         </span><span class="NAME">this._size</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
+<span class='line'> 64</span>           </span><span class="NAME">width</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">document.body.clientWidth</span><span class="PUNC">,</span><span class="WHIT"> 
+<span class='line'> 65</span>           </span><span class="NAME">height</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">document.body.clientHeight</span><span class="WHIT">
+<span class='line'> 66</span>         </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 67</span>       </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 68</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 69</span>     
+<span class='line'> 70</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._size</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 71</span>   </span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">property</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 72</span>   
+<span class='line'> 73</span>   </span><span class="NAME">autoresizesChildViews</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 74</span>   
+<span class='line'> 75</span>   </span><span class="NAME">_onresize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 76</span>     </span><span class="NAME">SC.runLoop.beginRunLoop</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 77</span>     
+<span class='line'> 78</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">oldSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Object.clone</span><span class="PUNC">(</span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'size'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 79</span>     </span><span class="NAME">this._size</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 80</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">newSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'size'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 81</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">newSize.width</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="NAME">oldSize.width</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">newSize.height</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="NAME">oldSize.height</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 82</span>       </span><span class="NAME">this.resizeChildrenWithOldSize</span><span class="PUNC">(</span><span class="NAME">oldSize</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 83</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 84</span>     
+<span class='line'> 85</span>     </span><span class="NAME">SC.runLoop.endRunLoop</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 86</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 87</span>   
+<span class='line'> 88</span>   </span><span class="COMM">// ........................................................................</span><span class="WHIT">
+<span class='line'> 89</span>   </span><span class="COMM">// Keyboard Handling</span><span class="WHIT">
+<span class='line'> 90</span>   </span><span class="COMM">//</span><span class="WHIT">
+<span class='line'> 91</span> 
+<span class='line'> 92</span>   </span><span class="NAME">_lastModifiers</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 93</span>   </span><span class="NAME">_handleModifierChanges</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 94</span>   </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 95</span>     </span><span class="COMM">//console.debug('_lastModifiers: %o', this._lastModifiers);</span><span class="WHIT">
+<span class='line'> 96</span>     </span><span class="COMM">// if the modifier keys have changed, then notify the first responder.</span><span class="WHIT">
+<span class='line'> 97</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">m</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._lastModifiers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._lastModifiers</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">alt</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">ctrl</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">shift</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 98</span> 
+<span class='line'> 99</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">changed</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>100</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">evt.altKey</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="NAME">m.alt</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">m.alt</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">evt.altKey</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">changed</span><span class="PUNC">=</span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>101</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">evt.ctrlKey</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="NAME">m.ctrl</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">m.ctrl</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">evt.ctrlKey</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">changed</span><span class="PUNC">=</span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>102</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">evt.shiftKey</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="NAME">m.shift</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">m.shift</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">evt.shiftKey</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">changed</span><span class="PUNC">=</span><span class="KEYW">true</span><span class="PUNC">;</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>103</span> 
+<span class='line'>104</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">changed</span><span class="PUNC">)</span><span class="WHIT"> 
+<span class='line'>105</span>     </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>106</span>       </span><span class="NAME">evt._type</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'flagsChanged'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>107</span>       </span><span class="NAME">evt._modifiers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">m</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>108</span>       </span><span class="NAME">SC.app.sendEvent</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">evt</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>109</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>110</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>111</span>   
+<span class='line'>112</span>   </span><span class="COMM">// this one gets called once when the key is down.  We use this to handle</span><span class="WHIT">
+<span class='line'>113</span>   </span><span class="COMM">// function and non-printable keys. (i.e. if a modifier key is pressed or</span><span class="WHIT">
+<span class='line'>114</span>   </span><span class="COMM">// we can map to some non-printable set of keycodes.)</span><span class="WHIT">
+<span class='line'>115</span>   </span><span class="NAME">_onkeydown</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>116</span>   </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>117</span>     </span><span class="COMM">// Firefox does NOT handle delete here...</span><span class="WHIT">
+<span class='line'>118</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">SC.Platform.Firefox</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">evt.which</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NUMB">8</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>119</span>       </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>120</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>121</span>     
+<span class='line'>122</span>     </span><span class="COMM">// modifier keys are handled separately by the 'flagsChanged' event</span><span class="WHIT">
+<span class='line'>123</span>     </span><span class="NAME">this._handleModifierChanges</span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>124</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this._isModifierKey</span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>125</span>     
+<span class='line'>126</span>     </span><span class="COMM">// let normal browser processing do its thing.</span><span class="WHIT">
+<span class='line'>127</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this._isFunctionOrNonPrintableKey</span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">  
+<span class='line'>128</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._sendEvent</span><span class="PUNC">(</span><span class="STRN">'keyDown'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">evt</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>129</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>130</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>131</span> 
+<span class='line'>132</span>   </span><span class="COMM">// this one gets used for all the other keys not handled by key down.</span><span class="WHIT">
+<span class='line'>133</span>   </span><span class="COMM">// FireFox also needs to handle delete here...</span><span class="WHIT">
+<span class='line'>134</span>   </span><span class="NAME">_onkeypress</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>135</span>   </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>136</span> 
+<span class='line'>137</span>     </span><span class="COMM">// handled in _onkeydown</span><span class="WHIT">
+<span class='line'>138</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">SC.Platform.Firefox</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">evt.which</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NUMB">8</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>139</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._sendEvent</span><span class="PUNC">(</span><span class="STRN">'keyDown'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">evt</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>140</span> 
+<span class='line'>141</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>142</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this._isFunctionOrNonPrintableKey</span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT"> 
+<span class='line'>143</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">evt.charCode</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">evt.charCode</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>144</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._sendEvent</span><span class="PUNC">(</span><span class="STRN">'keyDown'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">evt</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>145</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>146</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>147</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>148</span>   
+<span class='line'>149</span>   </span><span class="NAME">_onkeyup</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>150</span>   </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>151</span>     </span><span class="COMM">// modifier keys are handled separately by the 'flagsChanged' event</span><span class="WHIT">
+<span class='line'>152</span>     </span><span class="NAME">this._handleModifierChanges</span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>153</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this._isModifierKey</span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>154</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this._sendEvent</span><span class="PUNC">(</span><span class="STRN">'keyUp'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">evt</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>155</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>156</span> 
+<span class='line'>157</span>   </span><span class="NAME">_sendEvent</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">sctype</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">evt</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>158</span>   </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>159</span>     </span><span class="NAME">SC.runLoop.beginRunLoop</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>160</span>     
+<span class='line'>161</span>     </span><span class="NAME">evt._type</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">sctype</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>162</span>     </span><span class="NAME">evt._stopWhenHandled</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">evt._stopWhenHandled</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">evt._stopWhenHandled</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>163</span>     
+<span class='line'>164</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">handler</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.app.sendEvent</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">evt</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>165</span>     
+<span class='line'>166</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>167</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">handler</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">evt._stopWhenHandled</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>168</span>       </span><span class="NAME">Event.stop</span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>169</span>       </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>170</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>171</span>     
+<span class='line'>172</span>     </span><span class="NAME">SC.runLoop.endRunLoop</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>173</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> 
+<span class='line'>174</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>175</span> 
+<span class='line'>176</span>   </span><span class="COMM">// util code factored out of keypress and keydown handlers</span><span class="WHIT">
+<span class='line'>177</span>   </span><span class="NAME">_isFunctionOrNonPrintableKey</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">evt</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>178</span>   </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>179</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="PUNC">!</span><span class="PUNC">(</span><span class="NAME">evt.altKey</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">evt.ctrlKey</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">SC.FUNCTION_KEYS</span><span class="PUNC">[</span><span class="NAME">evt.keyCode</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>180</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>181</span>   </span><span class="NAME">_isModifierKey</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">evt</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>182</span>   </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>183</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="PUNC">!</span><span class="NAME">SC.MODIFIER_KEYS</span><span class="PUNC">[</span><span class="NAME">evt.keyCode</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>184</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>185</span>   
+<span class='line'>186</span> 
+<span class='line'>187</span>   
+<span class='line'>188</span>   </span><span class="COMM">// ........................................................................</span><span class="WHIT">
+<span class='line'>189</span>   </span><span class="COMM">// Mouse Handling</span><span class="WHIT">
+<span class='line'>190</span>   </span><span class="COMM">//</span><span class="WHIT">
+<span class='line'>191</span>   </span><span class="COMM">// Mouse clicks are routed to the target view.</span><span class="WHIT">
+<span class='line'>192</span>   </span><span class="COMM">//</span><span class="WHIT">
+<span class='line'>193</span>   </span><span class="NAME">_mouseDownView</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>194</span>   </span><span class="NAME">_clickCount</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>195</span>   </span><span class="NAME">_lastMouseUpAt</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>196</span>   
+<span class='line'>197</span>   </span><span class="NAME">dragDidStart</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">drag</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>198</span>     </span><span class="NAME">this._mouseDownView</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">drag</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">  
+<span class='line'>199</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>200</span>   
+<span class='line'>201</span>   </span><span class="NAME">_onmousedown</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>202</span>   </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>203</span>     </span><span class="NAME">SC.runLoop.beginRunLoop</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>204</span> 
+<span class='line'>205</span>     </span><span class="COMM">// make sure the view gets focus no matter what.  FF is inconsistant </span><span class="WHIT">
+<span class='line'>206</span>     </span><span class="COMM">// about this.</span><span class="WHIT">
+<span class='line'>207</span>     </span><span class="NAME">this._onfocus</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> 
+<span class='line'>208</span>     
+<span class='line'>209</span>     </span><span class="COMM">// first, save the click count.  Click count resets if your down is</span><span class="WHIT">
+<span class='line'>210</span>     </span><span class="COMM">// more than 125msec after you last click up.</span><span class="WHIT">
+<span class='line'>211</span>     </span><span class="NAME">this._clickCount</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._clickCount</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>212</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this._lastMouseUpAt</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">Date.now</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">this._lastMouseUpAt</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">200</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>213</span>       </span><span class="NAME">this._clickCount</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> 
+<span class='line'>214</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>215</span>     </span><span class="NAME">evt.clickCount</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._clickCount</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>216</span>     
+<span class='line'>217</span>     </span><span class="NAME">evt._type</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'mouseDown'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>218</span>     </span><span class="NAME">evt._stopWhenHandled</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">evt._stopWhenHandled</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">evt._stopWhenHandled</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>219</span> 
+<span class='line'>220</span>     </span><span class="NAME">this._mouseDownView</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.app.sendEvent</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">evt</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>221</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>222</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this._mouseDownView</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">evt._stopWhenHandled</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>223</span>     </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>224</span>       </span><span class="NAME">Event.stop</span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>225</span>       </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>226</span>       </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">this._mouseDownView.mouseDragged</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">$type</span><span class="PUNC">(</span><span class="NAME">this._mouseDownView.mouseDragged</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">T_FUNCTION</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>227</span>         </span><span class="COMM">//IE7: if the mouseDownView handles the mouseDragged event, set mouseCanDrag</span><span class="WHIT">
+<span class='line'>228</span>         </span><span class="COMM">//to true.  TODO: make an optional "allowBrowserSelect" property that</span><span class="WHIT">
+<span class='line'>229</span>         </span><span class="COMM">// would do the same thing; for now let's just prevent it in this case</span><span class="WHIT">
+<span class='line'>230</span>         </span><span class="NAME">this._mouseCanDrag</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>231</span>       </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>232</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>233</span> 
+<span class='line'>234</span>     </span><span class="NAME">SC.runLoop.endRunLoop</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>235</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>236</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>237</span>   
+<span class='line'>238</span>   </span><span class="COMM">// mouseUp only gets delivered to the view that handled the mouseDown evt.</span><span class="WHIT">
+<span class='line'>239</span>   </span><span class="COMM">// we also handle click and double click notifications through here to </span><span class="WHIT">
+<span class='line'>240</span>   </span><span class="COMM">// ensure consistant delivery.  Note that if mouseDownView is not</span><span class="WHIT">
+<span class='line'>241</span>   </span><span class="COMM">// implemented, then no mouseUp event will be sent, but a click will be </span><span class="WHIT">
+<span class='line'>242</span>   </span><span class="COMM">// send.</span><span class="WHIT">
+<span class='line'>243</span>   </span><span class="NAME">_onmouseup</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>244</span>   </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>245</span>     </span><span class="NAME">SC.runLoop.beginRunLoop</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>246</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">handler</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>247</span> 
+<span class='line'>248</span>     </span><span class="NAME">this._lastMouseUpAt</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Date.now</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>249</span> 
+<span class='line'>250</span>     </span><span class="COMM">// record click count.</span><span class="WHIT">
+<span class='line'>251</span>     </span><span class="NAME">evt.clickCount</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._clickCount</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>252</span>     
+<span class='line'>253</span>     </span><span class="COMM">// attempt the mouseup call only if there's a target.</span><span class="WHIT">
+<span class='line'>254</span>     </span><span class="COMM">// don't want a mouseup going to anyone unless they handled the mousedown...</span><span class="WHIT">
+<span class='line'>255</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this._mouseDownView</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>256</span>     </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>257</span>       </span><span class="NAME">evt._type</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'mouseUp'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>258</span>       </span><span class="NAME">handler</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.app.sendEvent</span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this._mouseDownView</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>259</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>260</span>     </span><span class="COMM">// no one handled the mouseup... try doubleclick...</span><span class="WHIT">
+<span class='line'>261</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">handler</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this._clickCount</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>262</span>     </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>263</span>       </span><span class="NAME">evt._type</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'doubleClick'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>264</span>       </span><span class="NAME">handler</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.app.sendEvent</span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this._mouseDownView</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>265</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>266</span>     </span><span class="COMM">// no one handled the doubleclick... try click...</span><span class="WHIT">
+<span class='line'>267</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">handler</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>268</span>     </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>269</span>       </span><span class="NAME">evt._type</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'click'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>270</span>       </span><span class="NAME">handler</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.app.sendEvent</span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this._mouseDownView</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>271</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>272</span>     </span><span class="NAME">this._mouseCanDrag</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>273</span>     </span><span class="NAME">this._mouseDownView</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>274</span>     </span><span class="NAME">SC.runLoop.endRunLoop</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>275</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>276</span> 
+<span class='line'>277</span>   </span><span class="NAME">_ondblclick</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>278</span>     </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">SC.isIE</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>279</span>     </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>280</span>       </span><span class="NAME">this._clickCount</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>281</span>       </span><span class="NAME">this._onmouseup</span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>282</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>283</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>284</span>   
+<span class='line'>285</span>   </span><span class="NAME">_lastHovered</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>286</span> 
+<span class='line'>287</span>   </span><span class="COMM">// this will sent mouseOver, mouseOut, and mouseMoved to the views you</span><span class="WHIT">
+<span class='line'>288</span>   </span><span class="COMM">// hover over.  To receive these events, you must implement the method.</span><span class="WHIT">
+<span class='line'>289</span>   </span><span class="COMM">// If any subviews implement them and return true, then you won't receive</span><span class="WHIT">
+<span class='line'>290</span>   </span><span class="COMM">// any notices.</span><span class="WHIT">
+<span class='line'>291</span>   </span><span class="COMM">//</span><span class="WHIT">
+<span class='line'>292</span>   </span><span class="COMM">// if there is a target mouseDown view, then mouse moved events will also</span><span class="WHIT">
+<span class='line'>293</span>   </span><span class="COMM">// trigger calls to mouseDragged.</span><span class="WHIT">
+<span class='line'>294</span>   </span><span class="COMM">//</span><span class="WHIT">
+<span class='line'>295</span>   </span><span class="NAME">_onmousemove</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>296</span> 
+<span class='line'>297</span>     </span><span class="NAME">SC.runLoop.beginRunLoop</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>298</span> 
+<span class='line'>299</span>     </span><span class="COMM">// make sure the view gets focus no matter what.  FF is inconsistant </span><span class="WHIT">
+<span class='line'>300</span>     </span><span class="COMM">// about this.</span><span class="WHIT">
+<span class='line'>301</span>     </span><span class="NAME">this._onfocus</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> 
+<span class='line'>302</span>     
+<span class='line'>303</span> 
+<span class='line'>304</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">lh</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._lastHovered</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>305</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">nh</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>306</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">view</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.firstViewForEvent</span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>307</span>     
+<span class='line'>308</span>     </span><span class="COMM">// work up the view chain.  Notify of mouse entered and</span><span class="WHIT">
+<span class='line'>309</span>     </span><span class="COMM">// mouseMoved if implemented.</span><span class="WHIT">
+<span class='line'>310</span>     </span><span class="KEYW">while</span><span class="PUNC">(</span><span class="NAME">view</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">view</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>311</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">entered</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">view.mouseOver</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">view.didMouseOver</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">view.mouseEntered</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>312</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">moved</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">view.mouseMoved</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">view.mouseDidMove</span><span class="WHIT">  </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>313</span> 
+<span class='line'>314</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">lh.include</span><span class="PUNC">(</span><span class="NAME">view</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>315</span>         </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">moved</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">moved.call</span><span class="PUNC">(</span><span class="NAME">view</span><span class="PUNC">,</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>316</span>         </span><span class="NAME">nh.push</span><span class="PUNC">(</span><span class="NAME">view</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>317</span>       </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>318</span>         </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">entered</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">entered.call</span><span class="PUNC">(</span><span class="NAME">view</span><span class="PUNC">,</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>319</span>         </span><span class="NAME">nh.push</span><span class="PUNC">(</span><span class="NAME">view</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>320</span>       </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>321</span>       
+<span class='line'>322</span>       </span><span class="NAME">view</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">view.get</span><span class="PUNC">(</span><span class="STRN">'nextResponder'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>323</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>324</span> 
+<span class='line'>325</span>     </span><span class="COMM">// now find those views last hovered over that were no longer found </span><span class="WHIT">
+<span class='line'>326</span>     </span><span class="COMM">// in this chain and notify of mouseExited.</span><span class="WHIT">
+<span class='line'>327</span>     </span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">loc</span><span class="PUNC">=</span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">loc</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">lh.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">loc</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>328</span>       </span><span class="NAME">view</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">lh</span><span class="PUNC">[</span><span class="NAME">loc</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>329</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">exited</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">view.mouseOut</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">view.didMouseOut</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">view.mouseExited</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>330</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">exited</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">nh.include</span><span class="PUNC">(</span><span class="NAME">view</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">exited.call</span><span class="PUNC">(</span><span class="NAME">view</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">evt</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>331</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>332</span>     
+<span class='line'>333</span>     </span><span class="NAME">this._lastHovered</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nh</span><span class="PUNC">;</span><span class="WHIT"> 
+<span class='line'>334</span>     
+<span class='line'>335</span>     </span><span class="COMM">// also, if a mouseDownView exists, call the mouseDragged action, if it </span><span class="WHIT">
+<span class='line'>336</span>     </span><span class="COMM">// exists.</span><span class="WHIT">
+<span class='line'>337</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this._mouseDownView</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this._mouseDownView.mouseDragged</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>338</span>       </span><span class="NAME">this._mouseDownView.mouseDragged</span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>339</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>340</span>     
+<span class='line'>341</span>     </span><span class="NAME">SC.runLoop.endRunLoop</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>342</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>343</span>   
+<span class='line'>344</span>   </span><span class="COMM">// remove event observers.</span><span class="WHIT">
+<span class='line'>345</span>   </span><span class="NAME">_onunload</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>346</span>     </span><span class="NAME">this._listenerCache.each</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>347</span>       </span><span class="NAME">Event.stopObserving.apply</span><span class="PUNC">(</span><span class="NAME">Event</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>348</span>     </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>349</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>350</span>   
+<span class='line'>351</span>   </span><span class="NAME">_onfocus</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>352</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this._hasFocus</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>353</span>       </span><span class="NAME">this._hasFocus</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>354</span>       </span><span class="NAME">this.addClassName</span><span class="PUNC">(</span><span class="STRN">'focus'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>355</span>       </span><span class="NAME">this.removeClassName</span><span class="PUNC">(</span><span class="STRN">'blur'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>356</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>357</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>358</span>   
+<span class='line'>359</span>   </span><span class="NAME">_onblur</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>360</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this._hasFocus</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>361</span>       </span><span class="NAME">this._hasFocus</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>362</span>       </span><span class="NAME">this.removeClassName</span><span class="PUNC">(</span><span class="STRN">'focus'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>363</span>       </span><span class="NAME">this.addClassName</span><span class="PUNC">(</span><span class="STRN">'blur'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>364</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>365</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>366</span>   
+<span class='line'>367</span>   </span><span class="COMM">/** @private */</span><span class="WHIT">
+<span class='line'>368</span>   </span><span class="COMM">// these methods are used to prevent unnecessary text-selection in IE,</span><span class="WHIT">
+<span class='line'>369</span>   </span><span class="COMM">// there could be some more work to improve this behavior and make it</span><span class="WHIT">
+<span class='line'>370</span>   </span><span class="COMM">// a bit more useful; right now it's just to prevent bugs when dragging</span><span class="WHIT">
+<span class='line'>371</span>   </span><span class="COMM">// and dropping.</span><span class="WHIT">
+<span class='line'>372</span>   
+<span class='line'>373</span>   </span><span class="NAME">_mouseCanDrag</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>374</span>   
+<span class='line'>375</span>   </span><span class="NAME">_onselectstart</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>376</span>     </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">this._mouseCanDrag</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>377</span>       </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>378</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>379</span>       </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>380</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>381</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>382</span>   
+<span class='line'>383</span>   </span><span class="NAME">_ondrag</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>384</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>385</span>   </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>386</span>   
+<span class='line'>387</span>   </span><span class="NAME">_hasFocus</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>388</span>   
+<span class='line'>389</span>   </span><span class="NAME">_EVTS</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">'mousedown'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'mouseup'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'click'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'dblclick'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'keydown'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'keyup'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'keypress'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'mouseover'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'mouseout'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'mousemove'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'resize'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'unload'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'focus'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'blur'</span><span class="PUNC">,</span><span class="STRN">'drag'</span><span class="PUNC">,</span><span class="STRN">'selectstart'</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>390</span> 
+<span class='line'>391</span>   </span><span class="NAME">_listenerCache</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>392</span>   
+<span class='line'>393</span>   </span><span class="NAME">setup</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>394</span>   </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>395</span>     </span><span class="COMM">// setup event listeners for window.</span><span class="WHIT">
+<span class='line'>396</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">win</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>397</span>     </span><span class="NAME">win._EVTS.each</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>398</span>     </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>399</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">func</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">win</span><span class="PUNC">[</span><span class="STRN">'_on'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>400</span>       </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">target</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">'resize'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">document</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">window</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>401</span>       </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">func</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>402</span>       </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>403</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">f</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">func.bindAsEventListener</span><span class="PUNC">(</span><span class="NAME">win</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>404</span>         </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'keypress'</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">SC.CAPTURE_BACKSPACE_KEY</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">SC.Platform.Firefox</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>405</span>         </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>406</span>           </span><span class="NAME">document.onkeypress</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">f</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>407</span>         </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>408</span>         </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'selectstart'</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">SC.Platform.IE</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>409</span>         </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>410</span>           </span><span class="COMM">//capture onselectstart events in IE (proprietary)</span><span class="WHIT">
+<span class='line'>411</span>           </span><span class="NAME">document.body.onselectstart</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">f</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>412</span>         </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>413</span>         </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'drag'</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">SC.Platform.IE</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>414</span>         </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>415</span>           </span><span class="NAME">document.body.ondrag</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">f</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>416</span>         </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>417</span>         </span><span class="KEYW">else</span><span class="WHIT">
+<span class='line'>418</span>         </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>419</span>           </span><span class="NAME">Event.observe</span><span class="PUNC">(</span><span class="NAME">target</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">f</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>420</span>         </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>421</span>         </span><span class="NAME">win._listenerCache.push</span><span class="PUNC">(</span><span class="PUNC">[</span><span class="NAME">target</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">f</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>422</span>       </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>423</span>     </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>424</span>     </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'size'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>425</span>     </span><span class="COMM">// fetch the size from the window and save it.</span><span class="WHIT">
+<span class='line'>426</span>     </span><span class="NAME">this.set</span><span class="PUNC">(</span><span class="STRN">'isVisibleInWindow'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>427</span>     </span><span class="NAME">this._onfocus</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>428</span>   </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>429</span>   </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">viewFor</span><span class="PUNC">(</span><span class="NAME">$tag</span><span class="PUNC">(</span><span class="STRN">'body'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>430</span> 
+<span class='line'>431</span> 
+<span class='line'>432</span> </span><span class="COMM">// events:</span><span class="WHIT">
+<span class='line'>433</span> </span><span class="COMM">// window.onfocus --</span><span class="WHIT">
+<span class='line'>434</span> </span><span class="COMM">//  notify all views that they now have window focus.</span><span class="WHIT">
+<span class='line'>435</span> 
+<span class='line'>436</span> </span><span class="COMM">// window.onblur --</span><span class="WHIT">
+<span class='line'>437</span> </span><span class="COMM">//  notify all views that they no longer have window focus.</span><span class="WHIT">
+<span class='line'>438</span> 
+<span class='line'>439</span> </span><span class="COMM">// element.onfocus/element.onblur --</span><span class="WHIT">
+<span class='line'>440</span> </span><span class="COMM">//  when a field gains focus, it should become first responder.  Other</span><span class="WHIT">
+<span class='line'>441</span> </span><span class="COMM">//  elements should become first responder when you click on them.</span><span class="WHIT">
+<span class='line'>442</span> 
+<span class='line'>443</span> </span><span class="COMM">// window.onresize --</span><span class="WHIT">
+<span class='line'>444</span> </span><span class="COMM">//  call the resize code on the views to tell them their parent views resized.</span><span class="WHIT">
+<span class='line'>445</span> </span><span class="COMM">//  -- we should have a root view that is the window.</span><span class="WHIT">
+<span class='line'>446</span> 
+<span class='line'>447</span> </span><span class="COMM">// window.onscroll --</span><span class="WHIT">
+<span class='line'>448</span> </span><span class="COMM">//  call the scroll code on the root view.</span><span class="WHIT">
+<span class='line'>449</span> 
+<span class='line'>450</span> </span><span class="COMM">// element.onscroll --</span><span class="WHIT">
+<span class='line'>451</span> </span><span class="COMM">//  call the scroll code on the element.</span><span class="WHIT">
+<span class='line'>452</span> 
+<span class='line'>453</span> </span><span class="COMM">// window.onunload --</span><span class="WHIT">
+<span class='line'>454</span> </span><span class="COMM">//  call this on all views? to let them unload....</span><span class="WHIT">
+<span class='line'>455</span> 
+<span class='line'>456</span> </span><span class="COMM">// document.onclick --</span><span class="WHIT">
+<span class='line'>457</span> </span><span class="COMM">// document.ondblclick --</span><span class="WHIT">
+<span class='line'>458</span> </span><span class="COMM">// these events are ignored (actually, they are eaten) by the window object.</span><span class="WHIT">
+<span class='line'>459</span> </span><span class="COMM">// click and double click events are handled by the mouseUp handler so that</span><span class="WHIT">
+<span class='line'>460</span> </span><span class="COMM">// we can avoid calling click if mouseUp is handled by someone.</span><span class="WHIT">
+<span class='line'>461</span> 
+<span class='line'>462</span> </span><span class="COMM">// document.onmousedown --</span><span class="WHIT">
+<span class='line'>463</span> </span><span class="COMM">// document.onmouseup --</span><span class="WHIT">
+<span class='line'>464</span> </span><span class="COMM">//  find the target element and work your way up the DOM hierarchy until you</span><span class="WHIT">
+<span class='line'>465</span> </span><span class="COMM">//  find Views to handle the click.</span><span class="WHIT">
+<span class='line'>466</span> 
+<span class='line'>467</span> </span><span class="COMM">// document.onmousemove --</span><span class="WHIT">
+<span class='line'>468</span> </span><span class="COMM">// document.onmouseover --</span><span class="WHIT">
+<span class='line'>469</span> </span><span class="COMM">// document.onmouseout --</span><span class="WHIT">
+<span class='line'>470</span> </span><span class="COMM">//  use these events to simulate mouseover and mouseout on views.  Find the </span><span class="WHIT">
+<span class='line'>471</span> </span><span class="COMM">//  target element and work you way up the hierarchy until you find a view</span><span class="WHIT">
+<span class='line'>472</span> </span><span class="COMM">//  that responds to these events.</span><span class="WHIT">
+<span class='line'>473</span> </span><span class="COMM">//</span><span class="WHIT">
+<span class='line'>474</span> </span><span class="COMM">//  also we should have some generic handlers in the window object that you</span><span class="WHIT">
+<span class='line'>475</span> </span><span class="COMM">//  can use to be notified when the mouse enters and leaves the window in</span><span class="WHIT">
+<span class='line'>476</span> </span><span class="COMM">//  general.</span><span class="WHIT">
+<span class='line'>477</span> 
+<span class='line'>478</span> </span><span class="COMM">// formelement.onchange</span><span class="WHIT">
+<span class='line'>479</span> </span><span class="COMM">//   use to trigger a value change on the form field element.</span><span class="WHIT">
+<span class='line'>480</span> 
+<span class='line'>481</span> </span><span class="COMM">// form.onreset </span><span class="WHIT">
+<span class='line'>482</span> </span><span class="COMM">//   um, do nothing?  button will handle action directly.</span><span class="WHIT">
+<span class='line'>483</span> 
+<span class='line'>484</span> </span><span class="COMM">// form.onsubmit</span><span class="WHIT">
+<span class='line'>485</span> </span><span class="COMM">//   disable so that AJAX code can takeover.</span><span class="WHIT">
+<span class='line'>486</span> 
+<span class='line'>487</span> </span><span class="COMM">// document.onkeydown --</span><span class="WHIT">
+<span class='line'>488</span> </span><span class="COMM">// document.onkeypress --</span><span class="WHIT">
+<span class='line'>489</span> </span><span class="COMM">// document.onkeyup --</span><span class="WHIT">
+<span class='line'>490</span> </span><span class="COMM">//  notify the firstResponder and work up the chain until someone handles the</span><span class="WHIT">
+<span class='line'>491</span> </span><span class="COMM">//  keypress.  You can have a defaultResponder, which gets the keypress if </span><span class="WHIT">
+<span class='line'>492</span> </span><span class="COMM">//  no one else does.  First normalize key info.</span><span class="WHIT">
+<span class='line'>493</span> 
+<span class='line'>494</span> </span><span class="COMM">// img.onerror --</span><span class="WHIT">
+<span class='line'>495</span> </span><span class="COMM">//  this should call some handler function in the ImageView.</span><span class="WHIT">
+<span class='line'>496</span> 
+<span class='line'>497</span> 
+<span class='line'>498</span> 
+<span class='line'>499</span> </span></pre></body></html>

@@ -1,0 +1,778 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="JsDoc Toolkit" />
+  
+  <title>JsDoc: SC.InlineTextFieldView</title>
+</head>
+
+<style type="text/css">
+  /* @override http://localhost:4020/static/sproutcore/-docs/data/default.css */
+
+/* @group Core */
+
+body.sc-doc {
+  background-color: white  ;
+  padding: 20px;
+}
+
+.sc-doc {
+  font: 64.5% Helvetica, Arial, Verdana, sans-serif;
+  line-height: 1em ;
+}
+
+/* Set standard size on some things. */
+.sc-doc p, 
+.sc-doc dd, 
+.sc-doc dt, 
+.sc-doc li, 
+.sc-doc table {
+  line-height: 1.3em;
+  font-size: 1.3em ;
+}
+
+.sc-doc h1 {
+  font-size: 3em;
+  margin: 0 0 1em 0;
+  text-transform: capitalize;
+}
+
+.sc-doc h2 {
+  padding: 0;
+  padding-bottom: 4px;
+  border-bottom: 1px #555 solid;
+  text-transform: capitalize;
+  margin: 1.5em 0 0;
+  font-size: 2.2em;
+}
+
+.sc-doc h3 {
+  font-size: 2em;
+  padding: 0;
+  margin: 3em 0 0 0;  
+}
+
+.sc-doc h4 {
+  font-weight: normal ;
+  font-size: 1.4em;
+  margin: 0.5em 0 0 0;
+  padding: 0;
+}
+
+.sc-doc h5 {
+  font-size: 1.3em;
+  padding: 0;
+  margin: 1.3em 0 0.5em 0;
+}
+
+.sc-doc p { margin: 0.5em 0; }
+ 
+.sc-doc a {
+  text-decoration: none ;
+}
+
+.sc-doc label {
+  font-weight: bold ;
+}
+
+.sc-doc .sc-theme .ghost {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+  opacity: 0.45;
+  -moz-opacity: .45 ;
+}
+
+.sc-doc dt {
+  font-style: italic;
+}
+
+.sc-doc dd {
+ margin: 0 0 1em 1em;
+}
+
+/* @end */
+
+/* @group Summary Table */
+
+.sc-doc table.summary {
+  min-width: 600px;
+  border: 1px #999 solid;
+  border-bottom: none ;
+  border-spacing: 0;
+  margin-bottom: 2em;
+}
+
+.sc-doc table.summary td {
+  border-bottom: 1px #999 solid;
+  border-collapse: collapse;
+  padding: 0.5em;
+  text-align: left ;
+}
+
+.sc-doc table.summary .even td {
+  background-color: #eef;
+}
+
+.sc-doc table.summary td.label {
+  font-weight: bold ;
+  width: 100px;
+  text-align: right ;
+  padding-right: 4px;
+}
+
+.sc-doc table.summary td.value {
+  min-width: 300px;
+  width: 300px;
+}
+
+/* @end */
+
+/* @group Field & Method Summary */
+
+.sc-doc .summary li {
+  list-style-type: none ;
+  position: relative;
+}
+
+.sc-doc .summary li code {
+  font-size: 1.1em;
+}
+
+.sc-doc .summary li .description {
+  display: none ;
+}
+
+.sc-doc .summary li:hover .description {
+  display: block ;
+  font-size: 0.86em;
+  position: absolute ;
+  left: 80px;
+  bottom: 2em;
+  padding: 0.3em 1em ;
+  background-color: #fff898;
+  border: 1px solid #bbae2f;
+  /* -webkit-box-shadow: rgba(0,0,0,0.3) 0px 2px 5px; */
+  color: #4b4000;
+  z-index: 100;
+}
+
+/* @end */
+
+/* @group Detail */
+
+.sc-doc .detail p.signature {
+  padding: 0;
+  margin: 1em 0;
+  font-family: Courier, mono;
+}
+
+.sc-doc .detail p.signature .type {
+  font-style: italic;
+}
+
+.sc-doc .detail p.signature .name {
+  font-weight: bold ;
+}
+
+/* @end */
+
+.sc-doc .jsdoc_ctime {
+  border-top: 1px #ccc solid ;
+  padding: 4px 0;
+  margin-top: 20px;
+  margin-bottom: 0px;
+  font-size: 1.0em;
+  text-align: center ;
+  color: #888 ;
+}
+
+/* @group Description */
+
+.sc-doc .description blockquote,
+.sc-doc .description p.code {
+  padding:  10px ;
+  margin: 10px 20px;
+  background-color: #f5f5f5 ;
+  border: 1px #ccc solid ;
+}
+
+/* @end */
+
+</style>
+
+<body class="sc-theme sc-doc">
+  <h1>
+    
+    Class SC.InlineTextFieldView
+  </h1>
+
+  <table class="summary">
+  
+
+  
+
+  
+    <tr class="even">
+      <td class="label">Extends:</td>
+      <td class="value">
+        <a href="../symbols/SC.DelegateSupport.html#constructor">SC.DelegateSupport</a>, <a href="../symbols/SC.InlineEditorDelegate.html#constructor">SC.InlineEditorDelegate</a>, <a href="../symbols/SC.View.html#constructor">SC.View</a>
+      </td>
+    </tr>
+  
+
+  
+    <tr class="odd">
+      <td class="label">Defined in:</td>
+      <td class="value"><a href="../symbols/src/_Library_Ruby_Gems_1.8_gems_sproutcore-0.9.19_frameworks_sproutcore_views_inline_text_field.js.html">frameworks/sproutcore/views/inline_text_field.js</a></td>
+    </tr>
+  
+
+  
+    <tr class="even">
+      <td class="label">Availability:</td>
+      <td class="value">
+        since SproutCore 1.0
+      </td>
+    </tr>
+  
+
+  
+  </table>
+
+  
+    <div class="description">
+      <p>The inline text editor is used to display an editable area for controls that are not always editable such as label views and source list views.</p>
+
+<p>You generally will not use the inline editor directly but instead will invoke beginEditing() and endEditing() on the views yous are editing. If you would like to use the inline editor for your own views, you can do that also by using the editing API described here.</p>
+
+<h2> Using the Inline Editor in Your Own Views</h2>
+
+<p>If you need to use the inline editor with custom views you have written, you will need to work with the class methods to begin, commit, and discard editing changes.</p>
+
+<h3> Starting the Editor</h3>
+
+<p>The inline editor works by positioning itself over the top of your view with the same offset, width, and font information.  As the user types, the field will automatically resize vertically to make room for the user's text.</p>
+
+<p>To activate the inline editor you must call beginEdition() with at least the target view you want the editor to position itself on top of:</p>
+
+
+<p class="code"><code>SC.InlineTextFieldView.beginEditing({<br />target: view, validator: validator<br />}) ;</code></p>
+
+<p>You can pass a variety of options to this method to configure the inline editor behavior, including:</p>
+
+<ul>	<li><strong>frame</strong> The editors initial frame in viewport coordinates (REQ)</li>
+	<li><strong>exampleElement</strong> A DOM element to use when copying styles.</li>
+	<li><strong>delegate</strong> Optional delegate to receive update notices.  If not passed, the target view will be treated as the delegate. (REQ)</li>
+	<li><strong>value</strong> The initial value of the edit field.  If not passed, the value property of the target view will be used instead.</li>
+	<li><strong>multiline</strong> If YES then the hitting return will add to the value instead of exiting the inline editor.</li>
+	<li><strong>selectedRange</strong> The range of text that should be selected.  If omitted, then the insertion point will be placed at the end of the value.</li>
+	<li><strong>commitOnBlur</strong> If YES then bluring will commit the value, otherwise it will discard the current value.  Defaults to YES.</li>
+	<li><strong>validator</strong> Optional validator will be attached to the field.</li>
+</ul>
+
+<p>If the inline editor is currently in use elsewhere, it will automatically close itself over there and begin editing for your view instead.  The editor expects your source view to implement the InlineTextFieldViewDelegate protocol.</p>
+
+<h2> Commiting or Discarding Changes</h2>
+
+<p>Normally the editor will automatically commit or discard its changes whenever the user exits the edit mode.  If you need to force the editor to end editing, you can do so by calling commitEditing() or discardEditing():</p>
+
+
+<p class="code"><code>SC.InlineTextFieldView.commitEditing();<br />SC.InlineTextFieldView.discardEditing();</code></p>
+
+<p>Both methods will try to end the editing context and will call the relevent delegate methods on the delegate you passed to beginEditing().</p>
+
+<p>Note that it is possible an editor may not be able to commit editing changes because either the delegate disallowed it or because its validator failed.  In this case commitEditing() will return NO.  If you want to end editing anyway, you can discard the editing changes instead by calling discardEditing().  This method will generally suceed unless your delegate refuses it as well.</p>
+    </div>
+  
+
+  <!-- ============================== properties summary ===================== -->
+  
+    
+    
+    
+    
+      <div class="field-summary summary">
+        <h2>Property Summary</h2>
+        <ul>
+        
+          
+            <li>
+              <a href="../symbols/SC.InlineTextFieldView.html#field"><code>-&nbsp;(Object) field</code></a>
+              
+                <div class="description">The actual text field view used for editing.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.InlineTextFieldView.html#isEditing"><code>-&nbsp;(Object) isEditing</code></a>
+              
+                <div class="description">YES if the editor is currently visible and editing.</div>
+              
+            </li>
+          
+        
+        </ul>
+      </div>
+    
+  
+
+  
+    <dl class="inheritsList">
+    <dt>Properties borrowed from class <a href="../symbols/SC.View.html#constructor">SC.View</a>: </dt><dd><a href="../symbols/SC.View.html#childNodes">childNodes</a>, <a href="../symbols/SC.View.html#classNames">classNames</a>, <a href="../symbols/SC.View.html#clippingFrame">clippingFrame</a>, <a href="../symbols/SC.View.html#containerElement">containerElement</a>, <a href="../symbols/SC.View.html#displayIsVisible">displayIsVisible</a>, <a href="../symbols/SC.View.html#emptyElement">emptyElement</a>, <a href="../symbols/SC.View.html#firstChild">firstChild</a>, <a href="../symbols/SC.View.html#frame">frame</a>, <a href="../symbols/SC.View.html#innerHTML">innerHTML</a>, <a href="../symbols/SC.View.html#innerText">innerText</a>, <a href="../symbols/SC.View.html#isAnimationEnabled">isAnimationEnabled</a>, <a href="../symbols/SC.View.html#isModal">isModal</a>, <a href="../symbols/SC.View.html#isPanel">isPanel</a>, <a href="../symbols/SC.View.html#isScrollable">isScrollable</a>, <a href="../symbols/SC.View.html#isVisible">isVisible</a>, <a href="../symbols/SC.View.html#isVisibleInWindow">isVisibleInWindow</a>, <a href="../symbols/SC.View.html#lastChild">lastChild</a>, <a href="../symbols/SC.View.html#localize">localize</a>, <a href="../symbols/SC.View.html#nextSibling">nextSibling</a>, <a href="../symbols/SC.View.html#offsetParent">offsetParent</a>, <a href="../symbols/SC.View.html#origin">origin</a>, <a href="../symbols/SC.View.html#pane">pane</a>, <a href="../symbols/SC.View.html#parentNode">parentNode</a>, <a href="../symbols/SC.View.html#previousSibling">previousSibling</a>, <a href="../symbols/SC.View.html#rootElement">rootElement</a>, <a href="../symbols/SC.View.html#scrollFrame">scrollFrame</a>, <a href="../symbols/SC.View.html#size">size</a>, <a href="../symbols/SC.View.html#toolTip">toolTip</a></dd><dt>Properties borrowed from class <a href="../symbols/SC.Responder.html#constructor">SC.Responder</a>: </dt><dd><a href="../symbols/SC.Responder.html#acceptsFirstResponder">acceptsFirstResponder</a>, <a href="../symbols/SC.Responder.html#isFirstResponder">isFirstResponder</a>, <a href="../symbols/SC.Responder.html#nextResponder">nextResponder</a></dd><dt>Properties borrowed from class <a href="../symbols/SC.Object.html#constructor">SC.Object</a>: </dt><dd><a href="../symbols/SC.Object.html#.isClass">isClass</a>, <a href="../symbols/SC.Object.html#isObject">isObject</a>, <a href="../symbols/SC.Object.html#outlets">outlets</a></dd><dt>Properties borrowed from class <a href="../symbols/SC.InlineEditorDelegate.html#constructor">SC.InlineEditorDelegate</a>: </dt><dd><a href="../symbols/SC.InlineEditorDelegate.html#.inlineEditorClassName">inlineEditorClassName</a></dd>
+    </dl>
+  
+
+<!-- ============================== methods summary ======================== -->
+  
+    <h2>Method Summary</h2>
+    
+    
+      <div class="method-summary summary">
+        <ul>
+          
+            <li>
+              <a href="#SC.InlineTextFieldView#beginEditing">
+                <code class="type">
+                  
+                  -
+                  &nbsp;
+                  
+                    
+                      &nbsp;Boolean
+                    
+                  
+                  beginEditing(options)
+                </code>
+              </a>
+              
+                <div class="description">Invoked by the class method to begin editing on an inline editor.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.InlineTextFieldView#blurEditor">
+                <code class="type">
+                  
+                  -
+                  &nbsp;
+                  
+                  blurEditor()
+                </code>
+              </a>
+              
+                <div class="description">Invoked whenever the editor loses (or should lose) first responder 
+    status to commit or discard editing.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.InlineTextFieldView#commitEditing">
+                <code class="type">
+                  
+                  -
+                  &nbsp;
+                  
+                  commitEditing()
+                </code>
+              </a>
+              
+                <div class="description">Tries to commit the current value of the field and end editing.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.InlineTextFieldView#discardEditing">
+                <code class="type">
+                  
+                  -
+                  &nbsp;
+                  
+                  discardEditing()
+                </code>
+              </a>
+              
+                <div class="description">Tries to discard the current value of the field and end editing.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.InlineTextFieldView#resizeToFit">
+                <code class="type">
+                  
+                  -
+                  &nbsp;
+                  
+                  resizeToFit(newValue)
+                </code>
+              </a>
+              
+                <div class="description">Resizes the visible textarea to fix the actual text in the text area.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.InlineTextFieldView#updateViewStyle">
+                <code class="type">
+                  
+                  -
+                  &nbsp;
+                  
+                  updateViewStyle()
+                </code>
+              </a>
+              
+                <div class="description">Collects the appropriate style information from the targetView to 
+    make the inline editor appear similar.</div>
+              
+            </li>
+          
+        </ul>
+      </div>
+    
+    
+    
+      <dl class="inheritsList">
+      <dt>Methods borrowed from class <a href="../symbols/SC.View.html#constructor">SC.View</a>: </dt><dd><a href="../symbols/SC.View.html#addClassName">addClassName</a>, <a href="../symbols/SC.View.html#appendChild">appendChild</a>, <a href="../symbols/SC.View.html#clear">clear</a>, <a href="../symbols/SC.View.html#clippingFrameDidChange">clippingFrameDidChange</a>, <a href="../symbols/SC.View.html#convertFrameFromView">convertFrameFromView</a>, <a href="../symbols/SC.View.html#convertFrameToView">convertFrameToView</a>, <a href="../symbols/SC.View.html#destroy">destroy</a>, <a href="../symbols/SC.View.html#didAddChild">didAddChild</a>, <a href="../symbols/SC.View.html#didAddToParent">didAddToParent</a>, <a href="../symbols/SC.View.html#didRemoveChild">didRemoveChild</a>, <a href="../symbols/SC.View.html#didRemoveFromParent">didRemoveFromParent</a>, <a href="../symbols/SC.View.html#getAttribute">getAttribute</a>, <a href="../symbols/SC.View.html#getStyle">getStyle</a>, <a href="../symbols/SC.View.html#hasAttribute">hasAttribute</a>, <a href="../symbols/SC.View.html#hasClassName">hasClassName</a>, <a href="../symbols/SC.View.html#hasManualLayout">hasManualLayout</a>, <a href="../symbols/SC.View.html#innerFrame">innerFrame</a>, <a href="../symbols/SC.View.html#insertBefore">insertBefore</a>, <a href="../symbols/SC.View.html#needsClippingFrame">needsClippingFrame</a>, <a href="../symbols/SC.View.html#needsFrameChanges">needsFrameChanges</a>, <a href="../symbols/SC.View.html#recacheFrames">recacheFrames</a>, <a href="../symbols/SC.View.html#removeChild">removeChild</a>, <a href="../symbols/SC.View.html#removeClassName">removeClassName</a>, <a href="../symbols/SC.View.html#removeFromParent">removeFromParent</a>, <a href="../symbols/SC.View.html#replaceChild">replaceChild</a>, <a href="../symbols/SC.View.html#resizeChildrenWithOldSize">resizeChildrenWithOldSize</a>, <a href="../symbols/SC.View.html#resizeWithOldParentSize">resizeWithOldParentSize</a>, <a href="../symbols/SC.View.html#setAttribute">setAttribute</a>, <a href="../symbols/SC.View.html#setClassName">setClassName</a>, <a href="../symbols/SC.View.html#setStyle">setStyle</a>, <a href="../symbols/SC.View.html#toggleClassName">toggleClassName</a>, <a href="../symbols/SC.View.html#transitionTo">transitionTo</a>, <a href="../symbols/SC.View.html#unknownProperty">unknownProperty</a>, <a href="../symbols/SC.View.html#update">update</a>, <a href="../symbols/SC.View.html#viewFrameDidChange">viewFrameDidChange</a>, <a href="../symbols/SC.View.html#viewFrameWillChange">viewFrameWillChange</a>, <a href="../symbols/SC.View.html#willAddChild">willAddChild</a>, <a href="../symbols/SC.View.html#willAddToParent">willAddToParent</a>, <a href="../symbols/SC.View.html#willRemoveChild">willRemoveChild</a>, <a href="../symbols/SC.View.html#willRemoveFromParent">willRemoveFromParent</a></dd><dt>Methods borrowed from class <a href="../symbols/SC.Responder.html#constructor">SC.Responder</a>: </dt><dd><a href="../symbols/SC.Responder.html#becomeFirstResponder">becomeFirstResponder</a>, <a href="../symbols/SC.Responder.html#didBecomeFirstResponder">didBecomeFirstResponder</a>, <a href="../symbols/SC.Responder.html#doCommand">doCommand</a>, <a href="../symbols/SC.Responder.html#flagsChanged">flagsChanged</a>, <a href="../symbols/SC.Responder.html#inputManager">inputManager</a>, <a href="../symbols/SC.Responder.html#keyDown">keyDown</a>, <a href="../symbols/SC.Responder.html#keyUp">keyUp</a>, <a href="../symbols/SC.Responder.html#performKeyEquivalent">performKeyEquivalent</a>, <a href="../symbols/SC.Responder.html#resignFirstResponder">resignFirstResponder</a>, <a href="../symbols/SC.Responder.html#willLoseFirstResponder">willLoseFirstResponder</a></dd><dt>Methods borrowed from class <a href="../symbols/SC.Object.html#constructor">SC.Object</a>: </dt><dd><a href="../symbols/SC.Object.html#$super">$super</a>, <a href="../symbols/SC.Object.html#awake">awake</a>, <a href="../symbols/SC.Object.html#.create">create</a>, <a href="../symbols/SC.Object.html#.createArray">createArray</a>, <a href="../symbols/SC.Object.html#.extend">extend</a>, <a href="../symbols/SC.Object.html#init">init</a>, <a href="../symbols/SC.Object.html#instanceOf">instanceOf</a>, <a href="../symbols/SC.Object.html#invokeLater">invokeLater</a>, <a href="../symbols/SC.Object.html#keys">keys</a>, <a href="../symbols/SC.Object.html#kindOf">kindOf</a>, <a href="../symbols/SC.Object.html#mixin">mixin</a>, <a href="../symbols/SC.Object.html#.objectClassName">objectClassName</a>, <a href="../symbols/SC.Object.html#.outlet">outlet</a>, <a href="../symbols/SC.Object.html#respondsTo">respondsTo</a>, <a href="../symbols/SC.Object.html#tryToPerform">tryToPerform</a></dd><dt>Methods borrowed from class <a href="../symbols/SC.Observable.html#constructor">SC.Observable</a>: </dt><dd><a href="../symbols/SC.Observable.html#.addObserver">addObserver</a>, <a href="../symbols/SC.Observable.html#.allPropertiesDidChange">allPropertiesDidChange</a>, <a href="../symbols/SC.Observable.html#.automaticallyNotifiesObserversFor">automaticallyNotifiesObserversFor</a>, <a href="../symbols/SC.Observable.html#.beginPropertyChanges">beginPropertyChanges</a>, <a href="../symbols/SC.Observable.html#.bind">bind</a>, <a href="../symbols/SC.Observable.html#.decrementProperty">decrementProperty</a>, <a href="../symbols/SC.Observable.html#.didChangeFor">didChangeFor</a>, <a href="../symbols/SC.Observable.html#.endPropertyChanges">endPropertyChanges</a>, <a href="../symbols/SC.Observable.html#.get">get</a>, <a href="../symbols/SC.Observable.html#.getEach">getEach</a>, <a href="../symbols/SC.Observable.html#.getPath">getPath</a>, <a href="../symbols/SC.Observable.html#.incrementProperty">incrementProperty</a>, <a href="../symbols/SC.Observable.html#.logProperty">logProperty</a>, <a href="../symbols/SC.Observable.html#.notifyPropertyChange">notifyPropertyChange</a>, <a href="../symbols/SC.Observable.html#.observeOnce">observeOnce</a>, <a href="../symbols/SC.Observable.html#.propertyDidChange">propertyDidChange</a>, <a href="../symbols/SC.Observable.html#.propertyObserver">propertyObserver</a>, <a href="../symbols/SC.Observable.html#.propertyWillChange">propertyWillChange</a>, <a href="../symbols/SC.Observable.html#.registerDependentKey">registerDependentKey</a>, <a href="../symbols/SC.Observable.html#.set">set</a>, <a href="../symbols/SC.Observable.html#.setIfChanged">setIfChanged</a>, <a href="../symbols/SC.Observable.html#.setPath">setPath</a>, <a href="../symbols/SC.Observable.html#.toggleProperty">toggleProperty</a></dd><dt>Methods borrowed from class <a href="../symbols/SC.DelegateSupport.html#constructor">SC.DelegateSupport</a>: </dt><dd><a href="../symbols/SC.DelegateSupport.html#.getDelegateProperty">getDelegateProperty</a>, <a href="../symbols/SC.DelegateSupport.html#.invokeDelegateMethod">invokeDelegateMethod</a></dd><dt>Methods borrowed from class <a href="../symbols/SC.InlineEditorDelegate.html#constructor">SC.InlineEditorDelegate</a>: </dt><dd><a href="../symbols/SC.InlineEditorDelegate.html#.inlineEditorDidBeginEditing">inlineEditorDidBeginEditing</a>, <a href="../symbols/SC.InlineEditorDelegate.html#.inlineEditorDidEndEditing">inlineEditorDidEndEditing</a>, <a href="../symbols/SC.InlineEditorDelegate.html#.inlineEditorShouldEndEditing">inlineEditorShouldEndEditing</a>, <a href="../symbols/SC.InlineEditorDelegate.html#.inlineEditorWillBeginEditing">inlineEditorWillBeginEditing</a></dd>
+      </dl>
+    
+  
+
+<!-- ============================== field details ========================== -->    
+  
+    <div class="field-detail detail">
+      <a name="field_detail"><h2>Property Details</h2></a> 
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name="field"></a> 
+            <h3>field</h3>
+            <p class="summary">The actual text field view used for editing.</p>
+
+            
+
+            <p class="signature">
+              
+              -
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">field</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name="isEditing"></a> 
+            <h3>isEditing</h3>
+            <p class="summary">YES if the editor is currently visible and editing.</p>
+
+            
+
+            <p class="signature">
+              
+              -
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">isEditing</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+              </div>
+            
+
+            
+          </div>
+        
+      
+    </div>
+  
+
+<!-- ============================== method details ========================= -->    
+  
+    <div class="method-detail detail">
+      <a name="method_detail"><h2>Method Details</h2></a> 
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.InlineTextFieldView#beginEditing"></a> 
+          <h3>beginEditing()</h3>
+          <p class="summary">Invoked by the class method to begin editing on an inline editor.</p>
+
+          
+
+          <p class="signature">
+            
+            -
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  Boolean&nbsp;
+                
+              
+            </span>
+            <span class="name">beginEditing</span>
+            <span class="params">(options)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">Boolean</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>You generally should call the class method beginEditing() instead of this one since it will make sure to create and use the shared editor instance.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.InlineTextFieldView#blurEditor"></a> 
+          <h3>blurEditor()</h3>
+          <p class="summary">Invoked whenever the editor loses (or should lose) first responder 
+    status to commit or discard editing.</p>
+
+          
+
+          <p class="signature">
+            
+            -
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">blurEditor</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.InlineTextFieldView#commitEditing"></a> 
+          <h3>commitEditing()</h3>
+          <p class="summary">Tries to commit the current value of the field and end editing.</p>
+
+          
+
+          <p class="signature">
+            
+            -
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">commitEditing</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>Do not use this method, use the class method instead.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.InlineTextFieldView#discardEditing"></a> 
+          <h3>discardEditing()</h3>
+          <p class="summary">Tries to discard the current value of the field and end editing.</p>
+
+          
+
+          <p class="signature">
+            
+            -
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">discardEditing</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>Do not use this method, use the class method instead.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.InlineTextFieldView#resizeToFit"></a> 
+          <h3>resizeToFit()</h3>
+          <p class="summary">Resizes the visible textarea to fix the actual text in the text area.</p>
+
+          
+
+          <p class="signature">
+            
+            -
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">resizeToFit</span>
+            <span class="params">(newValue)</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>This method works by keeping a div positioned immediately beneath the text area with an opacity of 0 that contains the same text as the input text field itself.  This is then used to calculate the required size for the text area.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.InlineTextFieldView#updateViewStyle"></a> 
+          <h3>updateViewStyle()</h3>
+          <p class="summary">Collects the appropriate style information from the targetView to 
+    make the inline editor appear similar.</p>
+
+          
+
+          <p class="signature">
+            
+            -
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">updateViewStyle</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+          </div>
+
+          
+        </div>
+      
+    </div>
+  
+  
+<!-- ============================== footer ================================= -->
+  <div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoctoolkit.org/" target="_parent">JsDoc Toolkit</a> 2.0.1 on Mon Oct 13 2008 23:25:33 GMT-0600 (MDT)</div>
+</body>
+</html>

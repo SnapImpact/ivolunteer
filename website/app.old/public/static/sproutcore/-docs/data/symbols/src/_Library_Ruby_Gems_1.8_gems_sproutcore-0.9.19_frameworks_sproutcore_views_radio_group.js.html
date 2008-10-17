@@ -1,0 +1,55 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+  .KEYW {color: #933;}
+  .COMM {color: #bbb; font-style: italic;}
+  .NUMB {color: #393;}
+  .STRN {color: #393;}
+  .REGX {color: #339;}
+  .line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+  </style></head><body><pre><span class='line'>  1</span> <span class="COMM">// ========================================================================</span><span class="WHIT">
+<span class='line'>  2</span> </span><span class="COMM">// SproutCore</span><span class="WHIT">
+<span class='line'>  3</span> </span><span class="COMM">// copyright 2006-2008 Sprout Systems, Inc.</span><span class="WHIT">
+<span class='line'>  4</span> </span><span class="COMM">// ========================================================================</span><span class="WHIT">
+<span class='line'>  5</span> 
+<span class='line'>  6</span> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'views/view'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  7</span> 
+<span class='line'>  8</span> </span><span class="COMM">// RadioGroupView manages a collection of buttons as a single value.  To </span><span class="WHIT">
+<span class='line'>  9</span> </span><span class="COMM">// use this view, just assign your buttons as outlets. This will use the</span><span class="WHIT">
+<span class='line'> 10</span> </span><span class="COMM">// toggleOnValue you have already set.</span><span class="WHIT">
+<span class='line'> 11</span> </span><span class="NAME">SC.RadioGroupView</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">SC.View.extend</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 12</span>    
+<span class='line'> 13</span>    </span><span class="COMM">// this is the current value or values of the radio group view.  The</span><span class="WHIT">
+<span class='line'> 14</span>    </span><span class="COMM">// items in the radio group will be selected based on this value.</span><span class="WHIT">
+<span class='line'> 15</span>    </span><span class="NAME">value</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 16</span>    
+<span class='line'> 17</span>    </span><span class="COMM">// enable/disable the views in this group view.</span><span class="WHIT">
+<span class='line'> 18</span>    </span><span class="NAME">isEnabled</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 19</span> 
+<span class='line'> 20</span>    </span><span class="COMM">// PRIVATE METHODS</span><span class="WHIT">
+<span class='line'> 21</span>    </span><span class="NAME">init</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 22</span>      </span><span class="NAME">sc_super</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 23</span>      
+<span class='line'> 24</span>      </span><span class="COMM">// find the list of buttons to update and set them up.</span><span class="WHIT">
+<span class='line'> 25</span>      </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">loc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.outlets.length</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 26</span>      </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 27</span>      </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">valuePropertyPath</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="STRN">'value'</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 28</span>      </span><span class="KEYW">while</span><span class="PUNC">(</span><span class="PUNC">--</span><span class="NAME">loc</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 29</span>        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">key</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.outlets</span><span class="PUNC">[</span><span class="NAME">loc</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 30</span>        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">button</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 31</span>        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">button</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">button.toggleOnValue</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 32</span>          </span><span class="NAME">button.bind</span><span class="PUNC">(</span><span class="STRN">'value'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">valuePropertyPath</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 33</span>          </span><span class="NAME">ret.push</span><span class="PUNC">(</span><span class="NAME">button</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 34</span>        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 35</span>      </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 36</span>      </span><span class="NAME">this._radioButtons</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 37</span>    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 38</span> 
+<span class='line'> 39</span>    </span><span class="COMM">// forward changes to the isEnabled property to children.</span><span class="WHIT">
+<span class='line'> 40</span>    </span><span class="NAME">_isEnabledObserver</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 41</span>      </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">newFlag</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.get</span><span class="PUNC">(</span><span class="STRN">'isEnabled'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 42</span>      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.didChangeFor</span><span class="PUNC">(</span><span class="STRN">'_isEnabled'</span><span class="PUNC">,</span><span class="STRN">'isEnabled'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 43</span>      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this._radioButtons</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 44</span>        </span><span class="NAME">this._radioButtons.invoke</span><span class="PUNC">(</span><span class="STRN">'set'</span><span class="PUNC">,</span><span class="STRN">'isEnabled'</span><span class="PUNC">,</span><span class="NAME">newFlag</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 45</span>      </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 46</span>    </span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">observes</span><span class="PUNC">(</span><span class="STRN">'isEnabled'</span><span class="PUNC">)</span><span class="WHIT">   
+<span class='line'> 47</span>    
+<span class='line'> 48</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT"> </span></pre></body></html>

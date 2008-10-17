@@ -1,0 +1,90 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+  .KEYW {color: #933;}
+  .COMM {color: #bbb; font-style: italic;}
+  .NUMB {color: #393;}
+  .STRN {color: #393;}
+  .REGX {color: #339;}
+  .line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+  </style></head><body><pre><span class='line'>  1</span> <span class="COMM">// ========================================================================</span><span class="WHIT">
+<span class='line'>  2</span> </span><span class="COMM">// SproutCore</span><span class="WHIT">
+<span class='line'>  3</span> </span><span class="COMM">// copyright 2006-2008 Sprout Systems, Inc.</span><span class="WHIT">
+<span class='line'>  4</span> </span><span class="COMM">// ========================================================================</span><span class="WHIT">
+<span class='line'>  5</span> 
+<span class='line'>  6</span> </span><span class="COMM">/**
+<span class='line'>  7</span>   @namespace
+<span class='line'>  8</span>   
+<span class='line'>  9</span>   The inline editor delegate receives notifications from the inline text
+<span class='line'> 10</span>   editor before, during, and after the user completes inline editing.
+<span class='line'> 11</span>   
+<span class='line'> 12</span>   The inline editor delegate is used by views that work with the inline
+<span class='line'> 13</span>   editor.  You may need to implement this protocol if you want to
+<span class='line'> 14</span>   use the inline editor in your own custom views.
+<span class='line'> 15</span>   
+<span class='line'> 16</span>   @since SproutCore 1.0
+<span class='line'> 17</span> */</span><span class="WHIT">
+<span class='line'> 18</span> </span><span class="NAME">SC.InlineEditorDelegate</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 19</span>   
+<span class='line'> 20</span>     </span><span class="COMM">/**
+<span class='line'> 21</span>      This is a  classname you can apply to the inline editor field
+<span class='line'> 22</span>      to configure it's styling, in addition to the the editor's 
+<span class='line'> 23</span>      default style-cloning behavior.
+<span class='line'> 24</span>       
+<span class='line'> 25</span>       @property inlineEditorClassName {String} A class name to use with the inline editor.
+<span class='line'> 26</span>     */</span><span class="WHIT">
+<span class='line'> 27</span>     </span><span class="NAME">inlineEditorClassName</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 28</span>   
+<span class='line'> 29</span>   
+<span class='line'> 30</span>     </span><span class="COMM">/**
+<span class='line'> 31</span>       Called just before the inline edit displays itself but after it has been 
+<span class='line'> 32</span>       configured for display.  
+<span class='line'> 33</span>       
+<span class='line'> 34</span>       You can use this method to make last minute changes to the display of 
+<span class='line'> 35</span>       the inline editor or to collect its value.
+<span class='line'> 36</span>       
+<span class='line'> 37</span>       @param inlineEditor {SC.InlineTextFieldView} The inline editor.
+<span class='line'> 38</span>       @returns {void}
+<span class='line'> 39</span>     */</span><span class="WHIT">
+<span class='line'> 40</span>     </span><span class="NAME">inlineEditorWillBeginEditing</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">inlineEditor</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 41</span> 
+<span class='line'> 42</span>     </span><span class="COMM">/**
+<span class='line'> 43</span>       Called just after an inline editor displays itself.
+<span class='line'> 44</span>       
+<span class='line'> 45</span>       You can use this method to perform any hiding or other view changes
+<span class='line'> 46</span>       you need to perform on your own view to make room for the new editor.
+<span class='line'> 47</span>       
+<span class='line'> 48</span>       Note tht editors are placed over the top of views in the page, not 
+<span class='line'> 49</span>       inside of them from a DOM perspective.
+<span class='line'> 50</span>       
+<span class='line'> 51</span>       @param inlineEditor {SC.InlineTextFieldView} The inline editor.
+<span class='line'> 52</span>       @returns {void}
+<span class='line'> 53</span>     */</span><span class="WHIT">
+<span class='line'> 54</span>     </span><span class="NAME">inlineEditorDidBeginEditing</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">inlineEditor</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 55</span>     
+<span class='line'> 56</span>     </span><span class="COMM">/**
+<span class='line'> 57</span>       Called just before an inline editor tries to end editing and hide 
+<span class='line'> 58</span>       itself.
+<span class='line'> 59</span>       
+<span class='line'> 60</span>       You can use this method to control whether the inline editor will
+<span class='line'> 61</span>       actually be allowed to end editing.  For example, you might disallow
+<span class='line'> 62</span>       the editor to end editing if the new value fails validation.
+<span class='line'> 63</span>       
+<span class='line'> 64</span>       @param inlineEditor {SC.InlineTextFieldView} the inline editor
+<span class='line'> 65</span>       @param finalValue {Object} the final value
+<span class='line'> 66</span>       @returns {Boolean} YES to allow the editor to end editing.
+<span class='line'> 67</span>     */</span><span class="WHIT">
+<span class='line'> 68</span>     </span><span class="NAME">inlineEditorShouldEndEditing</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">inlineEditor</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">finalValue</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 69</span>       </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="WHIT"> </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 70</span>     </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 71</span>     
+<span class='line'> 72</span>     </span><span class="COMM">/**
+<span class='line'> 73</span>       Called just after the inline editor has ended editing. You can use this 
+<span class='line'> 74</span>       method to save the final value of the inline editor and to perform any 
+<span class='line'> 75</span>       other cleanup you need to do.
+<span class='line'> 76</span>       
+<span class='line'> 77</span>       @param inlineEditor {SC.InlineTextFieldView} the inline editor
+<span class='line'> 78</span>       @param finalValue {Object} the final value
+<span class='line'> 79</span>       @returns {void}
+<span class='line'> 80</span>     */</span><span class="WHIT">
+<span class='line'> 81</span>     </span><span class="NAME">inlineEditorDidEndEditing</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">inlineEditor</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">finalValue</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 82</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 83</span> </span></pre></body></html>

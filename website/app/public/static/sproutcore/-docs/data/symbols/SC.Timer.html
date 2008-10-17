@@ -1,0 +1,1061 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="JsDoc Toolkit" />
+  
+  <title>JsDoc: SC.Timer</title>
+</head>
+
+<style type="text/css">
+  /* @override http://localhost:4020/static/sproutcore/-docs/data/default.css */
+
+/* @group Core */
+
+body.sc-doc {
+  background-color: white  ;
+  padding: 20px;
+}
+
+.sc-doc {
+  font: 64.5% Helvetica, Arial, Verdana, sans-serif;
+  line-height: 1em ;
+}
+
+/* Set standard size on some things. */
+.sc-doc p, 
+.sc-doc dd, 
+.sc-doc dt, 
+.sc-doc li, 
+.sc-doc table {
+  line-height: 1.3em;
+  font-size: 1.3em ;
+}
+
+.sc-doc h1 {
+  font-size: 3em;
+  margin: 0 0 1em 0;
+  text-transform: capitalize;
+}
+
+.sc-doc h2 {
+  padding: 0;
+  padding-bottom: 4px;
+  border-bottom: 1px #555 solid;
+  text-transform: capitalize;
+  margin: 1.5em 0 0;
+  font-size: 2.2em;
+}
+
+.sc-doc h3 {
+  font-size: 2em;
+  padding: 0;
+  margin: 3em 0 0 0;  
+}
+
+.sc-doc h4 {
+  font-weight: normal ;
+  font-size: 1.4em;
+  margin: 0.5em 0 0 0;
+  padding: 0;
+}
+
+.sc-doc h5 {
+  font-size: 1.3em;
+  padding: 0;
+  margin: 1.3em 0 0.5em 0;
+}
+
+.sc-doc p { margin: 0.5em 0; }
+ 
+.sc-doc a {
+  text-decoration: none ;
+}
+
+.sc-doc label {
+  font-weight: bold ;
+}
+
+.sc-doc .sc-theme .ghost {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+  opacity: 0.45;
+  -moz-opacity: .45 ;
+}
+
+.sc-doc dt {
+  font-style: italic;
+}
+
+.sc-doc dd {
+ margin: 0 0 1em 1em;
+}
+
+/* @end */
+
+/* @group Summary Table */
+
+.sc-doc table.summary {
+  min-width: 600px;
+  border: 1px #999 solid;
+  border-bottom: none ;
+  border-spacing: 0;
+  margin-bottom: 2em;
+}
+
+.sc-doc table.summary td {
+  border-bottom: 1px #999 solid;
+  border-collapse: collapse;
+  padding: 0.5em;
+  text-align: left ;
+}
+
+.sc-doc table.summary .even td {
+  background-color: #eef;
+}
+
+.sc-doc table.summary td.label {
+  font-weight: bold ;
+  width: 100px;
+  text-align: right ;
+  padding-right: 4px;
+}
+
+.sc-doc table.summary td.value {
+  min-width: 300px;
+  width: 300px;
+}
+
+/* @end */
+
+/* @group Field & Method Summary */
+
+.sc-doc .summary li {
+  list-style-type: none ;
+  position: relative;
+}
+
+.sc-doc .summary li code {
+  font-size: 1.1em;
+}
+
+.sc-doc .summary li .description {
+  display: none ;
+}
+
+.sc-doc .summary li:hover .description {
+  display: block ;
+  font-size: 0.86em;
+  position: absolute ;
+  left: 80px;
+  bottom: 2em;
+  padding: 0.3em 1em ;
+  background-color: #fff898;
+  border: 1px solid #bbae2f;
+  /* -webkit-box-shadow: rgba(0,0,0,0.3) 0px 2px 5px; */
+  color: #4b4000;
+  z-index: 100;
+}
+
+/* @end */
+
+/* @group Detail */
+
+.sc-doc .detail p.signature {
+  padding: 0;
+  margin: 1em 0;
+  font-family: Courier, mono;
+}
+
+.sc-doc .detail p.signature .type {
+  font-style: italic;
+}
+
+.sc-doc .detail p.signature .name {
+  font-weight: bold ;
+}
+
+/* @end */
+
+.sc-doc .jsdoc_ctime {
+  border-top: 1px #ccc solid ;
+  padding: 4px 0;
+  margin-top: 20px;
+  margin-bottom: 0px;
+  font-size: 1.0em;
+  text-align: center ;
+  color: #888 ;
+}
+
+/* @group Description */
+
+.sc-doc .description blockquote,
+.sc-doc .description p.code {
+  padding:  10px ;
+  margin: 10px 20px;
+  background-color: #f5f5f5 ;
+  border: 1px #ccc solid ;
+}
+
+/* @end */
+
+</style>
+
+<body class="sc-theme sc-doc">
+  <h1>
+    
+    Class SC.Timer
+  </h1>
+
+  <table class="summary">
+  
+
+  
+
+  
+    <tr class="even">
+      <td class="label">Extends:</td>
+      <td class="value">
+        <a href="../symbols/SC.Object.html#constructor">SC.Object</a>
+      </td>
+    </tr>
+  
+
+  
+    <tr class="odd">
+      <td class="label">Defined in:</td>
+      <td class="value"><a href="../symbols/src/_Library_Ruby_Gems_1.8_gems_sproutcore-0.9.19_frameworks_sproutcore_foundation_timer.js.html">frameworks/sproutcore/foundation/timer.js</a></td>
+    </tr>
+  
+
+  
+    <tr class="even">
+      <td class="label">Availability:</td>
+      <td class="value">
+        since version 1.0
+      </td>
+    </tr>
+  
+
+  
+    <tr class="odd">
+      <td class="label">Version:</td>
+      <td class="value">1.0</td>
+    </tr>
+  
+  </table>
+
+  
+    <div class="description">
+      <p>A Timer executes a method after a defined period of time.  Timers are significantly more efficient than using setTimeout() or setInterval() because they are cooperatively scheduled using the run loop.  Timers are also gauranteed to fire at the same time, making it far easier to keep multiple timers in sync.</p>
+
+<h2> Overview</h2>
+
+<p>Timers were created for SproutCore as a way to efficiently defer execution of code fragments for use in Animations, event handling, and other tasks.</p>
+
+<p>Browsers are typically fairly inconsistant about when they will fire a timeout or interval based on what the browser is currently doing.  Timeouts and intervals are also fairly expensive for a browser to execute, which means if you schedule a large number of them it can quickly slow down the browser considerably.</p>
+
+<p>Timers, on the other handle, are scheduled cooperatively using the SC.runLoop, which uses exactly one timeout to fire itself when needed and then executes by timers that need to fire on its own.  This approach can be many timers faster than using timers and gaurantees that timers scheduled to execute at the same time generally will do so, keeping animations and other operations in sync.</p>
+
+<h2> Scheduling a Timer</h2>
+
+<p>To schedule a basic timer, you can simply call SC.Timer.schedule() with a target and action you wish to have invoked:</p>
+
+
+<p class="code"><code>var timer = SC.Timer.schedule({<br />target: myObject, action: 'timerFired', interval: 100<br />});</code></p>
+
+<p>When this timer fires, it will call the timerFired() method on myObject.</p>
+
+<p>In addition to calling a method on a particular object, you can also use a timer to execute a variety of other types of code:</p>
+
+<ul>	<li>If you include an action name, but not a target object, then the action will be passed down the responder chain.</li>
+	<li>If you include a property path for the action property (e.g. 'MyApp.someController.someMethod'), then the method you name will be executed.</li>
+	<li>If you include a function in the action property, then the function will be executed.  If you also include a target object, the function will be called with this set to the target object.</li>
+</ul>
+
+<p>In general these properties are read-only.  Changing an interval, target, or action after creating a timer will have an unknown effect.</p>
+
+<h2> Scheduling Repeating Timers</h2>
+
+<p>In addition to scheduling one time timers, you can also schedule timers to execute periodically until some termination date.  You make a timer repeating by adding the repeats: YES property:</p>
+
+
+<p class="code"><code>var timer = SC.Timer.schedule({<br />target: myObject,<br />action: 'updateAnimation',<br />interval: 100,<br />repeats: YES,<br />until: Time.now() + 1000<br />}) ;</code></p>
+
+<p>The above example will execute the myObject.updateAnimation() every 100msec for 1 second from the current time.</p>
+
+<p>If you want a timer to repeat without expiration, you can simply omit the until: property.  The timer will then repeat until you invalidate it.</p>
+
+<h2> Pausing and Invalidating Timers</h2>
+
+<p>If you have created a timer but you no longer want it to execute, you can call the invalidate() method on it.  This will remove the timer from the run loop and clear certain properties so that it will not run again.</p>
+
+<p>You can use the invalidate() method on both repeating and one-time timers.</p>
+
+<p>If you do not want to invalidate a timer completely but you just want to stop the timer from execution temporarily, you can alternatively set the isPaused property to YES:</p>
+
+
+<p class="code"><code>timer.set('isPaused', YES) ;<br />// Perform some critical function; timer will not execute<br />timer.set('isPaused', NO) ;</code></p>
+
+<p>When a timer is paused, it will be scheduled and will fire like normal, but it will not actually execute the action method when it fires.  For a one time timer, this means that if you have the timer paused when it fires, it may never actually execute the action method.  For repeating timers, this means the timer will remain scheduled but simply will not execute its action while the timer is paused.</p>
+
+<h2> Firing Timers</h2>
+
+<p>If you need a timer to execute immediately, you can always call the fire() method yourself.  This will execute the timer action, if the timer is not paused.  For a one time timer, it will also invalidate the timer and remove it from the run loop.  Repeating timers can be fired anytime and it will not interrupt their regular scheduled times.</p>
+    </div>
+  
+
+  <!-- ============================== properties summary ===================== -->
+  
+    
+    
+    
+    
+      <div class="field-summary summary">
+        <h2>Property Summary</h2>
+        <ul>
+        
+          
+            <li>
+              <a href="../symbols/SC.Timer.html#action"><code>-&nbsp;(Object) action</code></a>
+              
+                <div class="description">The action to execute.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.Timer.html#fireTime"><code>-&nbsp;(Object) fireTime</code></a>
+              
+                <div class="description">Returns the next time offset when the property will fire.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.Timer.html#interval"><code>-&nbsp;(Object) interval</code></a>
+              
+                <div class="description">The time interval in milliseconds.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.Timer.html#isPaused"><code>-&nbsp;(Object) isPaused</code></a>
+              
+                <div class="description">Set to YES to pause the timer.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.Timer.html#isScheduled"><code>-&nbsp;(Object) isScheduled</code></a>
+              
+                <div class="description">YES onces the timer has been scheduled for the first time.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.Timer.html#isValid"><code>-&nbsp;(Object) isValid</code></a>
+              
+                <div class="description">YES if the timer can still execute.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.Timer.html#repeats"><code>-&nbsp;(Object) repeats</code></a>
+              
+                <div class="description">YES if you want the timer to execute repeatedly.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.Timer.html#startTime"><code>-&nbsp;(Object) startTime</code></a>
+              
+                <div class="description">Timer start date offset.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.Timer.html#target"><code>-&nbsp;(Object) target</code></a>
+              
+                <div class="description">The target object whose method will be invoked when the time fires.</div>
+              
+            </li>
+          
+        
+          
+            <li>
+              <a href="../symbols/SC.Timer.html#until"><code>-&nbsp;(Object) until</code></a>
+              
+                <div class="description">Last date when the timer will execute.</div>
+              
+            </li>
+          
+        
+        </ul>
+      </div>
+    
+  
+
+  
+    <dl class="inheritsList">
+    <dt>Properties borrowed from class <a href="../symbols/SC.Object.html#constructor">SC.Object</a>: </dt><dd><a href="../symbols/SC.Object.html#.isClass">isClass</a>, <a href="../symbols/SC.Object.html#isObject">isObject</a>, <a href="../symbols/SC.Object.html#outlets">outlets</a></dd>
+    </dl>
+  
+
+<!-- ============================== methods summary ======================== -->
+  
+    <h2>Method Summary</h2>
+    
+    
+      <div class="method-summary summary">
+        <ul>
+          
+            <li>
+              <a href="#SC.Timer#fire">
+                <code class="type">
+                  
+                  -
+                  &nbsp;
+                  
+                    
+                      &nbsp;void
+                    
+                  
+                  fire()
+                </code>
+              </a>
+              
+                <div class="description">Immediately fires the timer.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Timer#invalidate">
+                <code class="type">
+                  
+                  -
+                  &nbsp;
+                  
+                    
+                      &nbsp;SC.Timer
+                    
+                  
+                  invalidate()
+                </code>
+              </a>
+              
+                <div class="description">Invalidates the timer so that it will not execute again.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Timer#performAction">
+                <code class="type">
+                  
+                  -
+                  &nbsp;
+                  
+                  performAction()
+                </code>
+              </a>
+              
+                <div class="description">Actually fires the action.</div>
+              
+            </li>
+          
+            <li>
+              <a href="#SC.Timer#schedule">
+                <code class="type">
+                  
+                  -
+                  &nbsp;
+                  
+                    
+                      &nbsp;SC.Timer
+                    
+                  
+                  schedule()
+                </code>
+              </a>
+              
+                <div class="description">Schedules the timer to execute in the runloop.</div>
+              
+            </li>
+          
+        </ul>
+      </div>
+    
+    
+    
+      <dl class="inheritsList">
+      <dt>Methods borrowed from class <a href="../symbols/SC.Object.html#constructor">SC.Object</a>: </dt><dd><a href="../symbols/SC.Object.html#$super">$super</a>, <a href="../symbols/SC.Object.html#awake">awake</a>, <a href="../symbols/SC.Object.html#.create">create</a>, <a href="../symbols/SC.Object.html#.createArray">createArray</a>, <a href="../symbols/SC.Object.html#.extend">extend</a>, <a href="../symbols/SC.Object.html#init">init</a>, <a href="../symbols/SC.Object.html#instanceOf">instanceOf</a>, <a href="../symbols/SC.Object.html#invokeLater">invokeLater</a>, <a href="../symbols/SC.Object.html#keys">keys</a>, <a href="../symbols/SC.Object.html#kindOf">kindOf</a>, <a href="../symbols/SC.Object.html#mixin">mixin</a>, <a href="../symbols/SC.Object.html#.objectClassName">objectClassName</a>, <a href="../symbols/SC.Object.html#.outlet">outlet</a>, <a href="../symbols/SC.Object.html#respondsTo">respondsTo</a>, <a href="../symbols/SC.Object.html#tryToPerform">tryToPerform</a></dd><dt>Methods borrowed from class <a href="../symbols/SC.Observable.html#constructor">SC.Observable</a>: </dt><dd><a href="../symbols/SC.Observable.html#.addObserver">addObserver</a>, <a href="../symbols/SC.Observable.html#.allPropertiesDidChange">allPropertiesDidChange</a>, <a href="../symbols/SC.Observable.html#.automaticallyNotifiesObserversFor">automaticallyNotifiesObserversFor</a>, <a href="../symbols/SC.Observable.html#.beginPropertyChanges">beginPropertyChanges</a>, <a href="../symbols/SC.Observable.html#.bind">bind</a>, <a href="../symbols/SC.Observable.html#.decrementProperty">decrementProperty</a>, <a href="../symbols/SC.Observable.html#.didChangeFor">didChangeFor</a>, <a href="../symbols/SC.Observable.html#.endPropertyChanges">endPropertyChanges</a>, <a href="../symbols/SC.Observable.html#.get">get</a>, <a href="../symbols/SC.Observable.html#.getEach">getEach</a>, <a href="../symbols/SC.Observable.html#.getPath">getPath</a>, <a href="../symbols/SC.Observable.html#.incrementProperty">incrementProperty</a>, <a href="../symbols/SC.Observable.html#.logProperty">logProperty</a>, <a href="../symbols/SC.Observable.html#.notifyPropertyChange">notifyPropertyChange</a>, <a href="../symbols/SC.Observable.html#.observeOnce">observeOnce</a>, <a href="../symbols/SC.Observable.html#.propertyDidChange">propertyDidChange</a>, <a href="../symbols/SC.Observable.html#.propertyObserver">propertyObserver</a>, <a href="../symbols/SC.Observable.html#.propertyWillChange">propertyWillChange</a>, <a href="../symbols/SC.Observable.html#.registerDependentKey">registerDependentKey</a>, <a href="../symbols/SC.Observable.html#.set">set</a>, <a href="../symbols/SC.Observable.html#.setIfChanged">setIfChanged</a>, <a href="../symbols/SC.Observable.html#.setPath">setPath</a>, <a href="../symbols/SC.Observable.html#.toggleProperty">toggleProperty</a>, <a href="../symbols/SC.Observable.html#.unknownProperty">unknownProperty</a></dd>
+      </dl>
+    
+  
+
+<!-- ============================== field details ========================== -->    
+  
+    <div class="field-detail detail">
+      <a name="field_detail"><h2>Property Details</h2></a> 
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name="action"></a> 
+            <h3>action</h3>
+            <p class="summary">The action to execute.</p>
+
+            
+
+            <p class="signature">
+              
+              -
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">action</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+
+<p>The action can be a method name, a property path, or a function.  If you pass a method name, it will be invoked on the target object or it will be called up the responder chain if target is null.  If you pass a property path and it resolves to a function then the function will be called.  If you pass a function instead, then the function will be called in the context of the target object.</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name="fireTime"></a> 
+            <h3>fireTime</h3>
+            <p class="summary">Returns the next time offset when the property will fire.</p>
+
+            
+
+            <p class="signature">
+              
+              -
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">fireTime</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+
+<p>This property changes automatically after a timer has fired.  If the timer is invalid this will return 0.</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name="interval"></a> 
+            <h3>interval</h3>
+            <p class="summary">The time interval in milliseconds.</p>
+
+            
+
+            <p class="signature">
+              
+              -
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">interval</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+
+<p>You generally set this when you create the timer.  If you do not set it then the timer will fire as soon as possible in the next run loop.</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name="isPaused"></a> 
+            <h3>isPaused</h3>
+            <p class="summary">Set to YES to pause the timer.</p>
+
+            
+
+            <p class="signature">
+              
+              -
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">isPaused</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+
+<p>Pausing a timer does not remove it from the run loop, but it will temporarily suspend it from firing.  You should use this property if you will want the timer to fire again the future, but you want to prevent it from firing temporarily.</p>
+
+<p>If you are done with a timer, you should call invalidate() instead of setting this property.</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name="isScheduled"></a> 
+            <h3>isScheduled</h3>
+            <p class="summary">YES onces the timer has been scheduled for the first time.</p>
+
+            
+
+            <p class="signature">
+              
+              -
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">isScheduled</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name="isValid"></a> 
+            <h3>isValid</h3>
+            <p class="summary">YES if the timer can still execute.</p>
+
+            
+
+            <p class="signature">
+              
+              -
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">isValid</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+
+<p>This read only property will return YES as long as the timer may possibly fire again in the future.  Once a timer has become invalid, it cannot become valid again.</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name="repeats"></a> 
+            <h3>repeats</h3>
+            <p class="summary">YES if you want the timer to execute repeatedly.</p>
+
+            
+
+            <p class="signature">
+              
+              -
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">repeats</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name="startTime"></a> 
+            <h3>startTime</h3>
+            <p class="summary">Timer start date offset.</p>
+
+            
+
+            <p class="signature">
+              
+              -
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">startTime</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+
+<p>The start date determines when the timer will be scheduled.  The first time the timer fires will be interval milliseconds after the start date.</p>
+
+<p>Generally you will not set this property yourself.  Instead it will be set automatically to the current run loop start date when you schedule the timer.  This ensures that all timers scheduled in the same run loop cycle will execute in the sync with one another.</p>
+
+<p>The value of this property is an offset like waht you get if you call Date.now().</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name="target"></a> 
+            <h3>target</h3>
+            <p class="summary">The target object whose method will be invoked when the time fires.</p>
+
+            
+
+            <p class="signature">
+              
+              -
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">target</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+
+<p>You can set either a target/action property or you can pass a specific method.</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+        
+          <!-- One single method detail entry -->
+          <div class="field">
+            <a name="until"></a> 
+            <h3>until</h3>
+            <p class="summary">Last date when the timer will execute.</p>
+
+            
+
+            <p class="signature">
+              
+              -
+              &nbsp;
+              <span class="type">
+                
+                Object
+              </span>
+              <span class="name">until</span>
+            </p>
+
+            
+              <h5>Discussion</h5>  
+              <div class="description">
+                
+
+<p>If you have set repeats to YES, then you can also set this property to have the timer automatically stop executing past a certain date.</p>
+
+<p>This property should contain an offset value like startOffset.  However if you set it to a Date object on create, it will be converted to an offset for you.</p>
+
+<p>If this property is null, then the timer will continue to repeat until you call invalidate().</p>
+              </div>
+            
+
+            
+          </div>
+        
+      
+    </div>
+  
+
+<!-- ============================== method details ========================= -->    
+  
+    <div class="method-detail detail">
+      <a name="method_detail"><h2>Method Details</h2></a> 
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Timer#fire"></a> 
+          <h3>fire()</h3>
+          <p class="summary">Immediately fires the timer.</p>
+
+          
+
+          <p class="signature">
+            
+            -
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  void&nbsp;
+                
+              
+            </span>
+            <span class="name">fire</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">void</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>If the timer is not-repeating, it will be invalidated.  If it is repeating you can call this method without interrupting its normal schedule.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Timer#invalidate"></a> 
+          <h3>invalidate()</h3>
+          <p class="summary">Invalidates the timer so that it will not execute again.</p>
+
+          
+
+          <p class="signature">
+            
+            -
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  SC.Timer&nbsp;
+                
+              
+            </span>
+            <span class="name">invalidate</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">SC.Timer</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>If a timer has been scheduled, it will be removed from the run loop immediately.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Timer#performAction"></a> 
+          <h3>performAction()</h3>
+          <p class="summary">Actually fires the action.</p>
+
+          
+
+          <p class="signature">
+            
+            -
+            &nbsp;
+            <span class="type">
+              
+              
+            </span>
+            <span class="name">performAction</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            <p>You can override this method if you need to change how the timer fires its action.</p>
+          </div>
+
+          
+        </div>
+      
+        <!-- One single method detail entry -->
+        <div class="method">
+          <a name="SC.Timer#schedule"></a> 
+          <h3>schedule()</h3>
+          <p class="summary">Schedules the timer to execute in the runloop.</p>
+
+          
+
+          <p class="signature">
+            
+            -
+            &nbsp;
+            <span class="type">
+              
+              
+                
+                  SC.Timer&nbsp;
+                
+              
+            </span>
+            <span class="name">schedule</span>
+            <span class="params">()</span>
+          </p> 
+
+          <!-- METHOD PARAMETERS START -->
+           
+          <!-- METHOD PARAMETERS END -->
+
+          <!-- ADDITIONAL ATTRIBUTES START -->
+          
+            <h5>Return Value</h5>
+            
+              <p class="return-value">
+                <span class="type">SC.Timer</span>&nbsp;-&nbsp;
+                <span class="description"></span> 
+              </p>
+            
+          
+
+          
+          <!-- ADDITIONAL ATTRIBUTES  END -->
+
+          <h5>Discussion</h5>  
+          <div class="description">
+            
+
+<p>This method is called automatically if you create the timer using the schedule() class method.  If you create the timer manually, you will need to call this method yourself for the timer to execute.</p>
+          </div>
+
+          
+        </div>
+      
+    </div>
+  
+  
+<!-- ============================== footer ================================= -->
+  <div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoctoolkit.org/" target="_parent">JsDoc Toolkit</a> 2.0.1 on Mon Oct 13 2008 23:25:35 GMT-0600 (MDT)</div>
+</body>
+</html>
