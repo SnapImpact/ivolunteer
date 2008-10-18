@@ -1,5 +1,5 @@
 /*
- *  OrganizationsListConverter
+ *  OrganizationsRecordsConverter
  *
  * Created on October 6, 2008, 8:41 PM
  *
