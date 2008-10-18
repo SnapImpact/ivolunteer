@@ -13,7 +13,7 @@ import java.util.Collection;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlElement;
 import java.util.ArrayList;
-import persistence.Organizations;
+import persistence.IdInterface;
 
 
 /**
@@ -36,10 +36,10 @@ public class IdListConverter {
      * @param entities associated entities
      * @param uri associated uri
      */
-    public IdListConverter(Collection<Organizations> records) {
+    public IdListConverter(Collection<? extends IdInterface> records) {
         if (this.ids == null) this.ids = new ArrayList<String>();
         if (records != null) {
-            for (Organizations record : records) {
+            for (IdInterface record : records) {
                 this.ids.add(record.getId());
             }
         }

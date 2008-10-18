@@ -25,7 +25,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "ORGANIZATIONS")
 @NamedQueries({@NamedQuery(name = "Organizations.findById", query = "SELECT o FROM Organizations o WHERE o.id = :id"), @NamedQuery(name = "Organizations.findByName", query = "SELECT o FROM Organizations o WHERE o.name = :name"), @NamedQuery(name = "Organizations.findByDescription", query = "SELECT o FROM Organizations o WHERE o.description = :description"), @NamedQuery(name = "Organizations.findByPhone", query = "SELECT o FROM Organizations o WHERE o.phone = :phone"), @NamedQuery(name = "Organizations.findByEmail", query = "SELECT o FROM Organizations o WHERE o.email = :email"), @NamedQuery(name = "Organizations.findByUrl", query = "SELECT o FROM Organizations o WHERE o.url = :url"), @NamedQuery(name = "Organizations.findByStreet", query = "SELECT o FROM Organizations o WHERE o.street = :street"), @NamedQuery(name = "Organizations.findByCity", query = "SELECT o FROM Organizations o WHERE o.city = :city"), @NamedQuery(name = "Organizations.findByState", query = "SELECT o FROM Organizations o WHERE o.state = :state"), @NamedQuery(name = "Organizations.findByZip", query = "SELECT o FROM Organizations o WHERE o.zip = :zip"), @NamedQuery(name = "Organizations.findBySourceKey", query = "SELECT o FROM Organizations o WHERE o.sourceKey = :sourceKey"), @NamedQuery(name = "Organizations.findBySourceUrl", query = "SELECT o FROM Organizations o WHERE o.sourceUrl = :sourceUrl")})
-public class Organizations implements Serializable {
+public class Organizations implements Serializable, IdInterface {
     private static final long serialVersionUID = 1L;
     @Id
     @Column(name = "ID", nullable = false)

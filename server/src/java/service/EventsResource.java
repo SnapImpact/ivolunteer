@@ -22,6 +22,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import converter.EventsConverter;
+import converter.EventsListConverter;
 import converter.EventConverter;
 import persistence.Events;
 
@@ -116,5 +117,20 @@ public class EventsResource {
      */
     protected void createEntity(Events entity) {
         PersistenceService.getInstance().persistEntity(entity);
+    }
+    
+    @Path("list/")
+    @GET
+    @ProduceMime({"application/json"})
+    public EventsListConverter list(@QueryParam("start")
+    @DefaultValue("0")
+    int start, @QueryParam("max")
+    @DefaultValue("10")
+    int max) {
+        try {
+            return new EventsListConverter(getEntities(start, max), context.getAbsolutePath(), context.getBaseUri());
+        } finally {
+            PersistenceService.getInstance().close();
+        }
     }
 }
