@@ -17,6 +17,7 @@ function main() {
   // when you are ready to pull data from your server.
   //App.server.preload(App.FIXTURES) ;
   App.server.listFor({recordType: App.Organizations});
+  App.server.listFor({recordType: App.Events});
 
   // TODO: refresh() any collections you have created to get their records.
   // ex: App.contacts.refresh() ;

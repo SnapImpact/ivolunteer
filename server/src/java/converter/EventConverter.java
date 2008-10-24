@@ -416,11 +416,16 @@ public class EventConverter {
      * @return value for organizationId
      */
     @XmlElement(name = "organizationRef")
-    public OrganizationRefConverter getOrganizationId() {
+    public OrganizationRefConverter getOrganizationRef() {
         if (entity.getOrganizationId() != null) {
             return new OrganizationRefConverter(entity.getOrganizationId(), uri.resolve("organization/"), false);
         }
         return null;
+    }
+    
+    @XmlElement
+    public String getOrganizationId() {
+        return entity.getOrganizationId().getId();
     }
 
     /**

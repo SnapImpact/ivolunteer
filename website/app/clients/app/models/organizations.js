@@ -16,7 +16,7 @@ App.Organizations = SC.Record.extend(
 /** @scope App.Organizations.prototype */ {
 
   // TODO: Add your own code here.
-    dataSource: App.server, 
+  dataSource: App.server, 
 
   /*
   A list of all the properties which should be handled by the framework.
@@ -24,7 +24,6 @@ App.Organizations = SC.Record.extend(
   */
   properties: ['name', 'description', 'phone', 'email',
        'url', 'street', 'city', 'state', 'zip', 'source_key', 'source_url'],
-  primaryKey: 'id',
 
   /*
   define the URL for this Record type. 
@@ -35,6 +34,10 @@ App.Organizations = SC.Record.extend(
         only one record is fetched)
   */
   wrapperElement: "organizations",
-  resourceURL: 'resources/organizations'
+  resourceURL: 'resources/organizations',
+  
+  events: SC.Record.hasMany('App.Events', 'organizationId')
+
+
 
 }) ;
