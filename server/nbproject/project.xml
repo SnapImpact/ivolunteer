@@ -1,30 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://www.netbeans.org/ns/project/1">
-    <type>org.netbeans.modules.web.project</type>
+    <type>org.netbeans.modules.j2ee.earproject</type>
     <configuration>
-        <buildExtensions xmlns="http://www.netbeans.org/ns/ant-build-extender/1">
-            <extension file="rest-build.xml" id="rest.2"/>
-        </buildExtensions>
-        <data xmlns="http://www.netbeans.org/ns/web-project/3">
+        <data xmlns="http://www.netbeans.org/ns/j2ee-earproject/2">
             <name>server</name>
             <minimum-ant-version>1.6</minimum-ant-version>
-            <web-module-libraries>
+            <web-module-libraries/>
+            <web-module-additional-libraries>
                 <library files="1">
-                    <file>${libs.restapi.classpath}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
+                    <file>${reference.server-war.dist-ear}</file>
+                    <path-in-war>/</path-in-war>
                 </library>
-                <library files="15">
-                    <file>${libs.restlib.classpath}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
+                <library files="1">
+                    <file>${reference.server-ejb.dist-ear}</file>
+                    <path-in-war>/</path-in-war>
                 </library>
-            </web-module-libraries>
-            <web-module-additional-libraries/>
-            <source-roots>
-                <root id="src.dir"/>
-            </source-roots>
-            <test-roots>
-                <root id="test.src.dir"/>
-            </test-roots>
+            </web-module-additional-libraries>
         </data>
+        <references xmlns="http://www.netbeans.org/ns/ant-project-references/1">
+            <reference>
+                <foreign-project>server-ejb</foreign-project>
+                <artifact-type>j2ee_ear_archive</artifact-type>
+                <script>build.xml</script>
+                <target>dist-ear</target>
+                <clean-target>clean-ear</clean-target>
+                <id>dist-ear</id>
+            </reference>
+            <reference>
+                <foreign-project>server-war</foreign-project>
+                <artifact-type>j2ee_ear_archive</artifact-type>
+                <script>build.xml</script>
+                <target>dist-ear</target>
+                <clean-target>clean-ear</clean-target>
+                <id>dist-ear</id>
+            </reference>
+        </references>
     </configuration>
 </project>

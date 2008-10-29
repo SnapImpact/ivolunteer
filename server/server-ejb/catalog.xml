@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="file:/Users/dave/Documents/iVolunteer/code/ivolunteer/server/server-ejb/../../server-old/src/xml/voml.xsd" uri="src/conf/xml-resources/jaxb/voml/voml.xsd"/>
+    <system systemId="file:/Users/dave/Documents/iVolunteer/code/ivolunteer/server/server-ejb/src/xml/voml.xsd" uri="src/conf/xml-resources/jaxb/voml/voml.xsd"/>
+    <system systemId="file:/Users/dave/Documents/iVolunteer/code/ivolunteer/server/server-ejb/src/xml/local.xsd" uri="src/conf/xml-resources/jaxb/voml/local.xsd"/>
+</catalog>

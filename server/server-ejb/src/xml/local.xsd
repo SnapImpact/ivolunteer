@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" xmlns:voml="http://www.networkforgood.org/xml/namespaces/voml/">
+  <xs:import namespace="http://www.networkforgood.org/xml/namespaces/voml/" schemaLocation="voml.xsd"/>
+  <xs:element name="voml">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voml:VolunteerOpportunities"/>
+        <xs:element name="Timestamp" type="xs:integer"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

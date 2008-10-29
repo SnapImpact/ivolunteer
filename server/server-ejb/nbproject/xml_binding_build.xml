@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+            *** GENERATED FROM xml_binding_cfg.xml - DO NOT EDIT  ***
+            *** Configure thru JAXB Wizard.                       ***
+        -->
+<project name="server-ejb_jaxb" default="default" basedir=".">
+    <target name="xjc-typedef-target" depends="-init-project">
+        <typedef classname="com.sun.tools.xjc.XJCTask" name="xjc" xmlns:s="http://xml.netbeans.org/schema/JAXBWizConfig">
+            <classpath path="${jaxbwiz.xjcdef.classpath}"/>
+        </typedef>
+    </target>
+    <target name="jaxb-clean-code-generation" depends="clean,jaxb-code-generation"/>
+    <target name="jaxb-code-generation" depends="xjc-typedef-target,-do-init,-init-macrodef-javac">
+        <mkdir dir="build/generated/addons/jaxb" xmlns:s="http://xml.netbeans.org/schema/JAXBWizConfig"/>
+        <mkdir dir="build/generated/jaxbCache" xmlns:s="http://xml.netbeans.org/schema/JAXBWizConfig"/>
+        <mkdir dir="${build.classes.dir}" xmlns:s="http://xml.netbeans.org/schema/JAXBWizConfig"/>
+        <mkdir dir="build/generated/jaxbCache/voml"/>
+        <xjc destdir="build/generated/jaxbCache/voml" catalog="catalog.xml">
+            <classpath>
+                <pathelement location="${src.dir}"/>
+                <pathelement path="${jaxbwiz.xjcrun.classpath}"/>
+            </classpath>
+            <arg value="-xmlschema"/>
+            <schema file="src/conf/xml-resources/jaxb/voml/voml.xsd"/>
+            <depends file="src/conf/xml-resources/jaxb/voml/voml.xsd"/>
+            <produces dir="build/generated/jaxbCache/voml"/>
+        </xjc>
+        <copy todir="build/generated/addons/jaxb">
+            <fileset dir="build/generated/jaxbCache/voml"/>
+        </copy>
+        <!--*** EJB project javac macro does not support sourcepath attribute, so do not pass "sourcepath=${src.dir}"-->
+        <ns0:javac xmlns:ns0="http://www.netbeans.org/ns/j2ee-ejbjarproject/2" includes="" excludes="" destdir="${build.classes.dir}" srcdir="build/generated/addons/jaxb" classpath="${jaxbwiz.gensrc.classpath}"/>
+    </target>
+</project>
