@@ -508,15 +508,23 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${reference.server-ejb.dist}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.reference.server-ejb.dist" todir="${dist.ear.dir}"/>
         <copyfiles files="${libs.restapi.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.restapi.classpath" todir="${dist.ear.dir}"/>
         <copyfiles files="${libs.restlib.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.restlib.classpath" todir="${dist.ear.dir}"/>
+        <copyfiles files="${libs.jsf12-support.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.jsf12-support.classpath" todir="${dist.ear.dir}"/>
+        <copyfiles files="${libs.woodstock-components.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.woodstock-components.classpath" todir="${dist.ear.dir}"/>
+        <copyfiles files="${libs.woodstock-theme-default.classpath}" iftldtodir="${build.web.dir}/WEB-INF" manifestproperty="manifest.libs.woodstock-theme-default.classpath" todir="${dist.ear.dir}"/>
+        <copyfiles files="${libs.exceptionhandler-runtime.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
         <mkdir dir="${build.web.dir}/META-INF"/>
         <manifest file="${build.web.dir}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Class-Path" value="${manifest.reference.server-ejb.dist} ${manifest.libs.restapi.classpath} ${manifest.libs.restlib.classpath} "/>
+            <attribute name="Class-Path" value="${manifest.reference.server-ejb.dist} ${manifest.libs.restapi.classpath} ${manifest.libs.restlib.classpath} ${manifest.libs.jsf12-support.classpath} ${manifest.libs.woodstock-components.classpath} ${manifest.libs.woodstock-theme-default.classpath} "/>
         </manifest>
     </target>
     <target depends="init" name="library-inclusion-in-archive" unless="dist.ear.dir">
         <copyfiles files="${reference.server-ejb.dist}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${libs.restapi.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${libs.restlib.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${libs.jsf12-support.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${libs.woodstock-components.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${libs.woodstock-theme-default.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${libs.exceptionhandler-runtime.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
     </target>
     <target depends="init,compile,compile-jsps,-pre-dist,library-inclusion-in-manifest" name="do-ear-dist">
         <dirname file="${dist.ear.war}" property="dist.jar.dir"/>

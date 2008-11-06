@@ -5,24 +5,42 @@
         <buildExtensions xmlns="http://www.netbeans.org/ns/ant-build-extender/1">
             <extension file="rest-build.xml" id="rest.3"/>
         </buildExtensions>
+        <creator-data xmlns="http://www.sun.com/creator/ns" jsf.current.theme="woodstock-theme-default" jsf.pagebean.package="admin" jsf.project.libraries.dir="lib" jsf.project.version="4.0" jsf.startPage="Admin.jsp"/>
         <data xmlns="http://www.netbeans.org/ns/web-project/3">
             <name>server-war</name>
             <minimum-ant-version>1.6</minimum-ant-version>
             <web-module-libraries>
-                <library files="1">
+                <library>
                     <file>${reference.server-ejb.dist}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
-                <library files="1">
+                <library>
                     <file>${libs.restapi.classpath}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
-                <library files="15">
+                <library>
                     <file>${libs.restlib.classpath}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
+                <library>
+                    <file>${libs.jsf12-support.classpath}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library>
+                    <file>${libs.woodstock-components.classpath}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library>
+                    <file>${libs.woodstock-theme-default.classpath}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
             </web-module-libraries>
-            <web-module-additional-libraries/>
+            <web-module-additional-libraries>
+                <library>
+                    <file>${libs.exceptionhandler-runtime.classpath}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+            </web-module-additional-libraries>
             <source-roots>
                 <root id="src.dir" name="Source Packages"/>
             </source-roots>
