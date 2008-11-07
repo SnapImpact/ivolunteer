@@ -21,6 +21,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Date;
 import java.util.UUID;
+import java.util.Iterator;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import org.networkforgood.xml.namespaces.voml.*;
@@ -44,91 +45,133 @@ public class vomlSessionBean implements vomlSessionLocal {
             List<VolunteerOpportunity> opps = vo.getVolunteerOpportunity();
 
             SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Query organizationQuery = em.createNamedQuery("Organizations.findByName");
-            Query eventQuery = em.createNamedQuery("Events.findByTitle");
+
+            Query organizationQuery = em.createNamedQuery("Organization.findByName");
+            Query eventQuery = em.createNamedQuery("Event.findByTitle");
+            Query locationQuery = em.createNamedQuery("Location.findByStreetZip");
+            Query timestampQuery = em.createNamedQuery("Timestamp.findByTimestamp");
+
             for ( VolunteerOpportunity opp : opps )
             {
                 System.out.println(opp.getTitle());
 
-                SponsoringOrganization sponsor = opp.getSponsoringOrganizations().getSponsoringOrganization().iterator().next();
-                organizationQuery.setParameter("name", sponsor.getName());
+                //SponsoringOrganization sponsor = opp.getSponsoringOrganizations().getSponsoringOrganization().iterator().next();
+                List<SponsoringOrganization> sponsors = opp.getSponsoringOrganizations().getSponsoringOrganization();
+              
+                for ( SponsoringOrganization sponsor : sponsors ) {
+                    
+                    Organization org;
+                    boolean newOrg = false;
+                    try {
+                        organizationQuery.setParameter("name", sponsor.getName());
+                        org = (Organization) organizationQuery.getSingleResult();
+                    } catch (NoResultException nr) {
+                        newOrg = true;
+                        org = new Organization();
+                        org.setId(UUID.randomUUID().toString());
+                        org.setName(sponsor.getName());
+                    }
 
-                Organizations org;
-                boolean newOrg = false;
-                try {
-                    org = (Organizations) organizationQuery.getSingleResult();
-                } catch (NoResultException nr) {
-                    newOrg = true;
-                    org = new Organizations();
-                    org.setId(UUID.randomUUID().toString());
-                    org.setName(sponsor.getName());
+                    String sponsorAddress = sponsor.getAddress1() + " " + sponsor.getAddress2();
+                    persistence.Location loc;
+                    boolean newLoc = false;
+                    try {
+                        locationQuery.setParameter("street", sponsorAddress);
+                        locationQuery.setParameter("zip", sponsor.getZipOrPostalCode());
+                        loc = (persistence.Location) locationQuery.getSingleResult();
+                    } catch (NoResultException nr) {
+                        newLoc = true;
+                        loc = new persistence.Location();
+                        loc.setId(UUID.randomUUID().toString());
+                        loc.setStreet(sponsorAddress);
+                        loc.setCity(sponsor.getCity());
+                        loc.setState(sponsor.getStateOrProvince());
+                        loc.setZip(sponsor.getZipOrPostalCode());
+                    }
+
+                    if ( ! org.getLocationCollection().contains(loc) ) {
+                        org.getLocationCollection().add(loc);
+                    }
+                    
+                    if (! org.getDescription().equalsIgnoreCase(sponsor.getDescription())) {
+                        org.setDescription(sponsor.getDescription());
+                    }
+
+                    if (org.getEmail().compareTo(sponsor.getEmail()) != 0) {
+                        org.setEmail(sponsor.getEmail());
+                    }
+
+                    if (org.getUrl().compareTo(sponsor.getURL()) != 0) {
+                        org.setUrl(sponsor.getURL());
+                    }
+
+                    String sponsorPhone = sponsor.getPhone();
+                    if (sponsor.getExtension() != null) {
+                        sponsorPhone = sponsorPhone + " ext " + sponsor.getExtension();
+                    }
+
+                    if (! org.getPhone().equalsIgnoreCase(sponsorPhone)) {
+                        org.setPhone(sponsorPhone);
+                    }
                 }
 
-                String sponsorAddress = sponsor.getAddress1() + " " + sponsor.getAddress2();
-                if (! org.getStreet().equalsIgnoreCase(sponsorAddress)) {
-                    org.setStreet(sponsorAddress);
-                }
-
-                if (! org.getCity().equalsIgnoreCase(sponsor.getCity())) {
-                    org.setCity(sponsor.getCity());
-                }
-
-                if (! org.getState().equalsIgnoreCase(sponsor.getStateOrProvince())) {
-                    org.setState(sponsor.getStateOrProvince());
-                }
-
-                if (! org.getZip().equalsIgnoreCase(sponsor.getZipOrPostalCode())) {
-                    org.setZip(sponsor.getZipOrPostalCode());
-                }
-
-                if (! org.getDescription().equalsIgnoreCase(sponsor.getDescription())) {
-                    org.setDescription(sponsor.getDescription());
-                }
-
-                if (org.getEmail().compareTo(sponsor.getEmail()) != 0) {
-                    org.setEmail(sponsor.getEmail());
-                }
-
-                if (org.getUrl().compareTo(sponsor.getURL()) != 0) {
-                    org.setUrl(sponsor.getURL());
-                }
-
-                String sponsorPhone = sponsor.getPhone();
-                if (sponsor.getExtension() != null) {
-                    sponsorPhone = sponsorPhone + " ext " + sponsor.getExtension();
-                }
-
-                if (! org.getPhone().equalsIgnoreCase(sponsorPhone)) {
-                    org.setPhone(sponsorPhone);
-                }
 
 
-                Events ev = new Events();
+                Event ev = new Event();
                 ev.setTitle(opp.getTitle());
                 ev.setDescription(opp.getDescription());
-                ev.setStreet(opp.getLocations().getLocation().getAddress1() + " " + opp.getLocations().getLocation().getAddress2());
-                ev.setCity(opp.getLocations().getLocation().getCity());
-                ev.setState(opp.getLocations().getLocation().getStateOrProvince());
-                ev.setZip(opp.getLocations().getLocation().getZipOrPostalCode());
-                OpportunityDate oppDate = opp.getOpportunityDates().getOpportunityDate().iterator().next();
 
+                persistence.Location loc;
+                org.networkforgood.xml.namespaces.voml.Location oppLoc = opp.getLocations().getLocation();
+                String oppAddress = oppLoc.getAddress1() + " " + oppLoc.getAddress2();
+                boolean newLoc = false;
                 try {
-                    Date startDate = dateFormatter.parse(oppDate.getStartDate() + " " + oppDate.getStartTime());
-                    ev.setTimestamp(startDate);
-                    if ( oppDate.getDuration() != null ) {
-                        String durUnits = oppDate.getDuration().getDurationUnit();
-
-
-                    }
-                    else
-                    {
-                        Date endDate = dateFormatter.parse(oppDate.getEndDate() + " " + oppDate.getEndTime());
-                        long dur = (endDate.getTime() - startDate.getTime())/1000;
-                        ev.setDuration((short) dur);
-                    }
+                    locationQuery.setParameter("street", oppAddress);
+                    locationQuery.setParameter("zip", oppLoc.getZipOrPostalCode());
+                    loc = (persistence.Location) locationQuery.getSingleResult();
+                } catch (NoResultException nr) {
+                    newLoc = true;
+                    loc = new persistence.Location();
+                    loc.setId(UUID.randomUUID().toString());
+                    loc.setStreet(oppAddress);
+                    loc.setCity(oppLoc.getCity());
+                    loc.setState(oppLoc.getStateOrProvince());
+                    loc.setZip(oppLoc.getZipOrPostalCode());
                 }
-                catch (ParseException pe) {
-                    System.out.println(pe.toString());
+
+                List<OpportunityDate> oppDates = opp.getOpportunityDates().getOpportunityDate();
+
+                for (OpportunityDate oppDate : oppDates) {
+
+                    try {
+                        Date startDate = dateFormatter.parse(oppDate.getStartDate() + " " + oppDate.getStartTime());
+                        Timestamp ts;
+                        try {
+                            timestampQuery.setParameter("timestamp", startDate);
+                            ts = (Timestamp) timestampQuery.getSingleResult();
+                        } catch (NoResultException nr) {
+                            ts = new Timestamp();
+                            ts.setId(UUID.randomUUID().toString());
+                            ts.setTimestamp(startDate);
+                        }
+
+                        ev.getTimestampCollection().add(ts);
+                        
+                        if ( oppDate.getDuration() != null ) {
+                            String durUnits = oppDate.getDuration().getDurationUnit();
+
+
+                        }
+                        else
+                        {
+                            Date endDate = dateFormatter.parse(oppDate.getEndDate() + " " + oppDate.getEndTime());
+                            long dur = (endDate.getTime() - startDate.getTime())/1000;
+                            ev.setDuration((short) dur);
+                        }
+                    }
+                    catch (ParseException pe) {
+                        System.out.println(pe.toString());
+                    }
                 }
 
             }

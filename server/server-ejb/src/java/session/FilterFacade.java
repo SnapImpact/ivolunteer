@@ -33,7 +33,7 @@ public class FilterFacade implements FilterFacadeLocal {
     }
 
     public Filter find(Object id) {
-        return em.find(persistence.Filter.class, id);
+        return em.find(Filter.class, id);
     }
 
     public List<Filter> findAll() {

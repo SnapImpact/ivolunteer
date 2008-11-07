@@ -7,6 +7,7 @@ package persistence;
 
 import java.io.Serializable;
 import java.util.Collection;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -24,31 +25,32 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "FILTER")
-@NamedQueries({@NamedQuery(name = "Filter.findById", query = "SELECT f FROM Filter f WHERE f.id = :id"), @NamedQuery(name = "Filter.findByLatitude", query = "SELECT f FROM Filter f WHERE f.latitude = :latitude"), @NamedQuery(name = "Filter.findByLongitude", query = "SELECT f FROM Filter f WHERE f.longitude = :longitude")})
+@NamedQueries({@NamedQuery(name = "Filter.findAll", query = "SELECT f FROM Filter f"), @NamedQuery(name = "Filter.findById", query = "SELECT f FROM Filter f WHERE f.id = :id"), @NamedQuery(name = "Filter.findByLatitude", query = "SELECT f FROM Filter f WHERE f.latitude = :latitude"), @NamedQuery(name = "Filter.findByLongitude", query = "SELECT f FROM Filter f WHERE f.longitude = :longitude")})
 public class Filter implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @Column(name = "ID", nullable = false)
+    @Basic(optional = false)
+    @Column(name = "ID")
     private String id;
     @Column(name = "LATITUDE")
     private String latitude;
     @Column(name = "LONGITUDE")
     private String longitude;
-    @JoinTable(name = "FILTER_ORGANIZATION_TYPES", joinColumns = {@JoinColumn(name = "FILTER_ID", referencedColumnName = "ID")}, inverseJoinColumns = {@JoinColumn(name = "ORGANIZATION_TYPE_ID", referencedColumnName = "ID")})
+    @JoinTable(name = "FILTER_ORGANIZATION_TYPE", joinColumns = {@JoinColumn(name = "FILTER_ID", referencedColumnName = "ID")}, inverseJoinColumns = {@JoinColumn(name = "ORGANIZATION_TYPE_ID", referencedColumnName = "ID")})
     @ManyToMany
-    private Collection<OrganizationTypes> organizationTypeIdCollection;
-    @JoinTable(name = "FILTER_INTEREST_AREAS", joinColumns = {@JoinColumn(name = "FILTER_ID", referencedColumnName = "ID")}, inverseJoinColumns = {@JoinColumn(name = "INTEREST_AREA_ID", referencedColumnName = "ID")})
+    private Collection<OrganizationType> organizationTypeCollection;
+    @JoinTable(name = "FILTER_INTEREST_AREA", joinColumns = {@JoinColumn(name = "FILTER_ID", referencedColumnName = "ID")}, inverseJoinColumns = {@JoinColumn(name = "INTEREST_AREA_ID", referencedColumnName = "ID")})
     @ManyToMany
-    private Collection<InterestAreas> interestAreaIdCollection;
+    private Collection<InterestArea> interestAreaCollection;
     @JoinColumn(name = "DISTANCE_ID", referencedColumnName = "ID")
     @ManyToOne
-    private Distances distanceId;
+    private Distance distanceId;
+    @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+    @ManyToOne(optional = false)
+    private IvUser userId;
     @JoinColumn(name = "TIMEFRAME_ID", referencedColumnName = "ID")
     @ManyToOne
-    private Timeframes timeframeId;
-    @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
-    @ManyToOne
-    private Users userId;
+    private Timeframe timeframeId;
 
     public Filter() {
     }
@@ -81,44 +83,44 @@ public class Filter implements Serializable {
         this.longitude = longitude;
     }
 
-    public Collection<OrganizationTypes> getOrganizationTypeIdCollection() {
-        return organizationTypeIdCollection;
+    public Collection<OrganizationType> getOrganizationTypeCollection() {
+        return organizationTypeCollection;
     }
 
-    public void setOrganizationTypeIdCollection(Collection<OrganizationTypes> organizationTypeIdCollection) {
-        this.organizationTypeIdCollection = organizationTypeIdCollection;
+    public void setOrganizationTypeCollection(Collection<OrganizationType> organizationTypeCollection) {
+        this.organizationTypeCollection = organizationTypeCollection;
     }
 
-    public Collection<InterestAreas> getInterestAreaIdCollection() {
-        return interestAreaIdCollection;
+    public Collection<InterestArea> getInterestAreaCollection() {
+        return interestAreaCollection;
     }
 
-    public void setInterestAreaIdCollection(Collection<InterestAreas> interestAreaIdCollection) {
-        this.interestAreaIdCollection = interestAreaIdCollection;
+    public void setInterestAreaCollection(Collection<InterestArea> interestAreaCollection) {
+        this.interestAreaCollection = interestAreaCollection;
     }
 
-    public Distances getDistanceId() {
+    public Distance getDistanceId() {
         return distanceId;
     }
 
-    public void setDistanceId(Distances distanceId) {
+    public void setDistanceId(Distance distanceId) {
         this.distanceId = distanceId;
     }
 
-    public Timeframes getTimeframeId() {
-        return timeframeId;
-    }
-
-    public void setTimeframeId(Timeframes timeframeId) {
-        this.timeframeId = timeframeId;
-    }
-
-    public Users getUserId() {
+    public IvUser getUserId() {
         return userId;
     }
 
-    public void setUserId(Users userId) {
+    public void setUserId(IvUser userId) {
         this.userId = userId;
+    }
+
+    public Timeframe getTimeframeId() {
+        return timeframeId;
+    }
+
+    public void setTimeframeId(Timeframe timeframeId) {
+        this.timeframeId = timeframeId;
     }
 
     @Override
