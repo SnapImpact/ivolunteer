@@ -27,6 +27,7 @@ import persistence.Location;
 import persistence.Timestamp;
 import converter.EventsConverter;
 import converter.EventConverter;
+import converter.EventsListConverter;
 
 /**
  *
@@ -138,6 +139,23 @@ public class EventsResource {
         Source sourceId = entity.getSourceId();
         if (sourceId != null) {
             sourceId.getEventCollection().add(entity);
+        }
+    }
+
+    @Path("list/")
+    @GET
+    @Produces({"application/json"})
+    public EventsListConverter list(@QueryParam("start")
+    @DefaultValue("0")
+    int start, @QueryParam("max")
+    @DefaultValue("10")
+    int max, @QueryParam("query")
+    @DefaultValue("SELECT e FROM Event e")
+    String query) {
+        try {
+            return new EventsListConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), uriInfo.getBaseUri());
+        } finally {
+
         }
     }
 }

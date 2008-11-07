@@ -27,6 +27,7 @@ import persistence.OrganizationType;
 import persistence.Location;
 import converter.OrganizationsConverter;
 import converter.OrganizationConverter;
+import converter.OrganizationsListConverter;
 
 /**
  *
@@ -139,6 +140,23 @@ public class OrganizationsResource {
         Source sourceId = entity.getSourceId();
         if (sourceId != null) {
             sourceId.getOrganizationCollection().add(entity);
+        }
+    }
+
+    @Path("list/")
+    @GET
+    @Produces({"application/json"})
+    public OrganizationsListConverter list(@QueryParam("start")
+    @DefaultValue("0")
+    int start, @QueryParam("max")
+    @DefaultValue("10")
+    int max, @QueryParam("query")
+    @DefaultValue("SELECT e FROM Organization e")
+    String query) {
+        try {
+            return new OrganizationsListConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), uriInfo.getBaseUri());
+        } finally {
+
         }
     }
 }

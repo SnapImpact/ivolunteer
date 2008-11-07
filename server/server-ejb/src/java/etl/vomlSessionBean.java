@@ -19,11 +19,13 @@ import javax.xml.bind.ValidationEvent;
 import javax.xml.bind.util.ValidationEventCollector;
 import java.io.File;
 import java.util.List;
+import java.util.HashSet;
 import java.util.Date;
 import java.util.UUID;
 import java.util.Iterator;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import org.networkforgood.xml.namespaces.voml.*;
 import persistence.*;
 
@@ -58,6 +60,7 @@ public class vomlSessionBean implements vomlSessionLocal {
                 //SponsoringOrganization sponsor = opp.getSponsoringOrganizations().getSponsoringOrganization().iterator().next();
                 List<SponsoringOrganization> sponsors = opp.getSponsoringOrganizations().getSponsoringOrganization();
               
+                HashSet<Organization> orgs = new HashSet<Organization>();
                 for ( SponsoringOrganization sponsor : sponsors ) {
                     
                     Organization org;
@@ -70,6 +73,7 @@ public class vomlSessionBean implements vomlSessionLocal {
                         org = new Organization();
                         org.setId(UUID.randomUUID().toString());
                         org.setName(sponsor.getName());
+                        em.persist(org);
                     }
 
                     String sponsorAddress = sponsor.getAddress1() + " " + sponsor.getAddress2();
@@ -87,38 +91,52 @@ public class vomlSessionBean implements vomlSessionLocal {
                         loc.setCity(sponsor.getCity());
                         loc.setState(sponsor.getStateOrProvince());
                         loc.setZip(sponsor.getZipOrPostalCode());
+                        em.persist(loc);
                     }
 
                     if ( ! org.getLocationCollection().contains(loc) ) {
                         org.getLocationCollection().add(loc);
                     }
-                    
-                    if (! org.getDescription().equalsIgnoreCase(sponsor.getDescription())) {
-                        org.setDescription(sponsor.getDescription());
-                    }
 
-                    if (org.getEmail().compareTo(sponsor.getEmail()) != 0) {
-                        org.setEmail(sponsor.getEmail());
-                    }
-
-                    if (org.getUrl().compareTo(sponsor.getURL()) != 0) {
-                        org.setUrl(sponsor.getURL());
-                    }
+                    org.setDescription(sponsor.getDescription());
+                    org.setEmail(sponsor.getEmail());
+                    org.setUrl(sponsor.getURL());
 
                     String sponsorPhone = sponsor.getPhone();
                     if (sponsor.getExtension() != null) {
                         sponsorPhone = sponsorPhone + " ext " + sponsor.getExtension();
                     }
 
-                    if (! org.getPhone().equalsIgnoreCase(sponsorPhone)) {
-                        org.setPhone(sponsorPhone);
+                    org.setPhone(sponsorPhone);
+
+                    em.merge(org);
+
+                    orgs.add(org);
+                }
+
+                Event ev = null;
+                eventQuery.setParameter("title", opp.getTitle());
+                List<Event> events = eventQuery.getResultList();
+                for (Event event : events) {
+                    if ( event.getOrganizationCollection().containsAll(orgs) ) {
+                        ev = event;
+                        break;
                     }
                 }
 
-
-
-                Event ev = new Event();
-                ev.setTitle(opp.getTitle());
+                if ( ev == null ) {
+                    ev = new Event();
+                    ev.setId(UUID.randomUUID().toString());
+                    ev.setTitle(opp.getTitle());
+                    ev.setOrganizationCollection(orgs);
+                    em.persist(ev);
+                }
+                else
+                {
+                    orgs.addAll(ev.getOrganizationCollection());
+                    ev.setOrganizationCollection(orgs);
+                }
+                
                 ev.setDescription(opp.getDescription());
 
                 persistence.Location loc;
@@ -137,7 +155,10 @@ public class vomlSessionBean implements vomlSessionLocal {
                     loc.setCity(oppLoc.getCity());
                     loc.setState(oppLoc.getStateOrProvince());
                     loc.setZip(oppLoc.getZipOrPostalCode());
+                    em.persist(loc);
                 }
+
+                ev.getLocationCollection().add(loc);
 
                 List<OpportunityDate> oppDates = opp.getOpportunityDates().getOpportunityDate();
 
@@ -153,6 +174,7 @@ public class vomlSessionBean implements vomlSessionLocal {
                             ts = new Timestamp();
                             ts.setId(UUID.randomUUID().toString());
                             ts.setTimestamp(startDate);
+                            em.persist(ts);
                         }
 
                         ev.getTimestampCollection().add(ts);
@@ -173,6 +195,8 @@ public class vomlSessionBean implements vomlSessionLocal {
                         System.out.println(pe.toString());
                     }
                 }
+                em.merge(ev);
+                em.flush();
 
             }
         }
@@ -182,7 +206,7 @@ public class vomlSessionBean implements vomlSessionLocal {
         }
         catch( JAXBException je ) {
             je.printStackTrace();
-        }
+        }        
 
     }
 
