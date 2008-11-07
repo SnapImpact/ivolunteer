@@ -1,9 +1,5 @@
 /*
- *  IntegrationResource
- *
- * Created on October 24, 2008, 9:56 PM
- *
- * To change this template, choose Tools | Template Manager
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
@@ -15,14 +11,18 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
+import com.sun.jersey.api.core.ResourceContext;
 import javax.ws.rs.WebApplicationException;
 import javax.persistence.NoResultException;
-import javax.ws.rs.core.UriInfo;
-import persistence.Integrations;
-import persistence.Networks;
-import persistence.Users;
+import javax.persistence.EntityManager;
+import persistence.Integration;
+import persistence.Network;
+import persistence.IvUser;
 import converter.IntegrationConverter;
-
 
 /**
  *
@@ -30,41 +30,42 @@ import converter.IntegrationConverter;
  */
 
 public class IntegrationResource {
-    private String id;
-    private UriInfo context;
+    @Context
+    protected UriInfo uriInfo;
+    @Context
+    protected ResourceContext resourceContext;
+    protected String id;
   
     /** Creates a new instance of IntegrationResource */
     public IntegrationResource() {
     }
 
-    /**
-     * Constructor used for instantiating an instance of dynamic resource.
-     *
-     * @param context HttpContext inherited from the parent resource
-     */
-    public IntegrationResource(String id, UriInfo context) {
+    public void setId(String id) {
         this.id = id;
-        this.context = context;
     }
 
     /**
-     * Get method for retrieving an instance of Integrations identified by id in XML format.
+     * Get method for retrieving an instance of Integration identified by id in XML format.
      *
      * @param id identifier for the entity
      * @return an instance of IntegrationConverter
      */
     @GET
     @Produces({"application/xml", "application/json"})
-    public IntegrationConverter get() {
+    public IntegrationConverter get(@QueryParam("expandLevel")
+    @DefaultValue("1")
+    int expandLevel) {
+        PersistenceService persistenceSvc = PersistenceService.getInstance();
         try {
-            return new IntegrationConverter(getEntity(), context.getAbsolutePath());
+            persistenceSvc.beginTx();
+            return new IntegrationConverter(getEntity(), uriInfo.getAbsolutePath(), expandLevel);
         } finally {
-            //
+            PersistenceService.getInstance().close();
         }
     }
 
     /**
-     * Put method for updating an instance of Integrations identified by id using XML as the input format.
+     * Put method for updating an instance of Integration identified by id using XML as the input format.
      *
      * @param id identifier for the entity
      * @param data an IntegrationConverter entity that is deserialized from a XML stream
@@ -72,88 +73,46 @@ public class IntegrationResource {
     @PUT
     @Consumes({"application/xml", "application/json"})
     public void put(IntegrationConverter data) {
+        PersistenceService persistenceSvc = PersistenceService.getInstance();
         try {
-            
-            updateEntity(getEntity(), data.getEntity());
-            
+            persistenceSvc.beginTx();
+            EntityManager em = persistenceSvc.getEntityManager();
+            updateEntity(getEntity(), data.resolveEntity(em));
+            persistenceSvc.commitTx();
         } finally {
-            
+            persistenceSvc.close();
         }
     }
 
     /**
-     * Delete method for deleting an instance of Integrations identified by id.
+     * Delete method for deleting an instance of Integration identified by id.
      *
      * @param id identifier for the entity
      */
     @DELETE
     public void delete() {
-        PersistenceServiceBean persistenceSvc = new PersistenceServiceBean();
+        PersistenceService persistenceSvc = PersistenceService.getInstance();
         try {
-            
-            Integrations entity = getEntity();
-            persistenceSvc.removeEntity(entity);
-            
+            persistenceSvc.beginTx();
+            deleteEntity(getEntity());
+            persistenceSvc.commitTx();
         } finally {
-            
+            persistenceSvc.close();
         }
     }
 
     /**
-     * Returns a dynamic instance of NetworkResource used for entity navigation.
-     *
-     * @param id identifier for the parent entity
-     * @return an instance of NetworkResource
-     */
-    @Path("network/")
-    public NetworkResource getNetworkResource() {
-        final Integrations parent = getEntity();
-        return new NetworkResource(null, context) {
-
-            @Override
-            protected Networks getEntity() {
-                Networks entity = parent.getNetworkId();
-                if (entity == null) {
-                    throw new WebApplicationException(new Throwable("Resource for " + context.getAbsolutePath() + " does not exist."), 404);
-                }
-                return entity;
-            }
-        };
-    }
-
-    /**
-     * Returns a dynamic instance of UserResource used for entity navigation.
-     *
-     * @param id identifier for the parent entity
-     * @return an instance of UserResource
-     */
-    @Path("user/")
-    public UserResource getUserResource() {
-        final Integrations parent = getEntity();
-        return new UserResource(null, context) {
-
-            @Override
-            protected Users getEntity() {
-                Users entity = parent.getUserId();
-                if (entity == null) {
-                    throw new WebApplicationException(new Throwable("Resource for " + context.getAbsolutePath() + " does not exist."), 404);
-                }
-                return entity;
-            }
-        };
-    }
-
-    /**
-     * Returns an instance of Integrations identified by id.
+     * Returns an instance of Integration identified by id.
      *
      * @param id identifier for the entity
-     * @return an instance of Integrations
+     * @return an instance of Integration
      */
-    protected Integrations getEntity() {
+    protected Integration getEntity() {
+        EntityManager em = PersistenceService.getInstance().getEntityManager();
         try {
-            return (Integrations) new PersistenceServiceBean().createQuery("SELECT e FROM Integrations e where e.id = :id").setParameter("id", id).getSingleResult();
+            return (Integration) em.createQuery("SELECT e FROM Integration e where e.id = :id").setParameter("id", id).getSingleResult();
         } catch (NoResultException ex) {
-            throw new WebApplicationException(new Throwable("Resource for " + context.getAbsolutePath() + " does not exist."), 404);
+            throw new WebApplicationException(new Throwable("Resource for " + uriInfo.getAbsolutePath() + " does not exist."), 404);
         }
     }
 
@@ -164,9 +123,105 @@ public class IntegrationResource {
      * @param newEntity the entity containing the new data
      * @return the updated entity
      */
-    protected Integrations updateEntity(Integrations entity, Integrations newEntity) {
-        newEntity.setId(entity.getId());
-        entity = new PersistenceServiceBean().mergeEntity(newEntity);
+    protected Integration updateEntity(Integration entity, Integration newEntity) {
+        EntityManager em = PersistenceService.getInstance().getEntityManager();
+        IvUser userId = entity.getUserId();
+        IvUser userIdNew = newEntity.getUserId();
+        Network networkId = entity.getNetworkId();
+        Network networkIdNew = newEntity.getNetworkId();
+        entity = em.merge(newEntity);
+        if (userId != null && !userId.equals(userIdNew)) {
+            userId.getIntegrationCollection().remove(entity);
+        }
+        if (userIdNew != null && !userIdNew.equals(userId)) {
+            userIdNew.getIntegrationCollection().add(entity);
+        }
+        if (networkId != null && !networkId.equals(networkIdNew)) {
+            networkId.getIntegrationCollection().remove(entity);
+        }
+        if (networkIdNew != null && !networkIdNew.equals(networkId)) {
+            networkIdNew.getIntegrationCollection().add(entity);
+        }
         return entity;
+    }
+
+    /**
+     * Deletes the entity.
+     *
+     * @param entity the entity to deletle
+     */
+    protected void deleteEntity(Integration entity) {
+        EntityManager em = PersistenceService.getInstance().getEntityManager();
+        IvUser userId = entity.getUserId();
+        if (userId != null) {
+            userId.getIntegrationCollection().remove(entity);
+        }
+        Network networkId = entity.getNetworkId();
+        if (networkId != null) {
+            networkId.getIntegrationCollection().remove(entity);
+        }
+        em.remove(entity);
+    }
+
+    /**
+     * Returns a dynamic instance of IvUserResource used for entity navigation.
+     *
+     * @param id identifier for the parent entity
+     * @return an instance of IvUserResource
+     */
+    @Path("userId/")
+    public service.IvUserResource getUserIdResource() {
+        UserIdResourceSub resource = resourceContext.getResource(UserIdResourceSub.class);
+        resource.setParent(getEntity());
+        return resource;
+    }
+
+    /**
+     * Returns a dynamic instance of NetworkResource used for entity navigation.
+     *
+     * @param id identifier for the parent entity
+     * @return an instance of NetworkResource
+     */
+    @Path("networkId/")
+    public service.NetworkResource getNetworkIdResource() {
+        NetworkIdResourceSub resource = resourceContext.getResource(NetworkIdResourceSub.class);
+        resource.setParent(getEntity());
+        return resource;
+    }
+
+    public static class UserIdResourceSub extends IvUserResource {
+
+        private Integration parent;
+
+        public void setParent(Integration parent) {
+            this.parent = parent;
+        }
+
+        @Override
+        protected IvUser getEntity() {
+            IvUser entity = parent.getUserId();
+            if (entity == null) {
+                throw new WebApplicationException(new Throwable("Resource for " + uriInfo.getAbsolutePath() + " does not exist."), 404);
+            }
+            return entity;
+        }
+    }
+
+    public static class NetworkIdResourceSub extends NetworkResource {
+
+        private Integration parent;
+
+        public void setParent(Integration parent) {
+            this.parent = parent;
+        }
+
+        @Override
+        protected Network getEntity() {
+            Network entity = parent.getNetworkId();
+            if (entity == null) {
+                throw new WebApplicationException(new Throwable("Resource for " + uriInfo.getAbsolutePath() + " does not exist."), 404);
+            }
+            return entity;
+        }
     }
 }

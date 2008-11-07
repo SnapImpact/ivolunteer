@@ -1,21 +1,23 @@
 /*
- *  SourceConverter
- *
- * Created on October 24, 2008, 9:56 PM
- *
- * To change this template, choose Tools | Template Manager
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
 package converter;
 
 import java.net.URI;
-import persistence.Sources;
+import persistence.Source;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlAttribute;
-
+import javax.ws.rs.core.UriBuilder;
+import javax.persistence.EntityManager;
+import persistence.Event;
+import java.util.Collection;
+import persistence.Organization;
+import persistence.SourceOrgTypeMap;
+import persistence.SourceInterestMap;
 
 /**
  *
@@ -24,12 +26,13 @@ import javax.xml.bind.annotation.XmlAttribute;
 
 @XmlRootElement(name = "source")
 public class SourceConverter {
-    private Sources entity;
+    private Source entity;
     private URI uri;
+    private int expandLevel;
   
     /** Creates a new instance of SourceConverter */
     public SourceConverter() {
-        entity = new Sources();
+        entity = new Source();
     }
 
     /**
@@ -37,10 +40,27 @@ public class SourceConverter {
      *
      * @param entity associated entity
      * @param uri associated uri
+     * @param expandLevel indicates the number of levels the entity graph should be expanded@param isUriExtendable indicates whether the uri can be extended
      */
-    public SourceConverter(Sources entity, URI uri) {
+    public SourceConverter(Source entity, URI uri, int expandLevel, boolean isUriExtendable) {
         this.entity = entity;
-        this.uri = uri;
+        this.uri = (isUriExtendable) ? UriBuilder.fromUri(uri).path(entity.getId() + "/").build() : uri;
+        this.expandLevel = expandLevel;
+        getOrganizationCollection();
+        getSourceInterestMapCollection();
+        getEventCollection();
+        getSourceOrgTypeMapCollection();
+    }
+
+    /**
+     * Creates a new instance of SourceConverter.
+     *
+     * @param entity associated entity
+     * @param uri associated uri
+     * @param expandLevel indicates the number of levels the entity graph should be expanded
+     */
+    public SourceConverter(Source entity, URI uri, int expandLevel) {
+        this(entity, uri, expandLevel, false);
     }
 
     /**
@@ -50,7 +70,7 @@ public class SourceConverter {
      */
     @XmlElement
     public String getId() {
-        return entity.getId();
+        return (expandLevel > 0) ? entity.getId() : null;
     }
 
     /**
@@ -69,7 +89,7 @@ public class SourceConverter {
      */
     @XmlElement
     public String getName() {
-        return entity.getName();
+        return (expandLevel > 0) ? entity.getName() : null;
     }
 
     /**
@@ -88,7 +108,7 @@ public class SourceConverter {
      */
     @XmlElement
     public String getEtlClass() {
-        return entity.getEtlClass();
+        return (expandLevel > 0) ? entity.getEtlClass() : null;
     }
 
     /**
@@ -101,51 +121,99 @@ public class SourceConverter {
     }
 
     /**
-     * Getter for organizationsCollection.
+     * Getter for organizationCollection.
      *
-     * @return value for organizationsCollection
+     * @return value for organizationCollection
      */
-    @XmlElement(name = "organizations")
-    public OrganizationsConverter getOrganizationsCollection() {
-        if (entity.getOrganizationsCollection() != null) {
-            return new OrganizationsConverter(entity.getOrganizationsCollection(), uri.resolve("organizations/"));
+    @XmlElement
+    public OrganizationsConverter getOrganizationCollection() {
+        if (expandLevel > 0) {
+            if (entity.getOrganizationCollection() != null) {
+                return new OrganizationsConverter(entity.getOrganizationCollection(), uri.resolve("organizationCollection/"), expandLevel - 1);
+            }
         }
         return null;
     }
 
     /**
-     * Setter for organizationsCollection.
+     * Setter for organizationCollection.
      *
      * @param value the value to set
      */
-    public void setOrganizationsCollection(OrganizationsConverter value) {
-        if (value != null) {
-            entity.setOrganizationsCollection(value.getEntities());
-        }
+    public void setOrganizationCollection(OrganizationsConverter value) {
+        entity.setOrganizationCollection((value != null) ? value.getEntities() : null);
     }
 
     /**
-     * Getter for eventsCollection.
+     * Getter for sourceInterestMapCollection.
      *
-     * @return value for eventsCollection
+     * @return value for sourceInterestMapCollection
      */
-    @XmlElement(name = "events")
-    public EventsConverter getEventsCollection() {
-        if (entity.getEventsCollection() != null) {
-            return new EventsConverter(entity.getEventsCollection(), uri.resolve("events/"));
+    @XmlElement
+    public SourceInterestMapsConverter getSourceInterestMapCollection() {
+        if (expandLevel > 0) {
+            if (entity.getSourceInterestMapCollection() != null) {
+                return new SourceInterestMapsConverter(entity.getSourceInterestMapCollection(), uri.resolve("sourceInterestMapCollection/"), expandLevel - 1);
+            }
         }
         return null;
     }
 
     /**
-     * Setter for eventsCollection.
+     * Setter for sourceInterestMapCollection.
      *
      * @param value the value to set
      */
-    public void setEventsCollection(EventsConverter value) {
-        if (value != null) {
-            entity.setEventsCollection(value.getEntities());
+    public void setSourceInterestMapCollection(SourceInterestMapsConverter value) {
+        entity.setSourceInterestMapCollection((value != null) ? value.getEntities() : null);
+    }
+
+    /**
+     * Getter for eventCollection.
+     *
+     * @return value for eventCollection
+     */
+    @XmlElement
+    public EventsConverter getEventCollection() {
+        if (expandLevel > 0) {
+            if (entity.getEventCollection() != null) {
+                return new EventsConverter(entity.getEventCollection(), uri.resolve("eventCollection/"), expandLevel - 1);
+            }
         }
+        return null;
+    }
+
+    /**
+     * Setter for eventCollection.
+     *
+     * @param value the value to set
+     */
+    public void setEventCollection(EventsConverter value) {
+        entity.setEventCollection((value != null) ? value.getEntities() : null);
+    }
+
+    /**
+     * Getter for sourceOrgTypeMapCollection.
+     *
+     * @return value for sourceOrgTypeMapCollection
+     */
+    @XmlElement
+    public SourceOrgTypeMapsConverter getSourceOrgTypeMapCollection() {
+        if (expandLevel > 0) {
+            if (entity.getSourceOrgTypeMapCollection() != null) {
+                return new SourceOrgTypeMapsConverter(entity.getSourceOrgTypeMapCollection(), uri.resolve("sourceOrgTypeMapCollection/"), expandLevel - 1);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Setter for sourceOrgTypeMapCollection.
+     *
+     * @param value the value to set
+     */
+    public void setSourceOrgTypeMapCollection(SourceOrgTypeMapsConverter value) {
+        entity.setSourceOrgTypeMapCollection((value != null) ? value.getEntities() : null);
     }
 
     /**
@@ -153,27 +221,65 @@ public class SourceConverter {
      *
      * @return the uri
      */
-    @XmlAttribute(name = "uri")
-    public URI getResourceUri() {
+    @XmlAttribute
+    public URI getUri() {
         return uri;
     }
 
     /**
-     * Returns the Sources entity.
+     * Sets the URI for this reference converter.
+     *
+     */
+    public void setUri(URI uri) {
+        this.uri = uri;
+    }
+
+    /**
+     * Returns the Source entity.
      *
      * @return an entity
      */
     @XmlTransient
-    public Sources getEntity() {
+    public Source getEntity() {
+        if (entity.getId() == null) {
+            SourceConverter converter = UriResolver.getInstance().resolve(SourceConverter.class, uri);
+            if (converter != null) {
+                entity = converter.getEntity();
+            }
+        }
         return entity;
     }
 
     /**
-     * Sets the Sources entity.
+     * Returns the resolved Source entity.
      *
-     * @param entity to set
+     * @return an resolved entity
      */
-    public void setEntity(Sources entity) {
-        this.entity = entity;
+    public Source resolveEntity(EntityManager em) {
+        Collection<Organization> organizationCollection = entity.getOrganizationCollection();
+        Collection<Organization> neworganizationCollection = new java.util.ArrayList<Organization>();
+        for (Organization item : organizationCollection) {
+            neworganizationCollection.add(em.getReference(Organization.class, item.getId()));
+        }
+        entity.setOrganizationCollection(neworganizationCollection);
+        Collection<SourceInterestMap> sourceInterestMapCollection = entity.getSourceInterestMapCollection();
+        Collection<SourceInterestMap> newsourceInterestMapCollection = new java.util.ArrayList<SourceInterestMap>();
+        for (SourceInterestMap item : sourceInterestMapCollection) {
+            newsourceInterestMapCollection.add(em.getReference(SourceInterestMap.class, item.getId()));
+        }
+        entity.setSourceInterestMapCollection(newsourceInterestMapCollection);
+        Collection<Event> eventCollection = entity.getEventCollection();
+        Collection<Event> neweventCollection = new java.util.ArrayList<Event>();
+        for (Event item : eventCollection) {
+            neweventCollection.add(em.getReference(Event.class, item.getId()));
+        }
+        entity.setEventCollection(neweventCollection);
+        Collection<SourceOrgTypeMap> sourceOrgTypeMapCollection = entity.getSourceOrgTypeMapCollection();
+        Collection<SourceOrgTypeMap> newsourceOrgTypeMapCollection = new java.util.ArrayList<SourceOrgTypeMap>();
+        for (SourceOrgTypeMap item : sourceOrgTypeMapCollection) {
+            newsourceOrgTypeMapCollection.add(em.getReference(SourceOrgTypeMap.class, item.getId()));
+        }
+        entity.setSourceOrgTypeMapCollection(newsourceOrgTypeMapCollection);
+        return entity;
     }
 }

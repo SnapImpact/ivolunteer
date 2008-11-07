@@ -108,15 +108,14 @@
         </jsp-property-group>
         </jsp-config>
     <ejb-local-ref>
-        <ejb-ref-name>OrganizationsFacade</ejb-ref-name>
+        <ejb-ref-name>EventFacade</ejb-ref-name>
         <ejb-ref-type>Session</ejb-ref-type>
-        <local>session.OrganizationsFacadeLocal</local>
-        <ejb-link>server-ejb.jar#OrganizationsFacade</ejb-link>
+        <local>session.EventFacadeLocal</local>
+        <ejb-link>server-ejb.jar#EventFacade</ejb-link>
     </ejb-local-ref>
-    <ejb-local-ref>
-        <ejb-ref-name>EventsFacade</ejb-ref-name>
-        <ejb-ref-type>Session</ejb-ref-type>
-        <local>session.EventsFacadeLocal</local>
-        <ejb-link>server-ejb.jar#EventsFacade</ejb-link>
-    </ejb-local-ref>
-    </web-app>
+    <resource-ref>
+<res-ref-name>UserTransaction</res-ref-name>
+<res-type>javax.transaction.UserTransaction</res-type>
+<res-auth>Container</res-auth>
+</resource-ref>
+</web-app>

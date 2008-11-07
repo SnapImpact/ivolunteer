@@ -1,9 +1,5 @@
 /*
- *  NetworkResource
- *
- * Created on October 24, 2008, 9:56 PM
- *
- * To change this template, choose Tools | Template Manager
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
@@ -15,14 +11,18 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
+import com.sun.jersey.api.core.ResourceContext;
 import javax.ws.rs.WebApplicationException;
 import javax.persistence.NoResultException;
+import javax.persistence.EntityManager;
 import java.util.Collection;
-import javax.ws.rs.core.UriInfo;
-import persistence.Integrations;
+import persistence.Integration;
 import converter.NetworkConverter;
-import persistence.Networks;
-
+import persistence.Network;
 
 /**
  *
@@ -30,41 +30,42 @@ import persistence.Networks;
  */
 
 public class NetworkResource {
-    private String id;
-    private UriInfo context;
+    @Context
+    protected UriInfo uriInfo;
+    @Context
+    protected ResourceContext resourceContext;
+    protected String id;
   
     /** Creates a new instance of NetworkResource */
     public NetworkResource() {
     }
 
-    /**
-     * Constructor used for instantiating an instance of dynamic resource.
-     *
-     * @param context HttpContext inherited from the parent resource
-     */
-    public NetworkResource(String id, UriInfo context) {
+    public void setId(String id) {
         this.id = id;
-        this.context = context;
     }
 
     /**
-     * Get method for retrieving an instance of Networks identified by id in XML format.
+     * Get method for retrieving an instance of Network identified by id in XML format.
      *
      * @param id identifier for the entity
      * @return an instance of NetworkConverter
      */
     @GET
     @Produces({"application/xml", "application/json"})
-    public NetworkConverter get() {
+    public NetworkConverter get(@QueryParam("expandLevel")
+    @DefaultValue("1")
+    int expandLevel) {
+        PersistenceService persistenceSvc = PersistenceService.getInstance();
         try {
-            return new NetworkConverter(getEntity(), context.getAbsolutePath());
+            persistenceSvc.beginTx();
+            return new NetworkConverter(getEntity(), uriInfo.getAbsolutePath(), expandLevel);
         } finally {
-            
+            PersistenceService.getInstance().close();
         }
     }
 
     /**
-     * Put method for updating an instance of Networks identified by id using XML as the input format.
+     * Put method for updating an instance of Network identified by id using XML as the input format.
      *
      * @param id identifier for the entity
      * @param data an NetworkConverter entity that is deserialized from a XML stream
@@ -72,77 +73,46 @@ public class NetworkResource {
     @PUT
     @Consumes({"application/xml", "application/json"})
     public void put(NetworkConverter data) {
-        PersistenceServiceBean persistenceSvc = new PersistenceServiceBean();
+        PersistenceService persistenceSvc = PersistenceService.getInstance();
         try {
-            
-            updateEntity(getEntity(), data.getEntity());
-            
+            persistenceSvc.beginTx();
+            EntityManager em = persistenceSvc.getEntityManager();
+            updateEntity(getEntity(), data.resolveEntity(em));
+            persistenceSvc.commitTx();
         } finally {
-            
+            persistenceSvc.close();
         }
     }
 
     /**
-     * Delete method for deleting an instance of Networks identified by id.
+     * Delete method for deleting an instance of Network identified by id.
      *
      * @param id identifier for the entity
      */
     @DELETE
     public void delete() {
-        PersistenceServiceBean persistenceSvc = new PersistenceServiceBean();
+        PersistenceService persistenceSvc = PersistenceService.getInstance();
         try {
-            
-            Networks entity = getEntity();
-            persistenceSvc.removeEntity(entity);
-            
+            persistenceSvc.beginTx();
+            deleteEntity(getEntity());
+            persistenceSvc.commitTx();
         } finally {
-            
+            persistenceSvc.close();
         }
     }
 
     /**
-     * Returns a dynamic instance of IntegrationsResource used for entity navigation.
-     *
-     * @param id identifier for the parent entity
-     * @return an instance of IntegrationsResource
-     */
-    @Path("integrations/")
-    public IntegrationsResource getIntegrationsResource() {
-        final Networks parent = getEntity();
-        return new IntegrationsResource(context) {
-
-            @Override
-            protected Collection<Integrations> getEntities(int start, int max) {
-                Collection<Integrations> result = new java.util.ArrayList<Integrations>();
-                int index = 0;
-                for (Integrations e : parent.getIntegrationsCollection()) {
-                    if (index >= start && (index - start) < max) {
-                        result.add(e);
-                    }
-                    index++;
-                }
-                return result;
-            }
-
-            @Override
-            protected void createEntity(Integrations entity) {
-                super.createEntity(entity);
-                entity.setNetworkId(parent);
-            }
-        };
-    }
-
-    /**
-     * Returns an instance of Networks identified by id.
+     * Returns an instance of Network identified by id.
      *
      * @param id identifier for the entity
-     * @return an instance of Networks
+     * @return an instance of Network
      */
-    protected Networks getEntity() {
+    protected Network getEntity() {
+        EntityManager em = PersistenceService.getInstance().getEntityManager();
         try {
-            return (Networks) new PersistenceServiceBean().createQuery("SELECT e FROM Networks e where e.id = :id").setParameter("id", id).getSingleResult();
+            return (Network) em.createQuery("SELECT e FROM Network e where e.id = :id").setParameter("id", id).getSingleResult();
         } catch (NoResultException ex) {
-            throw new WebApplicationException(new Throwable("Resource for " + context.getAbsolutePath() + " does not exist."), 404);
+            throw new WebApplicationException(new Throwable("Resource for " + uriInfo.getAbsolutePath() + " does not exist."), 404);
         }
     }
 
@@ -153,16 +123,73 @@ public class NetworkResource {
      * @param newEntity the entity containing the new data
      * @return the updated entity
      */
-    protected Networks updateEntity(Networks entity, Networks newEntity) {
-        newEntity.setId(entity.getId());
-        entity.getIntegrationsCollection().removeAll(newEntity.getIntegrationsCollection());
-        for (Integrations value : entity.getIntegrationsCollection()) {
-            value.setNetworkId(null);
+    protected Network updateEntity(Network entity, Network newEntity) {
+        EntityManager em = PersistenceService.getInstance().getEntityManager();
+        Collection<Integration> integrationCollection = entity.getIntegrationCollection();
+        Collection<Integration> integrationCollectionNew = newEntity.getIntegrationCollection();
+        entity = em.merge(newEntity);
+        for (Integration value : integrationCollection) {
+            if (!integrationCollectionNew.contains(value)) {
+                throw new WebApplicationException(new Throwable("Cannot remove items from integrationCollection"));
+            }
         }
-        entity = new PersistenceServiceBean().mergeEntity(newEntity);
-        for (Integrations value : entity.getIntegrationsCollection()) {
-            value.setNetworkId(entity);
+        for (Integration value : integrationCollectionNew) {
+            if (!integrationCollection.contains(value)) {
+                Network oldEntity = value.getNetworkId();
+                value.setNetworkId(entity);
+                if (oldEntity != null && !oldEntity.equals(entity)) {
+                    oldEntity.getIntegrationCollection().remove(value);
+                }
+            }
         }
         return entity;
+    }
+
+    /**
+     * Deletes the entity.
+     *
+     * @param entity the entity to deletle
+     */
+    protected void deleteEntity(Network entity) {
+        EntityManager em = PersistenceService.getInstance().getEntityManager();
+        if (!entity.getIntegrationCollection().isEmpty()) {
+            throw new WebApplicationException(new Throwable("Cannot delete entity because integrationCollection is not empty."));
+        }
+        em.remove(entity);
+    }
+
+    /**
+     * Returns a dynamic instance of IntegrationsResource used for entity navigation.
+     *
+     * @param id identifier for the parent entity
+     * @return an instance of IntegrationsResource
+     */
+    @Path("integrationCollection/")
+    public IntegrationsResource getIntegrationCollectionResource() {
+        IntegrationCollectionResourceSub resource = resourceContext.getResource(IntegrationCollectionResourceSub.class);
+        resource.setParent(getEntity());
+        return resource;
+    }
+
+    public static class IntegrationCollectionResourceSub extends IntegrationsResource {
+
+        private Network parent;
+
+        public void setParent(Network parent) {
+            this.parent = parent;
+        }
+
+        @Override
+        protected Collection<Integration> getEntities(int start, int max, String query) {
+            Collection<Integration> result = new java.util.ArrayList<Integration>();
+            int index = 0;
+            for (Integration e : parent.getIntegrationCollection()) {
+                if (index >= start && (index - start) < max) {
+                    result.add(e);
+                }
+                index++;
+            }
+            return result;
+        }
     }
 }

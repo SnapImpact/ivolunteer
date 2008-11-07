@@ -26,7 +26,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "EVENT")
 @NamedQueries({@NamedQuery(name = "Event.findAll", query = "SELECT e FROM Event e"), @NamedQuery(name = "Event.findById", query = "SELECT e FROM Event e WHERE e.id = :id"), @NamedQuery(name = "Event.findByTitle", query = "SELECT e FROM Event e WHERE e.title = :title"), @NamedQuery(name = "Event.findByDescription", query = "SELECT e FROM Event e WHERE e.description = :description"), @NamedQuery(name = "Event.findByDuration", query = "SELECT e FROM Event e WHERE e.duration = :duration"), @NamedQuery(name = "Event.findByContact", query = "SELECT e FROM Event e WHERE e.contact = :contact"), @NamedQuery(name = "Event.findByUrl", query = "SELECT e FROM Event e WHERE e.url = :url"), @NamedQuery(name = "Event.findByPhone", query = "SELECT e FROM Event e WHERE e.phone = :phone"), @NamedQuery(name = "Event.findByEmail", query = "SELECT e FROM Event e WHERE e.email = :email"), @NamedQuery(name = "Event.findBySourceKey", query = "SELECT e FROM Event e WHERE e.sourceKey = :sourceKey"), @NamedQuery(name = "Event.findBySourceUrl", query = "SELECT e FROM Event e WHERE e.sourceUrl = :sourceUrl")})
-public class Event implements Serializable {
+public class Event implements Serializable, IdInterface {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)

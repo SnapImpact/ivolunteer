@@ -1,9 +1,5 @@
 /*
- *  FilterConverter
- *
- * Created on October 24, 2008, 9:56 PM
- *
- * To change this template, choose Tools | Template Manager
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
@@ -15,7 +11,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlAttribute;
-
+import javax.ws.rs.core.UriBuilder;
+import javax.persistence.EntityManager;
+import persistence.InterestArea;
+import java.util.Collection;
+import persistence.OrganizationType;
+import persistence.Timeframe;
+import persistence.Distance;
+import persistence.IvUser;
 
 /**
  *
@@ -26,6 +29,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 public class FilterConverter {
     private Filter entity;
     private URI uri;
+    private int expandLevel;
   
     /** Creates a new instance of FilterConverter */
     public FilterConverter() {
@@ -37,10 +41,28 @@ public class FilterConverter {
      *
      * @param entity associated entity
      * @param uri associated uri
+     * @param expandLevel indicates the number of levels the entity graph should be expanded@param isUriExtendable indicates whether the uri can be extended
      */
-    public FilterConverter(Filter entity, URI uri) {
+    public FilterConverter(Filter entity, URI uri, int expandLevel, boolean isUriExtendable) {
         this.entity = entity;
-        this.uri = uri;
+        this.uri = (isUriExtendable) ? UriBuilder.fromUri(uri).path(entity.getId() + "/").build() : uri;
+        this.expandLevel = expandLevel;
+        getOrganizationTypeCollection();
+        getInterestAreaCollection();
+        getDistanceId();
+        getUserId();
+        getTimeframeId();
+    }
+
+    /**
+     * Creates a new instance of FilterConverter.
+     *
+     * @param entity associated entity
+     * @param uri associated uri
+     * @param expandLevel indicates the number of levels the entity graph should be expanded
+     */
+    public FilterConverter(Filter entity, URI uri, int expandLevel) {
+        this(entity, uri, expandLevel, false);
     }
 
     /**
@@ -50,7 +72,7 @@ public class FilterConverter {
      */
     @XmlElement
     public String getId() {
-        return entity.getId();
+        return (expandLevel > 0) ? entity.getId() : null;
     }
 
     /**
@@ -69,7 +91,7 @@ public class FilterConverter {
      */
     @XmlElement
     public String getLatitude() {
-        return entity.getLatitude();
+        return (expandLevel > 0) ? entity.getLatitude() : null;
     }
 
     /**
@@ -88,7 +110,7 @@ public class FilterConverter {
      */
     @XmlElement
     public String getLongitude() {
-        return entity.getLongitude();
+        return (expandLevel > 0) ? entity.getLongitude() : null;
     }
 
     /**
@@ -101,51 +123,51 @@ public class FilterConverter {
     }
 
     /**
-     * Getter for organizationTypeIdCollection.
+     * Getter for organizationTypeCollection.
      *
-     * @return value for organizationTypeIdCollection
+     * @return value for organizationTypeCollection
      */
-    @XmlElement(name = "organizationTypes")
-    public OrganizationTypesConverter getOrganizationTypeIdCollection() {
-        if (entity.getOrganizationTypeIdCollection() != null) {
-            return new OrganizationTypesConverter(entity.getOrganizationTypeIdCollection(), uri.resolve("organizationTypes/"));
+    @XmlElement
+    public OrganizationTypesConverter getOrganizationTypeCollection() {
+        if (expandLevel > 0) {
+            if (entity.getOrganizationTypeCollection() != null) {
+                return new OrganizationTypesConverter(entity.getOrganizationTypeCollection(), uri.resolve("organizationTypeCollection/"), expandLevel - 1);
+            }
         }
         return null;
     }
 
     /**
-     * Setter for organizationTypeIdCollection.
+     * Setter for organizationTypeCollection.
      *
      * @param value the value to set
      */
-    public void setOrganizationTypeIdCollection(OrganizationTypesConverter value) {
-        if (value != null) {
-            entity.setOrganizationTypeIdCollection(value.getEntities());
-        }
+    public void setOrganizationTypeCollection(OrganizationTypesConverter value) {
+        entity.setOrganizationTypeCollection((value != null) ? value.getEntities() : null);
     }
 
     /**
-     * Getter for interestAreaIdCollection.
+     * Getter for interestAreaCollection.
      *
-     * @return value for interestAreaIdCollection
+     * @return value for interestAreaCollection
      */
-    @XmlElement(name = "interestAreas")
-    public InterestAreasConverter getInterestAreaIdCollection() {
-        if (entity.getInterestAreaIdCollection() != null) {
-            return new InterestAreasConverter(entity.getInterestAreaIdCollection(), uri.resolve("interestAreas/"));
+    @XmlElement
+    public InterestAreasConverter getInterestAreaCollection() {
+        if (expandLevel > 0) {
+            if (entity.getInterestAreaCollection() != null) {
+                return new InterestAreasConverter(entity.getInterestAreaCollection(), uri.resolve("interestAreaCollection/"), expandLevel - 1);
+            }
         }
         return null;
     }
 
     /**
-     * Setter for interestAreaIdCollection.
+     * Setter for interestAreaCollection.
      *
      * @param value the value to set
      */
-    public void setInterestAreaIdCollection(InterestAreasConverter value) {
-        if (value != null) {
-            entity.setInterestAreaIdCollection(value.getEntities());
-        }
+    public void setInterestAreaCollection(InterestAreasConverter value) {
+        entity.setInterestAreaCollection((value != null) ? value.getEntities() : null);
     }
 
     /**
@@ -153,10 +175,12 @@ public class FilterConverter {
      *
      * @return value for distanceId
      */
-    @XmlElement(name = "distanceRef")
-    public DistanceRefConverter getDistanceId() {
-        if (entity.getDistanceId() != null) {
-            return new DistanceRefConverter(entity.getDistanceId(), uri.resolve("distance/"), false);
+    @XmlElement
+    public DistanceConverter getDistanceId() {
+        if (expandLevel > 0) {
+            if (entity.getDistanceId() != null) {
+                return new DistanceConverter(entity.getDistanceId(), uri.resolve("distanceId/"), expandLevel - 1, false);
+            }
         }
         return null;
     }
@@ -166,34 +190,8 @@ public class FilterConverter {
      *
      * @param value the value to set
      */
-    public void setDistanceId(DistanceRefConverter value) {
-        if (value != null) {
-            entity.setDistanceId(value.getEntity());
-        }
-    }
-
-    /**
-     * Getter for timeframeId.
-     *
-     * @return value for timeframeId
-     */
-    @XmlElement(name = "timeframeRef")
-    public TimeframeRefConverter getTimeframeId() {
-        if (entity.getTimeframeId() != null) {
-            return new TimeframeRefConverter(entity.getTimeframeId(), uri.resolve("timeframe/"), false);
-        }
-        return null;
-    }
-
-    /**
-     * Setter for timeframeId.
-     *
-     * @param value the value to set
-     */
-    public void setTimeframeId(TimeframeRefConverter value) {
-        if (value != null) {
-            entity.setTimeframeId(value.getEntity());
-        }
+    public void setDistanceId(DistanceConverter value) {
+        entity.setDistanceId((value != null) ? value.getEntity() : null);
     }
 
     /**
@@ -201,10 +199,12 @@ public class FilterConverter {
      *
      * @return value for userId
      */
-    @XmlElement(name = "userRef")
-    public UserRefConverter getUserId() {
-        if (entity.getUserId() != null) {
-            return new UserRefConverter(entity.getUserId(), uri.resolve("user/"), false);
+    @XmlElement
+    public IvUserConverter getUserId() {
+        if (expandLevel > 0) {
+            if (entity.getUserId() != null) {
+                return new IvUserConverter(entity.getUserId(), uri.resolve("userId/"), expandLevel - 1, false);
+            }
         }
         return null;
     }
@@ -214,10 +214,32 @@ public class FilterConverter {
      *
      * @param value the value to set
      */
-    public void setUserId(UserRefConverter value) {
-        if (value != null) {
-            entity.setUserId(value.getEntity());
+    public void setUserId(IvUserConverter value) {
+        entity.setUserId((value != null) ? value.getEntity() : null);
+    }
+
+    /**
+     * Getter for timeframeId.
+     *
+     * @return value for timeframeId
+     */
+    @XmlElement
+    public TimeframeConverter getTimeframeId() {
+        if (expandLevel > 0) {
+            if (entity.getTimeframeId() != null) {
+                return new TimeframeConverter(entity.getTimeframeId(), uri.resolve("timeframeId/"), expandLevel - 1, false);
+            }
         }
+        return null;
+    }
+
+    /**
+     * Setter for timeframeId.
+     *
+     * @param value the value to set
+     */
+    public void setTimeframeId(TimeframeConverter value) {
+        entity.setTimeframeId((value != null) ? value.getEntity() : null);
     }
 
     /**
@@ -225,9 +247,17 @@ public class FilterConverter {
      *
      * @return the uri
      */
-    @XmlAttribute(name = "uri")
-    public URI getResourceUri() {
+    @XmlAttribute
+    public URI getUri() {
         return uri;
+    }
+
+    /**
+     * Sets the URI for this reference converter.
+     *
+     */
+    public void setUri(URI uri) {
+        this.uri = uri;
     }
 
     /**
@@ -237,15 +267,45 @@ public class FilterConverter {
      */
     @XmlTransient
     public Filter getEntity() {
+        if (entity.getId() == null) {
+            FilterConverter converter = UriResolver.getInstance().resolve(FilterConverter.class, uri);
+            if (converter != null) {
+                entity = converter.getEntity();
+            }
+        }
         return entity;
     }
 
     /**
-     * Sets the Filter entity.
+     * Returns the resolved Filter entity.
      *
-     * @param entity to set
+     * @return an resolved entity
      */
-    public void setEntity(Filter entity) {
-        this.entity = entity;
+    public Filter resolveEntity(EntityManager em) {
+        Collection<OrganizationType> organizationTypeCollection = entity.getOrganizationTypeCollection();
+        Collection<OrganizationType> neworganizationTypeCollection = new java.util.ArrayList<OrganizationType>();
+        for (OrganizationType item : organizationTypeCollection) {
+            neworganizationTypeCollection.add(em.getReference(OrganizationType.class, item.getId()));
+        }
+        entity.setOrganizationTypeCollection(neworganizationTypeCollection);
+        Collection<InterestArea> interestAreaCollection = entity.getInterestAreaCollection();
+        Collection<InterestArea> newinterestAreaCollection = new java.util.ArrayList<InterestArea>();
+        for (InterestArea item : interestAreaCollection) {
+            newinterestAreaCollection.add(em.getReference(InterestArea.class, item.getId()));
+        }
+        entity.setInterestAreaCollection(newinterestAreaCollection);
+        Distance distanceId = entity.getDistanceId();
+        if (distanceId != null) {
+            entity.setDistanceId(em.getReference(Distance.class, distanceId.getId()));
+        }
+        IvUser userId = entity.getUserId();
+        if (userId != null) {
+            entity.setUserId(em.getReference(IvUser.class, userId.getId()));
+        }
+        Timeframe timeframeId = entity.getTimeframeId();
+        if (timeframeId != null) {
+            entity.setTimeframeId(em.getReference(Timeframe.class, timeframeId.getId()));
+        }
+        return entity;
     }
 }

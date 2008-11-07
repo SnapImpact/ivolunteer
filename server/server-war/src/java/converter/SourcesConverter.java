@@ -1,9 +1,5 @@
 /*
- *  SourcesConverter
- *
- * Created on October 24, 2008, 9:56 PM
- *
- * To change this template, choose Tools | Template Manager
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
@@ -16,8 +12,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlAttribute;
 import java.util.ArrayList;
-import persistence.Sources;
-
+import persistence.Source;
 
 /**
  *
@@ -26,9 +21,10 @@ import persistence.Sources;
 
 @XmlRootElement(name = "sources")
 public class SourcesConverter {
-    private Collection<Sources> entities;
-    private Collection<SourceRefConverter> references;
+    private Collection<Source> entities;
+    private Collection<converter.SourceConverter> items;
     private URI uri;
+    private int expandLevel;
   
     /** Creates a new instance of SourcesConverter */
     public SourcesConverter() {
@@ -39,35 +35,40 @@ public class SourcesConverter {
      *
      * @param entities associated entities
      * @param uri associated uri
+     * @param expandLevel indicates the number of levels the entity graph should be expanded
      */
-    public SourcesConverter(Collection<Sources> entities, URI uri) {
+    public SourcesConverter(Collection<Source> entities, URI uri, int expandLevel) {
         this.entities = entities;
         this.uri = uri;
+        this.expandLevel = expandLevel;
+        getSource();
     }
 
     /**
-     * Returns a collection of SourceRefConverter.
+     * Returns a collection of SourceConverter.
      *
-     * @return a collection of SourceRefConverter
+     * @return a collection of SourceConverter
      */
-    @XmlElement(name = "sourceRef")
-    public Collection<SourceRefConverter> getReferences() {
-        references = new ArrayList<SourceRefConverter>();
+    @XmlElement
+    public Collection<converter.SourceConverter> getSource() {
+        if (items == null) {
+            items = new ArrayList<SourceConverter>();
+        }
         if (entities != null) {
-            for (Sources entity : entities) {
-                references.add(new SourceRefConverter(entity, uri, true));
+            for (Source entity : entities) {
+                items.add(new SourceConverter(entity, uri, expandLevel, true));
             }
         }
-        return references;
+        return items;
     }
 
     /**
-     * Sets a collection of SourceRefConverter.
+     * Sets a collection of SourceConverter.
      *
-     * @param a collection of SourceRefConverter to set
+     * @param a collection of SourceConverter to set
      */
-    public void setReferences(Collection<SourceRefConverter> references) {
-        this.references = references;
+    public void setSource(Collection<converter.SourceConverter> items) {
+        this.items = items;
     }
 
     /**
@@ -75,22 +76,22 @@ public class SourcesConverter {
      *
      * @return the uri
      */
-    @XmlAttribute(name = "uri")
-    public URI getResourceUri() {
+    @XmlAttribute
+    public URI getUri() {
         return uri;
     }
 
     /**
-     * Returns a collection Sources entities.
+     * Returns a collection Source entities.
      *
-     * @return a collection of Sources entities
+     * @return a collection of Source entities
      */
     @XmlTransient
-    public Collection<Sources> getEntities() {
-        entities = new ArrayList<Sources>();
-        if (references != null) {
-            for (SourceRefConverter ref : references) {
-                entities.add(ref.getEntity());
+    public Collection<Source> getEntities() {
+        entities = new ArrayList<Source>();
+        if (items != null) {
+            for (SourceConverter item : items) {
+                entities.add(item.getEntity());
             }
         }
         return entities;

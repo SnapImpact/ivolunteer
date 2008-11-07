@@ -1,9 +1,5 @@
 /*
- *  FiltersConverter
- *
- * Created on October 24, 2008, 9:56 PM
- *
- * To change this template, choose Tools | Template Manager
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
@@ -18,7 +14,6 @@ import javax.xml.bind.annotation.XmlAttribute;
 import java.util.ArrayList;
 import persistence.Filter;
 
-
 /**
  *
  * @author dave
@@ -27,8 +22,9 @@ import persistence.Filter;
 @XmlRootElement(name = "filters")
 public class FiltersConverter {
     private Collection<Filter> entities;
-    private Collection<FilterRefConverter> references;
+    private Collection<converter.FilterConverter> items;
     private URI uri;
+    private int expandLevel;
   
     /** Creates a new instance of FiltersConverter */
     public FiltersConverter() {
@@ -39,35 +35,40 @@ public class FiltersConverter {
      *
      * @param entities associated entities
      * @param uri associated uri
+     * @param expandLevel indicates the number of levels the entity graph should be expanded
      */
-    public FiltersConverter(Collection<Filter> entities, URI uri) {
+    public FiltersConverter(Collection<Filter> entities, URI uri, int expandLevel) {
         this.entities = entities;
         this.uri = uri;
+        this.expandLevel = expandLevel;
+        getFilter();
     }
 
     /**
-     * Returns a collection of FilterRefConverter.
+     * Returns a collection of FilterConverter.
      *
-     * @return a collection of FilterRefConverter
+     * @return a collection of FilterConverter
      */
-    @XmlElement(name = "filterRef")
-    public Collection<FilterRefConverter> getReferences() {
-        references = new ArrayList<FilterRefConverter>();
+    @XmlElement
+    public Collection<converter.FilterConverter> getFilter() {
+        if (items == null) {
+            items = new ArrayList<FilterConverter>();
+        }
         if (entities != null) {
             for (Filter entity : entities) {
-                references.add(new FilterRefConverter(entity, uri, true));
+                items.add(new FilterConverter(entity, uri, expandLevel, true));
             }
         }
-        return references;
+        return items;
     }
 
     /**
-     * Sets a collection of FilterRefConverter.
+     * Sets a collection of FilterConverter.
      *
-     * @param a collection of FilterRefConverter to set
+     * @param a collection of FilterConverter to set
      */
-    public void setReferences(Collection<FilterRefConverter> references) {
-        this.references = references;
+    public void setFilter(Collection<converter.FilterConverter> items) {
+        this.items = items;
     }
 
     /**
@@ -75,8 +76,8 @@ public class FiltersConverter {
      *
      * @return the uri
      */
-    @XmlAttribute(name = "uri")
-    public URI getResourceUri() {
+    @XmlAttribute
+    public URI getUri() {
         return uri;
     }
 
@@ -88,9 +89,9 @@ public class FiltersConverter {
     @XmlTransient
     public Collection<Filter> getEntities() {
         entities = new ArrayList<Filter>();
-        if (references != null) {
-            for (FilterRefConverter ref : references) {
-                entities.add(ref.getEntity());
+        if (items != null) {
+            for (FilterConverter item : items) {
+                entities.add(item.getEntity());
             }
         }
         return entities;

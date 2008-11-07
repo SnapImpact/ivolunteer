@@ -14,7 +14,7 @@ import java.util.Collection;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlElement;
 import java.util.ArrayList;
-import persistence.Events;
+import persistence.Event;
 
 
 /**
@@ -25,7 +25,7 @@ import persistence.Events;
 
 @XmlRootElement( name = "records" )
 public class EventsRecordsConverter {
-    private Collection<Events> records;
+    private Collection<Event> records;
     private URI uri;
     private URI baseUri;
   
@@ -39,7 +39,7 @@ public class EventsRecordsConverter {
      * @param entities associated entities
      * @param uri associated uri
      */
-    public EventsRecordsConverter(Collection<Events> records, URI uri, URI baseUri) {
+    public EventsRecordsConverter(Collection<Event> records, URI uri, URI baseUri) {
         this.records = records;
         this.uri = uri;
         this.baseUri = baseUri;
@@ -49,8 +49,8 @@ public class EventsRecordsConverter {
     public ArrayList<EventConverter> getRecords() {
         ArrayList<EventConverter> ret = new ArrayList<EventConverter>();
         if (records != null) {
-            for (Events record : records ) {
-                ret.add(new EventConverter(record, baseUri.resolve( "events/" + record.getId() + "/")));
+            for (Event record : records ) {
+                ret.add(new EventConverter(record, baseUri.resolve( "event/" + record.getId() + "/"), 1));
             }
         }
         return ret;

@@ -1,9 +1,5 @@
 /*
- *  InterestAreasResource
- *
- * Created on October 24, 2008, 9:56 PM
- *
- * To change this template, choose Tools | Template Manager
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
@@ -21,10 +17,15 @@ import javax.ws.rs.DefaultValue;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
+import com.sun.jersey.api.core.ResourceContext;
+import javax.persistence.EntityManager;
+import persistence.Event;
+import persistence.InterestArea;
+import persistence.Organization;
+import persistence.Filter;
+import persistence.SourceInterestMap;
 import converter.InterestAreasConverter;
 import converter.InterestAreaConverter;
-import persistence.InterestAreas;
-
 
 /**
  *
@@ -34,23 +35,16 @@ import persistence.InterestAreas;
 @Path("/interestAreas/")
 public class InterestAreasResource {
     @Context
-    private UriInfo context;
+    protected UriInfo uriInfo;
+    @Context
+    protected ResourceContext resourceContext;
   
     /** Creates a new instance of InterestAreasResource */
     public InterestAreasResource() {
     }
 
     /**
-     * Constructor used for instantiating an instance of dynamic resource.
-     *
-     * @param context HttpContext inherited from the parent resource
-     */
-    public InterestAreasResource(UriInfo context) {
-        this.context = context;
-    }
-
-    /**
-     * Get method for retrieving a collection of InterestAreas instance in XML format.
+     * Get method for retrieving a collection of InterestArea instance in XML format.
      *
      * @return an instance of InterestAreasConverter
      */
@@ -60,16 +54,23 @@ public class InterestAreasResource {
     @DefaultValue("0")
     int start, @QueryParam("max")
     @DefaultValue("10")
-    int max) {
+    int max, @QueryParam("expandLevel")
+    @DefaultValue("1")
+    int expandLevel, @QueryParam("query")
+    @DefaultValue("SELECT e FROM InterestArea e")
+    String query) {
+        PersistenceService persistenceSvc = PersistenceService.getInstance();
         try {
-            return new InterestAreasConverter(getEntities(start, max), context.getAbsolutePath());
+            persistenceSvc.beginTx();
+            return new InterestAreasConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), expandLevel);
         } finally {
-            
+            persistenceSvc.commitTx();
+            persistenceSvc.close();
         }
     }
 
     /**
-     * Post method for creating an instance of InterestAreas using XML as the input format.
+     * Post method for creating an instance of InterestArea using XML as the input format.
      *
      * @param data an InterestAreaConverter entity that is deserialized from an XML stream
      * @return an instance of InterestAreaConverter
@@ -77,15 +78,16 @@ public class InterestAreasResource {
     @POST
     @Consumes({"application/xml", "application/json"})
     public Response post(InterestAreaConverter data) {
-        PersistenceServiceBean persistenceSvc = new PersistenceServiceBean();
+        PersistenceService persistenceSvc = PersistenceService.getInstance();
         try {
-            
-            InterestAreas entity = data.getEntity();
-            createEntity(entity);
-            
-            return Response.created(context.getAbsolutePath().resolve(entity.getId() + "/")).build();
+            persistenceSvc.beginTx();
+            EntityManager em = persistenceSvc.getEntityManager();
+            InterestArea entity = data.resolveEntity(em);
+            createEntity(data.resolveEntity(em));
+            persistenceSvc.commitTx();
+            return Response.created(uriInfo.getAbsolutePath().resolve(entity.getId() + "/")).build();
         } finally {
-            
+            persistenceSvc.close();
         }
     }
 
@@ -95,18 +97,21 @@ public class InterestAreasResource {
      * @return an instance of InterestAreaResource
      */
     @Path("{id}/")
-    public InterestAreaResource getInterestAreaResource(@PathParam("id")
+    public service.InterestAreaResource getInterestAreaResource(@PathParam("id")
     String id) {
-        return new InterestAreaResource(id, context);
+        InterestAreaResource resource = resourceContext.getResource(InterestAreaResource.class);
+        resource.setId(id);
+        return resource;
     }
 
     /**
      * Returns all the entities associated with this resource.
      *
-     * @return a collection of InterestAreas instances
+     * @return a collection of InterestArea instances
      */
-    protected Collection<InterestAreas> getEntities(int start, int max) {
-        return new PersistenceServiceBean().createQuery("SELECT e FROM InterestAreas e").setFirstResult(start).setMaxResults(max).getResultList();
+    protected Collection<InterestArea> getEntities(int start, int max, String query) {
+        EntityManager em = PersistenceService.getInstance().getEntityManager();
+        return em.createQuery(query).setFirstResult(start).setMaxResults(max).getResultList();
     }
 
     /**
@@ -114,7 +119,24 @@ public class InterestAreasResource {
      *
      * @param entity the entity to persist
      */
-    protected void createEntity(InterestAreas entity) {
-        new PersistenceServiceBean().persistEntity(entity);
+    protected void createEntity(InterestArea entity) {
+        EntityManager em = PersistenceService.getInstance().getEntityManager();
+        em.persist(entity);
+        for (Event value : entity.getEventCollection()) {
+            value.getInterestAreaCollection().add(entity);
+        }
+        for (Organization value : entity.getOrganizationCollection()) {
+            value.getInterestAreaCollection().add(entity);
+        }
+        for (Filter value : entity.getFilterCollection()) {
+            value.getInterestAreaCollection().add(entity);
+        }
+        for (SourceInterestMap value : entity.getSourceInterestMapCollection()) {
+            InterestArea oldEntity = value.getInterestAreaId();
+            value.setInterestAreaId(entity);
+            if (oldEntity != null) {
+                oldEntity.getSourceInterestMapCollection().remove(entity);
+            }
+        }
     }
 }

@@ -1,9 +1,5 @@
 /*
- *  EventsConverter
- *
- * Created on October 24, 2008, 9:56 PM
- *
- * To change this template, choose Tools | Template Manager
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
@@ -16,8 +12,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlAttribute;
 import java.util.ArrayList;
-import persistence.Events;
-
+import persistence.Event;
 
 /**
  *
@@ -26,9 +21,10 @@ import persistence.Events;
 
 @XmlRootElement(name = "events")
 public class EventsConverter {
-    private Collection<Events> entities;
-    private Collection<EventRefConverter> references;
+    private Collection<Event> entities;
+    private Collection<converter.EventConverter> items;
     private URI uri;
+    private int expandLevel;
   
     /** Creates a new instance of EventsConverter */
     public EventsConverter() {
@@ -39,35 +35,40 @@ public class EventsConverter {
      *
      * @param entities associated entities
      * @param uri associated uri
+     * @param expandLevel indicates the number of levels the entity graph should be expanded
      */
-    public EventsConverter(Collection<Events> entities, URI uri) {
+    public EventsConverter(Collection<Event> entities, URI uri, int expandLevel) {
         this.entities = entities;
         this.uri = uri;
+        this.expandLevel = expandLevel;
+        getEvent();
     }
 
     /**
-     * Returns a collection of EventRefConverter.
+     * Returns a collection of EventConverter.
      *
-     * @return a collection of EventRefConverter
+     * @return a collection of EventConverter
      */
-    @XmlElement(name = "eventRef")
-    public Collection<EventRefConverter> getReferences() {
-        references = new ArrayList<EventRefConverter>();
+    @XmlElement
+    public Collection<converter.EventConverter> getEvent() {
+        if (items == null) {
+            items = new ArrayList<EventConverter>();
+        }
         if (entities != null) {
-            for (Events entity : entities) {
-                references.add(new EventRefConverter(entity, uri, true));
+            for (Event entity : entities) {
+                items.add(new EventConverter(entity, uri, expandLevel, true));
             }
         }
-        return references;
+        return items;
     }
 
     /**
-     * Sets a collection of EventRefConverter.
+     * Sets a collection of EventConverter.
      *
-     * @param a collection of EventRefConverter to set
+     * @param a collection of EventConverter to set
      */
-    public void setReferences(Collection<EventRefConverter> references) {
-        this.references = references;
+    public void setEvent(Collection<converter.EventConverter> items) {
+        this.items = items;
     }
 
     /**
@@ -75,22 +76,22 @@ public class EventsConverter {
      *
      * @return the uri
      */
-    @XmlAttribute(name = "uri")
-    public URI getResourceUri() {
+    @XmlAttribute
+    public URI getUri() {
         return uri;
     }
 
     /**
-     * Returns a collection Events entities.
+     * Returns a collection Event entities.
      *
-     * @return a collection of Events entities
+     * @return a collection of Event entities
      */
     @XmlTransient
-    public Collection<Events> getEntities() {
-        entities = new ArrayList<Events>();
-        if (references != null) {
-            for (EventRefConverter ref : references) {
-                entities.add(ref.getEntity());
+    public Collection<Event> getEntities() {
+        entities = new ArrayList<Event>();
+        if (items != null) {
+            for (EventConverter item : items) {
+                entities.add(item.getEntity());
             }
         }
         return entities;

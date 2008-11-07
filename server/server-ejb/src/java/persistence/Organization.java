@@ -25,7 +25,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "ORGANIZATION")
 @NamedQueries({@NamedQuery(name = "Organization.findAll", query = "SELECT o FROM Organization o"), @NamedQuery(name = "Organization.findById", query = "SELECT o FROM Organization o WHERE o.id = :id"), @NamedQuery(name = "Organization.findByName", query = "SELECT o FROM Organization o WHERE o.name = :name"), @NamedQuery(name = "Organization.findByDescription", query = "SELECT o FROM Organization o WHERE o.description = :description"), @NamedQuery(name = "Organization.findByPhone", query = "SELECT o FROM Organization o WHERE o.phone = :phone"), @NamedQuery(name = "Organization.findByEmail", query = "SELECT o FROM Organization o WHERE o.email = :email"), @NamedQuery(name = "Organization.findByUrl", query = "SELECT o FROM Organization o WHERE o.url = :url"), @NamedQuery(name = "Organization.findBySourceKey", query = "SELECT o FROM Organization o WHERE o.sourceKey = :sourceKey"), @NamedQuery(name = "Organization.findBySourceUrl", query = "SELECT o FROM Organization o WHERE o.sourceUrl = :sourceUrl")})
-public class Organization implements Serializable {
+public class Organization implements Serializable, IdInterface {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)

@@ -1,9 +1,5 @@
 /*
- *  TimeframesConverter
- *
- * Created on October 24, 2008, 9:56 PM
- *
- * To change this template, choose Tools | Template Manager
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
@@ -16,8 +12,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlAttribute;
 import java.util.ArrayList;
-import persistence.Timeframes;
-
+import persistence.Timeframe;
 
 /**
  *
@@ -26,9 +21,10 @@ import persistence.Timeframes;
 
 @XmlRootElement(name = "timeframes")
 public class TimeframesConverter {
-    private Collection<Timeframes> entities;
-    private Collection<TimeframeRefConverter> references;
+    private Collection<Timeframe> entities;
+    private Collection<converter.TimeframeConverter> items;
     private URI uri;
+    private int expandLevel;
   
     /** Creates a new instance of TimeframesConverter */
     public TimeframesConverter() {
@@ -39,35 +35,40 @@ public class TimeframesConverter {
      *
      * @param entities associated entities
      * @param uri associated uri
+     * @param expandLevel indicates the number of levels the entity graph should be expanded
      */
-    public TimeframesConverter(Collection<Timeframes> entities, URI uri) {
+    public TimeframesConverter(Collection<Timeframe> entities, URI uri, int expandLevel) {
         this.entities = entities;
         this.uri = uri;
+        this.expandLevel = expandLevel;
+        getTimeframe();
     }
 
     /**
-     * Returns a collection of TimeframeRefConverter.
+     * Returns a collection of TimeframeConverter.
      *
-     * @return a collection of TimeframeRefConverter
+     * @return a collection of TimeframeConverter
      */
-    @XmlElement(name = "timeframeRef")
-    public Collection<TimeframeRefConverter> getReferences() {
-        references = new ArrayList<TimeframeRefConverter>();
+    @XmlElement
+    public Collection<converter.TimeframeConverter> getTimeframe() {
+        if (items == null) {
+            items = new ArrayList<TimeframeConverter>();
+        }
         if (entities != null) {
-            for (Timeframes entity : entities) {
-                references.add(new TimeframeRefConverter(entity, uri, true));
+            for (Timeframe entity : entities) {
+                items.add(new TimeframeConverter(entity, uri, expandLevel, true));
             }
         }
-        return references;
+        return items;
     }
 
     /**
-     * Sets a collection of TimeframeRefConverter.
+     * Sets a collection of TimeframeConverter.
      *
-     * @param a collection of TimeframeRefConverter to set
+     * @param a collection of TimeframeConverter to set
      */
-    public void setReferences(Collection<TimeframeRefConverter> references) {
-        this.references = references;
+    public void setTimeframe(Collection<converter.TimeframeConverter> items) {
+        this.items = items;
     }
 
     /**
@@ -75,22 +76,22 @@ public class TimeframesConverter {
      *
      * @return the uri
      */
-    @XmlAttribute(name = "uri")
-    public URI getResourceUri() {
+    @XmlAttribute
+    public URI getUri() {
         return uri;
     }
 
     /**
-     * Returns a collection Timeframes entities.
+     * Returns a collection Timeframe entities.
      *
-     * @return a collection of Timeframes entities
+     * @return a collection of Timeframe entities
      */
     @XmlTransient
-    public Collection<Timeframes> getEntities() {
-        entities = new ArrayList<Timeframes>();
-        if (references != null) {
-            for (TimeframeRefConverter ref : references) {
-                entities.add(ref.getEntity());
+    public Collection<Timeframe> getEntities() {
+        entities = new ArrayList<Timeframe>();
+        if (items != null) {
+            for (TimeframeConverter item : items) {
+                entities.add(item.getEntity());
             }
         }
         return entities;

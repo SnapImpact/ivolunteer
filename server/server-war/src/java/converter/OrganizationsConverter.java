@@ -1,9 +1,5 @@
 /*
- *  OrganizationsConverter
- *
- * Created on October 24, 2008, 9:55 PM
- *
- * To change this template, choose Tools | Template Manager
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
@@ -16,8 +12,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlAttribute;
 import java.util.ArrayList;
-import persistence.Organizations;
-
+import persistence.Organization;
 
 /**
  *
@@ -26,9 +21,10 @@ import persistence.Organizations;
 
 @XmlRootElement(name = "organizations")
 public class OrganizationsConverter {
-    private Collection<Organizations> entities;
-    private Collection<OrganizationRefConverter> references;
+    private Collection<Organization> entities;
+    private Collection<converter.OrganizationConverter> items;
     private URI uri;
+    private int expandLevel;
   
     /** Creates a new instance of OrganizationsConverter */
     public OrganizationsConverter() {
@@ -39,35 +35,40 @@ public class OrganizationsConverter {
      *
      * @param entities associated entities
      * @param uri associated uri
+     * @param expandLevel indicates the number of levels the entity graph should be expanded
      */
-    public OrganizationsConverter(Collection<Organizations> entities, URI uri) {
+    public OrganizationsConverter(Collection<Organization> entities, URI uri, int expandLevel) {
         this.entities = entities;
         this.uri = uri;
+        this.expandLevel = expandLevel;
+        getOrganization();
     }
 
     /**
-     * Returns a collection of OrganizationRefConverter.
+     * Returns a collection of OrganizationConverter.
      *
-     * @return a collection of OrganizationRefConverter
+     * @return a collection of OrganizationConverter
      */
-    @XmlElement(name = "organizationRef")
-    public Collection<OrganizationRefConverter> getReferences() {
-        references = new ArrayList<OrganizationRefConverter>();
+    @XmlElement
+    public Collection<converter.OrganizationConverter> getOrganization() {
+        if (items == null) {
+            items = new ArrayList<OrganizationConverter>();
+        }
         if (entities != null) {
-            for (Organizations entity : entities) {
-                references.add(new OrganizationRefConverter(entity, uri, true));
+            for (Organization entity : entities) {
+                items.add(new OrganizationConverter(entity, uri, expandLevel, true));
             }
         }
-        return references;
+        return items;
     }
 
     /**
-     * Sets a collection of OrganizationRefConverter.
+     * Sets a collection of OrganizationConverter.
      *
-     * @param a collection of OrganizationRefConverter to set
+     * @param a collection of OrganizationConverter to set
      */
-    public void setReferences(Collection<OrganizationRefConverter> references) {
-        this.references = references;
+    public void setOrganization(Collection<converter.OrganizationConverter> items) {
+        this.items = items;
     }
 
     /**
@@ -75,22 +76,22 @@ public class OrganizationsConverter {
      *
      * @return the uri
      */
-    @XmlAttribute(name = "uri")
-    public URI getResourceUri() {
+    @XmlAttribute
+    public URI getUri() {
         return uri;
     }
 
     /**
-     * Returns a collection Organizations entities.
+     * Returns a collection Organization entities.
      *
-     * @return a collection of Organizations entities
+     * @return a collection of Organization entities
      */
     @XmlTransient
-    public Collection<Organizations> getEntities() {
-        entities = new ArrayList<Organizations>();
-        if (references != null) {
-            for (OrganizationRefConverter ref : references) {
-                entities.add(ref.getEntity());
+    public Collection<Organization> getEntities() {
+        entities = new ArrayList<Organization>();
+        if (items != null) {
+            for (OrganizationConverter item : items) {
+                entities.add(item.getEntity());
             }
         }
         return entities;

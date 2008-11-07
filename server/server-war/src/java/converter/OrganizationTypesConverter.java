@@ -1,9 +1,5 @@
 /*
- *  OrganizationTypesConverter
- *
- * Created on October 24, 2008, 9:55 PM
- *
- * To change this template, choose Tools | Template Manager
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
@@ -16,8 +12,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlAttribute;
 import java.util.ArrayList;
-import persistence.OrganizationTypes;
-
+import persistence.OrganizationType;
 
 /**
  *
@@ -26,9 +21,10 @@ import persistence.OrganizationTypes;
 
 @XmlRootElement(name = "organizationTypes")
 public class OrganizationTypesConverter {
-    private Collection<OrganizationTypes> entities;
-    private Collection<OrganizationTypeRefConverter> references;
+    private Collection<OrganizationType> entities;
+    private Collection<converter.OrganizationTypeConverter> items;
     private URI uri;
+    private int expandLevel;
   
     /** Creates a new instance of OrganizationTypesConverter */
     public OrganizationTypesConverter() {
@@ -39,35 +35,40 @@ public class OrganizationTypesConverter {
      *
      * @param entities associated entities
      * @param uri associated uri
+     * @param expandLevel indicates the number of levels the entity graph should be expanded
      */
-    public OrganizationTypesConverter(Collection<OrganizationTypes> entities, URI uri) {
+    public OrganizationTypesConverter(Collection<OrganizationType> entities, URI uri, int expandLevel) {
         this.entities = entities;
         this.uri = uri;
+        this.expandLevel = expandLevel;
+        getOrganizationType();
     }
 
     /**
-     * Returns a collection of OrganizationTypeRefConverter.
+     * Returns a collection of OrganizationTypeConverter.
      *
-     * @return a collection of OrganizationTypeRefConverter
+     * @return a collection of OrganizationTypeConverter
      */
-    @XmlElement(name = "organizationTypeRef")
-    public Collection<OrganizationTypeRefConverter> getReferences() {
-        references = new ArrayList<OrganizationTypeRefConverter>();
+    @XmlElement
+    public Collection<converter.OrganizationTypeConverter> getOrganizationType() {
+        if (items == null) {
+            items = new ArrayList<OrganizationTypeConverter>();
+        }
         if (entities != null) {
-            for (OrganizationTypes entity : entities) {
-                references.add(new OrganizationTypeRefConverter(entity, uri, true));
+            for (OrganizationType entity : entities) {
+                items.add(new OrganizationTypeConverter(entity, uri, expandLevel, true));
             }
         }
-        return references;
+        return items;
     }
 
     /**
-     * Sets a collection of OrganizationTypeRefConverter.
+     * Sets a collection of OrganizationTypeConverter.
      *
-     * @param a collection of OrganizationTypeRefConverter to set
+     * @param a collection of OrganizationTypeConverter to set
      */
-    public void setReferences(Collection<OrganizationTypeRefConverter> references) {
-        this.references = references;
+    public void setOrganizationType(Collection<converter.OrganizationTypeConverter> items) {
+        this.items = items;
     }
 
     /**
@@ -75,22 +76,22 @@ public class OrganizationTypesConverter {
      *
      * @return the uri
      */
-    @XmlAttribute(name = "uri")
-    public URI getResourceUri() {
+    @XmlAttribute
+    public URI getUri() {
         return uri;
     }
 
     /**
-     * Returns a collection OrganizationTypes entities.
+     * Returns a collection OrganizationType entities.
      *
-     * @return a collection of OrganizationTypes entities
+     * @return a collection of OrganizationType entities
      */
     @XmlTransient
-    public Collection<OrganizationTypes> getEntities() {
-        entities = new ArrayList<OrganizationTypes>();
-        if (references != null) {
-            for (OrganizationTypeRefConverter ref : references) {
-                entities.add(ref.getEntity());
+    public Collection<OrganizationType> getEntities() {
+        entities = new ArrayList<OrganizationType>();
+        if (items != null) {
+            for (OrganizationTypeConverter item : items) {
+                entities.add(item.getEntity());
             }
         }
         return entities;

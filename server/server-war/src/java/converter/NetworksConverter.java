@@ -1,9 +1,5 @@
 /*
- *  NetworksConverter
- *
- * Created on October 24, 2008, 9:56 PM
- *
- * To change this template, choose Tools | Template Manager
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
@@ -16,8 +12,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlAttribute;
 import java.util.ArrayList;
-import persistence.Networks;
-
+import persistence.Network;
 
 /**
  *
@@ -26,9 +21,10 @@ import persistence.Networks;
 
 @XmlRootElement(name = "networks")
 public class NetworksConverter {
-    private Collection<Networks> entities;
-    private Collection<NetworkRefConverter> references;
+    private Collection<Network> entities;
+    private Collection<converter.NetworkConverter> items;
     private URI uri;
+    private int expandLevel;
   
     /** Creates a new instance of NetworksConverter */
     public NetworksConverter() {
@@ -39,35 +35,40 @@ public class NetworksConverter {
      *
      * @param entities associated entities
      * @param uri associated uri
+     * @param expandLevel indicates the number of levels the entity graph should be expanded
      */
-    public NetworksConverter(Collection<Networks> entities, URI uri) {
+    public NetworksConverter(Collection<Network> entities, URI uri, int expandLevel) {
         this.entities = entities;
         this.uri = uri;
+        this.expandLevel = expandLevel;
+        getNetwork();
     }
 
     /**
-     * Returns a collection of NetworkRefConverter.
+     * Returns a collection of NetworkConverter.
      *
-     * @return a collection of NetworkRefConverter
+     * @return a collection of NetworkConverter
      */
-    @XmlElement(name = "networkRef")
-    public Collection<NetworkRefConverter> getReferences() {
-        references = new ArrayList<NetworkRefConverter>();
+    @XmlElement
+    public Collection<converter.NetworkConverter> getNetwork() {
+        if (items == null) {
+            items = new ArrayList<NetworkConverter>();
+        }
         if (entities != null) {
-            for (Networks entity : entities) {
-                references.add(new NetworkRefConverter(entity, uri, true));
+            for (Network entity : entities) {
+                items.add(new NetworkConverter(entity, uri, expandLevel, true));
             }
         }
-        return references;
+        return items;
     }
 
     /**
-     * Sets a collection of NetworkRefConverter.
+     * Sets a collection of NetworkConverter.
      *
-     * @param a collection of NetworkRefConverter to set
+     * @param a collection of NetworkConverter to set
      */
-    public void setReferences(Collection<NetworkRefConverter> references) {
-        this.references = references;
+    public void setNetwork(Collection<converter.NetworkConverter> items) {
+        this.items = items;
     }
 
     /**
@@ -75,22 +76,22 @@ public class NetworksConverter {
      *
      * @return the uri
      */
-    @XmlAttribute(name = "uri")
-    public URI getResourceUri() {
+    @XmlAttribute
+    public URI getUri() {
         return uri;
     }
 
     /**
-     * Returns a collection Networks entities.
+     * Returns a collection Network entities.
      *
-     * @return a collection of Networks entities
+     * @return a collection of Network entities
      */
     @XmlTransient
-    public Collection<Networks> getEntities() {
-        entities = new ArrayList<Networks>();
-        if (references != null) {
-            for (NetworkRefConverter ref : references) {
-                entities.add(ref.getEntity());
+    public Collection<Network> getEntities() {
+        entities = new ArrayList<Network>();
+        if (items != null) {
+            for (NetworkConverter item : items) {
+                entities.add(item.getEntity());
             }
         }
         return entities;

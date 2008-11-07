@@ -11,7 +11,7 @@ package converter;
 
 
 import persistence.IdInterface;
-import persistence.Events;
+import persistence.Event;
 import java.net.URI;
 import java.util.Collection;
 import javax.xml.bind.annotation.XmlElement;
@@ -39,7 +39,7 @@ public class EventsListConverter {
      * @param entities associated entities
      * @param uri associated uri
      */
-    public EventsListConverter(Collection<Events> records, URI uri, URI baseUri) {
+    public EventsListConverter(Collection<Event> records, URI uri, URI baseUri) {
         this.idListConverter = new IdListConverter(records);
         this.eventsRecordsConverter = new EventsRecordsConverter ( records, uri, baseUri);
     }

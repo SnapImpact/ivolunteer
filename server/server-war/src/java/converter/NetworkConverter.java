@@ -1,21 +1,20 @@
 /*
- *  NetworkConverter
- *
- * Created on October 24, 2008, 9:56 PM
- *
- * To change this template, choose Tools | Template Manager
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
 package converter;
 
 import java.net.URI;
-import persistence.Networks;
+import persistence.Network;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlAttribute;
-
+import javax.ws.rs.core.UriBuilder;
+import javax.persistence.EntityManager;
+import java.util.Collection;
+import persistence.Integration;
 
 /**
  *
@@ -24,12 +23,13 @@ import javax.xml.bind.annotation.XmlAttribute;
 
 @XmlRootElement(name = "network")
 public class NetworkConverter {
-    private Networks entity;
+    private Network entity;
     private URI uri;
+    private int expandLevel;
   
     /** Creates a new instance of NetworkConverter */
     public NetworkConverter() {
-        entity = new Networks();
+        entity = new Network();
     }
 
     /**
@@ -37,10 +37,24 @@ public class NetworkConverter {
      *
      * @param entity associated entity
      * @param uri associated uri
+     * @param expandLevel indicates the number of levels the entity graph should be expanded@param isUriExtendable indicates whether the uri can be extended
      */
-    public NetworkConverter(Networks entity, URI uri) {
+    public NetworkConverter(Network entity, URI uri, int expandLevel, boolean isUriExtendable) {
         this.entity = entity;
-        this.uri = uri;
+        this.uri = (isUriExtendable) ? UriBuilder.fromUri(uri).path(entity.getId() + "/").build() : uri;
+        this.expandLevel = expandLevel;
+        getIntegrationCollection();
+    }
+
+    /**
+     * Creates a new instance of NetworkConverter.
+     *
+     * @param entity associated entity
+     * @param uri associated uri
+     * @param expandLevel indicates the number of levels the entity graph should be expanded
+     */
+    public NetworkConverter(Network entity, URI uri, int expandLevel) {
+        this(entity, uri, expandLevel, false);
     }
 
     /**
@@ -50,7 +64,7 @@ public class NetworkConverter {
      */
     @XmlElement
     public String getId() {
-        return entity.getId();
+        return (expandLevel > 0) ? entity.getId() : null;
     }
 
     /**
@@ -69,7 +83,7 @@ public class NetworkConverter {
      */
     @XmlElement
     public String getName() {
-        return entity.getName();
+        return (expandLevel > 0) ? entity.getName() : null;
     }
 
     /**
@@ -88,7 +102,7 @@ public class NetworkConverter {
      */
     @XmlElement
     public String getUrl() {
-        return entity.getUrl();
+        return (expandLevel > 0) ? entity.getUrl() : null;
     }
 
     /**
@@ -101,27 +115,27 @@ public class NetworkConverter {
     }
 
     /**
-     * Getter for integrationsCollection.
+     * Getter for integrationCollection.
      *
-     * @return value for integrationsCollection
+     * @return value for integrationCollection
      */
-    @XmlElement(name = "integrations")
-    public IntegrationsConverter getIntegrationsCollection() {
-        if (entity.getIntegrationsCollection() != null) {
-            return new IntegrationsConverter(entity.getIntegrationsCollection(), uri.resolve("integrations/"));
+    @XmlElement
+    public IntegrationsConverter getIntegrationCollection() {
+        if (expandLevel > 0) {
+            if (entity.getIntegrationCollection() != null) {
+                return new IntegrationsConverter(entity.getIntegrationCollection(), uri.resolve("integrationCollection/"), expandLevel - 1);
+            }
         }
         return null;
     }
 
     /**
-     * Setter for integrationsCollection.
+     * Setter for integrationCollection.
      *
      * @param value the value to set
      */
-    public void setIntegrationsCollection(IntegrationsConverter value) {
-        if (value != null) {
-            entity.setIntegrationsCollection(value.getEntities());
-        }
+    public void setIntegrationCollection(IntegrationsConverter value) {
+        entity.setIntegrationCollection((value != null) ? value.getEntities() : null);
     }
 
     /**
@@ -129,27 +143,47 @@ public class NetworkConverter {
      *
      * @return the uri
      */
-    @XmlAttribute(name = "uri")
-    public URI getResourceUri() {
+    @XmlAttribute
+    public URI getUri() {
         return uri;
     }
 
     /**
-     * Returns the Networks entity.
+     * Sets the URI for this reference converter.
+     *
+     */
+    public void setUri(URI uri) {
+        this.uri = uri;
+    }
+
+    /**
+     * Returns the Network entity.
      *
      * @return an entity
      */
     @XmlTransient
-    public Networks getEntity() {
+    public Network getEntity() {
+        if (entity.getId() == null) {
+            NetworkConverter converter = UriResolver.getInstance().resolve(NetworkConverter.class, uri);
+            if (converter != null) {
+                entity = converter.getEntity();
+            }
+        }
         return entity;
     }
 
     /**
-     * Sets the Networks entity.
+     * Returns the resolved Network entity.
      *
-     * @param entity to set
+     * @return an resolved entity
      */
-    public void setEntity(Networks entity) {
-        this.entity = entity;
+    public Network resolveEntity(EntityManager em) {
+        Collection<Integration> integrationCollection = entity.getIntegrationCollection();
+        Collection<Integration> newintegrationCollection = new java.util.ArrayList<Integration>();
+        for (Integration item : integrationCollection) {
+            newintegrationCollection.add(em.getReference(Integration.class, item.getId()));
+        }
+        entity.setIntegrationCollection(newintegrationCollection);
+        return entity;
     }
 }

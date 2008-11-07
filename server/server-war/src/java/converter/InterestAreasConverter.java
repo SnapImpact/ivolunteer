@@ -1,9 +1,5 @@
 /*
- *  InterestAreasConverter
- *
- * Created on October 24, 2008, 9:56 PM
- *
- * To change this template, choose Tools | Template Manager
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
@@ -16,8 +12,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlAttribute;
 import java.util.ArrayList;
-import persistence.InterestAreas;
-
+import persistence.InterestArea;
 
 /**
  *
@@ -26,9 +21,10 @@ import persistence.InterestAreas;
 
 @XmlRootElement(name = "interestAreas")
 public class InterestAreasConverter {
-    private Collection<InterestAreas> entities;
-    private Collection<InterestAreaRefConverter> references;
+    private Collection<InterestArea> entities;
+    private Collection<converter.InterestAreaConverter> items;
     private URI uri;
+    private int expandLevel;
   
     /** Creates a new instance of InterestAreasConverter */
     public InterestAreasConverter() {
@@ -39,35 +35,40 @@ public class InterestAreasConverter {
      *
      * @param entities associated entities
      * @param uri associated uri
+     * @param expandLevel indicates the number of levels the entity graph should be expanded
      */
-    public InterestAreasConverter(Collection<InterestAreas> entities, URI uri) {
+    public InterestAreasConverter(Collection<InterestArea> entities, URI uri, int expandLevel) {
         this.entities = entities;
         this.uri = uri;
+        this.expandLevel = expandLevel;
+        getInterestArea();
     }
 
     /**
-     * Returns a collection of InterestAreaRefConverter.
+     * Returns a collection of InterestAreaConverter.
      *
-     * @return a collection of InterestAreaRefConverter
+     * @return a collection of InterestAreaConverter
      */
-    @XmlElement(name = "interestAreaRef")
-    public Collection<InterestAreaRefConverter> getReferences() {
-        references = new ArrayList<InterestAreaRefConverter>();
+    @XmlElement
+    public Collection<converter.InterestAreaConverter> getInterestArea() {
+        if (items == null) {
+            items = new ArrayList<InterestAreaConverter>();
+        }
         if (entities != null) {
-            for (InterestAreas entity : entities) {
-                references.add(new InterestAreaRefConverter(entity, uri, true));
+            for (InterestArea entity : entities) {
+                items.add(new InterestAreaConverter(entity, uri, expandLevel, true));
             }
         }
-        return references;
+        return items;
     }
 
     /**
-     * Sets a collection of InterestAreaRefConverter.
+     * Sets a collection of InterestAreaConverter.
      *
-     * @param a collection of InterestAreaRefConverter to set
+     * @param a collection of InterestAreaConverter to set
      */
-    public void setReferences(Collection<InterestAreaRefConverter> references) {
-        this.references = references;
+    public void setInterestArea(Collection<converter.InterestAreaConverter> items) {
+        this.items = items;
     }
 
     /**
@@ -75,22 +76,22 @@ public class InterestAreasConverter {
      *
      * @return the uri
      */
-    @XmlAttribute(name = "uri")
-    public URI getResourceUri() {
+    @XmlAttribute
+    public URI getUri() {
         return uri;
     }
 
     /**
-     * Returns a collection InterestAreas entities.
+     * Returns a collection InterestArea entities.
      *
-     * @return a collection of InterestAreas entities
+     * @return a collection of InterestArea entities
      */
     @XmlTransient
-    public Collection<InterestAreas> getEntities() {
-        entities = new ArrayList<InterestAreas>();
-        if (references != null) {
-            for (InterestAreaRefConverter ref : references) {
-                entities.add(ref.getEntity());
+    public Collection<InterestArea> getEntities() {
+        entities = new ArrayList<InterestArea>();
+        if (items != null) {
+            for (InterestAreaConverter item : items) {
+                entities.add(item.getEntity());
             }
         }
         return entities;

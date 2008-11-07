@@ -1,21 +1,20 @@
 /*
- *  IntegrationConverter
- *
- * Created on October 24, 2008, 9:56 PM
- *
- * To change this template, choose Tools | Template Manager
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
 package converter;
 
 import java.net.URI;
-import persistence.Integrations;
+import persistence.Integration;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlAttribute;
-
+import javax.ws.rs.core.UriBuilder;
+import javax.persistence.EntityManager;
+import persistence.Network;
+import persistence.IvUser;
 
 /**
  *
@@ -24,12 +23,13 @@ import javax.xml.bind.annotation.XmlAttribute;
 
 @XmlRootElement(name = "integration")
 public class IntegrationConverter {
-    private Integrations entity;
+    private Integration entity;
     private URI uri;
+    private int expandLevel;
   
     /** Creates a new instance of IntegrationConverter */
     public IntegrationConverter() {
-        entity = new Integrations();
+        entity = new Integration();
     }
 
     /**
@@ -37,10 +37,25 @@ public class IntegrationConverter {
      *
      * @param entity associated entity
      * @param uri associated uri
+     * @param expandLevel indicates the number of levels the entity graph should be expanded@param isUriExtendable indicates whether the uri can be extended
      */
-    public IntegrationConverter(Integrations entity, URI uri) {
+    public IntegrationConverter(Integration entity, URI uri, int expandLevel, boolean isUriExtendable) {
         this.entity = entity;
-        this.uri = uri;
+        this.uri = (isUriExtendable) ? UriBuilder.fromUri(uri).path(entity.getId() + "/").build() : uri;
+        this.expandLevel = expandLevel;
+        getUserId();
+        getNetworkId();
+    }
+
+    /**
+     * Creates a new instance of IntegrationConverter.
+     *
+     * @param entity associated entity
+     * @param uri associated uri
+     * @param expandLevel indicates the number of levels the entity graph should be expanded
+     */
+    public IntegrationConverter(Integration entity, URI uri, int expandLevel) {
+        this(entity, uri, expandLevel, false);
     }
 
     /**
@@ -50,7 +65,7 @@ public class IntegrationConverter {
      */
     @XmlElement
     public String getId() {
-        return entity.getId();
+        return (expandLevel > 0) ? entity.getId() : null;
     }
 
     /**
@@ -69,7 +84,7 @@ public class IntegrationConverter {
      */
     @XmlElement
     public String getUserName() {
-        return entity.getUserName();
+        return (expandLevel > 0) ? entity.getUserName() : null;
     }
 
     /**
@@ -88,7 +103,7 @@ public class IntegrationConverter {
      */
     @XmlElement
     public String getPassword() {
-        return entity.getPassword();
+        return (expandLevel > 0) ? entity.getPassword() : null;
     }
 
     /**
@@ -101,38 +116,16 @@ public class IntegrationConverter {
     }
 
     /**
-     * Getter for networkId.
-     *
-     * @return value for networkId
-     */
-    @XmlElement(name = "networkRef")
-    public NetworkRefConverter getNetworkId() {
-        if (entity.getNetworkId() != null) {
-            return new NetworkRefConverter(entity.getNetworkId(), uri.resolve("network/"), false);
-        }
-        return null;
-    }
-
-    /**
-     * Setter for networkId.
-     *
-     * @param value the value to set
-     */
-    public void setNetworkId(NetworkRefConverter value) {
-        if (value != null) {
-            entity.setNetworkId(value.getEntity());
-        }
-    }
-
-    /**
      * Getter for userId.
      *
      * @return value for userId
      */
-    @XmlElement(name = "userRef")
-    public UserRefConverter getUserId() {
-        if (entity.getUserId() != null) {
-            return new UserRefConverter(entity.getUserId(), uri.resolve("user/"), false);
+    @XmlElement
+    public IvUserConverter getUserId() {
+        if (expandLevel > 0) {
+            if (entity.getUserId() != null) {
+                return new IvUserConverter(entity.getUserId(), uri.resolve("userId/"), expandLevel - 1, false);
+            }
         }
         return null;
     }
@@ -142,10 +135,32 @@ public class IntegrationConverter {
      *
      * @param value the value to set
      */
-    public void setUserId(UserRefConverter value) {
-        if (value != null) {
-            entity.setUserId(value.getEntity());
+    public void setUserId(IvUserConverter value) {
+        entity.setUserId((value != null) ? value.getEntity() : null);
+    }
+
+    /**
+     * Getter for networkId.
+     *
+     * @return value for networkId
+     */
+    @XmlElement
+    public NetworkConverter getNetworkId() {
+        if (expandLevel > 0) {
+            if (entity.getNetworkId() != null) {
+                return new NetworkConverter(entity.getNetworkId(), uri.resolve("networkId/"), expandLevel - 1, false);
+            }
         }
+        return null;
+    }
+
+    /**
+     * Setter for networkId.
+     *
+     * @param value the value to set
+     */
+    public void setNetworkId(NetworkConverter value) {
+        entity.setNetworkId((value != null) ? value.getEntity() : null);
     }
 
     /**
@@ -153,27 +168,49 @@ public class IntegrationConverter {
      *
      * @return the uri
      */
-    @XmlAttribute(name = "uri")
-    public URI getResourceUri() {
+    @XmlAttribute
+    public URI getUri() {
         return uri;
     }
 
     /**
-     * Returns the Integrations entity.
+     * Sets the URI for this reference converter.
+     *
+     */
+    public void setUri(URI uri) {
+        this.uri = uri;
+    }
+
+    /**
+     * Returns the Integration entity.
      *
      * @return an entity
      */
     @XmlTransient
-    public Integrations getEntity() {
+    public Integration getEntity() {
+        if (entity.getId() == null) {
+            IntegrationConverter converter = UriResolver.getInstance().resolve(IntegrationConverter.class, uri);
+            if (converter != null) {
+                entity = converter.getEntity();
+            }
+        }
         return entity;
     }
 
     /**
-     * Sets the Integrations entity.
+     * Returns the resolved Integration entity.
      *
-     * @param entity to set
+     * @return an resolved entity
      */
-    public void setEntity(Integrations entity) {
-        this.entity = entity;
+    public Integration resolveEntity(EntityManager em) {
+        IvUser userId = entity.getUserId();
+        if (userId != null) {
+            entity.setUserId(em.getReference(IvUser.class, userId.getId()));
+        }
+        Network networkId = entity.getNetworkId();
+        if (networkId != null) {
+            entity.setNetworkId(em.getReference(Network.class, networkId.getId()));
+        }
+        return entity;
     }
 }

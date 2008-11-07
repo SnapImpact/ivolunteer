@@ -1,21 +1,22 @@
 /*
- *  OrganizationTypeConverter
- *
- * Created on October 24, 2008, 9:56 PM
- *
- * To change this template, choose Tools | Template Manager
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
 package converter;
 
 import java.net.URI;
-import persistence.OrganizationTypes;
+import persistence.OrganizationType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlAttribute;
-
+import javax.ws.rs.core.UriBuilder;
+import javax.persistence.EntityManager;
+import java.util.Collection;
+import persistence.Organization;
+import persistence.Filter;
+import persistence.SourceOrgTypeMap;
 
 /**
  *
@@ -24,12 +25,13 @@ import javax.xml.bind.annotation.XmlAttribute;
 
 @XmlRootElement(name = "organizationType")
 public class OrganizationTypeConverter {
-    private OrganizationTypes entity;
+    private OrganizationType entity;
     private URI uri;
+    private int expandLevel;
   
     /** Creates a new instance of OrganizationTypeConverter */
     public OrganizationTypeConverter() {
-        entity = new OrganizationTypes();
+        entity = new OrganizationType();
     }
 
     /**
@@ -37,10 +39,26 @@ public class OrganizationTypeConverter {
      *
      * @param entity associated entity
      * @param uri associated uri
+     * @param expandLevel indicates the number of levels the entity graph should be expanded@param isUriExtendable indicates whether the uri can be extended
      */
-    public OrganizationTypeConverter(OrganizationTypes entity, URI uri) {
+    public OrganizationTypeConverter(OrganizationType entity, URI uri, int expandLevel, boolean isUriExtendable) {
         this.entity = entity;
-        this.uri = uri;
+        this.uri = (isUriExtendable) ? UriBuilder.fromUri(uri).path(entity.getId() + "/").build() : uri;
+        this.expandLevel = expandLevel;
+        getFilterCollection();
+        getOrganizationCollection();
+        getSourceOrgTypeMapCollection();
+    }
+
+    /**
+     * Creates a new instance of OrganizationTypeConverter.
+     *
+     * @param entity associated entity
+     * @param uri associated uri
+     * @param expandLevel indicates the number of levels the entity graph should be expanded
+     */
+    public OrganizationTypeConverter(OrganizationType entity, URI uri, int expandLevel) {
+        this(entity, uri, expandLevel, false);
     }
 
     /**
@@ -50,7 +68,7 @@ public class OrganizationTypeConverter {
      */
     @XmlElement
     public String getId() {
-        return entity.getId();
+        return (expandLevel > 0) ? entity.getId() : null;
     }
 
     /**
@@ -69,7 +87,7 @@ public class OrganizationTypeConverter {
      */
     @XmlElement
     public String getName() {
-        return entity.getName();
+        return (expandLevel > 0) ? entity.getName() : null;
     }
 
     /**
@@ -82,51 +100,75 @@ public class OrganizationTypeConverter {
     }
 
     /**
-     * Getter for filterIdCollection.
+     * Getter for filterCollection.
      *
-     * @return value for filterIdCollection
+     * @return value for filterCollection
      */
-    @XmlElement(name = "filters")
-    public FiltersConverter getFilterIdCollection() {
-        if (entity.getFilterIdCollection() != null) {
-            return new FiltersConverter(entity.getFilterIdCollection(), uri.resolve("filters/"));
+    @XmlElement
+    public FiltersConverter getFilterCollection() {
+        if (expandLevel > 0) {
+            if (entity.getFilterCollection() != null) {
+                return new FiltersConverter(entity.getFilterCollection(), uri.resolve("filterCollection/"), expandLevel - 1);
+            }
         }
         return null;
     }
 
     /**
-     * Setter for filterIdCollection.
+     * Setter for filterCollection.
      *
      * @param value the value to set
      */
-    public void setFilterIdCollection(FiltersConverter value) {
-        if (value != null) {
-            entity.setFilterIdCollection(value.getEntities());
-        }
+    public void setFilterCollection(FiltersConverter value) {
+        entity.setFilterCollection((value != null) ? value.getEntities() : null);
     }
 
     /**
-     * Getter for organizationsCollection.
+     * Getter for organizationCollection.
      *
-     * @return value for organizationsCollection
+     * @return value for organizationCollection
      */
-    @XmlElement(name = "organizations")
-    public OrganizationsConverter getOrganizationsCollection() {
-        if (entity.getOrganizationsCollection() != null) {
-            return new OrganizationsConverter(entity.getOrganizationsCollection(), uri.resolve("organizations/"));
+    @XmlElement
+    public OrganizationsConverter getOrganizationCollection() {
+        if (expandLevel > 0) {
+            if (entity.getOrganizationCollection() != null) {
+                return new OrganizationsConverter(entity.getOrganizationCollection(), uri.resolve("organizationCollection/"), expandLevel - 1);
+            }
         }
         return null;
     }
 
     /**
-     * Setter for organizationsCollection.
+     * Setter for organizationCollection.
      *
      * @param value the value to set
      */
-    public void setOrganizationsCollection(OrganizationsConverter value) {
-        if (value != null) {
-            entity.setOrganizationsCollection(value.getEntities());
+    public void setOrganizationCollection(OrganizationsConverter value) {
+        entity.setOrganizationCollection((value != null) ? value.getEntities() : null);
+    }
+
+    /**
+     * Getter for sourceOrgTypeMapCollection.
+     *
+     * @return value for sourceOrgTypeMapCollection
+     */
+    @XmlElement
+    public SourceOrgTypeMapsConverter getSourceOrgTypeMapCollection() {
+        if (expandLevel > 0) {
+            if (entity.getSourceOrgTypeMapCollection() != null) {
+                return new SourceOrgTypeMapsConverter(entity.getSourceOrgTypeMapCollection(), uri.resolve("sourceOrgTypeMapCollection/"), expandLevel - 1);
+            }
         }
+        return null;
+    }
+
+    /**
+     * Setter for sourceOrgTypeMapCollection.
+     *
+     * @param value the value to set
+     */
+    public void setSourceOrgTypeMapCollection(SourceOrgTypeMapsConverter value) {
+        entity.setSourceOrgTypeMapCollection((value != null) ? value.getEntities() : null);
     }
 
     /**
@@ -134,27 +176,59 @@ public class OrganizationTypeConverter {
      *
      * @return the uri
      */
-    @XmlAttribute(name = "uri")
-    public URI getResourceUri() {
+    @XmlAttribute
+    public URI getUri() {
         return uri;
     }
 
     /**
-     * Returns the OrganizationTypes entity.
+     * Sets the URI for this reference converter.
+     *
+     */
+    public void setUri(URI uri) {
+        this.uri = uri;
+    }
+
+    /**
+     * Returns the OrganizationType entity.
      *
      * @return an entity
      */
     @XmlTransient
-    public OrganizationTypes getEntity() {
+    public OrganizationType getEntity() {
+        if (entity.getId() == null) {
+            OrganizationTypeConverter converter = UriResolver.getInstance().resolve(OrganizationTypeConverter.class, uri);
+            if (converter != null) {
+                entity = converter.getEntity();
+            }
+        }
         return entity;
     }
 
     /**
-     * Sets the OrganizationTypes entity.
+     * Returns the resolved OrganizationType entity.
      *
-     * @param entity to set
+     * @return an resolved entity
      */
-    public void setEntity(OrganizationTypes entity) {
-        this.entity = entity;
+    public OrganizationType resolveEntity(EntityManager em) {
+        Collection<Filter> filterCollection = entity.getFilterCollection();
+        Collection<Filter> newfilterCollection = new java.util.ArrayList<Filter>();
+        for (Filter item : filterCollection) {
+            newfilterCollection.add(em.getReference(Filter.class, item.getId()));
+        }
+        entity.setFilterCollection(newfilterCollection);
+        Collection<Organization> organizationCollection = entity.getOrganizationCollection();
+        Collection<Organization> neworganizationCollection = new java.util.ArrayList<Organization>();
+        for (Organization item : organizationCollection) {
+            neworganizationCollection.add(em.getReference(Organization.class, item.getId()));
+        }
+        entity.setOrganizationCollection(neworganizationCollection);
+        Collection<SourceOrgTypeMap> sourceOrgTypeMapCollection = entity.getSourceOrgTypeMapCollection();
+        Collection<SourceOrgTypeMap> newsourceOrgTypeMapCollection = new java.util.ArrayList<SourceOrgTypeMap>();
+        for (SourceOrgTypeMap item : sourceOrgTypeMapCollection) {
+            newsourceOrgTypeMapCollection.add(em.getReference(SourceOrgTypeMap.class, item.getId()));
+        }
+        entity.setSourceOrgTypeMapCollection(newsourceOrgTypeMapCollection);
+        return entity;
     }
 }

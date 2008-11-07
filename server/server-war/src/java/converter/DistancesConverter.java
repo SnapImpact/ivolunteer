@@ -1,9 +1,5 @@
 /*
- *  DistancesConverter
- *
- * Created on October 24, 2008, 9:56 PM
- *
- * To change this template, choose Tools | Template Manager
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
@@ -16,8 +12,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlAttribute;
 import java.util.ArrayList;
-import persistence.Distances;
-
+import persistence.Distance;
 
 /**
  *
@@ -26,9 +21,10 @@ import persistence.Distances;
 
 @XmlRootElement(name = "distances")
 public class DistancesConverter {
-    private Collection<Distances> entities;
-    private Collection<DistanceRefConverter> references;
+    private Collection<Distance> entities;
+    private Collection<converter.DistanceConverter> items;
     private URI uri;
+    private int expandLevel;
   
     /** Creates a new instance of DistancesConverter */
     public DistancesConverter() {
@@ -39,35 +35,40 @@ public class DistancesConverter {
      *
      * @param entities associated entities
      * @param uri associated uri
+     * @param expandLevel indicates the number of levels the entity graph should be expanded
      */
-    public DistancesConverter(Collection<Distances> entities, URI uri) {
+    public DistancesConverter(Collection<Distance> entities, URI uri, int expandLevel) {
         this.entities = entities;
         this.uri = uri;
+        this.expandLevel = expandLevel;
+        getDistance();
     }
 
     /**
-     * Returns a collection of DistanceRefConverter.
+     * Returns a collection of DistanceConverter.
      *
-     * @return a collection of DistanceRefConverter
+     * @return a collection of DistanceConverter
      */
-    @XmlElement(name = "distanceRef")
-    public Collection<DistanceRefConverter> getReferences() {
-        references = new ArrayList<DistanceRefConverter>();
+    @XmlElement
+    public Collection<converter.DistanceConverter> getDistance() {
+        if (items == null) {
+            items = new ArrayList<DistanceConverter>();
+        }
         if (entities != null) {
-            for (Distances entity : entities) {
-                references.add(new DistanceRefConverter(entity, uri, true));
+            for (Distance entity : entities) {
+                items.add(new DistanceConverter(entity, uri, expandLevel, true));
             }
         }
-        return references;
+        return items;
     }
 
     /**
-     * Sets a collection of DistanceRefConverter.
+     * Sets a collection of DistanceConverter.
      *
-     * @param a collection of DistanceRefConverter to set
+     * @param a collection of DistanceConverter to set
      */
-    public void setReferences(Collection<DistanceRefConverter> references) {
-        this.references = references;
+    public void setDistance(Collection<converter.DistanceConverter> items) {
+        this.items = items;
     }
 
     /**
@@ -75,22 +76,22 @@ public class DistancesConverter {
      *
      * @return the uri
      */
-    @XmlAttribute(name = "uri")
-    public URI getResourceUri() {
+    @XmlAttribute
+    public URI getUri() {
         return uri;
     }
 
     /**
-     * Returns a collection Distances entities.
+     * Returns a collection Distance entities.
      *
-     * @return a collection of Distances entities
+     * @return a collection of Distance entities
      */
     @XmlTransient
-    public Collection<Distances> getEntities() {
-        entities = new ArrayList<Distances>();
-        if (references != null) {
-            for (DistanceRefConverter ref : references) {
-                entities.add(ref.getEntity());
+    public Collection<Distance> getEntities() {
+        entities = new ArrayList<Distance>();
+        if (items != null) {
+            for (DistanceConverter item : items) {
+                entities.add(item.getEntity());
             }
         }
         return entities;

@@ -1,9 +1,5 @@
 /*
- *  FiltersResource
- *
- * Created on October 24, 2008, 9:56 PM
- *
- * To change this template, choose Tools | Template Manager
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
@@ -21,10 +17,16 @@ import javax.ws.rs.DefaultValue;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
+import com.sun.jersey.api.core.ResourceContext;
+import javax.persistence.EntityManager;
+import persistence.Filter;
+import persistence.InterestArea;
+import persistence.OrganizationType;
+import persistence.Timeframe;
+import persistence.Distance;
+import persistence.IvUser;
 import converter.FiltersConverter;
 import converter.FilterConverter;
-import persistence.Filter;
-
 
 /**
  *
@@ -34,19 +36,12 @@ import persistence.Filter;
 @Path("/filters/")
 public class FiltersResource {
     @Context
-    private UriInfo context;
+    protected UriInfo uriInfo;
+    @Context
+    protected ResourceContext resourceContext;
   
     /** Creates a new instance of FiltersResource */
     public FiltersResource() {
-    }
-
-    /**
-     * Constructor used for instantiating an instance of dynamic resource.
-     *
-     * @param context HttpContext inherited from the parent resource
-     */
-    public FiltersResource(UriInfo context) {
-        this.context = context;
     }
 
     /**
@@ -60,11 +55,18 @@ public class FiltersResource {
     @DefaultValue("0")
     int start, @QueryParam("max")
     @DefaultValue("10")
-    int max) {
+    int max, @QueryParam("expandLevel")
+    @DefaultValue("1")
+    int expandLevel, @QueryParam("query")
+    @DefaultValue("SELECT e FROM Filter e")
+    String query) {
+        PersistenceService persistenceSvc = PersistenceService.getInstance();
         try {
-            return new FiltersConverter(getEntities(start, max), context.getAbsolutePath());
+            persistenceSvc.beginTx();
+            return new FiltersConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), expandLevel);
         } finally {
-            
+            persistenceSvc.commitTx();
+            persistenceSvc.close();
         }
     }
 
@@ -77,15 +79,16 @@ public class FiltersResource {
     @POST
     @Consumes({"application/xml", "application/json"})
     public Response post(FilterConverter data) {
-        PersistenceServiceBean persistenceSvc = new PersistenceServiceBean();
+        PersistenceService persistenceSvc = PersistenceService.getInstance();
         try {
-            
-            Filter entity = data.getEntity();
-            createEntity(entity);
-            
-            return Response.created(context.getAbsolutePath().resolve(entity.getId() + "/")).build();
+            persistenceSvc.beginTx();
+            EntityManager em = persistenceSvc.getEntityManager();
+            Filter entity = data.resolveEntity(em);
+            createEntity(data.resolveEntity(em));
+            persistenceSvc.commitTx();
+            return Response.created(uriInfo.getAbsolutePath().resolve(entity.getId() + "/")).build();
         } finally {
-            
+            persistenceSvc.close();
         }
     }
 
@@ -95,9 +98,11 @@ public class FiltersResource {
      * @return an instance of FilterResource
      */
     @Path("{id}/")
-    public FilterResource getFilterResource(@PathParam("id")
+    public service.FilterResource getFilterResource(@PathParam("id")
     String id) {
-        return new FilterResource(id, context);
+        FilterResource resource = resourceContext.getResource(FilterResource.class);
+        resource.setId(id);
+        return resource;
     }
 
     /**
@@ -105,8 +110,9 @@ public class FiltersResource {
      *
      * @return a collection of Filter instances
      */
-    protected Collection<Filter> getEntities(int start, int max) {
-        return new PersistenceServiceBean().createQuery("SELECT e FROM Filter e").setFirstResult(start).setMaxResults(max).getResultList();
+    protected Collection<Filter> getEntities(int start, int max, String query) {
+        EntityManager em = PersistenceService.getInstance().getEntityManager();
+        return em.createQuery(query).setFirstResult(start).setMaxResults(max).getResultList();
     }
 
     /**
@@ -115,6 +121,25 @@ public class FiltersResource {
      * @param entity the entity to persist
      */
     protected void createEntity(Filter entity) {
-        new PersistenceServiceBean().persistEntity(entity);
+        EntityManager em = PersistenceService.getInstance().getEntityManager();
+        em.persist(entity);
+        for (OrganizationType value : entity.getOrganizationTypeCollection()) {
+            value.getFilterCollection().add(entity);
+        }
+        for (InterestArea value : entity.getInterestAreaCollection()) {
+            value.getFilterCollection().add(entity);
+        }
+        Distance distanceId = entity.getDistanceId();
+        if (distanceId != null) {
+            distanceId.getFilterCollection().add(entity);
+        }
+        IvUser userId = entity.getUserId();
+        if (userId != null) {
+            userId.getFilterCollection().add(entity);
+        }
+        Timeframe timeframeId = entity.getTimeframeId();
+        if (timeframeId != null) {
+            timeframeId.getFilterCollection().add(entity);
+        }
     }
 }

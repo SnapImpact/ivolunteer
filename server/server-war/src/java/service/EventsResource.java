@@ -1,19 +1,11 @@
 /*
- *  EventsResource
- *
- * Created on October 24, 2008, 9:55 PM
- *
- * To change this template, choose Tools | Template Manager
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
 package service;
 
 import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -25,12 +17,16 @@ import javax.ws.rs.DefaultValue;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
+import com.sun.jersey.api.core.ResourceContext;
+import javax.persistence.EntityManager;
+import persistence.Event;
+import persistence.Source;
+import persistence.InterestArea;
+import persistence.Organization;
+import persistence.Location;
+import persistence.Timestamp;
 import converter.EventsConverter;
-import converter.EventsListConverter;
 import converter.EventConverter;
-import persistence.Events;
-import session.EventsFacadeLocal;
-
 
 /**
  *
@@ -40,23 +36,16 @@ import session.EventsFacadeLocal;
 @Path("/events/")
 public class EventsResource {
     @Context
-    private UriInfo context;
+    protected UriInfo uriInfo;
+    @Context
+    protected ResourceContext resourceContext;
   
     /** Creates a new instance of EventsResource */
     public EventsResource() {
     }
 
     /**
-     * Constructor used for instantiating an instance of dynamic resource.
-     *
-     * @param context HttpContext inherited from the parent resource
-     */
-    public EventsResource(UriInfo context) {
-        this.context = context;
-    }
-
-    /**
-     * Get method for retrieving a collection of Events instance in XML format.
+     * Get method for retrieving a collection of Event instance in XML format.
      *
      * @return an instance of EventsConverter
      */
@@ -66,16 +55,23 @@ public class EventsResource {
     @DefaultValue("0")
     int start, @QueryParam("max")
     @DefaultValue("10")
-    int max) {
+    int max, @QueryParam("expandLevel")
+    @DefaultValue("1")
+    int expandLevel, @QueryParam("query")
+    @DefaultValue("SELECT e FROM Event e")
+    String query) {
+        PersistenceService persistenceSvc = PersistenceService.getInstance();
         try {
-            return new EventsConverter(getEntities(start, max), context.getAbsolutePath());
+            persistenceSvc.beginTx();
+            return new EventsConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), expandLevel);
         } finally {
-            
+            persistenceSvc.commitTx();
+            persistenceSvc.close();
         }
     }
 
     /**
-     * Post method for creating an instance of Events using XML as the input format.
+     * Post method for creating an instance of Event using XML as the input format.
      *
      * @param data an EventConverter entity that is deserialized from an XML stream
      * @return an instance of EventConverter
@@ -83,15 +79,16 @@ public class EventsResource {
     @POST
     @Consumes({"application/xml", "application/json"})
     public Response post(EventConverter data) {
-        PersistenceServiceBean persistenceSvc = new PersistenceServiceBean();
+        PersistenceService persistenceSvc = PersistenceService.getInstance();
         try {
-            
-            Events entity = data.getEntity();
-            createEntity(entity);
-            
-            return Response.created(context.getAbsolutePath().resolve(entity.getId() + "/")).build();
+            persistenceSvc.beginTx();
+            EntityManager em = persistenceSvc.getEntityManager();
+            Event entity = data.resolveEntity(em);
+            createEntity(data.resolveEntity(em));
+            persistenceSvc.commitTx();
+            return Response.created(uriInfo.getAbsolutePath().resolve(entity.getId() + "/")).build();
         } finally {
-            
+            persistenceSvc.close();
         }
     }
 
@@ -101,18 +98,21 @@ public class EventsResource {
      * @return an instance of EventResource
      */
     @Path("{id}/")
-    public EventResource getEventResource(@PathParam("id")
+    public service.EventResource getEventResource(@PathParam("id")
     String id) {
-        return new EventResource(id, context);
+        EventResource resource = resourceContext.getResource(EventResource.class);
+        resource.setId(id);
+        return resource;
     }
 
     /**
      * Returns all the entities associated with this resource.
      *
-     * @return a collection of Events instances
+     * @return a collection of Event instances
      */
-    protected Collection<Events> getEntities(int start, int max) {
-        return lookupEventsFacade().findAll(start, max);
+    protected Collection<Event> getEntities(int start, int max, String query) {
+        EntityManager em = PersistenceService.getInstance().getEntityManager();
+        return em.createQuery(query).setFirstResult(start).setMaxResults(max).getResultList();
     }
 
     /**
@@ -120,32 +120,24 @@ public class EventsResource {
      *
      * @param entity the entity to persist
      */
-    protected void createEntity(Events entity) {
-        lookupEventsFacade().create(entity);
-    }
-    
-    @Path("list/")
-    @GET
-    @Produces({"application/json"})
-    public EventsListConverter list(@QueryParam("start")
-    @DefaultValue("0")
-    int start, @QueryParam("max")
-    @DefaultValue("10")
-    int max) {
-        try {
-            return new EventsListConverter(getEntities(start, max), context.getAbsolutePath(), context.getBaseUri());
-        } finally {
-            
+    protected void createEntity(Event entity) {
+        EntityManager em = PersistenceService.getInstance().getEntityManager();
+        em.persist(entity);
+        for (InterestArea value : entity.getInterestAreaCollection()) {
+            value.getEventCollection().add(entity);
         }
-    }
-
-    private EventsFacadeLocal lookupEventsFacade() {
-        try {
-            javax.naming.Context c = new InitialContext();
-            return (EventsFacadeLocal) c.lookup("java:comp/env/EventsFacade");
-        } catch (NamingException ne) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
-            throw new RuntimeException(ne);
+        for (Timestamp value : entity.getTimestampCollection()) {
+            value.getEventCollection().add(entity);
+        }
+        for (Location value : entity.getLocationCollection()) {
+            value.getEventCollection().add(entity);
+        }
+        for (Organization value : entity.getOrganizationCollection()) {
+            value.getEventCollection().add(entity);
+        }
+        Source sourceId = entity.getSourceId();
+        if (sourceId != null) {
+            sourceId.getEventCollection().add(entity);
         }
     }
 }

@@ -10,7 +10,7 @@
 package converter;
 
 
-import persistence.Organizations;
+import persistence.Organization;
 import java.net.URI;
 import java.util.Collection;
 import javax.xml.bind.annotation.XmlElement;
@@ -38,7 +38,7 @@ public class OrganizationsListConverter {
      * @param entities associated entities
      * @param uri associated uri
      */
-    public OrganizationsListConverter(Collection<Organizations> records, URI uri, URI baseUri) {
+    public OrganizationsListConverter(Collection<Organization> records, URI uri, URI baseUri) {
         this.idListConverter = new IdListConverter(records);
         this.organizationsRecordsConverter = new OrganizationsRecordsConverter ( records, uri, baseUri);
     }

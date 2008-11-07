@@ -14,7 +14,7 @@ import java.util.Collection;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlElement;
 import java.util.ArrayList;
-import persistence.Organizations;
+import persistence.Organization;
 
 
 /**
@@ -25,7 +25,7 @@ import persistence.Organizations;
 
 @XmlRootElement( name = "records" )
 public class OrganizationsRecordsConverter {
-    private Collection<Organizations> records;
+    private Collection<Organization> records;
     private URI uri;
     private URI baseUri;
   
@@ -39,7 +39,7 @@ public class OrganizationsRecordsConverter {
      * @param entities associated entities
      * @param uri associated uri
      */
-    public OrganizationsRecordsConverter(Collection<Organizations> records, URI uri, URI baseUri) {
+    public OrganizationsRecordsConverter(Collection<Organization> records, URI uri, URI baseUri) {
         this.records = records;
         this.uri = uri;
         this.baseUri = baseUri;
@@ -49,8 +49,8 @@ public class OrganizationsRecordsConverter {
     public ArrayList<OrganizationConverter> getRecords() {
         ArrayList<OrganizationConverter> ret = new ArrayList<OrganizationConverter>();
         if (records != null) {
-            for (Organizations record : records ) {
-                ret.add(new OrganizationConverter(record, baseUri.resolve( "organizations/" + record.getId() + "/")));
+            for (Organization record : records ) {
+                ret.add(new OrganizationConverter(record, baseUri.resolve( "organizations/" + record.getId() + "/"), 1));
             }
         }
         return ret;

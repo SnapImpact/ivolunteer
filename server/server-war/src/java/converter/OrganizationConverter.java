@@ -1,21 +1,24 @@
 /*
- *  OrganizationConverter
- *
- * Created on October 24, 2008, 9:56 PM
- *
- * To change this template, choose Tools | Template Manager
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
 package converter;
 
 import java.net.URI;
-import persistence.Organizations;
+import persistence.Organization;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlAttribute;
-
+import javax.ws.rs.core.UriBuilder;
+import javax.persistence.EntityManager;
+import persistence.Source;
+import persistence.InterestArea;
+import persistence.Event;
+import java.util.Collection;
+import persistence.OrganizationType;
+import persistence.Location;
 
 /**
  *
@@ -24,12 +27,13 @@ import javax.xml.bind.annotation.XmlAttribute;
 
 @XmlRootElement(name = "organization")
 public class OrganizationConverter {
-    private Organizations entity;
+    private Organization entity;
     private URI uri;
+    private int expandLevel;
   
     /** Creates a new instance of OrganizationConverter */
     public OrganizationConverter() {
-        entity = new Organizations();
+        entity = new Organization();
     }
 
     /**
@@ -37,10 +41,28 @@ public class OrganizationConverter {
      *
      * @param entity associated entity
      * @param uri associated uri
+     * @param expandLevel indicates the number of levels the entity graph should be expanded@param isUriExtendable indicates whether the uri can be extended
      */
-    public OrganizationConverter(Organizations entity, URI uri) {
+    public OrganizationConverter(Organization entity, URI uri, int expandLevel, boolean isUriExtendable) {
         this.entity = entity;
-        this.uri = uri;
+        this.uri = (isUriExtendable) ? UriBuilder.fromUri(uri).path(entity.getId() + "/").build() : uri;
+        this.expandLevel = expandLevel;
+        getLocationCollection();
+        getInterestAreaCollection();
+        getEventCollection();
+        getOrganizationTypeId();
+        getSourceId();
+    }
+
+    /**
+     * Creates a new instance of OrganizationConverter.
+     *
+     * @param entity associated entity
+     * @param uri associated uri
+     * @param expandLevel indicates the number of levels the entity graph should be expanded
+     */
+    public OrganizationConverter(Organization entity, URI uri, int expandLevel) {
+        this(entity, uri, expandLevel, false);
     }
 
     /**
@@ -50,7 +72,7 @@ public class OrganizationConverter {
      */
     @XmlElement
     public String getId() {
-        return entity.getId();
+        return (expandLevel > 0) ? entity.getId() : null;
     }
 
     /**
@@ -69,7 +91,7 @@ public class OrganizationConverter {
      */
     @XmlElement
     public String getName() {
-        return entity.getName();
+        return (expandLevel > 0) ? entity.getName() : null;
     }
 
     /**
@@ -88,7 +110,7 @@ public class OrganizationConverter {
      */
     @XmlElement
     public String getDescription() {
-        return entity.getDescription();
+        return (expandLevel > 0) ? entity.getDescription() : null;
     }
 
     /**
@@ -107,7 +129,7 @@ public class OrganizationConverter {
      */
     @XmlElement
     public String getPhone() {
-        return entity.getPhone();
+        return (expandLevel > 0) ? entity.getPhone() : null;
     }
 
     /**
@@ -126,7 +148,7 @@ public class OrganizationConverter {
      */
     @XmlElement
     public String getEmail() {
-        return entity.getEmail();
+        return (expandLevel > 0) ? entity.getEmail() : null;
     }
 
     /**
@@ -145,7 +167,7 @@ public class OrganizationConverter {
      */
     @XmlElement
     public String getUrl() {
-        return entity.getUrl();
+        return (expandLevel > 0) ? entity.getUrl() : null;
     }
 
     /**
@@ -158,89 +180,13 @@ public class OrganizationConverter {
     }
 
     /**
-     * Getter for street.
-     *
-     * @return value for street
-     */
-    @XmlElement
-    public String getStreet() {
-        return entity.getStreet();
-    }
-
-    /**
-     * Setter for street.
-     *
-     * @param value the value to set
-     */
-    public void setStreet(String value) {
-        entity.setStreet(value);
-    }
-
-    /**
-     * Getter for city.
-     *
-     * @return value for city
-     */
-    @XmlElement
-    public String getCity() {
-        return entity.getCity();
-    }
-
-    /**
-     * Setter for city.
-     *
-     * @param value the value to set
-     */
-    public void setCity(String value) {
-        entity.setCity(value);
-    }
-
-    /**
-     * Getter for state.
-     *
-     * @return value for state
-     */
-    @XmlElement
-    public String getState() {
-        return entity.getState();
-    }
-
-    /**
-     * Setter for state.
-     *
-     * @param value the value to set
-     */
-    public void setState(String value) {
-        entity.setState(value);
-    }
-
-    /**
-     * Getter for zip.
-     *
-     * @return value for zip
-     */
-    @XmlElement
-    public String getZip() {
-        return entity.getZip();
-    }
-
-    /**
-     * Setter for zip.
-     *
-     * @param value the value to set
-     */
-    public void setZip(String value) {
-        entity.setZip(value);
-    }
-
-    /**
      * Getter for sourceKey.
      *
      * @return value for sourceKey
      */
     @XmlElement
     public String getSourceKey() {
-        return entity.getSourceKey();
+        return (expandLevel > 0) ? entity.getSourceKey() : null;
     }
 
     /**
@@ -259,7 +205,7 @@ public class OrganizationConverter {
      */
     @XmlElement
     public String getSourceUrl() {
-        return entity.getSourceUrl();
+        return (expandLevel > 0) ? entity.getSourceUrl() : null;
     }
 
     /**
@@ -272,27 +218,75 @@ public class OrganizationConverter {
     }
 
     /**
-     * Getter for interestAreaIdCollection.
+     * Getter for locationCollection.
      *
-     * @return value for interestAreaIdCollection
+     * @return value for locationCollection
      */
-    @XmlElement(name = "interestAreas")
-    public InterestAreasConverter getInterestAreaIdCollection() {
-        if (entity.getInterestAreaIdCollection() != null) {
-            return new InterestAreasConverter(entity.getInterestAreaIdCollection(), uri.resolve("interestAreas/"));
+    @XmlElement
+    public LocationsConverter getLocationCollection() {
+        if (expandLevel > 0) {
+            if (entity.getLocationCollection() != null) {
+                return new LocationsConverter(entity.getLocationCollection(), uri.resolve("locationCollection/"), expandLevel - 1);
+            }
         }
         return null;
     }
 
     /**
-     * Setter for interestAreaIdCollection.
+     * Setter for locationCollection.
      *
      * @param value the value to set
      */
-    public void setInterestAreaIdCollection(InterestAreasConverter value) {
-        if (value != null) {
-            entity.setInterestAreaIdCollection(value.getEntities());
+    public void setLocationCollection(LocationsConverter value) {
+        entity.setLocationCollection((value != null) ? value.getEntities() : null);
+    }
+
+    /**
+     * Getter for interestAreaCollection.
+     *
+     * @return value for interestAreaCollection
+     */
+    @XmlElement
+    public InterestAreasConverter getInterestAreaCollection() {
+        if (expandLevel > 0) {
+            if (entity.getInterestAreaCollection() != null) {
+                return new InterestAreasConverter(entity.getInterestAreaCollection(), uri.resolve("interestAreaCollection/"), expandLevel - 1);
+            }
         }
+        return null;
+    }
+
+    /**
+     * Setter for interestAreaCollection.
+     *
+     * @param value the value to set
+     */
+    public void setInterestAreaCollection(InterestAreasConverter value) {
+        entity.setInterestAreaCollection((value != null) ? value.getEntities() : null);
+    }
+
+    /**
+     * Getter for eventCollection.
+     *
+     * @return value for eventCollection
+     */
+    @XmlElement
+    public EventsConverter getEventCollection() {
+        if (expandLevel > 0) {
+            if (entity.getEventCollection() != null) {
+                return new EventsConverter(entity.getEventCollection(), uri.resolve("eventCollection/"), expandLevel - 1);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Setter for eventCollection.
+     *
+     * @param value the value to set
+     */
+    public void setEventCollection(EventsConverter value) {
+        entity.setEventCollection((value != null) ? value.getEntities() : null);
     }
 
     /**
@@ -300,10 +294,12 @@ public class OrganizationConverter {
      *
      * @return value for organizationTypeId
      */
-    @XmlElement(name = "organizationTypeRef")
-    public OrganizationTypeRefConverter getOrganizationTypeId() {
-        if (entity.getOrganizationTypeId() != null) {
-            return new OrganizationTypeRefConverter(entity.getOrganizationTypeId(), uri.resolve("organizationType/"), false);
+    @XmlElement
+    public OrganizationTypeConverter getOrganizationTypeId() {
+        if (expandLevel > 0) {
+            if (entity.getOrganizationTypeId() != null) {
+                return new OrganizationTypeConverter(entity.getOrganizationTypeId(), uri.resolve("organizationTypeId/"), expandLevel - 1, false);
+            }
         }
         return null;
     }
@@ -313,10 +309,8 @@ public class OrganizationConverter {
      *
      * @param value the value to set
      */
-    public void setOrganizationTypeId(OrganizationTypeRefConverter value) {
-        if (value != null) {
-            entity.setOrganizationTypeId(value.getEntity());
-        }
+    public void setOrganizationTypeId(OrganizationTypeConverter value) {
+        entity.setOrganizationTypeId((value != null) ? value.getEntity() : null);
     }
 
     /**
@@ -324,10 +318,12 @@ public class OrganizationConverter {
      *
      * @return value for sourceId
      */
-    @XmlElement(name = "sourceRef")
-    public SourceRefConverter getSourceId() {
-        if (entity.getSourceId() != null) {
-            return new SourceRefConverter(entity.getSourceId(), uri.resolve("source/"), false);
+    @XmlElement
+    public SourceConverter getSourceId() {
+        if (expandLevel > 0) {
+            if (entity.getSourceId() != null) {
+                return new SourceConverter(entity.getSourceId(), uri.resolve("sourceId/"), expandLevel - 1, false);
+            }
         }
         return null;
     }
@@ -337,34 +333,8 @@ public class OrganizationConverter {
      *
      * @param value the value to set
      */
-    public void setSourceId(SourceRefConverter value) {
-        if (value != null) {
-            entity.setSourceId(value.getEntity());
-        }
-    }
-
-    /**
-     * Getter for eventsCollection.
-     *
-     * @return value for eventsCollection
-     */
-    @XmlElement(name = "events")
-    public EventsConverter getEventsCollection() {
-        if (entity.getEventsCollection() != null) {
-            return new EventsConverter(entity.getEventsCollection(), uri.resolve("events/"));
-        }
-        return null;
-    }
-
-    /**
-     * Setter for eventsCollection.
-     *
-     * @param value the value to set
-     */
-    public void setEventsCollection(EventsConverter value) {
-        if (value != null) {
-            entity.setEventsCollection(value.getEntities());
-        }
+    public void setSourceId(SourceConverter value) {
+        entity.setSourceId((value != null) ? value.getEntity() : null);
     }
 
     /**
@@ -372,27 +342,67 @@ public class OrganizationConverter {
      *
      * @return the uri
      */
-    @XmlAttribute(name = "uri")
-    public URI getResourceUri() {
+    @XmlAttribute
+    public URI getUri() {
         return uri;
     }
 
     /**
-     * Returns the Organizations entity.
+     * Sets the URI for this reference converter.
+     *
+     */
+    public void setUri(URI uri) {
+        this.uri = uri;
+    }
+
+    /**
+     * Returns the Organization entity.
      *
      * @return an entity
      */
     @XmlTransient
-    public Organizations getEntity() {
+    public Organization getEntity() {
+        if (entity.getId() == null) {
+            OrganizationConverter converter = UriResolver.getInstance().resolve(OrganizationConverter.class, uri);
+            if (converter != null) {
+                entity = converter.getEntity();
+            }
+        }
         return entity;
     }
 
     /**
-     * Sets the Organizations entity.
+     * Returns the resolved Organization entity.
      *
-     * @param entity to set
+     * @return an resolved entity
      */
-    public void setEntity(Organizations entity) {
-        this.entity = entity;
+    public Organization resolveEntity(EntityManager em) {
+        Collection<Location> locationCollection = entity.getLocationCollection();
+        Collection<Location> newlocationCollection = new java.util.ArrayList<Location>();
+        for (Location item : locationCollection) {
+            newlocationCollection.add(em.getReference(Location.class, item.getId()));
+        }
+        entity.setLocationCollection(newlocationCollection);
+        Collection<InterestArea> interestAreaCollection = entity.getInterestAreaCollection();
+        Collection<InterestArea> newinterestAreaCollection = new java.util.ArrayList<InterestArea>();
+        for (InterestArea item : interestAreaCollection) {
+            newinterestAreaCollection.add(em.getReference(InterestArea.class, item.getId()));
+        }
+        entity.setInterestAreaCollection(newinterestAreaCollection);
+        Collection<Event> eventCollection = entity.getEventCollection();
+        Collection<Event> neweventCollection = new java.util.ArrayList<Event>();
+        for (Event item : eventCollection) {
+            neweventCollection.add(em.getReference(Event.class, item.getId()));
+        }
+        entity.setEventCollection(neweventCollection);
+        OrganizationType organizationTypeId = entity.getOrganizationTypeId();
+        if (organizationTypeId != null) {
+            entity.setOrganizationTypeId(em.getReference(OrganizationType.class, organizationTypeId.getId()));
+        }
+        Source sourceId = entity.getSourceId();
+        if (sourceId != null) {
+            entity.setSourceId(em.getReference(Source.class, sourceId.getId()));
+        }
+        return entity;
     }
 }

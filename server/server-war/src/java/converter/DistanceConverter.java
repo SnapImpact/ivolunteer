@@ -1,21 +1,20 @@
 /*
- *  DistanceConverter
- *
- * Created on October 24, 2008, 9:56 PM
- *
- * To change this template, choose Tools | Template Manager
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
 package converter;
 
 import java.net.URI;
-import persistence.Distances;
+import persistence.Distance;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlAttribute;
-
+import javax.ws.rs.core.UriBuilder;
+import javax.persistence.EntityManager;
+import java.util.Collection;
+import persistence.Filter;
 
 /**
  *
@@ -24,12 +23,13 @@ import javax.xml.bind.annotation.XmlAttribute;
 
 @XmlRootElement(name = "distance")
 public class DistanceConverter {
-    private Distances entity;
+    private Distance entity;
     private URI uri;
+    private int expandLevel;
   
     /** Creates a new instance of DistanceConverter */
     public DistanceConverter() {
-        entity = new Distances();
+        entity = new Distance();
     }
 
     /**
@@ -37,10 +37,24 @@ public class DistanceConverter {
      *
      * @param entity associated entity
      * @param uri associated uri
+     * @param expandLevel indicates the number of levels the entity graph should be expanded@param isUriExtendable indicates whether the uri can be extended
      */
-    public DistanceConverter(Distances entity, URI uri) {
+    public DistanceConverter(Distance entity, URI uri, int expandLevel, boolean isUriExtendable) {
         this.entity = entity;
-        this.uri = uri;
+        this.uri = (isUriExtendable) ? UriBuilder.fromUri(uri).path(entity.getId() + "/").build() : uri;
+        this.expandLevel = expandLevel;
+        getFilterCollection();
+    }
+
+    /**
+     * Creates a new instance of DistanceConverter.
+     *
+     * @param entity associated entity
+     * @param uri associated uri
+     * @param expandLevel indicates the number of levels the entity graph should be expanded
+     */
+    public DistanceConverter(Distance entity, URI uri, int expandLevel) {
+        this(entity, uri, expandLevel, false);
     }
 
     /**
@@ -50,7 +64,7 @@ public class DistanceConverter {
      */
     @XmlElement
     public String getId() {
-        return entity.getId();
+        return (expandLevel > 0) ? entity.getId() : null;
     }
 
     /**
@@ -68,8 +82,8 @@ public class DistanceConverter {
      * @return value for bucket
      */
     @XmlElement
-    public short getBucket() {
-        return entity.getBucket();
+    public Short getBucket() {
+        return (expandLevel > 0) ? entity.getBucket() : null;
     }
 
     /**
@@ -77,7 +91,7 @@ public class DistanceConverter {
      *
      * @param value the value to set
      */
-    public void setBucket(short value) {
+    public void setBucket(Short value) {
         entity.setBucket(value);
     }
 
@@ -86,10 +100,12 @@ public class DistanceConverter {
      *
      * @return value for filterCollection
      */
-    @XmlElement(name = "filters")
+    @XmlElement
     public FiltersConverter getFilterCollection() {
-        if (entity.getFilterCollection() != null) {
-            return new FiltersConverter(entity.getFilterCollection(), uri.resolve("filters/"));
+        if (expandLevel > 0) {
+            if (entity.getFilterCollection() != null) {
+                return new FiltersConverter(entity.getFilterCollection(), uri.resolve("filterCollection/"), expandLevel - 1);
+            }
         }
         return null;
     }
@@ -100,9 +116,7 @@ public class DistanceConverter {
      * @param value the value to set
      */
     public void setFilterCollection(FiltersConverter value) {
-        if (value != null) {
-            entity.setFilterCollection(value.getEntities());
-        }
+        entity.setFilterCollection((value != null) ? value.getEntities() : null);
     }
 
     /**
@@ -110,27 +124,47 @@ public class DistanceConverter {
      *
      * @return the uri
      */
-    @XmlAttribute(name = "uri")
-    public URI getResourceUri() {
+    @XmlAttribute
+    public URI getUri() {
         return uri;
     }
 
     /**
-     * Returns the Distances entity.
+     * Sets the URI for this reference converter.
+     *
+     */
+    public void setUri(URI uri) {
+        this.uri = uri;
+    }
+
+    /**
+     * Returns the Distance entity.
      *
      * @return an entity
      */
     @XmlTransient
-    public Distances getEntity() {
+    public Distance getEntity() {
+        if (entity.getId() == null) {
+            DistanceConverter converter = UriResolver.getInstance().resolve(DistanceConverter.class, uri);
+            if (converter != null) {
+                entity = converter.getEntity();
+            }
+        }
         return entity;
     }
 
     /**
-     * Sets the Distances entity.
+     * Returns the resolved Distance entity.
      *
-     * @param entity to set
+     * @return an resolved entity
      */
-    public void setEntity(Distances entity) {
-        this.entity = entity;
+    public Distance resolveEntity(EntityManager em) {
+        Collection<Filter> filterCollection = entity.getFilterCollection();
+        Collection<Filter> newfilterCollection = new java.util.ArrayList<Filter>();
+        for (Filter item : filterCollection) {
+            newfilterCollection.add(em.getReference(Filter.class, item.getId()));
+        }
+        entity.setFilterCollection(newfilterCollection);
+        return entity;
     }
 }

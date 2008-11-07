@@ -1,9 +1,5 @@
 /*
- *  TimeframeConverter
- *
- * Created on October 24, 2008, 9:56 PM
- *
- * To change this template, choose Tools | Template Manager
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
@@ -11,12 +7,15 @@ package converter;
 
 import java.math.BigInteger;
 import java.net.URI;
-import persistence.Timeframes;
+import persistence.Timeframe;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlAttribute;
-
+import javax.ws.rs.core.UriBuilder;
+import javax.persistence.EntityManager;
+import java.util.Collection;
+import persistence.Filter;
 
 /**
  *
@@ -25,12 +24,13 @@ import javax.xml.bind.annotation.XmlAttribute;
 
 @XmlRootElement(name = "timeframe")
 public class TimeframeConverter {
-    private Timeframes entity;
+    private Timeframe entity;
     private URI uri;
+    private int expandLevel;
   
     /** Creates a new instance of TimeframeConverter */
     public TimeframeConverter() {
-        entity = new Timeframes();
+        entity = new Timeframe();
     }
 
     /**
@@ -38,10 +38,24 @@ public class TimeframeConverter {
      *
      * @param entity associated entity
      * @param uri associated uri
+     * @param expandLevel indicates the number of levels the entity graph should be expanded@param isUriExtendable indicates whether the uri can be extended
      */
-    public TimeframeConverter(Timeframes entity, URI uri) {
+    public TimeframeConverter(Timeframe entity, URI uri, int expandLevel, boolean isUriExtendable) {
         this.entity = entity;
-        this.uri = uri;
+        this.uri = (isUriExtendable) ? UriBuilder.fromUri(uri).path(entity.getId() + "/").build() : uri;
+        this.expandLevel = expandLevel;
+        getFilterCollection();
+    }
+
+    /**
+     * Creates a new instance of TimeframeConverter.
+     *
+     * @param entity associated entity
+     * @param uri associated uri
+     * @param expandLevel indicates the number of levels the entity graph should be expanded
+     */
+    public TimeframeConverter(Timeframe entity, URI uri, int expandLevel) {
+        this(entity, uri, expandLevel, false);
     }
 
     /**
@@ -51,7 +65,7 @@ public class TimeframeConverter {
      */
     @XmlElement
     public String getId() {
-        return entity.getId();
+        return (expandLevel > 0) ? entity.getId() : null;
     }
 
     /**
@@ -70,7 +84,7 @@ public class TimeframeConverter {
      */
     @XmlElement
     public BigInteger getBucket() {
-        return entity.getBucket();
+        return (expandLevel > 0) ? entity.getBucket() : null;
     }
 
     /**
@@ -87,10 +101,12 @@ public class TimeframeConverter {
      *
      * @return value for filterCollection
      */
-    @XmlElement(name = "filters")
+    @XmlElement
     public FiltersConverter getFilterCollection() {
-        if (entity.getFilterCollection() != null) {
-            return new FiltersConverter(entity.getFilterCollection(), uri.resolve("filters/"));
+        if (expandLevel > 0) {
+            if (entity.getFilterCollection() != null) {
+                return new FiltersConverter(entity.getFilterCollection(), uri.resolve("filterCollection/"), expandLevel - 1);
+            }
         }
         return null;
     }
@@ -101,9 +117,7 @@ public class TimeframeConverter {
      * @param value the value to set
      */
     public void setFilterCollection(FiltersConverter value) {
-        if (value != null) {
-            entity.setFilterCollection(value.getEntities());
-        }
+        entity.setFilterCollection((value != null) ? value.getEntities() : null);
     }
 
     /**
@@ -111,27 +125,47 @@ public class TimeframeConverter {
      *
      * @return the uri
      */
-    @XmlAttribute(name = "uri")
-    public URI getResourceUri() {
+    @XmlAttribute
+    public URI getUri() {
         return uri;
     }
 
     /**
-     * Returns the Timeframes entity.
+     * Sets the URI for this reference converter.
+     *
+     */
+    public void setUri(URI uri) {
+        this.uri = uri;
+    }
+
+    /**
+     * Returns the Timeframe entity.
      *
      * @return an entity
      */
     @XmlTransient
-    public Timeframes getEntity() {
+    public Timeframe getEntity() {
+        if (entity.getId() == null) {
+            TimeframeConverter converter = UriResolver.getInstance().resolve(TimeframeConverter.class, uri);
+            if (converter != null) {
+                entity = converter.getEntity();
+            }
+        }
         return entity;
     }
 
     /**
-     * Sets the Timeframes entity.
+     * Returns the resolved Timeframe entity.
      *
-     * @param entity to set
+     * @return an resolved entity
      */
-    public void setEntity(Timeframes entity) {
-        this.entity = entity;
+    public Timeframe resolveEntity(EntityManager em) {
+        Collection<Filter> filterCollection = entity.getFilterCollection();
+        Collection<Filter> newfilterCollection = new java.util.ArrayList<Filter>();
+        for (Filter item : filterCollection) {
+            newfilterCollection.add(em.getReference(Filter.class, item.getId()));
+        }
+        entity.setFilterCollection(newfilterCollection);
+        return entity;
     }
 }

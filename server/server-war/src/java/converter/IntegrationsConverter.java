@@ -1,9 +1,5 @@
 /*
- *  IntegrationsConverter
- *
- * Created on October 24, 2008, 9:56 PM
- *
- * To change this template, choose Tools | Template Manager
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
@@ -16,8 +12,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlAttribute;
 import java.util.ArrayList;
-import persistence.Integrations;
-
+import persistence.Integration;
 
 /**
  *
@@ -26,9 +21,10 @@ import persistence.Integrations;
 
 @XmlRootElement(name = "integrations")
 public class IntegrationsConverter {
-    private Collection<Integrations> entities;
-    private Collection<IntegrationRefConverter> references;
+    private Collection<Integration> entities;
+    private Collection<converter.IntegrationConverter> items;
     private URI uri;
+    private int expandLevel;
   
     /** Creates a new instance of IntegrationsConverter */
     public IntegrationsConverter() {
@@ -39,35 +35,40 @@ public class IntegrationsConverter {
      *
      * @param entities associated entities
      * @param uri associated uri
+     * @param expandLevel indicates the number of levels the entity graph should be expanded
      */
-    public IntegrationsConverter(Collection<Integrations> entities, URI uri) {
+    public IntegrationsConverter(Collection<Integration> entities, URI uri, int expandLevel) {
         this.entities = entities;
         this.uri = uri;
+        this.expandLevel = expandLevel;
+        getIntegration();
     }
 
     /**
-     * Returns a collection of IntegrationRefConverter.
+     * Returns a collection of IntegrationConverter.
      *
-     * @return a collection of IntegrationRefConverter
+     * @return a collection of IntegrationConverter
      */
-    @XmlElement(name = "integrationRef")
-    public Collection<IntegrationRefConverter> getReferences() {
-        references = new ArrayList<IntegrationRefConverter>();
+    @XmlElement
+    public Collection<converter.IntegrationConverter> getIntegration() {
+        if (items == null) {
+            items = new ArrayList<IntegrationConverter>();
+        }
         if (entities != null) {
-            for (Integrations entity : entities) {
-                references.add(new IntegrationRefConverter(entity, uri, true));
+            for (Integration entity : entities) {
+                items.add(new IntegrationConverter(entity, uri, expandLevel, true));
             }
         }
-        return references;
+        return items;
     }
 
     /**
-     * Sets a collection of IntegrationRefConverter.
+     * Sets a collection of IntegrationConverter.
      *
-     * @param a collection of IntegrationRefConverter to set
+     * @param a collection of IntegrationConverter to set
      */
-    public void setReferences(Collection<IntegrationRefConverter> references) {
-        this.references = references;
+    public void setIntegration(Collection<converter.IntegrationConverter> items) {
+        this.items = items;
     }
 
     /**
@@ -75,22 +76,22 @@ public class IntegrationsConverter {
      *
      * @return the uri
      */
-    @XmlAttribute(name = "uri")
-    public URI getResourceUri() {
+    @XmlAttribute
+    public URI getUri() {
         return uri;
     }
 
     /**
-     * Returns a collection Integrations entities.
+     * Returns a collection Integration entities.
      *
-     * @return a collection of Integrations entities
+     * @return a collection of Integration entities
      */
     @XmlTransient
-    public Collection<Integrations> getEntities() {
-        entities = new ArrayList<Integrations>();
-        if (references != null) {
-            for (IntegrationRefConverter ref : references) {
-                entities.add(ref.getEntity());
+    public Collection<Integration> getEntities() {
+        entities = new ArrayList<Integration>();
+        if (items != null) {
+            for (IntegrationConverter item : items) {
+                entities.add(item.getEntity());
             }
         }
         return entities;

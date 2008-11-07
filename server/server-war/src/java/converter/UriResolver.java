@@ -1,21 +1,15 @@
 /*
- * UriResolver.java
- *
- * Created on October 24, 2008, 9:55 PM
- *
- * To change this template, choose Tools | Template Manager
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
 package converter;
 
 import javax.ws.rs.WebApplicationException;
-import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import javax.xml.bind.JAXBContext;
-import service.PersistenceServiceBean;
 
 /**
  * Utility class for resolving an uri into an entity.
@@ -71,10 +65,8 @@ public class UriResolver {
             
             if (conn.getResponseCode() == 200) {
                 JAXBContext context = JAXBContext.newInstance(type);
-                Object obj = context.createUnmarshaller().unmarshal(conn.getInputStream());
-                resolveEntity(obj);
-                
-                return (T) obj;
+
+                return (T) context.createUnmarshaller().unmarshal(conn.getInputStream());
             } else {
                 throw new WebApplicationException(new Throwable("Resource for " + uri + " does not exist."), 404);
             }
@@ -84,18 +76,6 @@ public class UriResolver {
             throw new WebApplicationException(ex);
         } finally {
             removeInstance();
-        }
-    }
-    
-    private void resolveEntity(Object obj) {
-        try {
-            Method method = obj.getClass().getMethod("getEntity");
-            Object entity = method.invoke(obj);
-            entity = new PersistenceServiceBean().resolveEntity(entity);
-            method = obj.getClass().getMethod("setEntity", entity.getClass());
-            method.invoke(obj, entity.getClass().cast(entity));
-        } catch (Exception ex) {
-            throw new WebApplicationException(ex);
         }
     }
 }

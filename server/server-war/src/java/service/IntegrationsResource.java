@@ -1,9 +1,5 @@
 /*
- *  IntegrationsResource
- *
- * Created on October 24, 2008, 9:56 PM
- *
- * To change this template, choose Tools | Template Manager
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
@@ -21,10 +17,13 @@ import javax.ws.rs.DefaultValue;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
+import com.sun.jersey.api.core.ResourceContext;
+import javax.persistence.EntityManager;
+import persistence.Integration;
+import persistence.Network;
+import persistence.IvUser;
 import converter.IntegrationsConverter;
 import converter.IntegrationConverter;
-import persistence.Integrations;
-
 
 /**
  *
@@ -34,23 +33,16 @@ import persistence.Integrations;
 @Path("/integrations/")
 public class IntegrationsResource {
     @Context
-    private UriInfo context;
+    protected UriInfo uriInfo;
+    @Context
+    protected ResourceContext resourceContext;
   
     /** Creates a new instance of IntegrationsResource */
     public IntegrationsResource() {
     }
 
     /**
-     * Constructor used for instantiating an instance of dynamic resource.
-     *
-     * @param context HttpContext inherited from the parent resource
-     */
-    public IntegrationsResource(UriInfo context) {
-        this.context = context;
-    }
-
-    /**
-     * Get method for retrieving a collection of Integrations instance in XML format.
+     * Get method for retrieving a collection of Integration instance in XML format.
      *
      * @return an instance of IntegrationsConverter
      */
@@ -60,16 +52,23 @@ public class IntegrationsResource {
     @DefaultValue("0")
     int start, @QueryParam("max")
     @DefaultValue("10")
-    int max) {
+    int max, @QueryParam("expandLevel")
+    @DefaultValue("1")
+    int expandLevel, @QueryParam("query")
+    @DefaultValue("SELECT e FROM Integration e")
+    String query) {
+        PersistenceService persistenceSvc = PersistenceService.getInstance();
         try {
-            return new IntegrationsConverter(getEntities(start, max), context.getAbsolutePath());
+            persistenceSvc.beginTx();
+            return new IntegrationsConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), expandLevel);
         } finally {
-            
+            persistenceSvc.commitTx();
+            persistenceSvc.close();
         }
     }
 
     /**
-     * Post method for creating an instance of Integrations using XML as the input format.
+     * Post method for creating an instance of Integration using XML as the input format.
      *
      * @param data an IntegrationConverter entity that is deserialized from an XML stream
      * @return an instance of IntegrationConverter
@@ -77,15 +76,16 @@ public class IntegrationsResource {
     @POST
     @Consumes({"application/xml", "application/json"})
     public Response post(IntegrationConverter data) {
-        PersistenceServiceBean persistenceSvc = new PersistenceServiceBean();
+        PersistenceService persistenceSvc = PersistenceService.getInstance();
         try {
-            
-            Integrations entity = data.getEntity();
-            createEntity(entity);
-            
-            return Response.created(context.getAbsolutePath().resolve(entity.getId() + "/")).build();
+            persistenceSvc.beginTx();
+            EntityManager em = persistenceSvc.getEntityManager();
+            Integration entity = data.resolveEntity(em);
+            createEntity(data.resolveEntity(em));
+            persistenceSvc.commitTx();
+            return Response.created(uriInfo.getAbsolutePath().resolve(entity.getId() + "/")).build();
         } finally {
-            
+            persistenceSvc.close();
         }
     }
 
@@ -95,18 +95,21 @@ public class IntegrationsResource {
      * @return an instance of IntegrationResource
      */
     @Path("{id}/")
-    public IntegrationResource getIntegrationResource(@PathParam("id")
+    public service.IntegrationResource getIntegrationResource(@PathParam("id")
     String id) {
-        return new IntegrationResource(id, context);
+        IntegrationResource resource = resourceContext.getResource(IntegrationResource.class);
+        resource.setId(id);
+        return resource;
     }
 
     /**
      * Returns all the entities associated with this resource.
      *
-     * @return a collection of Integrations instances
+     * @return a collection of Integration instances
      */
-    protected Collection<Integrations> getEntities(int start, int max) {
-        return new PersistenceServiceBean().createQuery("SELECT e FROM Integrations e").setFirstResult(start).setMaxResults(max).getResultList();
+    protected Collection<Integration> getEntities(int start, int max, String query) {
+        EntityManager em = PersistenceService.getInstance().getEntityManager();
+        return em.createQuery(query).setFirstResult(start).setMaxResults(max).getResultList();
     }
 
     /**
@@ -114,7 +117,16 @@ public class IntegrationsResource {
      *
      * @param entity the entity to persist
      */
-    protected void createEntity(Integrations entity) {
-        new PersistenceServiceBean().persistEntity(entity);
+    protected void createEntity(Integration entity) {
+        EntityManager em = PersistenceService.getInstance().getEntityManager();
+        em.persist(entity);
+        IvUser userId = entity.getUserId();
+        if (userId != null) {
+            userId.getIntegrationCollection().add(entity);
+        }
+        Network networkId = entity.getNetworkId();
+        if (networkId != null) {
+            networkId.getIntegrationCollection().add(entity);
+        }
     }
 }

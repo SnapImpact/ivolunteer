@@ -1,9 +1,5 @@
 /*
- *  NetworksResource
- *
- * Created on October 24, 2008, 9:56 PM
- *
- * To change this template, choose Tools | Template Manager
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
@@ -21,11 +17,12 @@ import javax.ws.rs.DefaultValue;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
-import persistence.Integrations;
+import com.sun.jersey.api.core.ResourceContext;
+import javax.persistence.EntityManager;
+import persistence.Integration;
 import converter.NetworksConverter;
 import converter.NetworkConverter;
-import persistence.Networks;
-
+import persistence.Network;
 
 /**
  *
@@ -35,23 +32,16 @@ import persistence.Networks;
 @Path("/networks/")
 public class NetworksResource {
     @Context
-    private UriInfo context;
+    protected UriInfo uriInfo;
+    @Context
+    protected ResourceContext resourceContext;
   
     /** Creates a new instance of NetworksResource */
     public NetworksResource() {
     }
 
     /**
-     * Constructor used for instantiating an instance of dynamic resource.
-     *
-     * @param context HttpContext inherited from the parent resource
-     */
-    public NetworksResource(UriInfo context) {
-        this.context = context;
-    }
-
-    /**
-     * Get method for retrieving a collection of Networks instance in XML format.
+     * Get method for retrieving a collection of Network instance in XML format.
      *
      * @return an instance of NetworksConverter
      */
@@ -61,16 +51,23 @@ public class NetworksResource {
     @DefaultValue("0")
     int start, @QueryParam("max")
     @DefaultValue("10")
-    int max) {
+    int max, @QueryParam("expandLevel")
+    @DefaultValue("1")
+    int expandLevel, @QueryParam("query")
+    @DefaultValue("SELECT e FROM Network e")
+    String query) {
+        PersistenceService persistenceSvc = PersistenceService.getInstance();
         try {
-            return new NetworksConverter(getEntities(start, max), context.getAbsolutePath());
+            persistenceSvc.beginTx();
+            return new NetworksConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), expandLevel);
         } finally {
-            
+            persistenceSvc.commitTx();
+            persistenceSvc.close();
         }
     }
 
     /**
-     * Post method for creating an instance of Networks using XML as the input format.
+     * Post method for creating an instance of Network using XML as the input format.
      *
      * @param data an NetworkConverter entity that is deserialized from an XML stream
      * @return an instance of NetworkConverter
@@ -78,15 +75,16 @@ public class NetworksResource {
     @POST
     @Consumes({"application/xml", "application/json"})
     public Response post(NetworkConverter data) {
-        PersistenceServiceBean persistenceSvc = new PersistenceServiceBean();
+        PersistenceService persistenceSvc = PersistenceService.getInstance();
         try {
-            
-            Networks entity = data.getEntity();
-            createEntity(entity);
-            
-            return Response.created(context.getAbsolutePath().resolve(entity.getId() + "/")).build();
+            persistenceSvc.beginTx();
+            EntityManager em = persistenceSvc.getEntityManager();
+            Network entity = data.resolveEntity(em);
+            createEntity(data.resolveEntity(em));
+            persistenceSvc.commitTx();
+            return Response.created(uriInfo.getAbsolutePath().resolve(entity.getId() + "/")).build();
         } finally {
-            
+            persistenceSvc.close();
         }
     }
 
@@ -96,18 +94,21 @@ public class NetworksResource {
      * @return an instance of NetworkResource
      */
     @Path("{id}/")
-    public NetworkResource getNetworkResource(@PathParam("id")
+    public service.NetworkResource getNetworkResource(@PathParam("id")
     String id) {
-        return new NetworkResource(id, context);
+        NetworkResource resource = resourceContext.getResource(NetworkResource.class);
+        resource.setId(id);
+        return resource;
     }
 
     /**
      * Returns all the entities associated with this resource.
      *
-     * @return a collection of Networks instances
+     * @return a collection of Network instances
      */
-    protected Collection<Networks> getEntities(int start, int max) {
-        return new PersistenceServiceBean().createQuery("SELECT e FROM Networks e").setFirstResult(start).setMaxResults(max).getResultList();
+    protected Collection<Network> getEntities(int start, int max, String query) {
+        EntityManager em = PersistenceService.getInstance().getEntityManager();
+        return em.createQuery(query).setFirstResult(start).setMaxResults(max).getResultList();
     }
 
     /**
@@ -115,10 +116,15 @@ public class NetworksResource {
      *
      * @param entity the entity to persist
      */
-    protected void createEntity(Networks entity) {
-        new PersistenceServiceBean().persistEntity(entity);
-        for (Integrations value : entity.getIntegrationsCollection()) {
+    protected void createEntity(Network entity) {
+        EntityManager em = PersistenceService.getInstance().getEntityManager();
+        em.persist(entity);
+        for (Integration value : entity.getIntegrationCollection()) {
+            Network oldEntity = value.getNetworkId();
             value.setNetworkId(entity);
+            if (oldEntity != null) {
+                oldEntity.getIntegrationCollection().remove(entity);
+            }
         }
     }
 }
