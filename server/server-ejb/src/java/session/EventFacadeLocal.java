@@ -24,6 +24,6 @@ public interface EventFacadeLocal {
 
     Event find(Object id);
 
-    List<Event> findAll();
+    List<Event> findAll(int start, int max);
 
 }

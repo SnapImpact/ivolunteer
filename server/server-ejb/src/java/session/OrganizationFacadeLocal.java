@@ -24,6 +24,6 @@ public interface OrganizationFacadeLocal {
 
     Organization find(Object id);
 
-    List<Organization> findAll();
+    List<Organization> findAll(int start, int max);
 
 }

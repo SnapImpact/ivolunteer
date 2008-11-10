@@ -24,6 +24,6 @@ public interface LocationFacadeLocal {
 
     Location find(Object id);
 
-    List<Location> findAll();
+    List<Location> findAll(int start, int max);
 
 }

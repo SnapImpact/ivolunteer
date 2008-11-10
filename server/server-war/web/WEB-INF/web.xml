@@ -119,6 +119,30 @@
         <local>etl.vomlSessionLocal</local>
         <ejb-link>server-ejb.jar#vomlSessionBean</ejb-link>
     </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>OrganizationFacade</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>session.OrganizationFacadeLocal</local>
+        <ejb-link>server-ejb.jar#OrganizationFacade</ejb-link>
+    </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>LocationFacade</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>session.LocationFacadeLocal</local>
+        <ejb-link>server-ejb.jar#LocationFacade</ejb-link>
+    </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>TimestampFacade</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>session.TimestampFacadeLocal</local>
+        <ejb-link>server-ejb.jar#TimestampFacade</ejb-link>
+    </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>TimestampFacade1</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>session.TimestampFacadeLocal</local>
+        <ejb-link>server-ejb.jar#TimestampFacade</ejb-link>
+    </ejb-local-ref>
     <resource-ref>
 <res-ref-name>UserTransaction</res-ref-name>
 <res-type>javax.transaction.UserTransaction</res-type>

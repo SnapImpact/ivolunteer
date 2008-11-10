@@ -24,6 +24,6 @@ public interface TimestampFacadeLocal {
 
     Timestamp find(Object id);
 
-    List<Timestamp> findAll();
+    List<Timestamp> findAll(int start, int max);
 
 }

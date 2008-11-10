@@ -36,8 +36,8 @@ public class EventFacade implements EventFacadeLocal {
         return em.find(Event.class, id);
     }
 
-    public List<Event> findAll() {
-        return em.createQuery("select object(o) from Event as o").getResultList();
+    public List<Event> findAll(int start, int max) {
+        return em.createQuery("select object(o) from Event as o").setFirstResult(start).setMaxResults(max).getResultList();
     }
 
 }

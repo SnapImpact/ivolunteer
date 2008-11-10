@@ -26,7 +26,7 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "TIMESTAMP")
 @NamedQueries({@NamedQuery(name = "Timestamp.findAll", query = "SELECT t FROM Timestamp t"), @NamedQuery(name = "Timestamp.findById", query = "SELECT t FROM Timestamp t WHERE t.id = :id"), @NamedQuery(name = "Timestamp.findByTimestamp", query = "SELECT t FROM Timestamp t WHERE t.timestamp = :timestamp")})
-public class Timestamp implements Serializable {
+public class Timestamp implements Serializable, IdInterface {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)

@@ -25,7 +25,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "LOCATION")
 @NamedQueries({@NamedQuery(name = "Location.findAll", query = "SELECT l FROM Location l"), @NamedQuery(name = "Location.findById", query = "SELECT l FROM Location l WHERE l.id = :id"), @NamedQuery(name = "Location.findByStreet", query = "SELECT l FROM Location l WHERE l.street = :street"), @NamedQuery(name = "Location.findByCity", query = "SELECT l FROM Location l WHERE l.city = :city"), @NamedQuery(name = "Location.findByState", query = "SELECT l FROM Location l WHERE l.state = :state"), @NamedQuery(name = "Location.findByZip", query = "SELECT l FROM Location l WHERE l.zip = :zip"), @NamedQuery(name = "Location.findByLocation", query = "SELECT l FROM Location l WHERE l.location = :location"), @NamedQuery(name = "Location.findByLatitude", query = "SELECT l FROM Location l WHERE l.latitude = :latitude"), @NamedQuery(name = "Location.findByLongitude", query = "SELECT l FROM Location l WHERE l.longitude = :longitude"), @NamedQuery(name = "Location.findByStreetZip", query = "SELECT l FROM Location l WHERE l.street = :street and l.zip = :zip")})
-public class Location implements Serializable {
+public class Location implements Serializable, IdInterface {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)

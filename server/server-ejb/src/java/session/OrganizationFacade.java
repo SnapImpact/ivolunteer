@@ -36,8 +36,8 @@ public class OrganizationFacade implements OrganizationFacadeLocal {
         return em.find(Organization.class, id);
     }
 
-    public List<Organization> findAll() {
-        return em.createQuery("select object(o) from Organization as o").getResultList();
+    public List<Organization> findAll(int start, int max) {
+        return em.createQuery("select object(o) from Organization as o").setFirstResult(start).setMaxResults(max).getResultList();
     }
 
 }

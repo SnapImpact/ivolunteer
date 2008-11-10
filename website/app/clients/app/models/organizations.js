@@ -23,7 +23,7 @@ App.Organizations = SC.Record.extend(
   Additionally to the here mentioned ones, **guid** and **id** (?) are added implicitly.
   */
   properties: ['name', 'description', 'phone', 'email',
-       'url', 'street', 'city', 'state', 'zip', 'source_key', 'source_url'],
+       'url', 'source_key', 'source_url', 'eventCollection', 'locationCollection'],
 
   /*
   define the URL for this Record type. 
@@ -33,10 +33,10 @@ App.Organizations = SC.Record.extend(
        '/ajacom/contact/show/23' (if the record has guid=23 and
         only one record is fetched)
   */
-  wrapperElement: "organizations",
   resourceURL: 'resources/organizations',
   
-  events: SC.Record.hasMany('App.Events', 'organizationId')
+  eventCollectionType: 'App.Events',
+  locationCollectionType: 'App.Location'
 
 
 

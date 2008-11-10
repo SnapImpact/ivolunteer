@@ -6,6 +6,10 @@
 package service;
 
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -22,7 +26,9 @@ import javax.persistence.EntityManager;
 import persistence.Event;
 import converter.TimestampsConverter;
 import converter.TimestampConverter;
+import converter.TimestampListConverter;
 import persistence.Timestamp;
+import session.TimestampFacadeLocal;
 
 /**
  *
@@ -56,13 +62,9 @@ public class TimestampsResource {
     int expandLevel, @QueryParam("query")
     @DefaultValue("SELECT e FROM Timestamp e")
     String query) {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
         try {
-            persistenceSvc.beginTx();
             return new TimestampsConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), expandLevel);
         } finally {
-            persistenceSvc.commitTx();
-            persistenceSvc.close();
         }
     }
 
@@ -75,16 +77,11 @@ public class TimestampsResource {
     @POST
     @Consumes({"application/xml", "application/json"})
     public Response post(TimestampConverter data) {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
         try {
-            persistenceSvc.beginTx();
-            EntityManager em = persistenceSvc.getEntityManager();
-            Timestamp entity = data.resolveEntity(em);
-            createEntity(data.resolveEntity(em));
-            persistenceSvc.commitTx();
+            Timestamp entity = data.getEntity();
+            createEntity(entity);
             return Response.created(uriInfo.getAbsolutePath().resolve(entity.getId() + "/")).build();
         } finally {
-            persistenceSvc.close();
         }
     }
 
@@ -107,8 +104,7 @@ public class TimestampsResource {
      * @return a collection of Timestamp instances
      */
     protected Collection<Timestamp> getEntities(int start, int max, String query) {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        return em.createQuery(query).setFirstResult(start).setMaxResults(max).getResultList();
+        return lookupTimestampFacade().findAll(start, max);
     }
 
     /**
@@ -117,10 +113,33 @@ public class TimestampsResource {
      * @param entity the entity to persist
      */
     protected void createEntity(Timestamp entity) {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        em.persist(entity);
-        for (Event value : entity.getEventCollection()) {
-            value.getTimestampCollection().add(entity);
+        lookupTimestampFacade().create(entity);
+    }
+
+    @Path("list/")
+    @GET
+    @Produces({"application/json"})
+    public TimestampListConverter list(@QueryParam("start")
+    @DefaultValue("0")
+    int start, @QueryParam("max")
+    @DefaultValue("10")
+    int max, @QueryParam("query")
+    @DefaultValue("SELECT e FROM Event e")
+    String query) {
+        try {
+            return new TimestampListConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), uriInfo.getBaseUri());
+        } finally {
+
+        }
+    }
+
+    private TimestampFacadeLocal lookupTimestampFacade() {
+        try {
+            javax.naming.Context c = new InitialContext();
+            return (TimestampFacadeLocal) c.lookup("java:comp/env/TimestampFacade");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
         }
     }
 }

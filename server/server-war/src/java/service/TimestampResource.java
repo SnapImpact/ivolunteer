@@ -5,6 +5,10 @@
 
 package service;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -23,6 +27,7 @@ import persistence.Event;
 import java.util.Collection;
 import converter.TimestampConverter;
 import persistence.Timestamp;
+import session.TimestampFacadeLocal;
 
 /**
  *
@@ -55,12 +60,9 @@ public class TimestampResource {
     public TimestampConverter get(@QueryParam("expandLevel")
     @DefaultValue("1")
     int expandLevel) {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
         try {
-            persistenceSvc.beginTx();
             return new TimestampConverter(getEntity(), uriInfo.getAbsolutePath(), expandLevel);
         } finally {
-            PersistenceService.getInstance().close();
         }
     }
 
@@ -73,14 +75,9 @@ public class TimestampResource {
     @PUT
     @Consumes({"application/xml", "application/json"})
     public void put(TimestampConverter data) {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
         try {
-            persistenceSvc.beginTx();
-            EntityManager em = persistenceSvc.getEntityManager();
-            updateEntity(getEntity(), data.resolveEntity(em));
-            persistenceSvc.commitTx();
+            lookupTimestampFacade().edit(data.getEntity());
         } finally {
-            persistenceSvc.close();
         }
     }
 
@@ -91,13 +88,9 @@ public class TimestampResource {
      */
     @DELETE
     public void delete() {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
         try {
-            persistenceSvc.beginTx();
             deleteEntity(getEntity());
-            persistenceSvc.commitTx();
         } finally {
-            persistenceSvc.close();
         }
     }
 
@@ -108,37 +101,11 @@ public class TimestampResource {
      * @return an instance of Timestamp
      */
     protected Timestamp getEntity() {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
         try {
-            return (Timestamp) em.createQuery("SELECT e FROM Timestamp e where e.id = :id").setParameter("id", id).getSingleResult();
+            return lookupTimestampFacade().find(id);
         } catch (NoResultException ex) {
             throw new WebApplicationException(new Throwable("Resource for " + uriInfo.getAbsolutePath() + " does not exist."), 404);
         }
-    }
-
-    /**
-     * Updates entity using data from newEntity.
-     *
-     * @param entity the entity to update
-     * @param newEntity the entity containing the new data
-     * @return the updated entity
-     */
-    protected Timestamp updateEntity(Timestamp entity, Timestamp newEntity) {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        Collection<Event> eventCollection = entity.getEventCollection();
-        Collection<Event> eventCollectionNew = newEntity.getEventCollection();
-        entity = em.merge(newEntity);
-        for (Event value : eventCollection) {
-            if (!eventCollectionNew.contains(value)) {
-                value.getTimestampCollection().remove(entity);
-            }
-        }
-        for (Event value : eventCollectionNew) {
-            if (!eventCollection.contains(value)) {
-                value.getTimestampCollection().add(entity);
-            }
-        }
-        return entity;
     }
 
     /**
@@ -147,11 +114,7 @@ public class TimestampResource {
      * @param entity the entity to deletle
      */
     protected void deleteEntity(Timestamp entity) {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        for (Event value : entity.getEventCollection()) {
-            value.getTimestampCollection().remove(entity);
-        }
-        em.remove(entity);
+        lookupTimestampFacade().remove(entity);
     }
 
     /**
@@ -186,6 +149,16 @@ public class TimestampResource {
                 index++;
             }
             return result;
+        }
+    }
+
+    private TimestampFacadeLocal lookupTimestampFacade() {
+        try {
+            javax.naming.Context c = new InitialContext();
+            return (TimestampFacadeLocal) c.lookup("java:comp/env/TimestampFacade");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
         }
     }
 }

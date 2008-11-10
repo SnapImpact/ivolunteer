@@ -36,8 +36,8 @@ public class LocationFacade implements LocationFacadeLocal {
         return em.find(Location.class, id);
     }
 
-    public List<Location> findAll() {
-        return em.createQuery("select object(o) from Location as o").getResultList();
+    public List<Location> findAll(int start, int max) {
+        return em.createQuery("select object(o) from Location as o").setFirstResult(start).setMaxResults(max).getResultList();
     }
 
 }

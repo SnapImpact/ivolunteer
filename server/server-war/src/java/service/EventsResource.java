@@ -6,6 +6,10 @@
 package service;
 
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -27,7 +31,8 @@ import persistence.Location;
 import persistence.Timestamp;
 import converter.EventsConverter;
 import converter.EventConverter;
-import converter.EventsListConverter;
+import converter.EventListConverter;
+import session.EventFacadeLocal;
 
 /**
  *
@@ -61,13 +66,9 @@ public class EventsResource {
     int expandLevel, @QueryParam("query")
     @DefaultValue("SELECT e FROM Event e")
     String query) {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
         try {
-            persistenceSvc.beginTx();
             return new EventsConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), expandLevel);
         } finally {
-            persistenceSvc.commitTx();
-            persistenceSvc.close();
         }
     }
 
@@ -80,16 +81,11 @@ public class EventsResource {
     @POST
     @Consumes({"application/xml", "application/json"})
     public Response post(EventConverter data) {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
         try {
-            persistenceSvc.beginTx();
-            EntityManager em = persistenceSvc.getEntityManager();
-            Event entity = data.resolveEntity(em);
-            createEntity(data.resolveEntity(em));
-            persistenceSvc.commitTx();
+            Event entity = data.getEntity();
+            createEntity(entity);
             return Response.created(uriInfo.getAbsolutePath().resolve(entity.getId() + "/")).build();
         } finally {
-            persistenceSvc.close();
         }
     }
 
@@ -112,8 +108,8 @@ public class EventsResource {
      * @return a collection of Event instances
      */
     protected Collection<Event> getEntities(int start, int max, String query) {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        return em.createQuery(query).setFirstResult(start).setMaxResults(max).getResultList();
+        
+        return lookupEventFacade().findAll(start, max);
     }
 
     /**
@@ -122,30 +118,13 @@ public class EventsResource {
      * @param entity the entity to persist
      */
     protected void createEntity(Event entity) {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        em.persist(entity);
-        for (InterestArea value : entity.getInterestAreaCollection()) {
-            value.getEventCollection().add(entity);
-        }
-        for (Timestamp value : entity.getTimestampCollection()) {
-            value.getEventCollection().add(entity);
-        }
-        for (Location value : entity.getLocationCollection()) {
-            value.getEventCollection().add(entity);
-        }
-        for (Organization value : entity.getOrganizationCollection()) {
-            value.getEventCollection().add(entity);
-        }
-        Source sourceId = entity.getSourceId();
-        if (sourceId != null) {
-            sourceId.getEventCollection().add(entity);
-        }
+        lookupEventFacade().create(entity);
     }
 
     @Path("list/")
     @GET
     @Produces({"application/json"})
-    public EventsListConverter list(@QueryParam("start")
+    public EventListConverter list(@QueryParam("start")
     @DefaultValue("0")
     int start, @QueryParam("max")
     @DefaultValue("10")
@@ -153,9 +132,19 @@ public class EventsResource {
     @DefaultValue("SELECT e FROM Event e")
     String query) {
         try {
-            return new EventsListConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), uriInfo.getBaseUri());
+            return new EventListConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), uriInfo.getBaseUri());
         } finally {
 
+        }
+    }
+
+    private EventFacadeLocal lookupEventFacade() {
+        try {
+            javax.naming.Context c = new InitialContext();
+            return (EventFacadeLocal) c.lookup("java:comp/env/EventFacade");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
         }
     }
 }

@@ -6,6 +6,10 @@
 package service;
 
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -27,7 +31,8 @@ import persistence.OrganizationType;
 import persistence.Location;
 import converter.OrganizationsConverter;
 import converter.OrganizationConverter;
-import converter.OrganizationsListConverter;
+import converter.OrganizationListConverter;
+import session.OrganizationFacadeLocal;
 
 /**
  *
@@ -61,13 +66,9 @@ public class OrganizationsResource {
     int expandLevel, @QueryParam("query")
     @DefaultValue("SELECT e FROM Organization e")
     String query) {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
         try {
-            persistenceSvc.beginTx();
             return new OrganizationsConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), expandLevel);
         } finally {
-            persistenceSvc.commitTx();
-            persistenceSvc.close();
         }
     }
 
@@ -80,16 +81,11 @@ public class OrganizationsResource {
     @POST
     @Consumes({"application/xml", "application/json"})
     public Response post(OrganizationConverter data) {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
         try {
-            persistenceSvc.beginTx();
-            EntityManager em = persistenceSvc.getEntityManager();
-            Organization entity = data.resolveEntity(em);
-            createEntity(data.resolveEntity(em));
-            persistenceSvc.commitTx();
+            Organization entity = data.getEntity();
+            createEntity(entity);
             return Response.created(uriInfo.getAbsolutePath().resolve(entity.getId() + "/")).build();
         } finally {
-            persistenceSvc.close();
         }
     }
 
@@ -112,8 +108,7 @@ public class OrganizationsResource {
      * @return a collection of Organization instances
      */
     protected Collection<Organization> getEntities(int start, int max, String query) {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        return em.createQuery(query).setFirstResult(start).setMaxResults(max).getResultList();
+        return lookupOrganizationFacade().findAll(start,max);
     }
 
     /**
@@ -122,31 +117,13 @@ public class OrganizationsResource {
      * @param entity the entity to persist
      */
     protected void createEntity(Organization entity) {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        em.persist(entity);
-        for (Location value : entity.getLocationCollection()) {
-            value.getOrganizationCollection().add(entity);
-        }
-        for (InterestArea value : entity.getInterestAreaCollection()) {
-            value.getOrganizationCollection().add(entity);
-        }
-        for (Event value : entity.getEventCollection()) {
-            value.getOrganizationCollection().add(entity);
-        }
-        OrganizationType organizationTypeId = entity.getOrganizationTypeId();
-        if (organizationTypeId != null) {
-            organizationTypeId.getOrganizationCollection().add(entity);
-        }
-        Source sourceId = entity.getSourceId();
-        if (sourceId != null) {
-            sourceId.getOrganizationCollection().add(entity);
-        }
+        lookupOrganizationFacade().create(entity);
     }
 
     @Path("list/")
     @GET
     @Produces({"application/json"})
-    public OrganizationsListConverter list(@QueryParam("start")
+    public OrganizationListConverter list(@QueryParam("start")
     @DefaultValue("0")
     int start, @QueryParam("max")
     @DefaultValue("10")
@@ -154,9 +131,19 @@ public class OrganizationsResource {
     @DefaultValue("SELECT e FROM Organization e")
     String query) {
         try {
-            return new OrganizationsListConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), uriInfo.getBaseUri());
+            return new OrganizationListConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), uriInfo.getBaseUri());
         } finally {
 
+        }
+    }
+
+    private OrganizationFacadeLocal lookupOrganizationFacade() {
+        try {
+            javax.naming.Context c = new InitialContext();
+            return (OrganizationFacadeLocal) c.lookup("java:comp/env/OrganizationFacade");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
         }
     }
 }

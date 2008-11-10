@@ -36,8 +36,8 @@ public class TimestampFacade implements TimestampFacadeLocal {
         return em.find(Timestamp.class, id);
     }
 
-    public List<Timestamp> findAll() {
-        return em.createQuery("select object(o) from Timestamp as o").getResultList();
+    public List<Timestamp> findAll(int start, int max) {
+        return em.createQuery("select object(o) from Timestamp as o").setFirstResult(start).setMaxResults(max).getResultList();
     }
 
 }

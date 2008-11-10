@@ -6,6 +6,7 @@
 package service;
 
 import javax.naming.InitialContext;
+import javax.naming.Context;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.transaction.UserTransaction;
@@ -16,7 +17,7 @@ import javax.transaction.UserTransaction;
  * @author dave
  */
 public class PersistenceService {
-    private static String DEFAULT_PU = "server-warPU";
+    private static String DEFAULT_PU = "serverPU";
   
     private static ThreadLocal<PersistenceService> instance = new ThreadLocal<PersistenceService>() {
         @Override
@@ -30,8 +31,8 @@ public class PersistenceService {
     private UserTransaction utx;
     
     private PersistenceService() { 
-        try {
-            this.em = (EntityManager) new InitialContext().lookup("java:comp/env/persistence/" + DEFAULT_PU);
+        try { 
+            this.em = (EntityManager) new InitialContext().lookup("java:comp/env/persistence/EntityManager");
             this.utx = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
         } catch (NamingException ex) {
             throw new RuntimeException(ex);
