@@ -1,0 +1,57 @@
+<%#
+# To change this template, choose Tools | Templates
+# and open the template in the editor.
+%>
+
+<% view :events_tab do %>
+<% split_view :workspace, :direction => :horizontal do %>
+        <% view :sidebar, :outlet => true do %>
+          <% scroll_view :master_list, :outlet => true do %>
+            <%= source_list_view :outlet => true,
+              :content_value_key => 'title',
+              :bind => {
+              :content => 'App.masterController.arrangedObjects',
+              :selection => 'App.masterController.selection'
+            } %>
+          <% end %>
+        <% end %>
+
+        <%= split_divider_view :outlet => true, :width => 5 %>
+
+        <% view :detail_view, :outlet => true do %>
+          <table class="card-detail">
+            <tr>
+              <td><label>Name:</label></td>
+              <td>
+                <%= text_field_view :outlet => true, :hint => "Title",
+                  :bind => {
+                  :value => 'App.detailController.title'
+                } %>
+              </td>
+            </tr>
+
+            <tr>
+              <td><label>Description:</label></td>
+              <td>
+                <%= text_area_view :outlet => true, :hint => "Description",
+                  :bind => {
+                  :value => 'App.detailController.description'
+                } %>
+              </td>
+            </tr>
+
+            <tr>
+              <td><label>Organizations:</label></td>
+              <td>
+                <%= source_list_view :class => "detail_view_orgs", :outlet => true,
+              :content_value_key => 'name',
+              :bind => {
+              :content => 'App.detailController.organizationCollection'
+            } %>
+              </td>
+            </tr>
+          </table>
+
+        <% end %>
+      <% end %>
+<% end %>

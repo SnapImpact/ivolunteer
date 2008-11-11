@@ -35,7 +35,7 @@ function main() {
 
   // TODO: Set the content property on your primary controller
   // ex: App.contactsController.set('content',App.contacts);
-  var records = App.Organizations.collection() ;
+  var records = App.Events.collection() ;
   App.masterController.set('content', records) ;  
   records.refresh() ;
 

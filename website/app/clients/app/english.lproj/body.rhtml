@@ -1,58 +1,32 @@
 <% content_for('body') do %>
-<% split_view :workspace, :class => 'sc-app-workspace', :direction => :horizontal do %>  
-  <% view :sidebar, :outlet => true do %>
-    <% scroll_view :master_list, :outlet => true do %>
-      <%= list_view :outlet => true, 
-        :content_value_key => 'name',
-        :bind => {
-          :content => 'App.masterController.arrangedObjects',
-          :selection => 'App.masterController.selection'
-        } %>
-    <% end %>
-  <% end %>
-  
-  <%= split_divider_view :outlet => true, :width => 5 %>
-  
-  <% view :detail_view, :outlet => true do %>
-    <table class="card-detail">
+  <% view :home_view , :class => 'sc-app-workspace' do%>
+    <table class="home_table">
       <tr>
-        <td><label>Name:</label></td>
-        <td>
-          <%= text_field_view :outlet => true, :hint => "Name",
-            :bind => {
-              :value => 'App.detailController.name'
-            } %>
-        </td>
+        <td align="left"><img src = "<%= static_url('img/iVolunteer_logo1b.gif') %>" ></td>
+        <td align="right"><%= button_view :outlet => true, :title => "iPhone App", :action => 'App.paneController.showPanel' %></td>
       </tr>
-
       <tr>
-        <td><label>URL:</label></td>
-        <td>
-          <%= text_field_view :outlet => true, :hint => "URL",
-            :bind => {
-              :value => 'App.detailController.url'
-            } %>
-        </td>
-      </tr>
-      
-      <tr>
-        <td colspan="2" class="buttons">
-          <%= button_view :outlet => true, 
-            :title => "Cancel",
-            :action => 'App.detailController.discardChanges',
-            :bind => {
-              :enabled => 'App.detailController.hasChanges'
-            } %>
-          <%= button_view :outlet => true, 
-            :title => "Save Changes", :default => true,
-            :action => 'App.detailController.commitChanges',
-            :bind => {
-              :enabled => "App.detailController.hasChanges"
-            } %>
-        </td>
+        <td colspan="2"><%= tab_view :control_tabs, :lazy_tabs => true, :segments => [:events] %><td>
       </tr>
     </table>
-      
   <% end %>
 <% end %>
+
+<% view :panel_pane, :pane => :panel, :visible => false, :width => 500 do %>
+<h1>Coming Soon!</h1>
+<table>
+  <tr>
+    <td><img height="300px" src = "<%= static_url('img/Mockups-Home.png') %>" ></td>
+    <td><img height="300px" src = "<%= static_url('img/Mockups-EventList.png') %>" ></td>
+    <td><img height="300px" src = "<%= static_url('img/Mockups-Filter.png') %>" ></td>
+  </tr>
+</table>
+<div class="buttons">
+  <%= button_view :outlet => true, 
+    :title => "Close",
+    :default => true,
+    :width => 60,
+    :action => 'App.paneController.hidePanel' %>
+</div>
 <% end %>
+
