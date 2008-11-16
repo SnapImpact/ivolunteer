@@ -2,11 +2,12 @@
   <% view :home_view , :class => 'sc-app-workspace' do%>
     <table class="home_table">
       <tr>
-        <td align="left"><img src = "<%= static_url('img/iVolunteer_logo1b.gif') %>" ></td>
+        <td align="left"><img src = "<%= static_url('img/iVolunteer_logo1b.gif') %>" >
+        <a href="http://www.commfound.org"><img height="50px" src = "<%= static_url('img/CFBlogo2c.png') %>" ></a></td>
         <td align="right"><%= button_view :outlet => true, :title => "iPhone App", :action => 'App.paneController.showPanel' %></td>
       </tr>
       <tr>
-        <td colspan="2"><%= tab_view :control_tabs, :lazy_tabs => true, :segments => [:events] %><td>
+        <td colspan="2"><%= tab_view :control_tabs, :lazy_tabs => true, :now_showing => 'events', :segments => [:events, :organizations] %><td>
       </tr>
     </table>
   <% end %>

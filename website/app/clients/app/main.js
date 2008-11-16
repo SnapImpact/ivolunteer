@@ -39,4 +39,8 @@ function main() {
   App.masterController.set('content', records) ;  
   records.refresh() ;
 
+  var orgRecords = App.Organizations.collection();
+  App.orgMasterController.set('content', orgRecords);
+  orgRecords.refresh();
+
 } ;
