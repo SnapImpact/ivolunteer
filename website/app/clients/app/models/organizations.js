@@ -35,7 +35,7 @@ App.Organizations = SC.Record.extend(
   */
   resourceURL: 'resources/organizations',
   
-  eventCollectionType: 'App.Events',
+  //eventCollectionType: 'App.Events',
   locationCollectionType: 'App.Location'
 
 

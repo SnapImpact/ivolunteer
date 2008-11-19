@@ -15,11 +15,13 @@ function main() {
   // The default code here will load the fixtures you have defined.
   // Comment out the preload line and add something to refresh from the server
   // when you are ready to pull data from your server.
-  //App.server.preload(App.FIXTURES) ;
+  App.server.preload(App.FIXTURES) ;
+  /*
   App.server.listFor({recordType: App.Organizations});
   App.server.listFor({recordType: App.Events});
   App.server.listFor({recordType: App.Location});
   App.server.listFor({recordType: App.Timestamp});
+  */
 
   // TODO: refresh() any collections you have created to get their records.
   // ex: App.contacts.refresh() ;
