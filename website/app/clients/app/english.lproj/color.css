@@ -1,0 +1,67 @@
+/* require('reset') */
+/******************************
+********** Wrapping Elements */
+
+body {
+	color: #bdbdbd;
+	background: #102131 static_url('img/body.png') bottom left repeat-x;
+}
+div#wrapper {
+	background: static_url('img/wrapper.png') top repeat-x;
+}
+
+
+/******************************
+********************* Header */
+
+div#header h1 a {
+	background: static_url('img/logo.png') left top no-repeat;
+}
+div#highlight {
+	background: static_url('img/highlight_iphone.png') right top no-repeat;
+}
+div#header p a {
+	color: #071624;
+}
+
+
+/******************************
+*************** Main Content */
+
+div.post {
+	background: static_url('img/post.png') bottom repeat-x;
+}
+body.inside div.post {
+	background: none;
+}
+a {
+	color: #3cc7d0;
+}
+div.post a {
+	color: #bdbdbd;
+}
+ul li {
+	background: static_url('img/li.png') left 2px no-repeat;
+}
+
+
+/******************************
+******************** Sidebar */
+
+div#sidebar div.entry-content {
+	background: static_url('img/post.png') bottom repeat-x;
+}
+input {
+	background: static_url('img/input.png') left top no-repeat;
+}
+
+
+/******************************
+********************* Footer */
+
+div#footer {
+	color: #576a7b;
+}
+div#footer a {
+	color: #576a7b;
+}

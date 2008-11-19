@@ -1,0 +1,113 @@
+/* require('color') */
+/******************************
+********** Wrapping Elements */
+
+body {
+	padding-bottom: 30px;
+}
+div.wrap {
+	width: 817px;
+	margin: 0 auto;
+}
+
+
+/******************************
+********************* Header */
+
+div#header {
+	margin-bottom: 48px;
+	height: 120px;
+}
+div#header h1 {
+	display: block;
+	float: left;
+	width: 151px;
+	height: 77px;
+	margin: 20px 0 0 36px;
+}
+div#header h1 a {
+	display: block;
+	float: left;
+	width: 151px;
+	height: 88px;
+}
+div#highlight {
+	float: right;
+}
+div#highlight p {
+	margin: 90px 96px 0 0;
+}
+
+/******************************
+*************** Main Content */
+
+div#container {
+	clear: both;
+	margin-bottom: 40px;
+}
+div#content {
+	width: 500px;
+	float: right;
+}
+h2 {
+	margin-bottom: 22px;
+}
+p {
+	margin-bottom: 16px;
+}
+div.post {
+	padding-bottom: 25px;
+	margin-bottom: 50px;
+}
+h2.entry-title {
+	margin-left: 14px;
+	margin-right: 14px;
+}
+div#content div.entry-content {
+	margin-right: 14px;
+	margin-left: 14px;
+}
+img {
+	margin: 0 15px 0 15px;
+}
+img.align-right {
+	float: right;
+}
+ul {
+	margin: -10px 0 15px 5px;
+}
+ul li {
+	padding-left: 15px;
+	margin: 0;
+}
+
+/******************************
+******************** Sidebar */
+
+div#sidebar {
+	width: 260px;
+	float: left;
+}
+div#sidebar div.entry-content {
+	padding-bottom: 15px;
+	margin-bottom: 24px;
+}
+h3 {
+	margin-bottom: 18px;
+}
+input {
+	width: 198px;
+	height: 45px;
+	margin-bottom: 15px;
+	border: none;
+	padding-left: 10px;
+	padding-right: 50px;
+}
+
+/******************************
+********************* Footer */
+
+div#footer {
+	clear: both;
+}
+

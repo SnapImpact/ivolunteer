@@ -1,0 +1,107 @@
+/* require('body') */
+/* Reset styles */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend
+{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: inherit;
+	background-image: transparent;
+}
+/* remember to define focus styles! */
+:focus {
+	-moz-outline:0;
+	outline:0;
+	outline-offset:0;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+caption, th, td {
+	text-align: left;
+	font-weight: normal;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: "";
+}
+blockquote, q {
+	quotes: "" "";
+}
+
+
+/***************************
+** Typographical Elements */
+
+p, ul, ol, dl, address {
+	font-style: normal;
+}
+
+strong {
+	font-weight: bold;
+}
+
+ul li, ol li, dl dd {
+}
+
+blockquote {
+	margin-left: 1.8em;
+	margin-right: .9em;
+}
+
+q:before {
+	content: '&ldquo;'; 
+}
+q:after {
+	content: '&rdquo;'; 
+}
+
+em {
+	font-style: italic;
+}
+
+strong {
+	font-weight: 900;
+}
+
+cite {
+	font-style: italic;
+}
+
+code {
+	font-family: monospace;
+}
+
+kbd {
+	font-family: monospace;
+}
+
+samp {
+	font-family: monospace;
+}
+sup {
+	font-size: 80%;
+	vertical-align: super;
+}
+br.clear {
+	clear: both;
+}
