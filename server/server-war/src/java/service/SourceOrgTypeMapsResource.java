@@ -18,9 +18,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import com.sun.jersey.api.core.ResourceContext;
-import javax.persistence.EntityManager;
-import persistence.Source;
-import persistence.OrganizationType;
 import converter.SourceOrgTypeMapsConverter;
 import converter.SourceOrgTypeMapConverter;
 import persistence.SourceOrgTypeMap;
@@ -31,7 +28,7 @@ import persistence.SourceOrgTypeMap;
  */
 
 @Path("/sourceOrgTypeMaps/")
-public class SourceOrgTypeMapsResource {
+public class SourceOrgTypeMapsResource extends Base {
     @Context
     protected UriInfo uriInfo;
     @Context
@@ -57,14 +54,7 @@ public class SourceOrgTypeMapsResource {
     int expandLevel, @QueryParam("query")
     @DefaultValue("SELECT e FROM SourceOrgTypeMap e")
     String query) {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
-        try {
-            persistenceSvc.beginTx();
-            return new SourceOrgTypeMapsConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), expandLevel);
-        } finally {
-            persistenceSvc.commitTx();
-            persistenceSvc.close();
-        }
+        return new SourceOrgTypeMapsConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), expandLevel);
     }
 
     /**
@@ -76,17 +66,9 @@ public class SourceOrgTypeMapsResource {
     @POST
     @Consumes({"application/xml", "application/json"})
     public Response post(SourceOrgTypeMapConverter data) {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
-        try {
-            persistenceSvc.beginTx();
-            EntityManager em = persistenceSvc.getEntityManager();
-            SourceOrgTypeMap entity = data.resolveEntity(em);
-            createEntity(data.resolveEntity(em));
-            persistenceSvc.commitTx();
+            SourceOrgTypeMap entity = data.getEntity();
+            createEntity(entity);
             return Response.created(uriInfo.getAbsolutePath().resolve(entity.getId() + "/")).build();
-        } finally {
-            persistenceSvc.close();
-        }
     }
 
     /**
@@ -107,26 +89,8 @@ public class SourceOrgTypeMapsResource {
      *
      * @return a collection of SourceOrgTypeMap instances
      */
+    @Override
     protected Collection<SourceOrgTypeMap> getEntities(int start, int max, String query) {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        return em.createQuery(query).setFirstResult(start).setMaxResults(max).getResultList();
-    }
-
-    /**
-     * Persist the given entity.
-     *
-     * @param entity the entity to persist
-     */
-    protected void createEntity(SourceOrgTypeMap entity) {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        em.persist(entity);
-        OrganizationType organizationTypeId = entity.getOrganizationTypeId();
-        if (organizationTypeId != null) {
-            organizationTypeId.getSourceOrgTypeMapCollection().add(entity);
-        }
-        Source sourceId = entity.getSourceId();
-        if (sourceId != null) {
-            sourceId.getSourceOrgTypeMapCollection().add(entity);
-        }
+        return (Collection<SourceOrgTypeMap>) super.getEntities(start, max, query);
     }
 }

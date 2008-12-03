@@ -18,8 +18,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import com.sun.jersey.api.core.ResourceContext;
-import javax.persistence.EntityManager;
-import persistence.Integration;
 import converter.NetworksConverter;
 import converter.NetworkConverter;
 import persistence.Network;
@@ -30,7 +28,7 @@ import persistence.Network;
  */
 
 @Path("/networks/")
-public class NetworksResource {
+public class NetworksResource extends Base {
     @Context
     protected UriInfo uriInfo;
     @Context
@@ -56,14 +54,7 @@ public class NetworksResource {
     int expandLevel, @QueryParam("query")
     @DefaultValue("SELECT e FROM Network e")
     String query) {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
-        try {
-            persistenceSvc.beginTx();
-            return new NetworksConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), expandLevel);
-        } finally {
-            persistenceSvc.commitTx();
-            persistenceSvc.close();
-        }
+                return new NetworksConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), expandLevel);
     }
 
     /**
@@ -75,17 +66,9 @@ public class NetworksResource {
     @POST
     @Consumes({"application/xml", "application/json"})
     public Response post(NetworkConverter data) {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
-        try {
-            persistenceSvc.beginTx();
-            EntityManager em = persistenceSvc.getEntityManager();
-            Network entity = data.resolveEntity(em);
-            createEntity(data.resolveEntity(em));
-            persistenceSvc.commitTx();
+            Network entity = data.getEntity();
+            createEntity(entity);
             return Response.created(uriInfo.getAbsolutePath().resolve(entity.getId() + "/")).build();
-        } finally {
-            persistenceSvc.close();
-        }
     }
 
     /**
@@ -106,25 +89,8 @@ public class NetworksResource {
      *
      * @return a collection of Network instances
      */
+    @Override
     protected Collection<Network> getEntities(int start, int max, String query) {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        return em.createQuery(query).setFirstResult(start).setMaxResults(max).getResultList();
-    }
-
-    /**
-     * Persist the given entity.
-     *
-     * @param entity the entity to persist
-     */
-    protected void createEntity(Network entity) {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        em.persist(entity);
-        for (Integration value : entity.getIntegrationCollection()) {
-            Network oldEntity = value.getNetworkId();
-            value.setNetworkId(entity);
-            if (oldEntity != null) {
-                oldEntity.getIntegrationCollection().remove(entity);
-            }
-        }
+        return (Collection<Network>) super.getEntities(start, max, query);
     }
 }

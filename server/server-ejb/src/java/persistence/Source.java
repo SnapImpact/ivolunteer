@@ -24,7 +24,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "SOURCE")
 @NamedQueries({@NamedQuery(name = "Source.findAll", query = "SELECT s FROM Source s"), @NamedQuery(name = "Source.findById", query = "SELECT s FROM Source s WHERE s.id = :id"), @NamedQuery(name = "Source.findByName", query = "SELECT s FROM Source s WHERE s.name = :name"), @NamedQuery(name = "Source.findByEtlClass", query = "SELECT s FROM Source s WHERE s.etlClass = :etlClass")})
-public class Source implements Serializable {
+public class Source implements Serializable, IdInterface {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -34,6 +34,8 @@ public class Source implements Serializable {
     private String name;
     @Column(name = "ETL_CLASS")
     private String etlClass;
+    @Column(name = "URL")
+    private String url;
     @OneToMany(mappedBy = "sourceId")
     private Collection<Organization> organizationCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sourceId")
@@ -72,6 +74,14 @@ public class Source implements Serializable {
 
     public void setEtlClass(String etlClass) {
         this.etlClass = etlClass;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public Collection<Organization> getOrganizationCollection() {

@@ -8,30 +8,36 @@ package session;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import persistence.IdInterface;
+import java.util.List;
 
 /**
  *
  * @author dave
  */
-@Stateless(mappedName="session.PersistenceFacade")
-public class PersistenceFacade implements PersistenceFacadeRemote {
+@Stateless
+public class PersistenceFacade implements PersistenceFacadeLocal {
     @PersistenceContext
     private EntityManager em;
 
-    public void persist(Object object) {
-        em.persist(object);
+    public void create(IdInterface<?> entity) {
+        em.persist(entity);
     }
 
-    public Query createQuery(String query) {
-        return em.createQuery(query);
+    public void edit(IdInterface<?> entity) {
+        em.merge(entity);
     }
 
-    public void persistEntity(Object entity) {
+    public void remove(IdInterface<?> entity) {
+        em.remove(em.merge(entity));
     }
-    
-    // Add business logic below. (Right-click in editor and choose
-    // "EJB Methods > Add Business Method" or "Web Service > Add Operation")
-    
+
+    public IdInterface find(Object id, Class claz) {
+        return (IdInterface) em.find(claz, id);
+    }
+
+    public List<IdInterface> findAll(String query, int start, int max) {
+        return em.createQuery(query).setFirstResult(start).setMaxResults(max).getResultList();
+    }    
  
 }

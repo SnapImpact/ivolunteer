@@ -24,12 +24,15 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "TIMEFRAME")
 @NamedQueries({@NamedQuery(name = "Timeframe.findAll", query = "SELECT t FROM Timeframe t"), @NamedQuery(name = "Timeframe.findById", query = "SELECT t FROM Timeframe t WHERE t.id = :id"), @NamedQuery(name = "Timeframe.findByBucket", query = "SELECT t FROM Timeframe t WHERE t.bucket = :bucket")})
-public class Timeframe implements Serializable {
+public class Timeframe implements Serializable, IdInterface {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @Column(name = "ID")
     private String id;
+    @Basic(optional = false)
+    @Column(name = "NAME")
+    private String name;
     @Basic(optional = false)
     @Column(name = "BUCKET")
     private BigInteger bucket;
@@ -43,8 +46,9 @@ public class Timeframe implements Serializable {
         this.id = id;
     }
 
-    public Timeframe(String id, BigInteger bucket) {
+    public Timeframe(String id, String name, BigInteger bucket) {
         this.id = id;
+        this.name = name;
         this.bucket = bucket;
     }
 
@@ -54,6 +58,14 @@ public class Timeframe implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public BigInteger getBucket() {

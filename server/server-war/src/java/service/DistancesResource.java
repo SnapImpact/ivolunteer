@@ -18,11 +18,10 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import com.sun.jersey.api.core.ResourceContext;
-import javax.persistence.EntityManager;
 import persistence.Distance;
-import persistence.Filter;
 import converter.DistancesConverter;
 import converter.DistanceConverter;
+import converter.DistanceListConverter;
 
 /**
  *
@@ -30,7 +29,7 @@ import converter.DistanceConverter;
  */
 
 @Path("/distances/")
-public class DistancesResource {
+public class DistancesResource extends Base {
     @Context
     protected UriInfo uriInfo;
     @Context
@@ -56,14 +55,7 @@ public class DistancesResource {
     int expandLevel, @QueryParam("query")
     @DefaultValue("SELECT e FROM Distance e")
     String query) {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
-        try {
-            persistenceSvc.beginTx();
-            return new DistancesConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), expandLevel);
-        } finally {
-            persistenceSvc.commitTx();
-            persistenceSvc.close();
-        }
+        return new DistancesConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), expandLevel);
     }
 
     /**
@@ -75,17 +67,9 @@ public class DistancesResource {
     @POST
     @Consumes({"application/xml", "application/json"})
     public Response post(DistanceConverter data) {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
-        try {
-            persistenceSvc.beginTx();
-            EntityManager em = persistenceSvc.getEntityManager();
-            Distance entity = data.resolveEntity(em);
-            createEntity(data.resolveEntity(em));
-            persistenceSvc.commitTx();
+            Distance entity = data.getEntity();
+            createEntity(entity);
             return Response.created(uriInfo.getAbsolutePath().resolve(entity.getId() + "/")).build();
-        } finally {
-            persistenceSvc.close();
-        }
     }
 
     /**
@@ -101,30 +85,26 @@ public class DistancesResource {
         return resource;
     }
 
+    @Path("list/")
+    @GET
+    @Produces({"application/json"})
+    public DistanceListConverter list(@QueryParam("start")
+    @DefaultValue("0")
+    int start, @QueryParam("max")
+    @DefaultValue("10")
+    int max, @QueryParam("query")
+    @DefaultValue("SELECT e FROM Distance e")
+    String query) {
+        return new DistanceListConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), uriInfo.getBaseUri());
+    }
+
     /**
      * Returns all the entities associated with this resource.
      *
      * @return a collection of Distance instances
      */
+    @Override
     protected Collection<Distance> getEntities(int start, int max, String query) {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        return em.createQuery(query).setFirstResult(start).setMaxResults(max).getResultList();
-    }
-
-    /**
-     * Persist the given entity.
-     *
-     * @param entity the entity to persist
-     */
-    protected void createEntity(Distance entity) {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        em.persist(entity);
-        for (Filter value : entity.getFilterCollection()) {
-            Distance oldEntity = value.getDistanceId();
-            value.setDistanceId(entity);
-            if (oldEntity != null) {
-                oldEntity.getFilterCollection().remove(entity);
-            }
-        }
+        return (Collection<Distance>) super.getEntities(start, max, query);
     }
 }

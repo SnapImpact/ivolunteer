@@ -18,10 +18,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import com.sun.jersey.api.core.ResourceContext;
-import javax.persistence.EntityManager;
 import persistence.Integration;
-import persistence.Network;
-import persistence.IvUser;
 import converter.IntegrationsConverter;
 import converter.IntegrationConverter;
 
@@ -31,7 +28,7 @@ import converter.IntegrationConverter;
  */
 
 @Path("/integrations/")
-public class IntegrationsResource {
+public class IntegrationsResource extends Base {
     @Context
     protected UriInfo uriInfo;
     @Context
@@ -57,14 +54,7 @@ public class IntegrationsResource {
     int expandLevel, @QueryParam("query")
     @DefaultValue("SELECT e FROM Integration e")
     String query) {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
-        try {
-            persistenceSvc.beginTx();
-            return new IntegrationsConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), expandLevel);
-        } finally {
-            persistenceSvc.commitTx();
-            persistenceSvc.close();
-        }
+           return new IntegrationsConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), expandLevel);
     }
 
     /**
@@ -76,17 +66,9 @@ public class IntegrationsResource {
     @POST
     @Consumes({"application/xml", "application/json"})
     public Response post(IntegrationConverter data) {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
-        try {
-            persistenceSvc.beginTx();
-            EntityManager em = persistenceSvc.getEntityManager();
-            Integration entity = data.resolveEntity(em);
-            createEntity(data.resolveEntity(em));
-            persistenceSvc.commitTx();
+            Integration entity = data.getEntity();
+            createEntity(entity);
             return Response.created(uriInfo.getAbsolutePath().resolve(entity.getId() + "/")).build();
-        } finally {
-            persistenceSvc.close();
-        }
     }
 
     /**
@@ -108,25 +90,6 @@ public class IntegrationsResource {
      * @return a collection of Integration instances
      */
     protected Collection<Integration> getEntities(int start, int max, String query) {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        return em.createQuery(query).setFirstResult(start).setMaxResults(max).getResultList();
-    }
-
-    /**
-     * Persist the given entity.
-     *
-     * @param entity the entity to persist
-     */
-    protected void createEntity(Integration entity) {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        em.persist(entity);
-        IvUser userId = entity.getUserId();
-        if (userId != null) {
-            userId.getIntegrationCollection().add(entity);
-        }
-        Network networkId = entity.getNetworkId();
-        if (networkId != null) {
-            networkId.getIntegrationCollection().add(entity);
-        }
+        return (Collection<Integration>) super.getEntities(start, max, query);
     }
 }

@@ -41,28 +41,50 @@ public class vomlSessionBean implements vomlSessionLocal {
     public void loadVoml() {
         try {
             VolunteerOpportunities vo = new VolunteerOpportunities();
-            JAXBContext jc = JAXBContext.newInstance( VolunteerOpportunities.class.getPackage().getName() );
+            JAXBContext jc = JAXBContext.newInstance(VolunteerOpportunities.class.getPackage().getName());
             Unmarshaller unmarshaller = jc.createUnmarshaller();
             vo = (VolunteerOpportunities) unmarshaller.unmarshal(new File("/Users/dave/Documents/iVolunteer/code/ivolunteer/test_data/handsonnetwork_restricted_mucked.xml"));
             List<VolunteerOpportunity> opps = vo.getVolunteerOpportunity();
 
             SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+            Query sourceQuery = em.createNamedQuery("Source.findByName");
+            Query orgTypeQuery = em.createNamedQuery("OrganizationType.findByName");
             Query organizationQuery = em.createNamedQuery("Organization.findByName");
             Query eventQuery = em.createNamedQuery("Event.findByTitle");
             Query locationQuery = em.createNamedQuery("Location.findByStreetZip");
             Query timestampQuery = em.createNamedQuery("Timestamp.findByTimestamp");
+            Query categoryQuery = em.createNamedQuery("SourceInterestMap.findBySourceKey");
 
-            for ( VolunteerOpportunity opp : opps )
-            {
+            Source source;
+            try {
+                sourceQuery.setParameter("name", "Hands on Network");
+                source = (Source) sourceQuery.getSingleResult();
+
+            } catch (NoResultException nr) {
+                System.out.println("Can't find source: Hands on Network");
+                return;
+            }
+
+            OrganizationType orgType;
+            try {
+                orgTypeQuery.setParameter("name", "Non-Profit");
+                orgType = (OrganizationType) orgTypeQuery.getSingleResult();
+
+            } catch (NoResultException nr) {
+                System.out.println("Can't find organization type for Non-Profit");
+                return;
+            }
+
+            for (VolunteerOpportunity opp : opps) {
                 System.out.println(opp.getTitle());
 
                 //SponsoringOrganization sponsor = opp.getSponsoringOrganizations().getSponsoringOrganization().iterator().next();
                 List<SponsoringOrganization> sponsors = opp.getSponsoringOrganizations().getSponsoringOrganization();
-              
+
                 HashSet<Organization> orgs = new HashSet<Organization>();
-                for ( SponsoringOrganization sponsor : sponsors ) {
-                    
+                for (SponsoringOrganization sponsor : sponsors) {
+
                     Organization org;
                     boolean newOrg = false;
                     try {
@@ -73,6 +95,7 @@ public class vomlSessionBean implements vomlSessionLocal {
                         org = new Organization();
                         org.setId(UUID.randomUUID().toString());
                         org.setName(sponsor.getName());
+                        org.setOrganizationTypeId(orgType);
                         em.persist(org);
                     }
 
@@ -94,7 +117,7 @@ public class vomlSessionBean implements vomlSessionLocal {
                         em.persist(loc);
                     }
 
-                    if ( ! org.getLocationCollection().contains(loc) ) {
+                    if (!org.getLocationCollection().contains(loc)) {
                         org.getLocationCollection().add(loc);
                     }
 
@@ -118,47 +141,24 @@ public class vomlSessionBean implements vomlSessionLocal {
                 eventQuery.setParameter("title", opp.getTitle());
                 List<Event> events = eventQuery.getResultList();
                 for (Event event : events) {
-                    if ( event.getOrganizationCollection().containsAll(orgs) ) {
+                    if (event.getOrganizationCollection().containsAll(orgs)) {
                         ev = event;
                         break;
                     }
                 }
 
-                if ( ev == null ) {
+                if (ev == null) {
                     ev = new Event();
                     ev.setId(UUID.randomUUID().toString());
                     ev.setTitle(opp.getTitle());
                     ev.setOrganizationCollection(orgs);
                     em.persist(ev);
-                }
-                else
-                {
+                } else {
                     orgs.addAll(ev.getOrganizationCollection());
                     ev.setOrganizationCollection(orgs);
                 }
-                
+
                 ev.setDescription(opp.getDescription());
-
-                persistence.Location loc;
-                org.networkforgood.xml.namespaces.voml.Location oppLoc = opp.getLocations().getLocation();
-                String oppAddress = oppLoc.getAddress1() + " " + oppLoc.getAddress2();
-                boolean newLoc = false;
-                try {
-                    locationQuery.setParameter("street", oppAddress);
-                    locationQuery.setParameter("zip", oppLoc.getZipOrPostalCode());
-                    loc = (persistence.Location) locationQuery.getSingleResult();
-                } catch (NoResultException nr) {
-                    newLoc = true;
-                    loc = new persistence.Location();
-                    loc.setId(UUID.randomUUID().toString());
-                    loc.setStreet(oppAddress);
-                    loc.setCity(oppLoc.getCity());
-                    loc.setState(oppLoc.getStateOrProvince());
-                    loc.setZip(oppLoc.getZipOrPostalCode());
-                    em.persist(loc);
-                }
-
-                ev.getLocationCollection().add(loc);
 
                 List<OpportunityDate> oppDates = opp.getOpportunityDates().getOpportunityDate();
 
@@ -178,35 +178,45 @@ public class vomlSessionBean implements vomlSessionLocal {
                         }
 
                         ev.getTimestampCollection().add(ts);
-                        
-                        if ( oppDate.getDuration() != null ) {
+
+                        if (oppDate.getDuration() != null) {
                             String durUnits = oppDate.getDuration().getDurationUnit();
 
 
-                        }
-                        else
-                        {
+                        } else {
                             Date endDate = dateFormatter.parse(oppDate.getEndDate() + " " + oppDate.getEndTime());
-                            long dur = (endDate.getTime() - startDate.getTime())/1000;
+                            long dur = (endDate.getTime() - startDate.getTime()) / 1000;
                             ev.setDuration((short) dur);
                         }
-                    }
-                    catch (ParseException pe) {
+                    } catch (ParseException pe) {
                         System.out.println(pe.toString());
                     }
                 }
+
+                List<Category> oppCategories = opp.getCategories().getCategory();
+
+                HashSet<InterestArea> currentIAs = new HashSet<InterestArea>(ev.getInterestAreaCollection());
+                for (Category oppCat : oppCategories) {
+                    categoryQuery.setParameter("source", source);
+                    categoryQuery.setParameter("sourceKey", oppCat.getCategoryID().toString());
+                    for ( Iterator it = categoryQuery.getResultList().iterator(); it.hasNext();)
+                    {
+                        SourceInterestMap sim = (SourceInterestMap) it.next();
+                        currentIAs.add(sim.getInterestAreaId());
+                    }
+                }
+                ev.setInterestAreaCollection(currentIAs);
+
                 em.merge(ev);
                 em.flush();
 
             }
-        }
-        catch( UnmarshalException ue ) {
-            System.out.println( "Caught UnmarshalException" );
+        } catch (UnmarshalException ue) {
+            System.out.println("Caught UnmarshalException");
             System.out.println(ue.toString());
-        }
-        catch( JAXBException je ) {
+        } catch (JAXBException je) {
             je.printStackTrace();
-        }        
+        }
 
     }
 

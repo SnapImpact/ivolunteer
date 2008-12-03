@@ -24,7 +24,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "IV_USER")
 @NamedQueries({@NamedQuery(name = "IvUser.findAll", query = "SELECT i FROM IvUser i"), @NamedQuery(name = "IvUser.findById", query = "SELECT i FROM IvUser i WHERE i.id = :id"), @NamedQuery(name = "IvUser.findByName", query = "SELECT i FROM IvUser i WHERE i.name = :name"), @NamedQuery(name = "IvUser.findByPassword", query = "SELECT i FROM IvUser i WHERE i.password = :password"), @NamedQuery(name = "IvUser.findByIphoneId", query = "SELECT i FROM IvUser i WHERE i.iphoneId = :iphoneId")})
-public class IvUser implements Serializable {
+public class IvUser implements Serializable, IdInterface {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)

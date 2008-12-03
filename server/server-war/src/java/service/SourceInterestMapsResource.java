@@ -31,7 +31,7 @@ import persistence.SourceInterestMap;
  */
 
 @Path("/sourceInterestMaps/")
-public class SourceInterestMapsResource {
+public class SourceInterestMapsResource extends Base {
     @Context
     protected UriInfo uriInfo;
     @Context
@@ -57,14 +57,7 @@ public class SourceInterestMapsResource {
     int expandLevel, @QueryParam("query")
     @DefaultValue("SELECT e FROM SourceInterestMap e")
     String query) {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
-        try {
-            persistenceSvc.beginTx();
             return new SourceInterestMapsConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), expandLevel);
-        } finally {
-            persistenceSvc.commitTx();
-            persistenceSvc.close();
-        }
     }
 
     /**
@@ -75,18 +68,9 @@ public class SourceInterestMapsResource {
      */
     @POST
     @Consumes({"application/xml", "application/json"})
-    public Response post(SourceInterestMapConverter data) {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
-        try {
-            persistenceSvc.beginTx();
-            EntityManager em = persistenceSvc.getEntityManager();
-            SourceInterestMap entity = data.resolveEntity(em);
-            createEntity(data.resolveEntity(em));
-            persistenceSvc.commitTx();
+    public Response post(SourceInterestMapConverter data) {SourceInterestMap entity = data.getEntity();
+            createEntity(entity);
             return Response.created(uriInfo.getAbsolutePath().resolve(entity.getId() + "/")).build();
-        } finally {
-            persistenceSvc.close();
-        }
     }
 
     /**
@@ -107,26 +91,8 @@ public class SourceInterestMapsResource {
      *
      * @return a collection of SourceInterestMap instances
      */
+    @Override
     protected Collection<SourceInterestMap> getEntities(int start, int max, String query) {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        return em.createQuery(query).setFirstResult(start).setMaxResults(max).getResultList();
-    }
-
-    /**
-     * Persist the given entity.
-     *
-     * @param entity the entity to persist
-     */
-    protected void createEntity(SourceInterestMap entity) {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        em.persist(entity);
-        InterestArea interestAreaId = entity.getInterestAreaId();
-        if (interestAreaId != null) {
-            interestAreaId.getSourceInterestMapCollection().add(entity);
-        }
-        Source sourceId = entity.getSourceId();
-        if (sourceId != null) {
-            sourceId.getSourceInterestMapCollection().add(entity);
-        }
+        return (Collection<SourceInterestMap>) super.getEntities(start, max, query);
     }
 }

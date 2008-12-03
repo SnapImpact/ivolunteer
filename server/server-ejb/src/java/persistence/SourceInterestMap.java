@@ -22,8 +22,8 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "SOURCE_INTEREST_MAP")
-@NamedQueries({@NamedQuery(name = "SourceInterestMap.findAll", query = "SELECT s FROM SourceInterestMap s"), @NamedQuery(name = "SourceInterestMap.findById", query = "SELECT s FROM SourceInterestMap s WHERE s.id = :id"), @NamedQuery(name = "SourceInterestMap.findBySourceKey", query = "SELECT s FROM SourceInterestMap s WHERE s.sourceKey = :sourceKey")})
-public class SourceInterestMap implements Serializable {
+@NamedQueries({@NamedQuery(name = "SourceInterestMap.findAll", query = "SELECT s FROM SourceInterestMap s"), @NamedQuery(name = "SourceInterestMap.findById", query = "SELECT s FROM SourceInterestMap s WHERE s.id = :id"), @NamedQuery(name = "SourceInterestMap.findBySourceKey", query = "SELECT s FROM SourceInterestMap s WHERE s.sourceId = :source and s.sourceKey = :sourceKey")})
+public class SourceInterestMap implements Serializable, IdInterface {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)

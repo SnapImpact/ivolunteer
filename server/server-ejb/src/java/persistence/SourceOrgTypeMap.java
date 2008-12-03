@@ -23,7 +23,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "SOURCE_ORG_TYPE_MAP")
 @NamedQueries({@NamedQuery(name = "SourceOrgTypeMap.findAll", query = "SELECT s FROM SourceOrgTypeMap s"), @NamedQuery(name = "SourceOrgTypeMap.findById", query = "SELECT s FROM SourceOrgTypeMap s WHERE s.id = :id"), @NamedQuery(name = "SourceOrgTypeMap.findBySourceKey", query = "SELECT s FROM SourceOrgTypeMap s WHERE s.sourceKey = :sourceKey")})
-public class SourceOrgTypeMap implements Serializable {
+public class SourceOrgTypeMap implements Serializable, IdInterface {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)

@@ -25,5 +25,4 @@ public interface EventFacadeLocal {
     Event find(Object id);
 
     List<Event> findAll(int start, int max);
-
 }

@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import persistence.Distance;
+import persistence.IdInterface;
 
 /**
  *
@@ -36,8 +37,8 @@ public class DistanceFacade implements DistanceFacadeLocal {
         return em.find(Distance.class, id);
     }
 
-    public List<Distance> findAll() {
-        return em.createQuery("select object(o) from Distance as o").getResultList();
+    public List<Distance> findAll(int start, int max) {
+        return em.createQuery("select object(o) from Distance as o").setFirstResult(start).setMaxResults(max).getResultList();
     }
 
 }

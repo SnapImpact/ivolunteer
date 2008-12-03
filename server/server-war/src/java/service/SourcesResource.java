@@ -18,12 +18,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import com.sun.jersey.api.core.ResourceContext;
-import javax.persistence.EntityManager;
-import persistence.Event;
-import persistence.Organization;
 import persistence.Source;
-import persistence.SourceOrgTypeMap;
-import persistence.SourceInterestMap;
 import converter.SourcesConverter;
 import converter.SourceConverter;
 
@@ -33,7 +28,7 @@ import converter.SourceConverter;
  */
 
 @Path("/sources/")
-public class SourcesResource {
+public class SourcesResource extends Base {
     @Context
     protected UriInfo uriInfo;
     @Context
@@ -59,14 +54,7 @@ public class SourcesResource {
     int expandLevel, @QueryParam("query")
     @DefaultValue("SELECT e FROM Source e")
     String query) {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
-        try {
-            persistenceSvc.beginTx();
             return new SourcesConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), expandLevel);
-        } finally {
-            persistenceSvc.commitTx();
-            persistenceSvc.close();
-        }
     }
 
     /**
@@ -78,17 +66,9 @@ public class SourcesResource {
     @POST
     @Consumes({"application/xml", "application/json"})
     public Response post(SourceConverter data) {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
-        try {
-            persistenceSvc.beginTx();
-            EntityManager em = persistenceSvc.getEntityManager();
-            Source entity = data.resolveEntity(em);
-            createEntity(data.resolveEntity(em));
-            persistenceSvc.commitTx();
+            Source entity = data.getEntity();
+            createEntity(entity);
             return Response.created(uriInfo.getAbsolutePath().resolve(entity.getId() + "/")).build();
-        } finally {
-            persistenceSvc.close();
-        }
     }
 
     /**
@@ -109,46 +89,8 @@ public class SourcesResource {
      *
      * @return a collection of Source instances
      */
+    @Override
     protected Collection<Source> getEntities(int start, int max, String query) {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        return em.createQuery(query).setFirstResult(start).setMaxResults(max).getResultList();
-    }
-
-    /**
-     * Persist the given entity.
-     *
-     * @param entity the entity to persist
-     */
-    protected void createEntity(Source entity) {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        em.persist(entity);
-        for (Organization value : entity.getOrganizationCollection()) {
-            Source oldEntity = value.getSourceId();
-            value.setSourceId(entity);
-            if (oldEntity != null) {
-                oldEntity.getOrganizationCollection().remove(entity);
-            }
-        }
-        for (SourceInterestMap value : entity.getSourceInterestMapCollection()) {
-            Source oldEntity = value.getSourceId();
-            value.setSourceId(entity);
-            if (oldEntity != null) {
-                oldEntity.getSourceInterestMapCollection().remove(entity);
-            }
-        }
-        for (Event value : entity.getEventCollection()) {
-            Source oldEntity = value.getSourceId();
-            value.setSourceId(entity);
-            if (oldEntity != null) {
-                oldEntity.getEventCollection().remove(entity);
-            }
-        }
-        for (SourceOrgTypeMap value : entity.getSourceOrgTypeMapCollection()) {
-            Source oldEntity = value.getSourceId();
-            value.setSourceId(entity);
-            if (oldEntity != null) {
-                oldEntity.getSourceOrgTypeMapCollection().remove(entity);
-            }
-        }
+        return (Collection<Source>) super.getEntities(start, max, query);
     }
 }

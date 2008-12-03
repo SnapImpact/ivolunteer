@@ -6,10 +6,6 @@
 package service;
 
 import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -22,17 +18,10 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import com.sun.jersey.api.core.ResourceContext;
-import javax.persistence.EntityManager;
 import persistence.Event;
-import persistence.Source;
-import persistence.InterestArea;
-import persistence.Organization;
-import persistence.Location;
-import persistence.Timestamp;
 import converter.EventsConverter;
 import converter.EventConverter;
 import converter.EventListConverter;
-import session.EventFacadeLocal;
 
 /**
  *
@@ -40,7 +29,7 @@ import session.EventFacadeLocal;
  */
 
 @Path("/events/")
-public class EventsResource {
+public class EventsResource extends Base {
     @Context
     protected UriInfo uriInfo;
     @Context
@@ -66,10 +55,7 @@ public class EventsResource {
     int expandLevel, @QueryParam("query")
     @DefaultValue("SELECT e FROM Event e")
     String query) {
-        try {
-            return new EventsConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), expandLevel);
-        } finally {
-        }
+        return new EventsConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), expandLevel);
     }
 
     /**
@@ -81,12 +67,9 @@ public class EventsResource {
     @POST
     @Consumes({"application/xml", "application/json"})
     public Response post(EventConverter data) {
-        try {
-            Event entity = data.getEntity();
+        Event entity = data.getEntity();
             createEntity(entity);
             return Response.created(uriInfo.getAbsolutePath().resolve(entity.getId() + "/")).build();
-        } finally {
-        }
     }
 
     /**
@@ -102,25 +85,6 @@ public class EventsResource {
         return resource;
     }
 
-    /**
-     * Returns all the entities associated with this resource.
-     *
-     * @return a collection of Event instances
-     */
-    protected Collection<Event> getEntities(int start, int max, String query) {
-        
-        return lookupEventFacade().findAll(start, max);
-    }
-
-    /**
-     * Persist the given entity.
-     *
-     * @param entity the entity to persist
-     */
-    protected void createEntity(Event entity) {
-        lookupEventFacade().create(entity);
-    }
-
     @Path("list/")
     @GET
     @Produces({"application/json"})
@@ -131,20 +95,16 @@ public class EventsResource {
     int max, @QueryParam("query")
     @DefaultValue("SELECT e FROM Event e")
     String query) {
-        try {
-            return new EventListConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), uriInfo.getBaseUri());
-        } finally {
-
-        }
+        return new EventListConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), uriInfo.getBaseUri());
     }
 
-    private EventFacadeLocal lookupEventFacade() {
-        try {
-            javax.naming.Context c = new InitialContext();
-            return (EventFacadeLocal) c.lookup("java:comp/env/EventFacade");
-        } catch (NamingException ne) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
-            throw new RuntimeException(ne);
-        }
+    /**
+     * Returns all the entities associated with this resource.
+     *
+     * @return a collection of Event instances
+     */
+    @Override
+    protected Collection<Event> getEntities(int start, int max, String query) {
+        return (Collection<Event>) super.getEntities(start, max, query);
     }
 }

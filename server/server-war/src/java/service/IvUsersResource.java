@@ -18,9 +18,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import com.sun.jersey.api.core.ResourceContext;
-import javax.persistence.EntityManager;
-import persistence.Integration;
-import persistence.Filter;
 import converter.IvUsersConverter;
 import converter.IvUserConverter;
 import persistence.IvUser;
@@ -31,7 +28,7 @@ import persistence.IvUser;
  */
 
 @Path("/ivUsers/")
-public class IvUsersResource {
+public class IvUsersResource extends Base {
     @Context
     protected UriInfo uriInfo;
     @Context
@@ -57,14 +54,7 @@ public class IvUsersResource {
     int expandLevel, @QueryParam("query")
     @DefaultValue("SELECT e FROM IvUser e")
     String query) {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
-        try {
-            persistenceSvc.beginTx();
             return new IvUsersConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), expandLevel);
-        } finally {
-            persistenceSvc.commitTx();
-            persistenceSvc.close();
-        }
     }
 
     /**
@@ -76,17 +66,9 @@ public class IvUsersResource {
     @POST
     @Consumes({"application/xml", "application/json"})
     public Response post(IvUserConverter data) {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
-        try {
-            persistenceSvc.beginTx();
-            EntityManager em = persistenceSvc.getEntityManager();
-            IvUser entity = data.resolveEntity(em);
-            createEntity(data.resolveEntity(em));
-            persistenceSvc.commitTx();
+            IvUser entity = data.getEntity();
+            createEntity(entity);
             return Response.created(uriInfo.getAbsolutePath().resolve(entity.getId() + "/")).build();
-        } finally {
-            persistenceSvc.close();
-        }
     }
 
     /**
@@ -107,32 +89,8 @@ public class IvUsersResource {
      *
      * @return a collection of IvUser instances
      */
+    @Override
     protected Collection<IvUser> getEntities(int start, int max, String query) {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        return em.createQuery(query).setFirstResult(start).setMaxResults(max).getResultList();
-    }
-
-    /**
-     * Persist the given entity.
-     *
-     * @param entity the entity to persist
-     */
-    protected void createEntity(IvUser entity) {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        em.persist(entity);
-        for (Filter value : entity.getFilterCollection()) {
-            IvUser oldEntity = value.getUserId();
-            value.setUserId(entity);
-            if (oldEntity != null) {
-                oldEntity.getFilterCollection().remove(entity);
-            }
-        }
-        for (Integration value : entity.getIntegrationCollection()) {
-            IvUser oldEntity = value.getUserId();
-            value.setUserId(entity);
-            if (oldEntity != null) {
-                oldEntity.getIntegrationCollection().remove(entity);
-            }
-        }
+        return (Collection<IvUser>) super.getEntities(start, max, query);
     }
 }

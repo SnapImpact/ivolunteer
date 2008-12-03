@@ -9,7 +9,7 @@ package persistence;
 *
 * @author dave
 */
-public interface IdInterface {
+public interface IdInterface<T> {
 
     String getId();
 

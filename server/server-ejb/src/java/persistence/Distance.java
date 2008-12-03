@@ -23,7 +23,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "DISTANCE")
 @NamedQueries({@NamedQuery(name = "Distance.findAll", query = "SELECT d FROM Distance d"), @NamedQuery(name = "Distance.findById", query = "SELECT d FROM Distance d WHERE d.id = :id"), @NamedQuery(name = "Distance.findByBucket", query = "SELECT d FROM Distance d WHERE d.bucket = :bucket")})
-public class Distance implements Serializable {
+public class Distance implements Serializable, IdInterface {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)

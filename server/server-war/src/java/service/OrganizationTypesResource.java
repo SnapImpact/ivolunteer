@@ -18,13 +18,10 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import com.sun.jersey.api.core.ResourceContext;
-import javax.persistence.EntityManager;
-import persistence.Organization;
 import persistence.OrganizationType;
-import persistence.SourceOrgTypeMap;
-import persistence.Filter;
 import converter.OrganizationTypesConverter;
 import converter.OrganizationTypeConverter;
+import converter.OrganizationTypeListConverter;
 
 /**
  *
@@ -32,7 +29,7 @@ import converter.OrganizationTypeConverter;
  */
 
 @Path("/organizationTypes/")
-public class OrganizationTypesResource {
+public class OrganizationTypesResource extends Base {
     @Context
     protected UriInfo uriInfo;
     @Context
@@ -58,14 +55,7 @@ public class OrganizationTypesResource {
     int expandLevel, @QueryParam("query")
     @DefaultValue("SELECT e FROM OrganizationType e")
     String query) {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
-        try {
-            persistenceSvc.beginTx();
             return new OrganizationTypesConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), expandLevel);
-        } finally {
-            persistenceSvc.commitTx();
-            persistenceSvc.close();
-        }
     }
 
     /**
@@ -77,17 +67,9 @@ public class OrganizationTypesResource {
     @POST
     @Consumes({"application/xml", "application/json"})
     public Response post(OrganizationTypeConverter data) {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
-        try {
-            persistenceSvc.beginTx();
-            EntityManager em = persistenceSvc.getEntityManager();
-            OrganizationType entity = data.resolveEntity(em);
-            createEntity(data.resolveEntity(em));
-            persistenceSvc.commitTx();
+            OrganizationType entity = data.getEntity();
+            createEntity(entity);
             return Response.created(uriInfo.getAbsolutePath().resolve(entity.getId() + "/")).build();
-        } finally {
-            persistenceSvc.close();
-        }
     }
 
     /**
@@ -103,40 +85,26 @@ public class OrganizationTypesResource {
         return resource;
     }
 
+    @Path("list/")
+    @GET
+    @Produces({"application/json"})
+    public OrganizationTypeListConverter list(@QueryParam("start")
+    @DefaultValue("0")
+    int start, @QueryParam("max")
+    @DefaultValue("10")
+    int max, @QueryParam("query")
+    @DefaultValue("SELECT e FROM OrganizationType e")
+    String query) {
+            return new OrganizationTypeListConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), uriInfo.getBaseUri());
+    }
+
     /**
      * Returns all the entities associated with this resource.
      *
      * @return a collection of OrganizationType instances
      */
+    @Override
     protected Collection<OrganizationType> getEntities(int start, int max, String query) {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        return em.createQuery(query).setFirstResult(start).setMaxResults(max).getResultList();
-    }
-
-    /**
-     * Persist the given entity.
-     *
-     * @param entity the entity to persist
-     */
-    protected void createEntity(OrganizationType entity) {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        em.persist(entity);
-        for (Filter value : entity.getFilterCollection()) {
-            value.getOrganizationTypeCollection().add(entity);
-        }
-        for (Organization value : entity.getOrganizationCollection()) {
-            OrganizationType oldEntity = value.getOrganizationTypeId();
-            value.setOrganizationTypeId(entity);
-            if (oldEntity != null) {
-                oldEntity.getOrganizationCollection().remove(entity);
-            }
-        }
-        for (SourceOrgTypeMap value : entity.getSourceOrgTypeMapCollection()) {
-            OrganizationType oldEntity = value.getOrganizationTypeId();
-            value.setOrganizationTypeId(entity);
-            if (oldEntity != null) {
-                oldEntity.getSourceOrgTypeMapCollection().remove(entity);
-            }
-        }
+        return (Collection<OrganizationType>) super.getEntities(start, max, query);
     }
 }

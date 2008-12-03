@@ -18,10 +18,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import com.sun.jersey.api.core.ResourceContext;
-import javax.persistence.EntityManager;
-import persistence.Filter;
 import converter.TimeframesConverter;
 import converter.TimeframeConverter;
+import converter.TimeframeListConverter;
 import persistence.Timeframe;
 
 /**
@@ -30,7 +29,7 @@ import persistence.Timeframe;
  */
 
 @Path("/timeframes/")
-public class TimeframesResource {
+public class TimeframesResource extends Base {
     @Context
     protected UriInfo uriInfo;
     @Context
@@ -56,14 +55,7 @@ public class TimeframesResource {
     int expandLevel, @QueryParam("query")
     @DefaultValue("SELECT e FROM Timeframe e")
     String query) {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
-        try {
-            persistenceSvc.beginTx();
-            return new TimeframesConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), expandLevel);
-        } finally {
-            persistenceSvc.commitTx();
-            persistenceSvc.close();
-        }
+        return new TimeframesConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), expandLevel);
     }
 
     /**
@@ -75,17 +67,9 @@ public class TimeframesResource {
     @POST
     @Consumes({"application/xml", "application/json"})
     public Response post(TimeframeConverter data) {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
-        try {
-            persistenceSvc.beginTx();
-            EntityManager em = persistenceSvc.getEntityManager();
-            Timeframe entity = data.resolveEntity(em);
-            createEntity(data.resolveEntity(em));
-            persistenceSvc.commitTx();
+            Timeframe entity = data.getEntity();
+            createEntity(entity);
             return Response.created(uriInfo.getAbsolutePath().resolve(entity.getId() + "/")).build();
-        } finally {
-            persistenceSvc.close();
-        }
     }
 
     /**
@@ -101,30 +85,26 @@ public class TimeframesResource {
         return resource;
     }
 
+    @Path("list/")
+    @GET
+    @Produces({"application/json"})
+    public TimeframeListConverter list(@QueryParam("start")
+    @DefaultValue("0")
+    int start, @QueryParam("max")
+    @DefaultValue("10")
+    int max, @QueryParam("query")
+    @DefaultValue("SELECT e FROM Timeframe e")
+    String query) {
+            return new TimeframeListConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), uriInfo.getBaseUri());
+    }
+
     /**
      * Returns all the entities associated with this resource.
      *
      * @return a collection of Timeframe instances
      */
+    @Override
     protected Collection<Timeframe> getEntities(int start, int max, String query) {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        return em.createQuery(query).setFirstResult(start).setMaxResults(max).getResultList();
-    }
-
-    /**
-     * Persist the given entity.
-     *
-     * @param entity the entity to persist
-     */
-    protected void createEntity(Timeframe entity) {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        em.persist(entity);
-        for (Filter value : entity.getFilterCollection()) {
-            Timeframe oldEntity = value.getTimeframeId();
-            value.setTimeframeId(entity);
-            if (oldEntity != null) {
-                oldEntity.getFilterCollection().remove(entity);
-            }
-        }
+        return (Collection<Timeframe>) super.getEntities(start, max, query);
     }
 }

@@ -23,7 +23,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "INTEGRATION")
 @NamedQueries({@NamedQuery(name = "Integration.findAll", query = "SELECT i FROM Integration i"), @NamedQuery(name = "Integration.findById", query = "SELECT i FROM Integration i WHERE i.id = :id"), @NamedQuery(name = "Integration.findByUserName", query = "SELECT i FROM Integration i WHERE i.userName = :userName"), @NamedQuery(name = "Integration.findByPassword", query = "SELECT i FROM Integration i WHERE i.password = :password")})
-public class Integration implements Serializable {
+public class Integration implements Serializable, IdInterface {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)

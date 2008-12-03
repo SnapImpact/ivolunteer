@@ -26,6 +26,7 @@ import persistence.Filter;
 import persistence.SourceInterestMap;
 import converter.InterestAreasConverter;
 import converter.InterestAreaConverter;
+import converter.InterestAreaListConverter;
 
 /**
  *
@@ -33,7 +34,7 @@ import converter.InterestAreaConverter;
  */
 
 @Path("/interestAreas/")
-public class InterestAreasResource {
+public class InterestAreasResource extends Base {
     @Context
     protected UriInfo uriInfo;
     @Context
@@ -59,14 +60,7 @@ public class InterestAreasResource {
     int expandLevel, @QueryParam("query")
     @DefaultValue("SELECT e FROM InterestArea e")
     String query) {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
-        try {
-            persistenceSvc.beginTx();
             return new InterestAreasConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), expandLevel);
-        } finally {
-            persistenceSvc.commitTx();
-            persistenceSvc.close();
-        }
     }
 
     /**
@@ -78,17 +72,9 @@ public class InterestAreasResource {
     @POST
     @Consumes({"application/xml", "application/json"})
     public Response post(InterestAreaConverter data) {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
-        try {
-            persistenceSvc.beginTx();
-            EntityManager em = persistenceSvc.getEntityManager();
-            InterestArea entity = data.resolveEntity(em);
-            createEntity(data.resolveEntity(em));
-            persistenceSvc.commitTx();
+            InterestArea entity = data.getEntity();
+            createEntity(entity);
             return Response.created(uriInfo.getAbsolutePath().resolve(entity.getId() + "/")).build();
-        } finally {
-            persistenceSvc.close();
-        }
     }
 
     /**
@@ -104,39 +90,26 @@ public class InterestAreasResource {
         return resource;
     }
 
+    @Path("list/")
+    @GET
+    @Produces({"application/json"})
+    public InterestAreaListConverter list(@QueryParam("start")
+    @DefaultValue("0")
+    int start, @QueryParam("max")
+    @DefaultValue("10")
+    int max, @QueryParam("query")
+    @DefaultValue("SELECT e FROM InterestArea e")
+    String query) {
+        return new InterestAreaListConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), uriInfo.getBaseUri());
+    }
+
     /**
      * Returns all the entities associated with this resource.
      *
      * @return a collection of InterestArea instances
      */
+    @Override
     protected Collection<InterestArea> getEntities(int start, int max, String query) {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        return em.createQuery(query).setFirstResult(start).setMaxResults(max).getResultList();
-    }
-
-    /**
-     * Persist the given entity.
-     *
-     * @param entity the entity to persist
-     */
-    protected void createEntity(InterestArea entity) {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        em.persist(entity);
-        for (Event value : entity.getEventCollection()) {
-            value.getInterestAreaCollection().add(entity);
-        }
-        for (Organization value : entity.getOrganizationCollection()) {
-            value.getInterestAreaCollection().add(entity);
-        }
-        for (Filter value : entity.getFilterCollection()) {
-            value.getInterestAreaCollection().add(entity);
-        }
-        for (SourceInterestMap value : entity.getSourceInterestMapCollection()) {
-            InterestArea oldEntity = value.getInterestAreaId();
-            value.setInterestAreaId(entity);
-            if (oldEntity != null) {
-                oldEntity.getSourceInterestMapCollection().remove(entity);
-            }
-        }
+        return (Collection<InterestArea>) super.getEntities(start, max, query);
     }
 }

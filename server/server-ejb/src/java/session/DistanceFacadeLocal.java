@@ -24,6 +24,5 @@ public interface DistanceFacadeLocal {
 
     Distance find(Object id);
 
-    List<Distance> findAll();
-
+    List<Distance> findAll(int start, int max);
 }

@@ -138,10 +138,10 @@
         <ejb-link>server-ejb.jar#TimestampFacade</ejb-link>
     </ejb-local-ref>
     <ejb-local-ref>
-        <ejb-ref-name>TimestampFacade1</ejb-ref-name>
+        <ejb-ref-name>PersistenceFacade</ejb-ref-name>
         <ejb-ref-type>Session</ejb-ref-type>
-        <local>session.TimestampFacadeLocal</local>
-        <ejb-link>server-ejb.jar#TimestampFacade</ejb-link>
+        <local>session.PersistenceFacadeLocal</local>
+        <ejb-link>server-ejb.jar#PersistenceFacade</ejb-link>
     </ejb-local-ref>
     <resource-ref>
 <res-ref-name>UserTransaction</res-ref-name>

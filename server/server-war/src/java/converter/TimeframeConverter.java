@@ -78,6 +78,25 @@ public class TimeframeConverter {
     }
 
     /**
+     * Getter for name.
+     *
+     * @return value for name
+     */
+    @XmlElement
+    public String getName() {
+        return (expandLevel > 0) ? entity.getName() : null;
+    }
+
+    /**
+     * Setter for name.
+     *
+     * @param value the value to set
+     */
+    public void setName(String value) {
+        entity.setName(value);
+    }
+
+    /**
      * Getter for bucket.
      *
      * @return value for bucket

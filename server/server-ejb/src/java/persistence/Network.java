@@ -24,7 +24,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "NETWORK")
 @NamedQueries({@NamedQuery(name = "Network.findAll", query = "SELECT n FROM Network n"), @NamedQuery(name = "Network.findById", query = "SELECT n FROM Network n WHERE n.id = :id"), @NamedQuery(name = "Network.findByName", query = "SELECT n FROM Network n WHERE n.name = :name"), @NamedQuery(name = "Network.findByUrl", query = "SELECT n FROM Network n WHERE n.url = :url")})
-public class Network implements Serializable {
+public class Network implements Serializable, IdInterface {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)

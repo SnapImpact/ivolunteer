@@ -26,7 +26,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "FILTER")
 @NamedQueries({@NamedQuery(name = "Filter.findAll", query = "SELECT f FROM Filter f"), @NamedQuery(name = "Filter.findById", query = "SELECT f FROM Filter f WHERE f.id = :id"), @NamedQuery(name = "Filter.findByLatitude", query = "SELECT f FROM Filter f WHERE f.latitude = :latitude"), @NamedQuery(name = "Filter.findByLongitude", query = "SELECT f FROM Filter f WHERE f.longitude = :longitude")})
-public class Filter implements Serializable {
+public class Filter implements Serializable, IdInterface {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)

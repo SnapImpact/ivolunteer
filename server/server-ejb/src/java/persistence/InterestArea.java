@@ -27,7 +27,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "INTEREST_AREA")
 @NamedQueries({@NamedQuery(name = "InterestArea.findAll", query = "SELECT i FROM InterestArea i"), @NamedQuery(name = "InterestArea.findById", query = "SELECT i FROM InterestArea i WHERE i.id = :id"), @NamedQuery(name = "InterestArea.findByName", query = "SELECT i FROM InterestArea i WHERE i.name = :name")})
-public class InterestArea implements Serializable {
+public class InterestArea implements Serializable, IdInterface {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)

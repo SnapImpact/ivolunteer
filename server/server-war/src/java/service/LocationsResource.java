@@ -6,10 +6,6 @@
 package service;
 
 import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -22,14 +18,10 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import com.sun.jersey.api.core.ResourceContext;
-import javax.persistence.EntityManager;
-import persistence.Event;
 import persistence.Location;
-import persistence.Organization;
 import converter.LocationsConverter;
 import converter.LocationConverter;
 import converter.LocationListConverter;
-import session.LocationFacadeLocal;
 
 /**
  *
@@ -37,7 +29,7 @@ import session.LocationFacadeLocal;
  */
 
 @Path("/locations/")
-public class LocationsResource {
+public class LocationsResource extends Base {
     @Context
     protected UriInfo uriInfo;
     @Context
@@ -63,10 +55,7 @@ public class LocationsResource {
     int expandLevel, @QueryParam("query")
     @DefaultValue("SELECT e FROM Location e")
     String query) {
-        try {
-            return new LocationsConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), expandLevel);
-        } finally {
-        }
+        return new LocationsConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), expandLevel);
     }
 
     /**
@@ -78,12 +67,9 @@ public class LocationsResource {
     @POST
     @Consumes({"application/xml", "application/json"})
     public Response post(LocationConverter data) {
-        try {
-            Location entity = data.getEntity();
+        Location entity = data.getEntity();
             createEntity(entity);
             return Response.created(uriInfo.getAbsolutePath().resolve(entity.getId() + "/")).build();
-        } finally {
-        }
     }
 
     /**
@@ -99,24 +85,6 @@ public class LocationsResource {
         return resource;
     }
 
-    /**
-     * Returns all the entities associated with this resource.
-     *
-     * @return a collection of Location instances
-     */
-    protected Collection<Location> getEntities(int start, int max, String query) {
-        return lookupLocationFacade().findAll(start, max);
-    }
-
-    /**
-     * Persist the given entity.
-     *
-     * @param entity the entity to persist
-     */
-    protected void createEntity(Location entity) {
-        lookupLocationFacade().create(entity);
-    }
-
     @Path("list/")
     @GET
     @Produces({"application/json"})
@@ -127,20 +95,19 @@ public class LocationsResource {
     int max, @QueryParam("query")
     @DefaultValue("SELECT e FROM Event e")
     String query) {
-        try {
             return new LocationListConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), uriInfo.getBaseUri());
-        } finally {
-
-        }
     }
 
-    private LocationFacadeLocal lookupLocationFacade() {
-        try {
-            javax.naming.Context c = new InitialContext();
-            return (LocationFacadeLocal) c.lookup("java:comp/env/LocationFacade");
-        } catch (NamingException ne) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
-            throw new RuntimeException(ne);
-        }
+    /**
+     * Returns all the entities associated with this resource.
+     *
+     * @return a collection of Location instances
+     */
+    @Override
+    protected Collection<Location> getEntities(int start, int max, String query) {
+        return (Collection<Location>) super.getEntities(start, max, query);
     }
+
+
+
 }
