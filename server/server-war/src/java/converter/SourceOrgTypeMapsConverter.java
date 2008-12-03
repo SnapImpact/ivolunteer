@@ -15,85 +15,91 @@ import java.util.ArrayList;
 import persistence.SourceOrgTypeMap;
 
 /**
- *
+ * 
  * @author dave
  */
 
 @XmlRootElement(name = "sourceOrgTypeMaps")
 public class SourceOrgTypeMapsConverter {
-    private Collection<SourceOrgTypeMap> entities;
-    private Collection<converter.SourceOrgTypeMapConverter> items;
-    private URI uri;
-    private int expandLevel;
-  
-    /** Creates a new instance of SourceOrgTypeMapsConverter */
-    public SourceOrgTypeMapsConverter() {
-    }
+	private Collection<SourceOrgTypeMap>					entities;
+	private Collection<converter.SourceOrgTypeMapConverter>	items;
+	private URI												uri;
+	private int												expandLevel;
 
-    /**
-     * Creates a new instance of SourceOrgTypeMapsConverter.
-     *
-     * @param entities associated entities
-     * @param uri associated uri
-     * @param expandLevel indicates the number of levels the entity graph should be expanded
-     */
-    public SourceOrgTypeMapsConverter(Collection<SourceOrgTypeMap> entities, URI uri, int expandLevel) {
-        this.entities = entities;
-        this.uri = uri;
-        this.expandLevel = expandLevel;
-        getSourceOrgTypeMap();
-    }
+	/** Creates a new instance of SourceOrgTypeMapsConverter */
+	public SourceOrgTypeMapsConverter() {
+	}
 
-    /**
-     * Returns a collection of SourceOrgTypeMapConverter.
-     *
-     * @return a collection of SourceOrgTypeMapConverter
-     */
-    @XmlElement
-    public Collection<converter.SourceOrgTypeMapConverter> getSourceOrgTypeMap() {
-        if (items == null) {
-            items = new ArrayList<SourceOrgTypeMapConverter>();
-        }
-        if (entities != null) {
-            for (SourceOrgTypeMap entity : entities) {
-                items.add(new SourceOrgTypeMapConverter(entity, uri, expandLevel, true));
-            }
-        }
-        return items;
-    }
+	/**
+	 * Creates a new instance of SourceOrgTypeMapsConverter.
+	 * 
+	 * @param entities
+	 *            associated entities
+	 * @param uri
+	 *            associated uri
+	 * @param expandLevel
+	 *            indicates the number of levels the entity graph should be
+	 *            expanded
+	 */
+	public SourceOrgTypeMapsConverter(Collection<SourceOrgTypeMap> entities, URI uri,
+			int expandLevel) {
+		this.entities = entities;
+		this.uri = uri;
+		this.expandLevel = expandLevel;
+		getSourceOrgTypeMap();
+	}
 
-    /**
-     * Sets a collection of SourceOrgTypeMapConverter.
-     *
-     * @param a collection of SourceOrgTypeMapConverter to set
-     */
-    public void setSourceOrgTypeMap(Collection<converter.SourceOrgTypeMapConverter> items) {
-        this.items = items;
-    }
+	/**
+	 * Returns a collection of SourceOrgTypeMapConverter.
+	 * 
+	 * @return a collection of SourceOrgTypeMapConverter
+	 */
+	@XmlElement
+	public Collection<converter.SourceOrgTypeMapConverter> getSourceOrgTypeMap() {
+		if (items == null) {
+			items = new ArrayList<SourceOrgTypeMapConverter>();
+		}
+		if (entities != null) {
+			for (SourceOrgTypeMap entity : entities) {
+				items.add(new SourceOrgTypeMapConverter(entity, uri, expandLevel, true));
+			}
+		}
+		return items;
+	}
 
-    /**
-     * Returns the URI associated with this converter.
-     *
-     * @return the uri
-     */
-    @XmlAttribute
-    public URI getUri() {
-        return uri;
-    }
+	/**
+	 * Sets a collection of SourceOrgTypeMapConverter.
+	 * 
+	 * @param a
+	 *            collection of SourceOrgTypeMapConverter to set
+	 */
+	public void setSourceOrgTypeMap(Collection<converter.SourceOrgTypeMapConverter> items) {
+		this.items = items;
+	}
 
-    /**
-     * Returns a collection SourceOrgTypeMap entities.
-     *
-     * @return a collection of SourceOrgTypeMap entities
-     */
-    @XmlTransient
-    public Collection<SourceOrgTypeMap> getEntities() {
-        entities = new ArrayList<SourceOrgTypeMap>();
-        if (items != null) {
-            for (SourceOrgTypeMapConverter item : items) {
-                entities.add(item.getEntity());
-            }
-        }
-        return entities;
-    }
+	/**
+	 * Returns the URI associated with this converter.
+	 * 
+	 * @return the uri
+	 */
+	@XmlAttribute
+	public URI getUri() {
+		return uri;
+	}
+
+	/**
+	 * Returns a collection SourceOrgTypeMap entities.
+	 * 
+	 * @return a collection of SourceOrgTypeMap entities
+	 */
+	@XmlTransient
+	public Collection<SourceOrgTypeMap> getEntities() {
+		entities = new ArrayList<SourceOrgTypeMap>();
+		if (items != null) {
+			for (SourceOrgTypeMapConverter item : items) {
+				entities.add(item.getEntity());
+			}
+		}
+		return entities;
+	}
 }

@@ -10,20 +10,20 @@ import javax.ejb.Local;
 import persistence.InterestArea;
 
 /**
- *
+ * 
  * @author dave
  */
 @Local
 public interface InterestAreaFacadeLocal {
 
-    void create(InterestArea interestArea);
+	void create(InterestArea interestArea);
 
-    void edit(InterestArea interestArea);
+	void edit(InterestArea interestArea);
 
-    void remove(InterestArea interestArea);
+	void remove(InterestArea interestArea);
 
-    InterestArea find(Object id);
+	InterestArea find(Object id);
 
-    List<InterestArea> findAll();
+	List<InterestArea> findAll();
 
 }

@@ -10,20 +10,20 @@ import javax.ejb.Local;
 import persistence.Timestamp;
 
 /**
- *
+ * 
  * @author dave
  */
 @Local
 public interface TimestampFacadeLocal {
 
-    void create(Timestamp timestamp);
+	void create(Timestamp timestamp);
 
-    void edit(Timestamp timestamp);
+	void edit(Timestamp timestamp);
 
-    void remove(Timestamp timestamp);
+	void remove(Timestamp timestamp);
 
-    Timestamp find(Object id);
+	Timestamp find(Object id);
 
-    List<Timestamp> findAll(int start, int max);
+	List<Timestamp> findAll(int start, int max);
 
 }

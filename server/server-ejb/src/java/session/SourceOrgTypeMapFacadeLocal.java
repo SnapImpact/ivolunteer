@@ -10,20 +10,20 @@ import javax.ejb.Local;
 import persistence.SourceOrgTypeMap;
 
 /**
- *
+ * 
  * @author dave
  */
 @Local
 public interface SourceOrgTypeMapFacadeLocal {
 
-    void create(SourceOrgTypeMap sourceOrgTypeMap);
+	void create(SourceOrgTypeMap sourceOrgTypeMap);
 
-    void edit(SourceOrgTypeMap sourceOrgTypeMap);
+	void edit(SourceOrgTypeMap sourceOrgTypeMap);
 
-    void remove(SourceOrgTypeMap sourceOrgTypeMap);
+	void remove(SourceOrgTypeMap sourceOrgTypeMap);
 
-    SourceOrgTypeMap find(Object id);
+	SourceOrgTypeMap find(Object id);
 
-    List<SourceOrgTypeMap> findAll();
+	List<SourceOrgTypeMap> findAll();
 
 }

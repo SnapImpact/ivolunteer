@@ -12,32 +12,33 @@ import javax.persistence.PersistenceContext;
 import persistence.Organization;
 
 /**
- *
+ * 
  * @author dave
  */
 @Stateless
 public class OrganizationFacade implements OrganizationFacadeLocal {
-    @PersistenceContext
-    private EntityManager em;
+	@PersistenceContext
+	private EntityManager	em;
 
-    public void create(Organization organization) {
-        em.persist(organization);
-    }
+	public void create(Organization organization) {
+		em.persist(organization);
+	}
 
-    public void edit(Organization organization) {
-        em.merge(organization);
-    }
+	public void edit(Organization organization) {
+		em.merge(organization);
+	}
 
-    public void remove(Organization organization) {
-        em.remove(em.merge(organization));
-    }
+	public void remove(Organization organization) {
+		em.remove(em.merge(organization));
+	}
 
-    public Organization find(Object id) {
-        return em.find(Organization.class, id);
-    }
+	public Organization find(Object id) {
+		return em.find(Organization.class, id);
+	}
 
-    public List<Organization> findAll(int start, int max) {
-        return em.createQuery("select object(o) from Organization as o").setFirstResult(start).setMaxResults(max).getResultList();
-    }
+	public List<Organization> findAll(int start, int max) {
+		return em.createQuery("select object(o) from Organization as o").setFirstResult(start)
+				.setMaxResults(max).getResultList();
+	}
 
 }

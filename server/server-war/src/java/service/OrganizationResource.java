@@ -29,353 +29,378 @@ import persistence.Location;
 import converter.OrganizationConverter;
 
 /**
- *
+ * 
  * @author dave
  */
 
 public class OrganizationResource {
-    @Context
-    protected UriInfo uriInfo;
-    @Context
-    protected ResourceContext resourceContext;
-    protected String id;
-  
-    /** Creates a new instance of OrganizationResource */
-    public OrganizationResource() {
-    }
+	@Context
+	protected UriInfo			uriInfo;
+	@Context
+	protected ResourceContext	resourceContext;
+	protected String			id;
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	/** Creates a new instance of OrganizationResource */
+	public OrganizationResource() {
+	}
 
-    /**
-     * Get method for retrieving an instance of Organization identified by id in XML format.
-     *
-     * @param id identifier for the entity
-     * @return an instance of OrganizationConverter
-     */
-    @GET
-    @Produces({"application/xml", "application/json"})
-    public OrganizationConverter get(@QueryParam("expandLevel")
-    @DefaultValue("1")
-    int expandLevel) {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
-        try {
-            persistenceSvc.beginTx();
-            return new OrganizationConverter(getEntity(), uriInfo.getAbsolutePath(), expandLevel);
-        } finally {
-            PersistenceService.getInstance().close();
-        }
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    /**
-     * Put method for updating an instance of Organization identified by id using XML as the input format.
-     *
-     * @param id identifier for the entity
-     * @param data an OrganizationConverter entity that is deserialized from a XML stream
-     */
-    @PUT
-    @Consumes({"application/xml", "application/json"})
-    public void put(OrganizationConverter data) {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
-        try {
-            persistenceSvc.beginTx();
-            EntityManager em = persistenceSvc.getEntityManager();
-            updateEntity(getEntity(), data.resolveEntity(em));
-            persistenceSvc.commitTx();
-        } finally {
-            persistenceSvc.close();
-        }
-    }
+	/**
+	 * Get method for retrieving an instance of Organization identified by id in
+	 * XML format.
+	 * 
+	 * @param id
+	 *            identifier for the entity
+	 * @return an instance of OrganizationConverter
+	 */
+	@GET
+	@Produces( { "application/xml", "application/json" })
+	public OrganizationConverter get(@QueryParam("expandLevel") @DefaultValue("1") int expandLevel) {
+		PersistenceService persistenceSvc = PersistenceService.getInstance();
+		try {
+			persistenceSvc.beginTx();
+			return new OrganizationConverter(getEntity(), uriInfo.getAbsolutePath(), expandLevel);
+		} finally {
+			PersistenceService.getInstance().close();
+		}
+	}
 
-    /**
-     * Delete method for deleting an instance of Organization identified by id.
-     *
-     * @param id identifier for the entity
-     */
-    @DELETE
-    public void delete() {
-        PersistenceService persistenceSvc = PersistenceService.getInstance();
-        try {
-            persistenceSvc.beginTx();
-            deleteEntity(getEntity());
-            persistenceSvc.commitTx();
-        } finally {
-            persistenceSvc.close();
-        }
-    }
+	/**
+	 * Put method for updating an instance of Organization identified by id
+	 * using XML as the input format.
+	 * 
+	 * @param id
+	 *            identifier for the entity
+	 * @param data
+	 *            an OrganizationConverter entity that is deserialized from a
+	 *            XML stream
+	 */
+	@PUT
+	@Consumes( { "application/xml", "application/json" })
+	public void put(OrganizationConverter data) {
+		PersistenceService persistenceSvc = PersistenceService.getInstance();
+		try {
+			persistenceSvc.beginTx();
+			EntityManager em = persistenceSvc.getEntityManager();
+			updateEntity(getEntity(), data.resolveEntity(em));
+			persistenceSvc.commitTx();
+		} finally {
+			persistenceSvc.close();
+		}
+	}
 
-    /**
-     * Returns an instance of Organization identified by id.
-     *
-     * @param id identifier for the entity
-     * @return an instance of Organization
-     */
-    protected Organization getEntity() {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        try {
-            return (Organization) em.createQuery("SELECT e FROM Organization e where e.id = :id").setParameter("id", id).getSingleResult();
-        } catch (NoResultException ex) {
-            throw new WebApplicationException(new Throwable("Resource for " + uriInfo.getAbsolutePath() + " does not exist."), 404);
-        }
-    }
+	/**
+	 * Delete method for deleting an instance of Organization identified by id.
+	 * 
+	 * @param id
+	 *            identifier for the entity
+	 */
+	@DELETE
+	public void delete() {
+		PersistenceService persistenceSvc = PersistenceService.getInstance();
+		try {
+			persistenceSvc.beginTx();
+			deleteEntity(getEntity());
+			persistenceSvc.commitTx();
+		} finally {
+			persistenceSvc.close();
+		}
+	}
 
-    /**
-     * Updates entity using data from newEntity.
-     *
-     * @param entity the entity to update
-     * @param newEntity the entity containing the new data
-     * @return the updated entity
-     */
-    protected Organization updateEntity(Organization entity, Organization newEntity) {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        Collection<Location> locationCollection = entity.getLocationCollection();
-        Collection<Location> locationCollectionNew = newEntity.getLocationCollection();
-        Collection<InterestArea> interestAreaCollection = entity.getInterestAreaCollection();
-        Collection<InterestArea> interestAreaCollectionNew = newEntity.getInterestAreaCollection();
-        Collection<Event> eventCollection = entity.getEventCollection();
-        Collection<Event> eventCollectionNew = newEntity.getEventCollection();
-        OrganizationType organizationTypeId = entity.getOrganizationTypeId();
-        OrganizationType organizationTypeIdNew = newEntity.getOrganizationTypeId();
-        Source sourceId = entity.getSourceId();
-        Source sourceIdNew = newEntity.getSourceId();
-        entity = em.merge(newEntity);
-        for (Location value : locationCollection) {
-            if (!locationCollectionNew.contains(value)) {
-                value.getOrganizationCollection().remove(entity);
-            }
-        }
-        for (Location value : locationCollectionNew) {
-            if (!locationCollection.contains(value)) {
-                value.getOrganizationCollection().add(entity);
-            }
-        }
-        for (InterestArea value : interestAreaCollection) {
-            if (!interestAreaCollectionNew.contains(value)) {
-                value.getOrganizationCollection().remove(entity);
-            }
-        }
-        for (InterestArea value : interestAreaCollectionNew) {
-            if (!interestAreaCollection.contains(value)) {
-                value.getOrganizationCollection().add(entity);
-            }
-        }
-        for (Event value : eventCollection) {
-            if (!eventCollectionNew.contains(value)) {
-                value.getOrganizationCollection().remove(entity);
-            }
-        }
-        for (Event value : eventCollectionNew) {
-            if (!eventCollection.contains(value)) {
-                value.getOrganizationCollection().add(entity);
-            }
-        }
-        if (organizationTypeId != null && !organizationTypeId.equals(organizationTypeIdNew)) {
-            organizationTypeId.getOrganizationCollection().remove(entity);
-        }
-        if (organizationTypeIdNew != null && !organizationTypeIdNew.equals(organizationTypeId)) {
-            organizationTypeIdNew.getOrganizationCollection().add(entity);
-        }
-        if (sourceId != null && !sourceId.equals(sourceIdNew)) {
-            sourceId.getOrganizationCollection().remove(entity);
-        }
-        if (sourceIdNew != null && !sourceIdNew.equals(sourceId)) {
-            sourceIdNew.getOrganizationCollection().add(entity);
-        }
-        return entity;
-    }
+	/**
+	 * Returns an instance of Organization identified by id.
+	 * 
+	 * @param id
+	 *            identifier for the entity
+	 * @return an instance of Organization
+	 */
+	protected Organization getEntity() {
+		EntityManager em = PersistenceService.getInstance().getEntityManager();
+		try {
+			return (Organization) em.createQuery("SELECT e FROM Organization e where e.id = :id")
+					.setParameter("id", id).getSingleResult();
+		} catch (NoResultException ex) {
+			throw new WebApplicationException(new Throwable("Resource for "
+					+ uriInfo.getAbsolutePath() + " does not exist."), 404);
+		}
+	}
 
-    /**
-     * Deletes the entity.
-     *
-     * @param entity the entity to deletle
-     */
-    protected void deleteEntity(Organization entity) {
-        EntityManager em = PersistenceService.getInstance().getEntityManager();
-        for (Location value : entity.getLocationCollection()) {
-            value.getOrganizationCollection().remove(entity);
-        }
-        for (InterestArea value : entity.getInterestAreaCollection()) {
-            value.getOrganizationCollection().remove(entity);
-        }
-        for (Event value : entity.getEventCollection()) {
-            value.getOrganizationCollection().remove(entity);
-        }
-        OrganizationType organizationTypeId = entity.getOrganizationTypeId();
-        if (organizationTypeId != null) {
-            organizationTypeId.getOrganizationCollection().remove(entity);
-        }
-        Source sourceId = entity.getSourceId();
-        if (sourceId != null) {
-            sourceId.getOrganizationCollection().remove(entity);
-        }
-        em.remove(entity);
-    }
+	/**
+	 * Updates entity using data from newEntity.
+	 * 
+	 * @param entity
+	 *            the entity to update
+	 * @param newEntity
+	 *            the entity containing the new data
+	 * @return the updated entity
+	 */
+	protected Organization updateEntity(Organization entity, Organization newEntity) {
+		EntityManager em = PersistenceService.getInstance().getEntityManager();
+		Collection<Location> locationCollection = entity.getLocationCollection();
+		Collection<Location> locationCollectionNew = newEntity.getLocationCollection();
+		Collection<InterestArea> interestAreaCollection = entity.getInterestAreaCollection();
+		Collection<InterestArea> interestAreaCollectionNew = newEntity.getInterestAreaCollection();
+		Collection<Event> eventCollection = entity.getEventCollection();
+		Collection<Event> eventCollectionNew = newEntity.getEventCollection();
+		OrganizationType organizationTypeId = entity.getOrganizationTypeId();
+		OrganizationType organizationTypeIdNew = newEntity.getOrganizationTypeId();
+		Source sourceId = entity.getSourceId();
+		Source sourceIdNew = newEntity.getSourceId();
+		entity = em.merge(newEntity);
+		for (Location value : locationCollection) {
+			if (!locationCollectionNew.contains(value)) {
+				value.getOrganizationCollection().remove(entity);
+			}
+		}
+		for (Location value : locationCollectionNew) {
+			if (!locationCollection.contains(value)) {
+				value.getOrganizationCollection().add(entity);
+			}
+		}
+		for (InterestArea value : interestAreaCollection) {
+			if (!interestAreaCollectionNew.contains(value)) {
+				value.getOrganizationCollection().remove(entity);
+			}
+		}
+		for (InterestArea value : interestAreaCollectionNew) {
+			if (!interestAreaCollection.contains(value)) {
+				value.getOrganizationCollection().add(entity);
+			}
+		}
+		for (Event value : eventCollection) {
+			if (!eventCollectionNew.contains(value)) {
+				value.getOrganizationCollection().remove(entity);
+			}
+		}
+		for (Event value : eventCollectionNew) {
+			if (!eventCollection.contains(value)) {
+				value.getOrganizationCollection().add(entity);
+			}
+		}
+		if (organizationTypeId != null && !organizationTypeId.equals(organizationTypeIdNew)) {
+			organizationTypeId.getOrganizationCollection().remove(entity);
+		}
+		if (organizationTypeIdNew != null && !organizationTypeIdNew.equals(organizationTypeId)) {
+			organizationTypeIdNew.getOrganizationCollection().add(entity);
+		}
+		if (sourceId != null && !sourceId.equals(sourceIdNew)) {
+			sourceId.getOrganizationCollection().remove(entity);
+		}
+		if (sourceIdNew != null && !sourceIdNew.equals(sourceId)) {
+			sourceIdNew.getOrganizationCollection().add(entity);
+		}
+		return entity;
+	}
 
-    /**
-     * Returns a dynamic instance of LocationsResource used for entity navigation.
-     *
-     * @param id identifier for the parent entity
-     * @return an instance of LocationsResource
-     */
-    @Path("locationCollection/")
-    public LocationsResource getLocationCollectionResource() {
-        LocationCollectionResourceSub resource = resourceContext.getResource(LocationCollectionResourceSub.class);
-        resource.setParent(getEntity());
-        return resource;
-    }
+	/**
+	 * Deletes the entity.
+	 * 
+	 * @param entity
+	 *            the entity to deletle
+	 */
+	protected void deleteEntity(Organization entity) {
+		EntityManager em = PersistenceService.getInstance().getEntityManager();
+		for (Location value : entity.getLocationCollection()) {
+			value.getOrganizationCollection().remove(entity);
+		}
+		for (InterestArea value : entity.getInterestAreaCollection()) {
+			value.getOrganizationCollection().remove(entity);
+		}
+		for (Event value : entity.getEventCollection()) {
+			value.getOrganizationCollection().remove(entity);
+		}
+		OrganizationType organizationTypeId = entity.getOrganizationTypeId();
+		if (organizationTypeId != null) {
+			organizationTypeId.getOrganizationCollection().remove(entity);
+		}
+		Source sourceId = entity.getSourceId();
+		if (sourceId != null) {
+			sourceId.getOrganizationCollection().remove(entity);
+		}
+		em.remove(entity);
+	}
 
-    /**
-     * Returns a dynamic instance of InterestAreasResource used for entity navigation.
-     *
-     * @param id identifier for the parent entity
-     * @return an instance of InterestAreasResource
-     */
-    @Path("interestAreaCollection/")
-    public InterestAreasResource getInterestAreaCollectionResource() {
-        InterestAreaCollectionResourceSub resource = resourceContext.getResource(InterestAreaCollectionResourceSub.class);
-        resource.setParent(getEntity());
-        return resource;
-    }
+	/**
+	 * Returns a dynamic instance of LocationsResource used for entity
+	 * navigation.
+	 * 
+	 * @param id
+	 *            identifier for the parent entity
+	 * @return an instance of LocationsResource
+	 */
+	@Path("locationCollection/")
+	public LocationsResource getLocationCollectionResource() {
+		LocationCollectionResourceSub resource = resourceContext
+				.getResource(LocationCollectionResourceSub.class);
+		resource.setParent(getEntity());
+		return resource;
+	}
 
-    /**
-     * Returns a dynamic instance of EventsResource used for entity navigation.
-     *
-     * @param id identifier for the parent entity
-     * @return an instance of EventsResource
-     */
-    @Path("eventCollection/")
-    public EventsResource getEventCollectionResource() {
-        EventCollectionResourceSub resource = resourceContext.getResource(EventCollectionResourceSub.class);
-        resource.setParent(getEntity());
-        return resource;
-    }
+	/**
+	 * Returns a dynamic instance of InterestAreasResource used for entity
+	 * navigation.
+	 * 
+	 * @param id
+	 *            identifier for the parent entity
+	 * @return an instance of InterestAreasResource
+	 */
+	@Path("interestAreaCollection/")
+	public InterestAreasResource getInterestAreaCollectionResource() {
+		InterestAreaCollectionResourceSub resource = resourceContext
+				.getResource(InterestAreaCollectionResourceSub.class);
+		resource.setParent(getEntity());
+		return resource;
+	}
 
-    /**
-     * Returns a dynamic instance of OrganizationTypeResource used for entity navigation.
-     *
-     * @param id identifier for the parent entity
-     * @return an instance of OrganizationTypeResource
-     */
-    @Path("organizationTypeId/")
-    public OrganizationTypeResource getOrganizationTypeIdResource() {
-        OrganizationTypeIdResourceSub resource = resourceContext.getResource(OrganizationTypeIdResourceSub.class);
-        resource.setParent(getEntity());
-        return resource;
-    }
+	/**
+	 * Returns a dynamic instance of EventsResource used for entity navigation.
+	 * 
+	 * @param id
+	 *            identifier for the parent entity
+	 * @return an instance of EventsResource
+	 */
+	@Path("eventCollection/")
+	public EventsResource getEventCollectionResource() {
+		EventCollectionResourceSub resource = resourceContext
+				.getResource(EventCollectionResourceSub.class);
+		resource.setParent(getEntity());
+		return resource;
+	}
 
-    /**
-     * Returns a dynamic instance of SourceResource used for entity navigation.
-     *
-     * @param id identifier for the parent entity
-     * @return an instance of SourceResource
-     */
-    @Path("sourceId/")
-    public SourceResource getSourceIdResource() {
-        SourceIdResourceSub resource = resourceContext.getResource(SourceIdResourceSub.class);
-        resource.setParent(getEntity());
-        return resource;
-    }
+	/**
+	 * Returns a dynamic instance of OrganizationTypeResource used for entity
+	 * navigation.
+	 * 
+	 * @param id
+	 *            identifier for the parent entity
+	 * @return an instance of OrganizationTypeResource
+	 */
+	@Path("organizationTypeId/")
+	public OrganizationTypeResource getOrganizationTypeIdResource() {
+		OrganizationTypeIdResourceSub resource = resourceContext
+				.getResource(OrganizationTypeIdResourceSub.class);
+		resource.setParent(getEntity());
+		return resource;
+	}
 
-    public static class LocationCollectionResourceSub extends LocationsResource {
+	/**
+	 * Returns a dynamic instance of SourceResource used for entity navigation.
+	 * 
+	 * @param id
+	 *            identifier for the parent entity
+	 * @return an instance of SourceResource
+	 */
+	@Path("sourceId/")
+	public SourceResource getSourceIdResource() {
+		SourceIdResourceSub resource = resourceContext.getResource(SourceIdResourceSub.class);
+		resource.setParent(getEntity());
+		return resource;
+	}
 
-        private Organization parent;
+	public static class LocationCollectionResourceSub extends LocationsResource {
 
-        public void setParent(Organization parent) {
-            this.parent = parent;
-        }
+		private Organization	parent;
 
-        @Override
-        protected Collection<Location> getEntities(int start, int max, String query) {
-            Collection<Location> result = new java.util.ArrayList<Location>();
-            int index = 0;
-            for (Location e : parent.getLocationCollection()) {
-                if (index >= start && (index - start) < max) {
-                    result.add(e);
-                }
-                index++;
-            }
-            return result;
-        }
-    }
+		public void setParent(Organization parent) {
+			this.parent = parent;
+		}
 
-    public static class InterestAreaCollectionResourceSub extends InterestAreasResource {
+		@Override
+		protected Collection<Location> getEntities(int start, int max, String query) {
+			Collection<Location> result = new java.util.ArrayList<Location>();
+			int index = 0;
+			for (Location e : parent.getLocationCollection()) {
+				if (index >= start && (index - start) < max) {
+					result.add(e);
+				}
+				index++;
+			}
+			return result;
+		}
+	}
 
-        private Organization parent;
+	public static class InterestAreaCollectionResourceSub extends InterestAreasResource {
 
-        public void setParent(Organization parent) {
-            this.parent = parent;
-        }
+		private Organization	parent;
 
-        @Override
-        protected Collection<InterestArea> getEntities(int start, int max, String query) {
-            Collection<InterestArea> result = new java.util.ArrayList<InterestArea>();
-            int index = 0;
-            for (InterestArea e : parent.getInterestAreaCollection()) {
-                if (index >= start && (index - start) < max) {
-                    result.add(e);
-                }
-                index++;
-            }
-            return result;
-        }
-    }
+		public void setParent(Organization parent) {
+			this.parent = parent;
+		}
 
-    public static class EventCollectionResourceSub extends EventsResource {
+		@Override
+		protected Collection<InterestArea> getEntities(int start, int max, String query) {
+			Collection<InterestArea> result = new java.util.ArrayList<InterestArea>();
+			int index = 0;
+			for (InterestArea e : parent.getInterestAreaCollection()) {
+				if (index >= start && (index - start) < max) {
+					result.add(e);
+				}
+				index++;
+			}
+			return result;
+		}
+	}
 
-        private Organization parent;
+	public static class EventCollectionResourceSub extends EventsResource {
 
-        public void setParent(Organization parent) {
-            this.parent = parent;
-        }
+		private Organization	parent;
 
-        @Override
-        protected Collection<Event> getEntities(int start, int max, String query) {
-            Collection<Event> result = new java.util.ArrayList<Event>();
-            int index = 0;
-            for (Event e : parent.getEventCollection()) {
-                if (index >= start && (index - start) < max) {
-                    result.add(e);
-                }
-                index++;
-            }
-            return result;
-        }
-    }
+		public void setParent(Organization parent) {
+			this.parent = parent;
+		}
 
-    public static class OrganizationTypeIdResourceSub extends OrganizationTypeResource {
+		@Override
+		protected Collection<Event> getEntities(int start, int max, String query) {
+			Collection<Event> result = new java.util.ArrayList<Event>();
+			int index = 0;
+			for (Event e : parent.getEventCollection()) {
+				if (index >= start && (index - start) < max) {
+					result.add(e);
+				}
+				index++;
+			}
+			return result;
+		}
+	}
 
-        private Organization parent;
+	public static class OrganizationTypeIdResourceSub extends OrganizationTypeResource {
 
-        public void setParent(Organization parent) {
-            this.parent = parent;
-        }
+		private Organization	parent;
 
-        @Override
-        protected OrganizationType getEntity() {
-            OrganizationType entity = parent.getOrganizationTypeId();
-            if (entity == null) {
-                throw new WebApplicationException(new Throwable("Resource for " + uriInfo.getAbsolutePath() + " does not exist."), 404);
-            }
-            return entity;
-        }
-    }
+		public void setParent(Organization parent) {
+			this.parent = parent;
+		}
 
-    public static class SourceIdResourceSub extends SourceResource {
+		@Override
+		protected OrganizationType getEntity() {
+			OrganizationType entity = parent.getOrganizationTypeId();
+			if (entity == null) {
+				throw new WebApplicationException(new Throwable("Resource for "
+						+ uriInfo.getAbsolutePath() + " does not exist."), 404);
+			}
+			return entity;
+		}
+	}
 
-        private Organization parent;
+	public static class SourceIdResourceSub extends SourceResource {
 
-        public void setParent(Organization parent) {
-            this.parent = parent;
-        }
+		private Organization	parent;
 
-        @Override
-        protected Source getEntity() {
-            Source entity = parent.getSourceId();
-            if (entity == null) {
-                throw new WebApplicationException(new Throwable("Resource for " + uriInfo.getAbsolutePath() + " does not exist."), 404);
-            }
-            return entity;
-        }
-    }
+		public void setParent(Organization parent) {
+			this.parent = parent;
+		}
+
+		@Override
+		protected Source getEntity() {
+			Source entity = parent.getSourceId();
+			if (entity == null) {
+				throw new WebApplicationException(new Throwable("Resource for "
+						+ uriInfo.getAbsolutePath() + " does not exist."), 404);
+			}
+			return entity;
+		}
+	}
 }

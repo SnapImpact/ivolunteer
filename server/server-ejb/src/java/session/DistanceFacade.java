@@ -13,32 +13,33 @@ import persistence.Distance;
 import persistence.IdInterface;
 
 /**
- *
+ * 
  * @author dave
  */
 @Stateless
 public class DistanceFacade implements DistanceFacadeLocal {
-    @PersistenceContext
-    private EntityManager em;
+	@PersistenceContext
+	private EntityManager	em;
 
-    public void create(Distance distance) {
-        em.persist(distance);
-    }
+	public void create(Distance distance) {
+		em.persist(distance);
+	}
 
-    public void edit(Distance distance) {
-        em.merge(distance);
-    }
+	public void edit(Distance distance) {
+		em.merge(distance);
+	}
 
-    public void remove(Distance distance) {
-        em.remove(em.merge(distance));
-    }
+	public void remove(Distance distance) {
+		em.remove(em.merge(distance));
+	}
 
-    public Distance find(Object id) {
-        return em.find(Distance.class, id);
-    }
+	public Distance find(Object id) {
+		return em.find(Distance.class, id);
+	}
 
-    public List<Distance> findAll(int start, int max) {
-        return em.createQuery("select object(o) from Distance as o").setFirstResult(start).setMaxResults(max).getResultList();
-    }
+	public List<Distance> findAll(int start, int max) {
+		return em.createQuery("select object(o) from Distance as o").setFirstResult(start)
+				.setMaxResults(max).getResultList();
+	}
 
 }

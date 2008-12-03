@@ -24,87 +24,82 @@ import converter.EventConverter;
 import converter.EventListConverter;
 
 /**
- *
+ * 
  * @author dave
  */
 
 @Path("/events/")
 public class EventsResource extends Base {
-    @Context
-    protected UriInfo uriInfo;
-    @Context
-    protected ResourceContext resourceContext;
-  
-    /** Creates a new instance of EventsResource */
-    public EventsResource() {
-    }
+	@Context
+	protected UriInfo			uriInfo;
+	@Context
+	protected ResourceContext	resourceContext;
 
-    /**
-     * Get method for retrieving a collection of Event instance in XML format.
-     *
-     * @return an instance of EventsConverter
-     */
-    @GET
-    @Produces({"application/xml", "application/json"})
-    public EventsConverter get(@QueryParam("start")
-    @DefaultValue("0")
-    int start, @QueryParam("max")
-    @DefaultValue("10")
-    int max, @QueryParam("expandLevel")
-    @DefaultValue("1")
-    int expandLevel, @QueryParam("query")
-    @DefaultValue("SELECT e FROM Event e")
-    String query) {
-        return new EventsConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), expandLevel);
-    }
+	/** Creates a new instance of EventsResource */
+	public EventsResource() {
+	}
 
-    /**
-     * Post method for creating an instance of Event using XML as the input format.
-     *
-     * @param data an EventConverter entity that is deserialized from an XML stream
-     * @return an instance of EventConverter
-     */
-    @POST
-    @Consumes({"application/xml", "application/json"})
-    public Response post(EventConverter data) {
-        Event entity = data.getEntity();
-            createEntity(entity);
-            return Response.created(uriInfo.getAbsolutePath().resolve(entity.getId() + "/")).build();
-    }
+	/**
+	 * Get method for retrieving a collection of Event instance in XML format.
+	 * 
+	 * @return an instance of EventsConverter
+	 */
+	@GET
+	@Produces( { "application/xml", "application/json" })
+	public EventsConverter get(@QueryParam("start") @DefaultValue("0") int start,
+			@QueryParam("max") @DefaultValue("10") int max,
+			@QueryParam("expandLevel") @DefaultValue("1") int expandLevel,
+			@QueryParam("query") @DefaultValue("SELECT e FROM Event e") String query) {
+		return new EventsConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(),
+				expandLevel);
+	}
 
-    /**
-     * Returns a dynamic instance of EventResource used for entity navigation.
-     *
-     * @return an instance of EventResource
-     */
-    @Path("{id}/")
-    public service.EventResource getEventResource(@PathParam("id")
-    String id) {
-        EventResource resource = resourceContext.getResource(EventResource.class);
-        resource.setId(id);
-        return resource;
-    }
+	/**
+	 * Post method for creating an instance of Event using XML as the input
+	 * format.
+	 * 
+	 * @param data
+	 *            an EventConverter entity that is deserialized from an XML
+	 *            stream
+	 * @return an instance of EventConverter
+	 */
+	@POST
+	@Consumes( { "application/xml", "application/json" })
+	public Response post(EventConverter data) {
+		Event entity = data.getEntity();
+		createEntity(entity);
+		return Response.created(uriInfo.getAbsolutePath().resolve(entity.getId() + "/")).build();
+	}
 
-    @Path("list/")
-    @GET
-    @Produces({"application/json"})
-    public EventListConverter list(@QueryParam("start")
-    @DefaultValue("0")
-    int start, @QueryParam("max")
-    @DefaultValue("10")
-    int max, @QueryParam("query")
-    @DefaultValue("SELECT e FROM Event e")
-    String query) {
-        return new EventListConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(), uriInfo.getBaseUri());
-    }
+	/**
+	 * Returns a dynamic instance of EventResource used for entity navigation.
+	 * 
+	 * @return an instance of EventResource
+	 */
+	@Path("{id}/")
+	public service.EventResource getEventResource(@PathParam("id") String id) {
+		EventResource resource = resourceContext.getResource(EventResource.class);
+		resource.setId(id);
+		return resource;
+	}
 
-    /**
-     * Returns all the entities associated with this resource.
-     *
-     * @return a collection of Event instances
-     */
-    @Override
-    protected Collection<Event> getEntities(int start, int max, String query) {
-        return (Collection<Event>) super.getEntities(start, max, query);
-    }
+	@Path("list/")
+	@GET
+	@Produces( { "application/json" })
+	public EventListConverter list(@QueryParam("start") @DefaultValue("0") int start,
+			@QueryParam("max") @DefaultValue("10") int max,
+			@QueryParam("query") @DefaultValue("SELECT e FROM Event e") String query) {
+		return new EventListConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(),
+				uriInfo.getBaseUri());
+	}
+
+	/**
+	 * Returns all the entities associated with this resource.
+	 * 
+	 * @return a collection of Event instances
+	 */
+	@Override
+	protected Collection<Event> getEntities(int start, int max, String query) {
+		return (Collection<Event>) super.getEntities(start, max, query);
+	}
 }

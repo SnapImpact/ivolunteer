@@ -10,20 +10,20 @@ import javax.ejb.Local;
 import persistence.IvUser;
 
 /**
- *
+ * 
  * @author dave
  */
 @Local
 public interface IvUserFacadeLocal {
 
-    void create(IvUser ivUser);
+	void create(IvUser ivUser);
 
-    void edit(IvUser ivUser);
+	void edit(IvUser ivUser);
 
-    void remove(IvUser ivUser);
+	void remove(IvUser ivUser);
 
-    IvUser find(Object id);
+	IvUser find(Object id);
 
-    List<IvUser> findAll();
+	List<IvUser> findAll();
 
 }

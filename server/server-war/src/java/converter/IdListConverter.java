@@ -15,37 +15,39 @@ import javax.xml.bind.annotation.XmlElement;
 import java.util.ArrayList;
 import persistence.IdInterface;
 
-
 /**
- *
+ * 
  * @author dave
  */
 
-@XmlRootElement( name = "ids" )
+@XmlRootElement(name = "ids")
 public class IdListConverter {
-    @XmlElement
-    private Collection<String> ids = new ArrayList<String>();
-  
-    /** Creates a new instance of OrganizationsConverter */
-    public IdListConverter() {
-    }
+	@XmlElement
+	private Collection<String>	ids	= new ArrayList<String>();
 
-    /**
-     * Creates a new instance of OrganizationsConverter.
-     *
-     * @param entities associated entities
-     * @param uri associated uri
-     */
-    public IdListConverter(Collection<? extends IdInterface> records) {
-        if (this.ids == null) this.ids = new ArrayList<String>();
-        if (records != null) {
-            for (IdInterface record : records) {
-                this.ids.add(record.getId());
-            }
-        }
-    }
-    
-    public Collection<String> getIds() {
-        return ids;
-    }
+	/** Creates a new instance of OrganizationsConverter */
+	public IdListConverter() {
+	}
+
+	/**
+	 * Creates a new instance of OrganizationsConverter.
+	 * 
+	 * @param entities
+	 *            associated entities
+	 * @param uri
+	 *            associated uri
+	 */
+	public IdListConverter(Collection<? extends IdInterface> records) {
+		if (this.ids == null)
+			this.ids = new ArrayList<String>();
+		if (records != null) {
+			for (IdInterface record : records) {
+				this.ids.add(record.getId());
+			}
+		}
+	}
+
+	public Collection<String> getIds() {
+		return ids;
+	}
 }

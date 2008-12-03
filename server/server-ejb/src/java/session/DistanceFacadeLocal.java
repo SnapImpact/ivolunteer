@@ -10,19 +10,19 @@ import javax.ejb.Local;
 import persistence.Distance;
 
 /**
- *
+ * 
  * @author dave
  */
 @Local
 public interface DistanceFacadeLocal {
 
-    void create(Distance distance);
+	void create(Distance distance);
 
-    void edit(Distance distance);
+	void edit(Distance distance);
 
-    void remove(Distance distance);
+	void remove(Distance distance);
 
-    Distance find(Object id);
+	Distance find(Object id);
 
-    List<Distance> findAll(int start, int max);
+	List<Distance> findAll(int start, int max);
 }

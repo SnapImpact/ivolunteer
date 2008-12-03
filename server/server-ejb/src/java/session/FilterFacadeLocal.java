@@ -10,20 +10,20 @@ import javax.ejb.Local;
 import persistence.Filter;
 
 /**
- *
+ * 
  * @author dave
  */
 @Local
 public interface FilterFacadeLocal {
 
-    void create(Filter filter);
+	void create(Filter filter);
 
-    void edit(Filter filter);
+	void edit(Filter filter);
 
-    void remove(Filter filter);
+	void remove(Filter filter);
 
-    Filter find(Object id);
+	Filter find(Object id);
 
-    List<Filter> findAll();
+	List<Filter> findAll();
 
 }

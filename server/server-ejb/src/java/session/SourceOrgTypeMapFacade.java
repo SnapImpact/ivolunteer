@@ -12,32 +12,32 @@ import javax.persistence.PersistenceContext;
 import persistence.SourceOrgTypeMap;
 
 /**
- *
+ * 
  * @author dave
  */
 @Stateless
 public class SourceOrgTypeMapFacade implements SourceOrgTypeMapFacadeLocal {
-    @PersistenceContext
-    private EntityManager em;
+	@PersistenceContext
+	private EntityManager	em;
 
-    public void create(SourceOrgTypeMap sourceOrgTypeMap) {
-        em.persist(sourceOrgTypeMap);
-    }
+	public void create(SourceOrgTypeMap sourceOrgTypeMap) {
+		em.persist(sourceOrgTypeMap);
+	}
 
-    public void edit(SourceOrgTypeMap sourceOrgTypeMap) {
-        em.merge(sourceOrgTypeMap);
-    }
+	public void edit(SourceOrgTypeMap sourceOrgTypeMap) {
+		em.merge(sourceOrgTypeMap);
+	}
 
-    public void remove(SourceOrgTypeMap sourceOrgTypeMap) {
-        em.remove(em.merge(sourceOrgTypeMap));
-    }
+	public void remove(SourceOrgTypeMap sourceOrgTypeMap) {
+		em.remove(em.merge(sourceOrgTypeMap));
+	}
 
-    public SourceOrgTypeMap find(Object id) {
-        return em.find(SourceOrgTypeMap.class, id);
-    }
+	public SourceOrgTypeMap find(Object id) {
+		return em.find(SourceOrgTypeMap.class, id);
+	}
 
-    public List<SourceOrgTypeMap> findAll() {
-        return em.createQuery("select object(o) from SourceOrgTypeMap as o").getResultList();
-    }
+	public List<SourceOrgTypeMap> findAll() {
+		return em.createQuery("select object(o) from SourceOrgTypeMap as o").getResultList();
+	}
 
 }

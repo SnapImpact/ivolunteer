@@ -16,45 +16,45 @@ import javax.xml.bind.annotation.XmlElement;
 import java.util.ArrayList;
 import persistence.Distance;
 
-
 /**
- *
+ * 
  * @author dave
  */
 
-
-@XmlRootElement( name = "records" )
+@XmlRootElement(name = "records")
 public class DistanceRecordsConverter {
-    private Collection<Distance> records;
-    private URI uri;
-    private URI baseUri;
-  
-    /** Creates a new instance of OrganizationsConverter */
-    public DistanceRecordsConverter() {
-    }
+	private Collection<Distance>	records;
+	private URI						uri;
+	private URI						baseUri;
 
-    /**
-     * Creates a new instance of OrganizationsConverter.
-     *
-     * @param entities associated entities
-     * @param uri associated uri
-     */
-    public DistanceRecordsConverter(Collection<Distance> records, URI uri, URI baseUri) {
-        this.records = records;
-        this.uri = uri;
-        this.baseUri = baseUri;
-    }
-    
-    @XmlElement
-    public ArrayList<DistanceRecordConverter> getRecords() {
-        ArrayList<DistanceRecordConverter> ret = new ArrayList<DistanceRecordConverter>();
-        if (records != null) {
-            for (Distance record : records ) {
-                ret.add(new DistanceRecordConverter(record, baseUri.resolve( "location/" + record.getId() + "/"), 1));
-            }
-        }
-        return ret;
-    }
-    
+	/** Creates a new instance of OrganizationsConverter */
+	public DistanceRecordsConverter() {
+	}
+
+	/**
+	 * Creates a new instance of OrganizationsConverter.
+	 * 
+	 * @param entities
+	 *            associated entities
+	 * @param uri
+	 *            associated uri
+	 */
+	public DistanceRecordsConverter(Collection<Distance> records, URI uri, URI baseUri) {
+		this.records = records;
+		this.uri = uri;
+		this.baseUri = baseUri;
+	}
+
+	@XmlElement
+	public ArrayList<DistanceRecordConverter> getRecords() {
+		ArrayList<DistanceRecordConverter> ret = new ArrayList<DistanceRecordConverter>();
+		if (records != null) {
+			for (Distance record : records) {
+				ret.add(new DistanceRecordConverter(record, baseUri.resolve("location/"
+						+ record.getId() + "/"), 1));
+			}
+		}
+		return ret;
+	}
 
 }

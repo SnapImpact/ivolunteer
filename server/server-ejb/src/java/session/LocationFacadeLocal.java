@@ -10,20 +10,20 @@ import javax.ejb.Local;
 import persistence.Location;
 
 /**
- *
+ * 
  * @author dave
  */
 @Local
 public interface LocationFacadeLocal {
 
-    void create(Location location);
+	void create(Location location);
 
-    void edit(Location location);
+	void edit(Location location);
 
-    void remove(Location location);
+	void remove(Location location);
 
-    Location find(Object id);
+	Location find(Object id);
 
-    List<Location> findAll(int start, int max);
+	List<Location> findAll(int start, int max);
 
 }

@@ -21,428 +21,458 @@ import persistence.Location;
 import persistence.Timestamp;
 
 /**
- *
+ * 
  * @author dave
  */
 
 @XmlRootElement(name = "event")
 public class EventConverter {
-    private Event entity;
-    private URI uri;
-    private int expandLevel;
-  
-    /** Creates a new instance of EventConverter */
-    public EventConverter() {
-        entity = new Event();
-    }
+	private Event	entity;
+	private URI		uri;
+	private int		expandLevel;
 
-    /**
-     * Creates a new instance of EventConverter.
-     *
-     * @param entity associated entity
-     * @param uri associated uri
-     * @param expandLevel indicates the number of levels the entity graph should be expanded@param isUriExtendable indicates whether the uri can be extended
-     */
-    public EventConverter(Event entity, URI uri, int expandLevel, boolean isUriExtendable) {
-        this.entity = entity;
-        this.uri = (isUriExtendable) ? UriBuilder.fromUri(uri).path(entity.getId() + "/").build() : uri;
-        this.expandLevel = expandLevel;
-        getInterestAreaCollection();
-        getTimestampCollection();
-        getLocationCollection();
-        getOrganizationCollection();
-        getSourceId();
-    }
+	/** Creates a new instance of EventConverter */
+	public EventConverter() {
+		entity = new Event();
+	}
 
-    /**
-     * Creates a new instance of EventConverter.
-     *
-     * @param entity associated entity
-     * @param uri associated uri
-     * @param expandLevel indicates the number of levels the entity graph should be expanded
-     */
-    public EventConverter(Event entity, URI uri, int expandLevel) {
-        this(entity, uri, expandLevel, false);
-    }
+	/**
+	 * Creates a new instance of EventConverter.
+	 * 
+	 * @param entity
+	 *            associated entity
+	 * @param uri
+	 *            associated uri
+	 * @param expandLevel
+	 *            indicates the number of levels the entity graph should be
+	 *            expanded@param isUriExtendable indicates whether the uri can
+	 *            be extended
+	 */
+	public EventConverter(Event entity, URI uri, int expandLevel, boolean isUriExtendable) {
+		this.entity = entity;
+		this.uri = (isUriExtendable) ? UriBuilder.fromUri(uri).path(entity.getId() + "/").build()
+				: uri;
+		this.expandLevel = expandLevel;
+		getInterestAreaCollection();
+		getTimestampCollection();
+		getLocationCollection();
+		getOrganizationCollection();
+		getSourceId();
+	}
 
-    /**
-     * Getter for id.
-     *
-     * @return value for id
-     */
-    @XmlElement
-    public String getId() {
-        return (expandLevel > 0) ? entity.getId() : null;
-    }
+	/**
+	 * Creates a new instance of EventConverter.
+	 * 
+	 * @param entity
+	 *            associated entity
+	 * @param uri
+	 *            associated uri
+	 * @param expandLevel
+	 *            indicates the number of levels the entity graph should be
+	 *            expanded
+	 */
+	public EventConverter(Event entity, URI uri, int expandLevel) {
+		this(entity, uri, expandLevel, false);
+	}
 
-    /**
-     * Setter for id.
-     *
-     * @param value the value to set
-     */
-    public void setId(String value) {
-        entity.setId(value);
-    }
+	/**
+	 * Getter for id.
+	 * 
+	 * @return value for id
+	 */
+	@XmlElement
+	public String getId() {
+		return (expandLevel > 0) ? entity.getId() : null;
+	}
 
-    /**
-     * Getter for title.
-     *
-     * @return value for title
-     */
-    @XmlElement
-    public String getTitle() {
-        return (expandLevel > 0) ? entity.getTitle() : null;
-    }
+	/**
+	 * Setter for id.
+	 * 
+	 * @param value
+	 *            the value to set
+	 */
+	public void setId(String value) {
+		entity.setId(value);
+	}
 
-    /**
-     * Setter for title.
-     *
-     * @param value the value to set
-     */
-    public void setTitle(String value) {
-        entity.setTitle(value);
-    }
+	/**
+	 * Getter for title.
+	 * 
+	 * @return value for title
+	 */
+	@XmlElement
+	public String getTitle() {
+		return (expandLevel > 0) ? entity.getTitle() : null;
+	}
 
-    /**
-     * Getter for description.
-     *
-     * @return value for description
-     */
-    @XmlElement
-    public String getDescription() {
-        return (expandLevel > 0) ? entity.getDescription() : null;
-    }
+	/**
+	 * Setter for title.
+	 * 
+	 * @param value
+	 *            the value to set
+	 */
+	public void setTitle(String value) {
+		entity.setTitle(value);
+	}
 
-    /**
-     * Setter for description.
-     *
-     * @param value the value to set
-     */
-    public void setDescription(String value) {
-        entity.setDescription(value);
-    }
+	/**
+	 * Getter for description.
+	 * 
+	 * @return value for description
+	 */
+	@XmlElement
+	public String getDescription() {
+		return (expandLevel > 0) ? entity.getDescription() : null;
+	}
 
-    /**
-     * Getter for duration.
-     *
-     * @return value for duration
-     */
-    @XmlElement
-    public Short getDuration() {
-        return (expandLevel > 0) ? entity.getDuration() : null;
-    }
+	/**
+	 * Setter for description.
+	 * 
+	 * @param value
+	 *            the value to set
+	 */
+	public void setDescription(String value) {
+		entity.setDescription(value);
+	}
 
-    /**
-     * Setter for duration.
-     *
-     * @param value the value to set
-     */
-    public void setDuration(Short value) {
-        entity.setDuration(value);
-    }
+	/**
+	 * Getter for duration.
+	 * 
+	 * @return value for duration
+	 */
+	@XmlElement
+	public Short getDuration() {
+		return (expandLevel > 0) ? entity.getDuration() : null;
+	}
 
-    /**
-     * Getter for contact.
-     *
-     * @return value for contact
-     */
-    @XmlElement
-    public String getContact() {
-        return (expandLevel > 0) ? entity.getContact() : null;
-    }
+	/**
+	 * Setter for duration.
+	 * 
+	 * @param value
+	 *            the value to set
+	 */
+	public void setDuration(Short value) {
+		entity.setDuration(value);
+	}
 
-    /**
-     * Setter for contact.
-     *
-     * @param value the value to set
-     */
-    public void setContact(String value) {
-        entity.setContact(value);
-    }
+	/**
+	 * Getter for contact.
+	 * 
+	 * @return value for contact
+	 */
+	@XmlElement
+	public String getContact() {
+		return (expandLevel > 0) ? entity.getContact() : null;
+	}
 
-    /**
-     * Getter for url.
-     *
-     * @return value for url
-     */
-    @XmlElement
-    public String getUrl() {
-        return (expandLevel > 0) ? entity.getUrl() : null;
-    }
+	/**
+	 * Setter for contact.
+	 * 
+	 * @param value
+	 *            the value to set
+	 */
+	public void setContact(String value) {
+		entity.setContact(value);
+	}
 
-    /**
-     * Setter for url.
-     *
-     * @param value the value to set
-     */
-    public void setUrl(String value) {
-        entity.setUrl(value);
-    }
+	/**
+	 * Getter for url.
+	 * 
+	 * @return value for url
+	 */
+	@XmlElement
+	public String getUrl() {
+		return (expandLevel > 0) ? entity.getUrl() : null;
+	}
 
-    /**
-     * Getter for phone.
-     *
-     * @return value for phone
-     */
-    @XmlElement
-    public String getPhone() {
-        return (expandLevel > 0) ? entity.getPhone() : null;
-    }
+	/**
+	 * Setter for url.
+	 * 
+	 * @param value
+	 *            the value to set
+	 */
+	public void setUrl(String value) {
+		entity.setUrl(value);
+	}
 
-    /**
-     * Setter for phone.
-     *
-     * @param value the value to set
-     */
-    public void setPhone(String value) {
-        entity.setPhone(value);
-    }
+	/**
+	 * Getter for phone.
+	 * 
+	 * @return value for phone
+	 */
+	@XmlElement
+	public String getPhone() {
+		return (expandLevel > 0) ? entity.getPhone() : null;
+	}
 
-    /**
-     * Getter for email.
-     *
-     * @return value for email
-     */
-    @XmlElement
-    public String getEmail() {
-        return (expandLevel > 0) ? entity.getEmail() : null;
-    }
+	/**
+	 * Setter for phone.
+	 * 
+	 * @param value
+	 *            the value to set
+	 */
+	public void setPhone(String value) {
+		entity.setPhone(value);
+	}
 
-    /**
-     * Setter for email.
-     *
-     * @param value the value to set
-     */
-    public void setEmail(String value) {
-        entity.setEmail(value);
-    }
+	/**
+	 * Getter for email.
+	 * 
+	 * @return value for email
+	 */
+	@XmlElement
+	public String getEmail() {
+		return (expandLevel > 0) ? entity.getEmail() : null;
+	}
 
-    /**
-     * Getter for sourceKey.
-     *
-     * @return value for sourceKey
-     */
-    @XmlElement
-    public String getSourceKey() {
-        return (expandLevel > 0) ? entity.getSourceKey() : null;
-    }
+	/**
+	 * Setter for email.
+	 * 
+	 * @param value
+	 *            the value to set
+	 */
+	public void setEmail(String value) {
+		entity.setEmail(value);
+	}
 
-    /**
-     * Setter for sourceKey.
-     *
-     * @param value the value to set
-     */
-    public void setSourceKey(String value) {
-        entity.setSourceKey(value);
-    }
+	/**
+	 * Getter for sourceKey.
+	 * 
+	 * @return value for sourceKey
+	 */
+	@XmlElement
+	public String getSourceKey() {
+		return (expandLevel > 0) ? entity.getSourceKey() : null;
+	}
 
-    /**
-     * Getter for sourceUrl.
-     *
-     * @return value for sourceUrl
-     */
-    @XmlElement
-    public String getSourceUrl() {
-        return (expandLevel > 0) ? entity.getSourceUrl() : null;
-    }
+	/**
+	 * Setter for sourceKey.
+	 * 
+	 * @param value
+	 *            the value to set
+	 */
+	public void setSourceKey(String value) {
+		entity.setSourceKey(value);
+	}
 
-    /**
-     * Setter for sourceUrl.
-     *
-     * @param value the value to set
-     */
-    public void setSourceUrl(String value) {
-        entity.setSourceUrl(value);
-    }
+	/**
+	 * Getter for sourceUrl.
+	 * 
+	 * @return value for sourceUrl
+	 */
+	@XmlElement
+	public String getSourceUrl() {
+		return (expandLevel > 0) ? entity.getSourceUrl() : null;
+	}
 
-    /**
-     * Getter for interestAreaCollection.
-     *
-     * @return value for interestAreaCollection
-     */
-    @XmlElement
-    public InterestAreasConverter getInterestAreaCollection() {
-        if (expandLevel > 0) {
-            if (entity.getInterestAreaCollection() != null) {
-                return new InterestAreasConverter(entity.getInterestAreaCollection(), uri.resolve("interestAreaCollection/"), expandLevel - 1);
-            }
-        }
-        return null;
-    }
+	/**
+	 * Setter for sourceUrl.
+	 * 
+	 * @param value
+	 *            the value to set
+	 */
+	public void setSourceUrl(String value) {
+		entity.setSourceUrl(value);
+	}
 
-    /**
-     * Setter for interestAreaCollection.
-     *
-     * @param value the value to set
-     */
-    public void setInterestAreaCollection(InterestAreasConverter value) {
-        entity.setInterestAreaCollection((value != null) ? value.getEntities() : null);
-    }
+	/**
+	 * Getter for interestAreaCollection.
+	 * 
+	 * @return value for interestAreaCollection
+	 */
+	@XmlElement
+	public InterestAreasConverter getInterestAreaCollection() {
+		if (expandLevel > 0) {
+			if (entity.getInterestAreaCollection() != null) {
+				return new InterestAreasConverter(entity.getInterestAreaCollection(), uri
+						.resolve("interestAreaCollection/"), expandLevel - 1);
+			}
+		}
+		return null;
+	}
 
-    /**
-     * Getter for timestampCollection.
-     *
-     * @return value for timestampCollection
-     */
-    @XmlElement
-    public TimestampsConverter getTimestampCollection() {
-        if (expandLevel > 0) {
-            if (entity.getTimestampCollection() != null) {
-                return new TimestampsConverter(entity.getTimestampCollection(), uri.resolve("timestampCollection/"), expandLevel - 1);
-            }
-        }
-        return null;
-    }
+	/**
+	 * Setter for interestAreaCollection.
+	 * 
+	 * @param value
+	 *            the value to set
+	 */
+	public void setInterestAreaCollection(InterestAreasConverter value) {
+		entity.setInterestAreaCollection((value != null) ? value.getEntities() : null);
+	}
 
-    /**
-     * Setter for timestampCollection.
-     *
-     * @param value the value to set
-     */
-    public void setTimestampCollection(TimestampsConverter value) {
-        entity.setTimestampCollection((value != null) ? value.getEntities() : null);
-    }
+	/**
+	 * Getter for timestampCollection.
+	 * 
+	 * @return value for timestampCollection
+	 */
+	@XmlElement
+	public TimestampsConverter getTimestampCollection() {
+		if (expandLevel > 0) {
+			if (entity.getTimestampCollection() != null) {
+				return new TimestampsConverter(entity.getTimestampCollection(), uri
+						.resolve("timestampCollection/"), expandLevel - 1);
+			}
+		}
+		return null;
+	}
 
-    /**
-     * Getter for locationCollection.
-     *
-     * @return value for locationCollection
-     */
-    @XmlElement
-    public LocationsConverter getLocationCollection() {
-        if (expandLevel > 0) {
-            if (entity.getLocationCollection() != null) {
-                return new LocationsConverter(entity.getLocationCollection(), uri.resolve("locationCollection/"), expandLevel - 1);
-            }
-        }
-        return null;
-    }
+	/**
+	 * Setter for timestampCollection.
+	 * 
+	 * @param value
+	 *            the value to set
+	 */
+	public void setTimestampCollection(TimestampsConverter value) {
+		entity.setTimestampCollection((value != null) ? value.getEntities() : null);
+	}
 
-    /**
-     * Setter for locationCollection.
-     *
-     * @param value the value to set
-     */
-    public void setLocationCollection(LocationsConverter value) {
-        entity.setLocationCollection((value != null) ? value.getEntities() : null);
-    }
+	/**
+	 * Getter for locationCollection.
+	 * 
+	 * @return value for locationCollection
+	 */
+	@XmlElement
+	public LocationsConverter getLocationCollection() {
+		if (expandLevel > 0) {
+			if (entity.getLocationCollection() != null) {
+				return new LocationsConverter(entity.getLocationCollection(), uri
+						.resolve("locationCollection/"), expandLevel - 1);
+			}
+		}
+		return null;
+	}
 
-    /**
-     * Getter for organizationCollection.
-     *
-     * @return value for organizationCollection
-     */
-    @XmlElement
-    public OrganizationsConverter getOrganizationCollection() {
-        if (expandLevel > 0) {
-            if (entity.getOrganizationCollection() != null) {
-                return new OrganizationsConverter(entity.getOrganizationCollection(), uri.resolve("organizationCollection/"), expandLevel - 1);
-            }
-        }
-        return null;
-    }
+	/**
+	 * Setter for locationCollection.
+	 * 
+	 * @param value
+	 *            the value to set
+	 */
+	public void setLocationCollection(LocationsConverter value) {
+		entity.setLocationCollection((value != null) ? value.getEntities() : null);
+	}
 
-    /**
-     * Setter for organizationCollection.
-     *
-     * @param value the value to set
-     */
-    public void setOrganizationCollection(OrganizationsConverter value) {
-        entity.setOrganizationCollection((value != null) ? value.getEntities() : null);
-    }
+	/**
+	 * Getter for organizationCollection.
+	 * 
+	 * @return value for organizationCollection
+	 */
+	@XmlElement
+	public OrganizationsConverter getOrganizationCollection() {
+		if (expandLevel > 0) {
+			if (entity.getOrganizationCollection() != null) {
+				return new OrganizationsConverter(entity.getOrganizationCollection(), uri
+						.resolve("organizationCollection/"), expandLevel - 1);
+			}
+		}
+		return null;
+	}
 
-    /**
-     * Getter for sourceId.
-     *
-     * @return value for sourceId
-     */
-    @XmlElement
-    public SourceConverter getSourceId() {
-        if (expandLevel > 0) {
-            if (entity.getSourceId() != null) {
-                return new SourceConverter(entity.getSourceId(), uri.resolve("sourceId/"), expandLevel - 1, false);
-            }
-        }
-        return null;
-    }
+	/**
+	 * Setter for organizationCollection.
+	 * 
+	 * @param value
+	 *            the value to set
+	 */
+	public void setOrganizationCollection(OrganizationsConverter value) {
+		entity.setOrganizationCollection((value != null) ? value.getEntities() : null);
+	}
 
-    /**
-     * Setter for sourceId.
-     *
-     * @param value the value to set
-     */
-    public void setSourceId(SourceConverter value) {
-        entity.setSourceId((value != null) ? value.getEntity() : null);
-    }
+	/**
+	 * Getter for sourceId.
+	 * 
+	 * @return value for sourceId
+	 */
+	@XmlElement
+	public SourceConverter getSourceId() {
+		if (expandLevel > 0) {
+			if (entity.getSourceId() != null) {
+				return new SourceConverter(entity.getSourceId(), uri.resolve("sourceId/"),
+						expandLevel - 1, false);
+			}
+		}
+		return null;
+	}
 
-    /**
-     * Returns the URI associated with this converter.
-     *
-     * @return the uri
-     */
-    @XmlAttribute
-    public URI getUri() {
-        return uri;
-    }
+	/**
+	 * Setter for sourceId.
+	 * 
+	 * @param value
+	 *            the value to set
+	 */
+	public void setSourceId(SourceConverter value) {
+		entity.setSourceId((value != null) ? value.getEntity() : null);
+	}
 
-    /**
-     * Sets the URI for this reference converter.
-     *
-     */
-    public void setUri(URI uri) {
-        this.uri = uri;
-    }
+	/**
+	 * Returns the URI associated with this converter.
+	 * 
+	 * @return the uri
+	 */
+	@XmlAttribute
+	public URI getUri() {
+		return uri;
+	}
 
-    /**
-     * Returns the Event entity.
-     *
-     * @return an entity
-     */
-    @XmlTransient
-    public Event getEntity() {
-        if (entity.getId() == null) {
-            EventConverter converter = UriResolver.getInstance().resolve(EventConverter.class, uri);
-            if (converter != null) {
-                entity = converter.getEntity();
-            }
-        }
-        return entity;
-    }
+	/**
+	 * Sets the URI for this reference converter.
+	 * 
+	 */
+	public void setUri(URI uri) {
+		this.uri = uri;
+	}
 
-    /**
-     * Returns the resolved Event entity.
-     *
-     * @return an resolved entity
-     */
-    public Event resolveEntity(EntityManager em) {
-        Collection<InterestArea> interestAreaCollection = entity.getInterestAreaCollection();
-        Collection<InterestArea> newinterestAreaCollection = new java.util.ArrayList<InterestArea>();
-        for (InterestArea item : interestAreaCollection) {
-            newinterestAreaCollection.add(em.getReference(InterestArea.class, item.getId()));
-        }
-        entity.setInterestAreaCollection(newinterestAreaCollection);
-        Collection<Timestamp> timestampCollection = entity.getTimestampCollection();
-        Collection<Timestamp> newtimestampCollection = new java.util.ArrayList<Timestamp>();
-        for (Timestamp item : timestampCollection) {
-            newtimestampCollection.add(em.getReference(Timestamp.class, item.getId()));
-        }
-        entity.setTimestampCollection(newtimestampCollection);
-        Collection<Location> locationCollection = entity.getLocationCollection();
-        Collection<Location> newlocationCollection = new java.util.ArrayList<Location>();
-        for (Location item : locationCollection) {
-            newlocationCollection.add(em.getReference(Location.class, item.getId()));
-        }
-        entity.setLocationCollection(newlocationCollection);
-        Collection<Organization> organizationCollection = entity.getOrganizationCollection();
-        Collection<Organization> neworganizationCollection = new java.util.ArrayList<Organization>();
-        for (Organization item : organizationCollection) {
-            neworganizationCollection.add(em.getReference(Organization.class, item.getId()));
-        }
-        entity.setOrganizationCollection(neworganizationCollection);
-        Source sourceId = entity.getSourceId();
-        if (sourceId != null) {
-            entity.setSourceId(em.getReference(Source.class, sourceId.getId()));
-        }
-        return entity;
-    }
+	/**
+	 * Returns the Event entity.
+	 * 
+	 * @return an entity
+	 */
+	@XmlTransient
+	public Event getEntity() {
+		if (entity.getId() == null) {
+			EventConverter converter = UriResolver.getInstance().resolve(EventConverter.class, uri);
+			if (converter != null) {
+				entity = converter.getEntity();
+			}
+		}
+		return entity;
+	}
+
+	/**
+	 * Returns the resolved Event entity.
+	 * 
+	 * @return an resolved entity
+	 */
+	public Event resolveEntity(EntityManager em) {
+		Collection<InterestArea> interestAreaCollection = entity.getInterestAreaCollection();
+		Collection<InterestArea> newinterestAreaCollection = new java.util.ArrayList<InterestArea>();
+		for (InterestArea item : interestAreaCollection) {
+			newinterestAreaCollection.add(em.getReference(InterestArea.class, item.getId()));
+		}
+		entity.setInterestAreaCollection(newinterestAreaCollection);
+		Collection<Timestamp> timestampCollection = entity.getTimestampCollection();
+		Collection<Timestamp> newtimestampCollection = new java.util.ArrayList<Timestamp>();
+		for (Timestamp item : timestampCollection) {
+			newtimestampCollection.add(em.getReference(Timestamp.class, item.getId()));
+		}
+		entity.setTimestampCollection(newtimestampCollection);
+		Collection<Location> locationCollection = entity.getLocationCollection();
+		Collection<Location> newlocationCollection = new java.util.ArrayList<Location>();
+		for (Location item : locationCollection) {
+			newlocationCollection.add(em.getReference(Location.class, item.getId()));
+		}
+		entity.setLocationCollection(newlocationCollection);
+		Collection<Organization> organizationCollection = entity.getOrganizationCollection();
+		Collection<Organization> neworganizationCollection = new java.util.ArrayList<Organization>();
+		for (Organization item : organizationCollection) {
+			neworganizationCollection.add(em.getReference(Organization.class, item.getId()));
+		}
+		entity.setOrganizationCollection(neworganizationCollection);
+		Source sourceId = entity.getSourceId();
+		if (sourceId != null) {
+			entity.setSourceId(em.getReference(Source.class, sourceId.getId()));
+		}
+		return entity;
+	}
 }

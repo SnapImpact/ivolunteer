@@ -16,45 +16,45 @@ import javax.xml.bind.annotation.XmlElement;
 import java.util.ArrayList;
 import persistence.Timeframe;
 
-
 /**
- *
+ * 
  * @author dave
  */
 
-
-@XmlRootElement( name = "records" )
+@XmlRootElement(name = "records")
 public class TimeframeRecordsConverter {
-    private Collection<Timeframe> records;
-    private URI uri;
-    private URI baseUri;
-  
-    /** Creates a new instance of OrganizationsConverter */
-    public TimeframeRecordsConverter() {
-    }
+	private Collection<Timeframe>	records;
+	private URI						uri;
+	private URI						baseUri;
 
-    /**
-     * Creates a new instance of OrganizationsConverter.
-     *
-     * @param entities associated entities
-     * @param uri associated uri
-     */
-    public TimeframeRecordsConverter(Collection<Timeframe> records, URI uri, URI baseUri) {
-        this.records = records;
-        this.uri = uri;
-        this.baseUri = baseUri;
-    }
-    
-    @XmlElement
-    public ArrayList<TimeframeRecordConverter> getRecords() {
-        ArrayList<TimeframeRecordConverter> ret = new ArrayList<TimeframeRecordConverter>();
-        if (records != null) {
-            for (Timeframe record : records ) {
-                ret.add(new TimeframeRecordConverter(record, baseUri.resolve( "location/" + record.getId() + "/"), 1));
-            }
-        }
-        return ret;
-    }
-    
+	/** Creates a new instance of OrganizationsConverter */
+	public TimeframeRecordsConverter() {
+	}
+
+	/**
+	 * Creates a new instance of OrganizationsConverter.
+	 * 
+	 * @param entities
+	 *            associated entities
+	 * @param uri
+	 *            associated uri
+	 */
+	public TimeframeRecordsConverter(Collection<Timeframe> records, URI uri, URI baseUri) {
+		this.records = records;
+		this.uri = uri;
+		this.baseUri = baseUri;
+	}
+
+	@XmlElement
+	public ArrayList<TimeframeRecordConverter> getRecords() {
+		ArrayList<TimeframeRecordConverter> ret = new ArrayList<TimeframeRecordConverter>();
+		if (records != null) {
+			for (Timeframe record : records) {
+				ret.add(new TimeframeRecordConverter(record, baseUri.resolve("location/"
+						+ record.getId() + "/"), 1));
+			}
+		}
+		return ret;
+	}
 
 }

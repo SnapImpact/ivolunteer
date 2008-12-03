@@ -16,45 +16,45 @@ import javax.xml.bind.annotation.XmlElement;
 import java.util.ArrayList;
 import persistence.Organization;
 
-
 /**
- *
+ * 
  * @author dave
  */
 
-
-@XmlRootElement( name = "records" )
+@XmlRootElement(name = "records")
 public class OrganizationRecordsConverter {
-    private Collection<Organization> records;
-    private URI uri;
-    private URI baseUri;
-  
-    /** Creates a new instance of OrganizationsConverter */
-    public OrganizationRecordsConverter() {
-    }
+	private Collection<Organization>	records;
+	private URI							uri;
+	private URI							baseUri;
 
-    /**
-     * Creates a new instance of OrganizationsConverter.
-     *
-     * @param entities associated entities
-     * @param uri associated uri
-     */
-    public OrganizationRecordsConverter(Collection<Organization> records, URI uri, URI baseUri) {
-        this.records = records;
-        this.uri = uri;
-        this.baseUri = baseUri;
-    }
-    
-    @XmlElement
-    public ArrayList<OrganizationRecordConverter> getRecords() {
-        ArrayList<OrganizationRecordConverter> ret = new ArrayList<OrganizationRecordConverter>();
-        if (records != null) {
-            for (Organization record : records ) {
-                ret.add(new OrganizationRecordConverter(record, baseUri.resolve( "organizations/" + record.getId() + "/"), 1));
-            }
-        }
-        return ret;
-    }
-    
+	/** Creates a new instance of OrganizationsConverter */
+	public OrganizationRecordsConverter() {
+	}
+
+	/**
+	 * Creates a new instance of OrganizationsConverter.
+	 * 
+	 * @param entities
+	 *            associated entities
+	 * @param uri
+	 *            associated uri
+	 */
+	public OrganizationRecordsConverter(Collection<Organization> records, URI uri, URI baseUri) {
+		this.records = records;
+		this.uri = uri;
+		this.baseUri = baseUri;
+	}
+
+	@XmlElement
+	public ArrayList<OrganizationRecordConverter> getRecords() {
+		ArrayList<OrganizationRecordConverter> ret = new ArrayList<OrganizationRecordConverter>();
+		if (records != null) {
+			for (Organization record : records) {
+				ret.add(new OrganizationRecordConverter(record, baseUri.resolve("organizations/"
+						+ record.getId() + "/"), 1));
+			}
+		}
+		return ret;
+	}
 
 }

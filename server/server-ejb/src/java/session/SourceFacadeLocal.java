@@ -10,20 +10,20 @@ import javax.ejb.Local;
 import persistence.Source;
 
 /**
- *
+ * 
  * @author dave
  */
 @Local
 public interface SourceFacadeLocal {
 
-    void create(Source source);
+	void create(Source source);
 
-    void edit(Source source);
+	void edit(Source source);
 
-    void remove(Source source);
+	void remove(Source source);
 
-    Source find(Object id);
+	Source find(Object id);
 
-    List<Source> findAll();
+	List<Source> findAll();
 
 }

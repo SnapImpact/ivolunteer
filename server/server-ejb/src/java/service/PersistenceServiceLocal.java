@@ -10,23 +10,23 @@ import javax.persistence.Query;
 import java.util.Collection;
 
 /**
- *
+ * 
  * @author dave
  */
 @Local
 public interface PersistenceServiceLocal {
 
-    void refreshEntity(Object entity);
+	void refreshEntity(Object entity);
 
-    <T> T mergeEntity(T entity);
-    
-    void persistEntity(Object entity);
+	<T> T mergeEntity(T entity);
 
-    void removeEntity(Object entity);
+	void persistEntity(Object entity);
 
-    Query createQuery(String query);
+	void removeEntity(Object entity);
 
-    Query createNamedQuery(String query);
+	Query createQuery(String query);
 
-    <T> T resolveEntity(T entity);
+	Query createNamedQuery(String query);
+
+	<T> T resolveEntity(T entity);
 }

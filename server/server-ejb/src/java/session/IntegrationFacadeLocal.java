@@ -10,20 +10,20 @@ import javax.ejb.Local;
 import persistence.Integration;
 
 /**
- *
+ * 
  * @author dave
  */
 @Local
 public interface IntegrationFacadeLocal {
 
-    void create(Integration integration);
+	void create(Integration integration);
 
-    void edit(Integration integration);
+	void edit(Integration integration);
 
-    void remove(Integration integration);
+	void remove(Integration integration);
 
-    Integration find(Object id);
+	Integration find(Object id);
 
-    List<Integration> findAll();
+	List<Integration> findAll();
 
 }

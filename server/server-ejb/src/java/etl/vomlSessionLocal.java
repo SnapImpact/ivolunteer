@@ -8,12 +8,12 @@ package etl;
 import javax.ejb.Local;
 
 /**
- *
+ * 
  * @author dave
  */
 @Local
 public interface vomlSessionLocal {
 
-    void loadVoml();
-    
+	void loadVoml();
+
 }

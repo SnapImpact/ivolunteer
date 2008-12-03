@@ -17,14 +17,14 @@ import java.util.List;
 @Local
 public interface PersistenceFacadeLocal {
 
-    void create(IdInterface<?> idInt);
+	void create(IdInterface<?> idInt);
 
-    void edit(IdInterface<?> idInt);
+	void edit(IdInterface<?> idInt);
 
-    void remove(IdInterface<?> idInt);
+	void remove(IdInterface<?> idInt);
 
-    IdInterface find(Object id, Class claz);
+	IdInterface find(Object id, Class claz);
 
-    List< ? extends IdInterface > findAll(String query, int start, int max);
+	List<? extends IdInterface> findAll(String query, int start, int max);
 
 }

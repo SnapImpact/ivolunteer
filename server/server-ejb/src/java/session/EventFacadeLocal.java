@@ -10,19 +10,19 @@ import javax.ejb.Local;
 import persistence.Event;
 
 /**
- *
+ * 
  * @author dave
  */
 @Local
 public interface EventFacadeLocal {
 
-    void create(Event event);
+	void create(Event event);
 
-    void edit(Event event);
+	void edit(Event event);
 
-    void remove(Event event);
+	void remove(Event event);
 
-    Event find(Object id);
+	Event find(Object id);
 
-    List<Event> findAll(int start, int max);
+	List<Event> findAll(int start, int max);
 }

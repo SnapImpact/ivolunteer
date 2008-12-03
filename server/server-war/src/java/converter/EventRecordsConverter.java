@@ -16,45 +16,45 @@ import javax.xml.bind.annotation.XmlElement;
 import java.util.ArrayList;
 import persistence.Event;
 
-
 /**
- *
+ * 
  * @author dave
  */
 
-
-@XmlRootElement( name = "records" )
+@XmlRootElement(name = "records")
 public class EventRecordsConverter {
-    private Collection<Event> records;
-    private URI uri;
-    private URI baseUri;
-  
-    /** Creates a new instance of OrganizationsConverter */
-    public EventRecordsConverter() {
-    }
+	private Collection<Event>	records;
+	private URI					uri;
+	private URI					baseUri;
 
-    /**
-     * Creates a new instance of OrganizationsConverter.
-     *
-     * @param entities associated entities
-     * @param uri associated uri
-     */
-    public EventRecordsConverter(Collection<Event> records, URI uri, URI baseUri) {
-        this.records = records;
-        this.uri = uri;
-        this.baseUri = baseUri;
-    }
-    
-    @XmlElement
-    public ArrayList<EventRecordConverter> getRecords() {
-        ArrayList<EventRecordConverter> ret = new ArrayList<EventRecordConverter>();
-        if (records != null) {
-            for (Event record : records ) {
-                ret.add(new EventRecordConverter(record, baseUri.resolve( "event/" + record.getId() + "/"), 1));
-            }
-        }
-        return ret;
-    }
-    
+	/** Creates a new instance of OrganizationsConverter */
+	public EventRecordsConverter() {
+	}
+
+	/**
+	 * Creates a new instance of OrganizationsConverter.
+	 * 
+	 * @param entities
+	 *            associated entities
+	 * @param uri
+	 *            associated uri
+	 */
+	public EventRecordsConverter(Collection<Event> records, URI uri, URI baseUri) {
+		this.records = records;
+		this.uri = uri;
+		this.baseUri = baseUri;
+	}
+
+	@XmlElement
+	public ArrayList<EventRecordConverter> getRecords() {
+		ArrayList<EventRecordConverter> ret = new ArrayList<EventRecordConverter>();
+		if (records != null) {
+			for (Event record : records) {
+				ret.add(new EventRecordConverter(record, baseUri.resolve("event/" + record.getId()
+						+ "/"), 1));
+			}
+		}
+		return ret;
+	}
 
 }

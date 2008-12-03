@@ -10,20 +10,20 @@ import javax.ejb.Local;
 import persistence.SourceInterestMap;
 
 /**
- *
+ * 
  * @author dave
  */
 @Local
 public interface SourceInterestMapFacadeLocal {
 
-    void create(SourceInterestMap sourceInterestMap);
+	void create(SourceInterestMap sourceInterestMap);
 
-    void edit(SourceInterestMap sourceInterestMap);
+	void edit(SourceInterestMap sourceInterestMap);
 
-    void remove(SourceInterestMap sourceInterestMap);
+	void remove(SourceInterestMap sourceInterestMap);
 
-    SourceInterestMap find(Object id);
+	SourceInterestMap find(Object id);
 
-    List<SourceInterestMap> findAll();
+	List<SourceInterestMap> findAll();
 
 }

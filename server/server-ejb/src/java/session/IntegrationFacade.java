@@ -12,32 +12,32 @@ import javax.persistence.PersistenceContext;
 import persistence.Integration;
 
 /**
- *
+ * 
  * @author dave
  */
 @Stateless
 public class IntegrationFacade implements IntegrationFacadeLocal {
-    @PersistenceContext
-    private EntityManager em;
+	@PersistenceContext
+	private EntityManager	em;
 
-    public void create(Integration integration) {
-        em.persist(integration);
-    }
+	public void create(Integration integration) {
+		em.persist(integration);
+	}
 
-    public void edit(Integration integration) {
-        em.merge(integration);
-    }
+	public void edit(Integration integration) {
+		em.merge(integration);
+	}
 
-    public void remove(Integration integration) {
-        em.remove(em.merge(integration));
-    }
+	public void remove(Integration integration) {
+		em.remove(em.merge(integration));
+	}
 
-    public Integration find(Object id) {
-        return em.find(Integration.class, id);
-    }
+	public Integration find(Object id) {
+		return em.find(Integration.class, id);
+	}
 
-    public List<Integration> findAll() {
-        return em.createQuery("select object(o) from Integration as o").getResultList();
-    }
+	public List<Integration> findAll() {
+		return em.createQuery("select object(o) from Integration as o").getResultList();
+	}
 
 }

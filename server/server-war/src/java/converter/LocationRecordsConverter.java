@@ -16,45 +16,45 @@ import javax.xml.bind.annotation.XmlElement;
 import java.util.ArrayList;
 import persistence.Location;
 
-
 /**
- *
+ * 
  * @author dave
  */
 
-
-@XmlRootElement( name = "records" )
+@XmlRootElement(name = "records")
 public class LocationRecordsConverter {
-    private Collection<Location> records;
-    private URI uri;
-    private URI baseUri;
-  
-    /** Creates a new instance of OrganizationsConverter */
-    public LocationRecordsConverter() {
-    }
+	private Collection<Location>	records;
+	private URI						uri;
+	private URI						baseUri;
 
-    /**
-     * Creates a new instance of OrganizationsConverter.
-     *
-     * @param entities associated entities
-     * @param uri associated uri
-     */
-    public LocationRecordsConverter(Collection<Location> records, URI uri, URI baseUri) {
-        this.records = records;
-        this.uri = uri;
-        this.baseUri = baseUri;
-    }
-    
-    @XmlElement
-    public ArrayList<LocationRecordConverter> getRecords() {
-        ArrayList<LocationRecordConverter> ret = new ArrayList<LocationRecordConverter>();
-        if (records != null) {
-            for (Location record : records ) {
-                ret.add(new LocationRecordConverter(record, baseUri.resolve( "location/" + record.getId() + "/"), 1));
-            }
-        }
-        return ret;
-    }
-    
+	/** Creates a new instance of OrganizationsConverter */
+	public LocationRecordsConverter() {
+	}
+
+	/**
+	 * Creates a new instance of OrganizationsConverter.
+	 * 
+	 * @param entities
+	 *            associated entities
+	 * @param uri
+	 *            associated uri
+	 */
+	public LocationRecordsConverter(Collection<Location> records, URI uri, URI baseUri) {
+		this.records = records;
+		this.uri = uri;
+		this.baseUri = baseUri;
+	}
+
+	@XmlElement
+	public ArrayList<LocationRecordConverter> getRecords() {
+		ArrayList<LocationRecordConverter> ret = new ArrayList<LocationRecordConverter>();
+		if (records != null) {
+			for (Location record : records) {
+				ret.add(new LocationRecordConverter(record, baseUri.resolve("location/"
+						+ record.getId() + "/"), 1));
+			}
+		}
+		return ret;
+	}
 
 }

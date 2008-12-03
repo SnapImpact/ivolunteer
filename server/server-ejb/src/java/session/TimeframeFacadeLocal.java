@@ -10,20 +10,20 @@ import javax.ejb.Local;
 import persistence.Timeframe;
 
 /**
- *
+ * 
  * @author dave
  */
 @Local
 public interface TimeframeFacadeLocal {
 
-    void create(Timeframe timeframe);
+	void create(Timeframe timeframe);
 
-    void edit(Timeframe timeframe);
+	void edit(Timeframe timeframe);
 
-    void remove(Timeframe timeframe);
+	void remove(Timeframe timeframe);
 
-    Timeframe find(Object id);
+	Timeframe find(Object id);
 
-    List<Timeframe> findAll();
+	List<Timeframe> findAll();
 
 }

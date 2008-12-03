@@ -10,20 +10,20 @@ import javax.ejb.Local;
 import persistence.OrganizationType;
 
 /**
- *
+ * 
  * @author dave
  */
 @Local
 public interface OrganizationTypeFacadeLocal {
 
-    void create(OrganizationType organizationType);
+	void create(OrganizationType organizationType);
 
-    void edit(OrganizationType organizationType);
+	void edit(OrganizationType organizationType);
 
-    void remove(OrganizationType organizationType);
+	void remove(OrganizationType organizationType);
 
-    OrganizationType find(Object id);
+	OrganizationType find(Object id);
 
-    List<OrganizationType> findAll();
+	List<OrganizationType> findAll();
 
 }
