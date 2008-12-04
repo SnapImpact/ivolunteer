@@ -22,7 +22,7 @@ App.Organizations = SC.Record.extend(
   A list of all the properties which should be handled by the framework.
   Additionally to the here mentioned ones, **guid** and **id** (?) are added implicitly.
   */
-  properties: ['name', 'description', 'phone', 'email',
+  properties: ['name', 'description', 'phone', 'email', 'organizationTypeId',
        'url', 'source_key', 'source_url', 'eventCollection', 'locationCollection'],
 
   /*
@@ -36,7 +36,8 @@ App.Organizations = SC.Record.extend(
   resourceURL: 'resources/organizations',
   
   //eventCollectionType: 'App.Events',
-  locationCollectionType: 'App.Location'
+  locationCollectionType: 'App.Location',
+  organizationTypeIdType: 'App.OrganizationType'
 
 
 

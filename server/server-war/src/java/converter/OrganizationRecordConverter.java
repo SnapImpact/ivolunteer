@@ -330,11 +330,10 @@ public class OrganizationRecordConverter {
 	 * @return value for organizationTypeId
 	 */
 	@XmlElement
-	public OrganizationTypeConverter getOrganizationTypeId() {
+	public String getOrganizationTypeId() {
 		if (expandLevel > 0) {
 			if (entity.getOrganizationTypeId() != null) {
-				return new OrganizationTypeConverter(entity.getOrganizationTypeId(), uri
-						.resolve("organizationTypeId/"), expandLevel - 1, false);
+				return entity.getOrganizationTypeId().getId();
 			}
 		}
 		return null;

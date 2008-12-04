@@ -23,7 +23,7 @@ App.Events = SC.Record.extend(
   Additionally to the here mentioned ones, **guid** and **id** (?) are added implicitly.
   */
   properties: ['title', 'description', 'phone', 'email',
-       'url', 'source_key', 'source_url',
+       'url', 'source_key', 'source_url', 'interestAreaCollection',
        'contact', 'duration', 'timestampCollection', 'organizationCollection', 'locationCollection'],
 
   /*
@@ -38,6 +38,7 @@ App.Events = SC.Record.extend(
   
   timestampCollectionType: "App.Timestamp",
   organizationCollectionType: 'App.Organizations',
-  locationCollectionType: 'App.Location'
+  locationCollectionType: 'App.Location',
+  interestAreaCollectionType: 'App.InterestArea'
 
 }) ;
