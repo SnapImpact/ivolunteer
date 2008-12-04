@@ -90,7 +90,7 @@ public class TimestampsResource extends Base {
 	@Produces( { "application/json" })
 	public TimestampListConverter list(@QueryParam("start") @DefaultValue("0") int start,
 			@QueryParam("max") @DefaultValue("10") int max,
-			@QueryParam("query") @DefaultValue("SELECT e FROM Event e") String query) {
+			@QueryParam("query") @DefaultValue("SELECT e FROM Timestamp e") String query) {
 		return new TimestampListConverter(getEntities(start, max, query),
 				uriInfo.getAbsolutePath(), uriInfo.getBaseUri());
 	}

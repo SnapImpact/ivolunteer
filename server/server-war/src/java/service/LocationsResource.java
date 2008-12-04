@@ -90,7 +90,7 @@ public class LocationsResource extends Base {
 	@Produces( { "application/json" })
 	public LocationListConverter list(@QueryParam("start") @DefaultValue("0") int start,
 			@QueryParam("max") @DefaultValue("10") int max,
-			@QueryParam("query") @DefaultValue("SELECT e FROM Event e") String query) {
+			@QueryParam("query") @DefaultValue("SELECT e FROM Location e") String query) {
 		return new LocationListConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(),
 				uriInfo.getBaseUri());
 	}
