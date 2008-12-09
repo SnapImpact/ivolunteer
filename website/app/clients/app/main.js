@@ -2,6 +2,28 @@
 // App
 // ==========================================================================
 
+/*
+ *  Copyright (c) 2008 Boulder Community Foundation - iVolunteer
+ *
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the "Software"), to deal
+ *  in the Software without restriction, including without limitation the rights
+ *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
+ *
+ *  The above copyright notice and this permission notice shall be included in
+ *  all copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ *  THE SOFTWARE.
+ */
+
 // This is the function that will start your app running.  The default
 // implementation will load any fixtures you have created then instantiate
 // your controllers and awake the elements on your page.
@@ -15,9 +37,9 @@ function main() {
   // The default code here will load the fixtures you have defined.
   // Comment out the preload line and add something to refresh from the server
   // when you are ready to pull data from your server.
-  App.server.preload(App.FIXTURES) ;
+  // App.server.preload(App.FIXTURES) ;
   
-  /*
+  //*
   App.server.listFor({recordType: App.Organizations});
   App.server.listFor({recordType: App.Events});
   App.server.listFor({recordType: App.Location});
@@ -26,7 +48,7 @@ function main() {
   App.server.listFor({recordType: App.Timeframe});
   App.server.listFor({recordType: App.InterestArea});
   App.server.listFor({recordType: App.Distance});
-  */
+  //*/
 
   // TODO: refresh() any collections you have created to get their records.
   // ex: App.contacts.refresh() ;
