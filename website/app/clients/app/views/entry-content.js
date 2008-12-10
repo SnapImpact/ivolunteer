@@ -1,5 +1,5 @@
 // ==========================================================================
-// App.InterestArea
+// App.EntryContentView
 // ==========================================================================
 
 /*
@@ -24,35 +24,42 @@
  *  THE SOFTWARE.
  */
 
-require('models/filter_base');
+require('core');
 
 /** @class
 
-  (Document your class here)
+  (Document Your View Here)
 
-  @extends SC.Record
+  @extends SC.View
   @author AuthorName
   @version 0.1
 */
-App.InterestArea = App.FilterBase.extend(
-/** @scope App.InterestArea.prototype */ {
+App.EntryContentView = SC.View.extend(
+/** @scope App.EntryContentView.prototype */ {
 
   // TODO: Add your own code here.
+  emptyElement: '<div class="entry-content"></div>',
 
-  /*
-  A list of all the properties which should be handled by the framework.
-  Additionally to the here mentioned ones, **guid** and **id** (?) are added implicitly.
-  */
-  properties: ['name'],
+  /** The record we want to display. */
+  content: [],
+  contentBindingDefault: SC.Binding.MultipleNotEmpty,
+  key: "title",
 
-  /*
-  define the URL for this Record type.
-     - updates will be POSTed to '/ajaxcom/contact/update'
-     - new records will be POSTed to '/ajaxcom/contact/create'
-     - and existing records will be fetched (GET) from
-       '/ajacom/contact/show/23' (if the record has guid=23 and
-        only one record is fetched)
-  */
-  resourceURL: 'resources/interestAreas'
+  render: function() {
+    var html = [];
+    var content = this.get('content');
+    var key = this.get('key');
+
+     content.each( function(record){
+        html.push('<h3>');
+        html.push(record.get(key));
+        html.push('</h3>');
+        html.push('<p><em>');
+        html.push(record.get('description'));
+        html.push('</em></p>');
+    });
+
+    this.set('innerHTML', html.join(" "));
+}.observes('content')
 
 }) ;

@@ -1,5 +1,5 @@
 // ==========================================================================
-// App.InterestArea
+// App.FilterBase
 // ==========================================================================
 
 /*
@@ -24,7 +24,7 @@
  *  THE SOFTWARE.
  */
 
-require('models/filter_base');
+require('core');
 
 /** @class
 
@@ -34,18 +34,18 @@ require('models/filter_base');
   @author AuthorName
   @version 0.1
 */
-App.InterestArea = App.FilterBase.extend(
-/** @scope App.InterestArea.prototype */ {
+App.FilterBase = SC.Record.extend(
+/** @scope App.FilterBase.prototype */ {
 
-  // TODO: Add your own code here.
+    dataSource: App.server,
 
-  /*
+    /*
   A list of all the properties which should be handled by the framework.
   Additionally to the here mentioned ones, **guid** and **id** (?) are added implicitly.
   */
-  properties: ['name'],
+    properties: [],
 
-  /*
+    /*
   define the URL for this Record type.
      - updates will be POSTed to '/ajaxcom/contact/update'
      - new records will be POSTed to '/ajaxcom/contact/create'
@@ -53,6 +53,25 @@ App.InterestArea = App.FilterBase.extend(
        '/ajacom/contact/show/23' (if the record has guid=23 and
         only one record is fetched)
   */
-  resourceURL: 'resources/interestAreas'
+    resourceURL: '',
+
+    type: function() {
+        if ( this.instanceOf(App.Distance) )
+        {
+            return 'Distance';
+        } else if (this.instanceOf(App.InterestArea))
+        {
+            return 'Interest Area';
+        } else if (this.instanceOf(App.OrganizationType))
+        {
+            return 'Organization Type';
+        }
+        else if (this.instanceOf(App.Timeframe))
+        {
+            return 'Timeframe';
+        }
+        
+        return '';
+    }.property()
 
 }) ;

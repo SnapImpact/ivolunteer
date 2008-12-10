@@ -24,7 +24,7 @@
  *  THE SOFTWARE.
  */
 
-require('core');
+require('models/filter_base');
 
 /** @class
 
@@ -34,11 +34,10 @@ require('core');
   @author AuthorName
   @version 0.1
 */
-App.OrganizationType = SC.Record.extend(
+App.OrganizationType = App.FilterBase.extend(
 /** @scope App.OrganizationType.prototype */ {
 
   // TODO: Add your own code here.
-  dataSource: App.server,
 
   /*
   A list of all the properties which should be handled by the framework.

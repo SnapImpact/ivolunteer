@@ -19,7 +19,6 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *  THE SOFTWARE.
  */
-/* require('body') */
 /* Reset styles */
 
 html, body, div, span, applet, object, iframe,
@@ -27,7 +26,7 @@ h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
 del, dfn, em, font, img, ins, kbd, q, s, samp,
 small, strike, strong, sub, sup, tt, var,
-dl, dt, dd, ol, ul, li,
+dl, dt, dd, ol, ul, li, .home_view, .workspace
 fieldset, form, label, legend
 {
 	margin: 0;

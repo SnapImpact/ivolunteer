@@ -63,4 +63,5 @@ App.Events = SC.Record.extend(
   locationCollectionType: 'App.Location',
   interestAreaCollectionType: 'App.InterestArea'
 
+
 }) ;

@@ -19,11 +19,11 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *  THE SOFTWARE.
  */
-/* require(layout) */
+
 /******************************
 ********** Wrapping Elements */
 
-body {
+body, body.sc-theme {
 	font-family: Arial, Helvetica, Verdana, sans-serif;
 	font-size: 62.5%;
 }
@@ -53,6 +53,12 @@ h2, h3, h4, h5, h6 {
 }
 h2 {
 	font-size: 1.8em;
+}
+h2.entry-title {
+    font-family: Garamond, Georgia, Times, serif;
+    font-size: 1.8em;
+	margin-left: 14px;
+	margin-right: 14px;
 }
 div.entry-content h3 {
 	font-weight: bold;

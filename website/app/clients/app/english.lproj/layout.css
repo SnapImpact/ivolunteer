@@ -19,7 +19,11 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *  THE SOFTWARE.
  */
+
 /* require('color') */
+/* require('type') */
+/* require('reset') */
+/*
 /******************************
 ********** Wrapping Elements */
 
@@ -38,25 +42,58 @@ div.wrap {
 div#header {
 	margin-bottom: 48px;
 	height: 120px;
+    vertical-align: middle;
 }
-div#header h1 {
+div#header div.wrap img.logo {
 	display: block;
 	float: left;
-	width: 151px;
-	height: 77px;
-	margin: 20px 0 0 36px;
+	width: 420px;
+	height: 99px;
+	margin: 0;
 }
-div#header h1 a {
-	display: block;
-	float: left;
-	width: 151px;
-	height: 88px;
-}
-div#highlight {
+div#header div.wrap a.highlight {
 	float: right;
+    
 }
-div#highlight p {
+div#header div.wrap a.highlight p {
 	margin: 90px 96px 0 0;
+}
+
+/******************************
+******************** Tab Bar */
+
+#control_tabs {
+	position: absolute ;
+	left: 20px;
+	right: 20px;
+	top: 150px;
+	bottom: 80px;
+	border: 1px #aaa solid ;
+}
+
+#control_tabs .root {
+	overflow: auto ;
+	position: absolute ;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+	margin: 0;
+}
+
+#control_tabs .segments {
+	z-index: 99;
+}
+
+#control_tabs .root h1 {
+  margin: 25px;
+  margin-bottom: 10px;
+  margin-top: 50px;
+}
+
+#control_tabs .root p {
+  margin-left: 25px;
+  margin-right: 25px;
 }
 
 /******************************
@@ -79,13 +116,24 @@ p {
 div.post {
 	padding-bottom: 25px;
 	margin-bottom: 50px;
+    margin-top: 20px;
 }
 h2.entry-title {
 	margin-left: 14px;
 	margin-right: 14px;
 }
-div#content div.entry-content {
+div#content div.sc-scroll-view {
 	margin-right: 14px;
+	margin-left: 14px;
+    height: 400px;
+    width: auto;
+}
+div#post div.entry-content {
+	margin-right: 14px;
+	margin-left: 14px;
+}
+div#entry-content h3 {
+    margin-right: 14px;
 	margin-left: 14px;
 }
 img {
@@ -103,15 +151,21 @@ ul li {
 }
 
 /******************************
+******************* Org List */
+
+
+/******************************
 ******************** Sidebar */
 
-div#sidebar {
-	width: 260px;
-	float: left;
-}
-div#sidebar div.entry-content {
-	padding-bottom: 15px;
-	margin-bottom: 24px;
+div#sidebar, .sidebar,
+.sc-split-view.horizontal > div:first-child,
+.workspace .master_list {
+	left: 0;
+    right: auto;
+    width: 200px;
+    bottom: 0;
+    top: 0;
+    position: absolute;
 }
 h3 {
 	margin-bottom: 18px;
@@ -126,9 +180,40 @@ input {
 }
 
 /******************************
+******************** Divider */
+
+.workspace .sc-split-divider-view {
+  position: absolute;
+  left: 200px;
+  top: 0;
+  bottom: 0;
+}
+.sc-split-view.horizontal > .sc-split-divider-view {
+left:200px;
+right:auto;
+}
+.sc-split-view.horizontal > div {
+bottom:0;
+left:205px;
+position:absolute;
+right:0;
+top:0;
+}
+
+/******************************
 ********************* Footer */
 
 div#footer {
 	clear: both;
+    position: absolute;
+    bottom: 0;
+    left:0;
+    right:0;
+}
+div#footer img {
+	display: block;
+	width: 300px;
+	height: 70px;
+    margin: 0 auto;
 }
 

@@ -37,9 +37,9 @@ function main() {
   // The default code here will load the fixtures you have defined.
   // Comment out the preload line and add something to refresh from the server
   // when you are ready to pull data from your server.
-  // App.server.preload(App.FIXTURES) ;
+  App.server.preload(App.FIXTURES) ;
   
-  //*
+  /*
   App.server.listFor({recordType: App.Organizations});
   App.server.listFor({recordType: App.Events});
   App.server.listFor({recordType: App.Location});
@@ -48,7 +48,7 @@ function main() {
   App.server.listFor({recordType: App.Timeframe});
   App.server.listFor({recordType: App.InterestArea});
   App.server.listFor({recordType: App.Distance});
-  //*/
+  */
 
   // TODO: refresh() any collections you have created to get their records.
   // ex: App.contacts.refresh() ;
@@ -71,5 +71,10 @@ function main() {
   var orgRecords = App.Organizations.collection();
   App.orgMasterController.set('content', orgRecords);
   orgRecords.refresh();
+
+  var filterRecords = App.FilterBase.collection();
+  filterRecords.set('orderBy', ['type','name']);
+  App.filterController.set('content', filterRecords);
+  filterRecords.refresh();
 
 } ;

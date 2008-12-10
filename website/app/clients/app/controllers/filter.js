@@ -1,5 +1,5 @@
 // ==========================================================================
-// App.InterestArea
+// App.FilterController
 // ==========================================================================
 
 /*
@@ -24,35 +24,22 @@
  *  THE SOFTWARE.
  */
 
-require('models/filter_base');
+require('core');
 
 /** @class
 
-  (Document your class here)
+  (Document Your View Here)
 
-  @extends SC.Record
+  @extends SC.CollectionController
   @author AuthorName
   @version 0.1
+  @static
 */
-App.InterestArea = App.FilterBase.extend(
-/** @scope App.InterestArea.prototype */ {
+App.filterController = SC.CollectionController.create(
+/** @scope App.filterController */ {
 
   // TODO: Add your own code here.
-
-  /*
-  A list of all the properties which should be handled by the framework.
-  Additionally to the here mentioned ones, **guid** and **id** (?) are added implicitly.
-  */
-  properties: ['name'],
-
-  /*
-  define the URL for this Record type.
-     - updates will be POSTed to '/ajaxcom/contact/update'
-     - new records will be POSTed to '/ajaxcom/contact/create'
-     - and existing records will be fetched (GET) from
-       '/ajacom/contact/show/23' (if the record has guid=23 and
-        only one record is fetched)
-  */
-  resourceURL: 'resources/interestAreas'
+  allowsEmptySelection: true,
+  allowsMultipleSelection: true
 
 }) ;

@@ -24,7 +24,7 @@
  *  THE SOFTWARE.
  */
 
-require('core');
+require('models/filter_base');
 
 /** @class
 
@@ -34,11 +34,10 @@ require('core');
   @author AuthorName
   @version 0.1
 */
-App.Distance = SC.Record.extend(
+App.Distance = App.FilterBase.extend(
 /** @scope App.Distance.prototype */ {
 
   // TODO: Add your own code here.
-  dataSource: App.server,
 
   /*
   A list of all the properties which should be handled by the framework.
@@ -54,6 +53,10 @@ App.Distance = SC.Record.extend(
        '/ajacom/contact/show/23' (if the record has guid=23 and
         only one record is fetched)
   */
-  resourceURL: 'resources/distances'
+  resourceURL: 'resources/distances',
+
+  name: function() {
+      return this.get('bucket');
+  }.property('bucket')
 
 }) ;

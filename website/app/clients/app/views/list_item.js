@@ -38,22 +38,24 @@ App.ListItemView = SC.View.extend(
 /** @scope App.ListItemView.prototype */ {
 
   // TODO: Add your own code here.
-  emptyElement: '<div class="list-item"></div>',
+  emptyElement: '<div class="list-item"><br></div>',
   
   /** The record we want to display. */
-  content: null,
-  
-  /** Selection state. */
-  isSelected: false,
-  
-  _contentObserver: function() {
-    var content = this.get('content') ;
-    var value = (content) ? content.get('name') : '(No Value)';
-    this.set('asHTML', value) ;
-  }.observes('*content.name'),
-  
-  _isSelectedObserver: function() {
-    this.setClassName('sel', this.get('isSelected')) ;
-  }.observes('isSelected')
+  content: [],
+  contentBindingDefault: SC.Binding.MultipleNotEmpty,
+  key: "name",
+
+
+  render: function() {
+    var html = [];
+    var content = this.get('content');
+    var key = this.get('key');
+
+     content.each( function(record){
+        html.push(record.get(key));
+        html.push('<br>');
+    });
+    this.set('innerHTML', html.join(" "));
+}.observes('content')
 
 }) ;

@@ -1,7 +1,9 @@
-// ==========================================================================
-// App.InterestArea
-// ==========================================================================
+<% # ========================================================================
+   # App.EntryContentView Unit Test
+   # ========================================================================
+%>
 
+<%#
 /*
  *  Copyright (c) 2008 Boulder Community Foundation - iVolunteer
  *
@@ -23,36 +25,22 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *  THE SOFTWARE.
  */
+%>
 
-require('models/filter_base');
+<% content_for('final') do %>
 
-/** @class
+<script>
 
-  (Document your class here)
+Test.context("App.EntryContentView",{
 
-  @extends SC.Record
-  @author AuthorName
-  @version 0.1
-*/
-App.InterestArea = App.FilterBase.extend(
-/** @scope App.InterestArea.prototype */ {
-
-  // TODO: Add your own code here.
-
-  /*
-  A list of all the properties which should be handled by the framework.
-  Additionally to the here mentioned ones, **guid** and **id** (?) are added implicitly.
-  */
-  properties: ['name'],
-
-  /*
-  define the URL for this Record type.
-     - updates will be POSTed to '/ajaxcom/contact/update'
-     - new records will be POSTed to '/ajaxcom/contact/create'
-     - and existing records will be fetched (GET) from
-       '/ajacom/contact/show/23' (if the record has guid=23 and
-        only one record is fetched)
-  */
-  resourceURL: 'resources/interestAreas'
+  "TODO: Add your own tests here": function() {
+    true.shouldEqual(true) ;
+  }
 
 }) ;
+
+if (window.main && (appMain = main)) main = null ;
+
+</script>
+
+<% end %>

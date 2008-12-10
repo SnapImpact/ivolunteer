@@ -1,5 +1,5 @@
 // ==========================================================================
-// App.InterestArea
+// App.FilterBase Fixtures
 // ==========================================================================
 
 /*
@@ -24,35 +24,42 @@
  *  THE SOFTWARE.
  */
 
-require('models/filter_base');
+require('core') ;
 
-/** @class
+App.FIXTURES = App.FIXTURES.concat([
 
-  (Document your class here)
+  // TODO: Add your data fixtures here.
+  // All fixture records must have a unique guid and a type matching the
+  // name of your contact.  See the example below.
 
-  @extends SC.Record
-  @author AuthorName
-  @version 0.1
-*/
-App.InterestArea = App.FilterBase.extend(
-/** @scope App.InterestArea.prototype */ {
+  // { guid: 1,
+  //   type: 'Contact',
+  //   firstName: "Michael",
+  //   lastName: "Scott"
+  // },
+  //
+  // { guid: 2,
+  //   type: 'Contact',
+  //   firstName: "Dwight",
+  //   lastName: "Schrute"
+  // },
+  //
+  // { guid: 3,
+  //   type: 'Contact',
+  //   firstName: "Jim",
+  //   lastName: "Halpert"
+  // },
+  //
+  // { guid: 4,
+  //   type: 'Contact',
+  //   firstName: "Pam",
+  //   lastName: "Beesly"
+  // },
+  //
+  // { guid: 5,
+  //   type: 'Contact',
+  //   firstName: "Ryan",
+  //   lastName: "Howard"
+  // }
 
-  // TODO: Add your own code here.
-
-  /*
-  A list of all the properties which should be handled by the framework.
-  Additionally to the here mentioned ones, **guid** and **id** (?) are added implicitly.
-  */
-  properties: ['name'],
-
-  /*
-  define the URL for this Record type.
-     - updates will be POSTed to '/ajaxcom/contact/update'
-     - new records will be POSTed to '/ajaxcom/contact/create'
-     - and existing records will be fetched (GET) from
-       '/ajacom/contact/show/23' (if the record has guid=23 and
-        only one record is fetched)
-  */
-  resourceURL: 'resources/interestAreas'
-
-}) ;
+]);
