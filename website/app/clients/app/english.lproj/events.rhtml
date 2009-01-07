@@ -25,10 +25,10 @@
 <% view :events_tab do %>
   <% split_view :workspace, :direction => :horizontal do %>
     <% view :sidebar, :outlet => true do %>
-      <% scroll_view :master_list, :outlet => true do %>
-        <%= source_list_view :outlet => true,
+      <% scroll_view :outlet => true do %>
+        <%= view :filter, :view => 'App.FilterView', :outlet => true,
           :content_value_key => 'name',
-          :group => 'type',
+          :groupBy => 'type',
           :group_visible_key => 'type',
           :use_toggle_selection => 'YES',
           :bind => {

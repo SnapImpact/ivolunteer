@@ -34,18 +34,13 @@ require('core');
   @author AuthorName
   @version 0.1
 */
-App.FilterView = SC.CollectionView.extend(
+App.FilterView = SC.SourceListView.extend(
 /** @scope App.FilterView.prototype */ {
 
   // TODO: Add your own code here.
-  emptyElement: '<div class="entry_content"></div>',
+  emptyElement: '<div class="sidebar"></div>',
 
-  /** The record we want to display. */
-  content: [],
-  contentBindingDefault: SC.Binding.MultipleNotEmpty,
-  key: "title",
-
-
-
+  exampleView: App.FilterItemView
+  
 
 }) ;

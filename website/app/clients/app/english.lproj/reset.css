@@ -40,7 +40,7 @@ fieldset, form, label, legend
 	background-image: transparent;
 }
 /* remember to define focus styles! */
-:focus {
+:focus .focus .sc-theme.focus {
 	-moz-outline:0;
 	outline:0;
 	outline-offset:0;
