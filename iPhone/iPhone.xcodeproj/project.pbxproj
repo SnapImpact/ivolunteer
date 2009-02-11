@@ -15,6 +15,16 @@
 		2899E5600DE3E45000AC0155 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E55F0DE3E45000AC0155 /* RootViewController.xib */; };
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		28C286E10D94DF7D0034E888 /* ProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* ProjectViewController.m */; };
+		94A97B740F4386F40077E4E0 /* RMModelObject.mm in Sources */ = {isa = PBXBuildFile; fileRef = 94A97B730F4386F40077E4E0 /* RMModelObject.mm */; };
+		94A97B7F0F43890C0077E4E0 /* Data Model Plan in Resources */ = {isa = PBXBuildFile; fileRef = 94A97B7E0F43890C0077E4E0 /* Data Model Plan */; };
+		94A97B830F438B000077E4E0 /* RMModelObject-README in Resources */ = {isa = PBXBuildFile; fileRef = 94A97B820F438B000077E4E0 /* RMModelObject-README */; };
+		94BE56EB0F42954900A505F0 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE56EA0F42954900A505F0 /* Event.m */; };
+		94BE57100F4297F000A505F0 /* InterestArea.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE570F0F4297F000A505F0 /* InterestArea.m */; };
+		94BE57130F42988B00A505F0 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE57120F42988B00A505F0 /* Location.m */; };
+		94BE57160F42992200A505F0 /* Organization.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE57150F42992200A505F0 /* Organization.m */; };
+		94BE57190F429F6400A505F0 /* Timestamp.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE57180F429F6400A505F0 /* Timestamp.m */; };
+		94BE571C0F42A03900A505F0 /* OrganizationTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE571B0F42A03900A505F0 /* OrganizationTypes.m */; };
+		94BE574C0F42A42D00A505F0 /* iVolunteerData.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE574B0F42A42D00A505F0 /* iVolunteerData.m */; };
 		E1DDD40F0EAAD73F006CA155 /* SplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1DDD40E0EAAD73F006CA155 /* SplashViewController.m */; };
 		E1DDD4110EAAD74E006CA155 /* SplashView.xib in Sources */ = {isa = PBXBuildFile; fileRef = E1DDD4100EAAD74E006CA155 /* SplashView.xib */; };
 /* End PBXBuildFile section */
@@ -33,6 +43,24 @@
 		28C286E00D94DF7D0034E888 /* ProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectViewController.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		94A97B720F4386F40077E4E0 /* RMModelObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMModelObject.h; sourceTree = "<group>"; };
+		94A97B730F4386F40077E4E0 /* RMModelObject.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RMModelObject.mm; sourceTree = "<group>"; };
+		94A97B7E0F43890C0077E4E0 /* Data Model Plan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Data Model Plan"; sourceTree = "<group>"; };
+		94A97B820F438B000077E4E0 /* RMModelObject-README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "RMModelObject-README"; sourceTree = "<group>"; };
+		94BE56E90F42954900A505F0 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
+		94BE56EA0F42954900A505F0 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
+		94BE570E0F4297F000A505F0 /* InterestArea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterestArea.h; sourceTree = "<group>"; };
+		94BE570F0F4297F000A505F0 /* InterestArea.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InterestArea.m; sourceTree = "<group>"; };
+		94BE57110F42988B00A505F0 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
+		94BE57120F42988B00A505F0 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
+		94BE57140F42992200A505F0 /* Organization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Organization.h; sourceTree = "<group>"; };
+		94BE57150F42992200A505F0 /* Organization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Organization.m; sourceTree = "<group>"; };
+		94BE57170F429F6400A505F0 /* Timestamp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timestamp.h; sourceTree = "<group>"; };
+		94BE57180F429F6400A505F0 /* Timestamp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Timestamp.m; sourceTree = "<group>"; };
+		94BE571A0F42A03900A505F0 /* OrganizationTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrganizationTypes.h; sourceTree = "<group>"; };
+		94BE571B0F42A03900A505F0 /* OrganizationTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrganizationTypes.m; sourceTree = "<group>"; };
+		94BE574A0F42A42D00A505F0 /* iVolunteerData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iVolunteerData.h; sourceTree = "<group>"; };
+		94BE574B0F42A42D00A505F0 /* iVolunteerData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iVolunteerData.m; sourceTree = "<group>"; };
 		E1DDD40D0EAAD73F006CA155 /* SplashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplashViewController.h; sourceTree = "<group>"; };
 		E1DDD40E0EAAD73F006CA155 /* SplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplashViewController.m; sourceTree = "<group>"; };
 		E1DDD4100EAAD74E006CA155 /* SplashView.xib */ = {isa = PBXFileReference; explicitFileType = file.xib; fileEncoding = 4; path = SplashView.xib; sourceTree = "<group>"; };
@@ -55,6 +83,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				94BE574D0F42A4E000A505F0 /* Data Sources */,
+				94BE56E80F4294E000A505F0 /* Data Model */,
 				E1DDD40D0EAAD73F006CA155 /* SplashViewController.h */,
 				E1DDD40E0EAAD73F006CA155 /* SplashViewController.m */,
 				28C286DF0D94DF7D0034E888 /* ProjectViewController.h */,
@@ -115,6 +145,38 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		94BE56E80F4294E000A505F0 /* Data Model */ = {
+			isa = PBXGroup;
+			children = (
+				94BE56E90F42954900A505F0 /* Event.h */,
+				94BE56EA0F42954900A505F0 /* Event.m */,
+				94BE570E0F4297F000A505F0 /* InterestArea.h */,
+				94BE570F0F4297F000A505F0 /* InterestArea.m */,
+				94BE57110F42988B00A505F0 /* Location.h */,
+				94BE57120F42988B00A505F0 /* Location.m */,
+				94BE57140F42992200A505F0 /* Organization.h */,
+				94BE57150F42992200A505F0 /* Organization.m */,
+				94BE57170F429F6400A505F0 /* Timestamp.h */,
+				94BE57180F429F6400A505F0 /* Timestamp.m */,
+				94BE571A0F42A03900A505F0 /* OrganizationTypes.h */,
+				94BE571B0F42A03900A505F0 /* OrganizationTypes.m */,
+				94BE574A0F42A42D00A505F0 /* iVolunteerData.h */,
+				94BE574B0F42A42D00A505F0 /* iVolunteerData.m */,
+				94A97B720F4386F40077E4E0 /* RMModelObject.h */,
+				94A97B730F4386F40077E4E0 /* RMModelObject.mm */,
+				94A97B7E0F43890C0077E4E0 /* Data Model Plan */,
+				94A97B820F438B000077E4E0 /* RMModelObject-README */,
+			);
+			name = "Data Model";
+			sourceTree = "<group>";
+		};
+		94BE574D0F42A4E000A505F0 /* Data Sources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Data Sources";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -166,6 +228,8 @@
 			files = (
 				28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */,
 				2899E5600DE3E45000AC0155 /* RootViewController.xib in Resources */,
+				94A97B7F0F43890C0077E4E0 /* Data Model Plan in Resources */,
+				94A97B830F438B000077E4E0 /* RMModelObject-README in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,6 +245,14 @@
 				28C286E10D94DF7D0034E888 /* ProjectViewController.m in Sources */,
 				E1DDD40F0EAAD73F006CA155 /* SplashViewController.m in Sources */,
 				E1DDD4110EAAD74E006CA155 /* SplashView.xib in Sources */,
+				94BE56EB0F42954900A505F0 /* Event.m in Sources */,
+				94BE57100F4297F000A505F0 /* InterestArea.m in Sources */,
+				94BE57130F42988B00A505F0 /* Location.m in Sources */,
+				94BE57160F42992200A505F0 /* Organization.m in Sources */,
+				94BE57190F429F6400A505F0 /* Timestamp.m in Sources */,
+				94BE571C0F42A03900A505F0 /* OrganizationTypes.m in Sources */,
+				94BE574C0F42A42D00A505F0 /* iVolunteerData.m in Sources */,
+				94A97B740F4386F40077E4E0 /* RMModelObject.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
