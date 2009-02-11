@@ -1,0 +1,14 @@
+
+The plan for the Data Model (as outlined by RyanS).
+
+- Build Data Model objects based on all the data model objects in the REST interface using RMModelObject for simplicity.
+- Retrieve the data over the REST interface.
+- Use libxml2 to parse REST results, place them in iVolunteerData.
+- Backfill the mututable dictionaries with links to actual objects.
+-- This is required by libxml2 is a SAX parser not a DOM parser, and we won't have all the objects resolved in sequence.
+-- For example, if we pull in the OrganizationTypes first, the organization dictionary can't point to the actual 
+   organization objects yet since wehaven't pulled them.  So instead we'll need to insert something like (uid,nil), and
+   go back and fill the nil references with actual object references from iVolunteerData once we've visited all the REST collections.
+- The should get us a good set of data to work with.  We'll have to be careful about all the circular refs when serializing out, 
+  probably safer to not serialize any dictionaries and refill them at runtime.
+- After that, we just need to make some DataSources for the treeviews.
