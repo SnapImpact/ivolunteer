@@ -12,8 +12,7 @@
 @interface Timestamp : RMModelObject {
 }
 
-@property (readonly, retain) NSString *uid;
-@property (readonly, retain) NSDate *date;
-@property (readonly, retain) NSMutableDictionary *events;
+@property (copy) NSString *uid;
+@property (retain) NSDate *date;
 
 @end

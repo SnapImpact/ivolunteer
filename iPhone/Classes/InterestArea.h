@@ -12,10 +12,13 @@
 @interface InterestArea : RMModelObject {
 }
 
-@property (readonly, retain) NSString* uid;
-@property (readonly, retain) NSString* name;
+@property (copy) NSString* uid;
+@property (copy) NSString* name;
 
-@property (readonly, retain) NSMutableDictionary* events;
-@property (readonly, retain) NSMutableDictionary* organizations;
++ (id) interestAreaWithId: (NSString*) uid
+                     name: (NSString*) name;
+
+- (id) initWithId: (NSString*) uid
+             name: (NSString*) name;
 
 @end

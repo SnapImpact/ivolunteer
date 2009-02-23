@@ -13,10 +13,31 @@
 
 @dynamic uid;
 @dynamic street;
+@dynamic location;
 
-@dynamic organizations;
-@dynamic events;
++ (id) locationWithId: (NSString*) uid
+               street: (NSString*) street
+             latitude: (double) latitude
+            longitude: (double) longitude
+{
+   Location* l = [Location alloc];
+   return [[l initWithId: uid
+                 street: street
+               latitude: latitude
+              longitude: longitude ] autorelease ];
+}
 
+- (id) initWithId: (NSString*) uid
+           street: (NSString*) street
+         latitude: (double) latitude
+        longitude: (double) longitude
+{
+   self.uid = uid;
+   self.street = street;
+   self.location = [[CLLocation alloc] initWithLatitude: latitude 
+                                              longitude: longitude ];
+   return self;
+}
 
 
 @end

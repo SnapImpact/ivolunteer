@@ -13,7 +13,6 @@
 
 @dynamic uid;
 @dynamic date;
-@dynamic events;
 
 @end
 

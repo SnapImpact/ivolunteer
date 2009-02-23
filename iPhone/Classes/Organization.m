@@ -16,10 +16,35 @@
 @dynamic email;
 @dynamic phone;
 @dynamic url;
-@dynamic organizationTypes;
-@dynamic events;
-@dynamic interestAreas;
-@dynamic locations;
+
++ (id) organizationWithId: (NSString*) uid 
+                     name: (NSString*) name 
+                    email: (NSString*) email 
+                    phone: (NSString*) phone
+                      url: (NSString*) url
+{
+   Organization* org = [Organization alloc];
+   return [[org initWithId: uid 
+                     name: name 
+                    email: email 
+                    phone: phone 
+                      url: url] autorelease ];
+}
+
+- (id) initWithId: (NSString*) uid 
+             name: (NSString*) name 
+            email: (NSString*) email 
+            phone: (NSString*) phone
+              url: (NSString*) url
+{
+   self.uid = uid;
+   self.name = name;
+   self.email = email;
+   self.phone = phone;
+   self.url = [NSURL URLWithString: url ];
+   
+   return self;
+}
 
 @end
 

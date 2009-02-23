@@ -14,7 +14,20 @@
 @dynamic uid;
 @dynamic name;
 
-@dynamic events;
-@dynamic organizations;
++ (id) interestAreaWithId: (NSString*) uid
+                     name: (NSString*) name
+{
+   InterestArea* i = [InterestArea alloc];
+   return [[ i initWithId: uid
+                    name: name ] autorelease ];
+}
+
+- (id) initWithId: (NSString*) uid
+             name: (NSString*) name
+{
+   self.uid = uid;
+   self.name = name;
+   return self;
+}
 
 @end

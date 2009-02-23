@@ -12,13 +12,64 @@
 @implementation Event
 
 @dynamic uid;
-@dynamic title;
+@dynamic name;
 @dynamic description;
-@dynamic duration;
 
+@dynamic organization;
+@dynamic contact;
+@dynamic date;
+@dynamic duration;
+@dynamic source;
+@dynamic location;
 @dynamic interestAreas;
-@dynamic timestamps;
-@dynamic locations;
-@dynamic organizations;
+
+
++ (id) eventWithId: (NSString*) uid
+              name: (NSString*) name
+       description: (NSString*) description
+      organization: (Organization*) organization
+           contact: (Contact*) contact
+            source: (Source*) source
+          location: (Location*) location
+     interestAreas: (NSArray*) interestAreas
+              date:  (NSDate*) date
+          duration: (NSNumber*) duration
+{
+   Event* e = [Event alloc];
+   return [[e initWithId: uid
+                   name: name
+            description: description
+           organization: organization
+                contact: contact
+                 source: source
+               location: location
+          interestAreas: interestAreas
+                   date: date
+               duration: duration ] autorelease ];
+}
+
+- (id) initWithId: (NSString*) uid
+             name: (NSString*) name
+      description: (NSString*) description
+     organization: (Organization*) organization
+          contact: (Contact*) contact
+           source: (Source*) source
+         location: (Location*) location
+    interestAreas: (NSArray*) interestAreas
+             date:  (NSDate*) date
+         duration: (NSNumber*) duration
+{
+   self.uid = uid;
+   self.name = name;
+   self.description = description;
+   self.organization = organization;
+   self.contact = contact;
+   self.source = source;
+   self.location = location;
+   self.interestAreas = interestAreas;
+   self.date = date;
+   self.duration = duration;
+   return self;
+}
 
 @end

@@ -28,7 +28,7 @@
 
 #import "iPhoneAppDelegate.h"
 #import "ProjectViewController.h"
-
+#import "iVolunteerData.h"
 
 @implementation iPhoneAppDelegate
 
@@ -61,7 +61,7 @@
 }
 
 -(void) loadNavigationView
-{
+{   
 	[[splashvc view] removeFromSuperview];
 	// Configure and show the window
 	[window addSubview:[navigationController view]];

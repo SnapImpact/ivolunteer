@@ -26,14 +26,16 @@
    NSObject<RestClientDelegate> *delegate;
    NSString *username;
    NSString *password;
+   
+   NSMutableSet* delegateMethods;
 }
 
-@property (nonatomic, assign) BOOL retainData;
-@property (nonatomic, readonly) NSData *receivedData;
-@property (nonatomic) BOOL asynchronous;
-@property (nonatomic, copy) NSString *mimeType;
-@property (nonatomic, copy) NSString *username;
-@property (nonatomic, copy) NSString *password;
+@property (assign) BOOL retainData;
+@property (readonly, retain) NSData *receivedData;
+@property (assign) BOOL asynchronous;
+@property (copy) NSString *mimeType;
+@property (copy) NSString *username;
+@property (copy) NSString *password;
 @property (nonatomic, assign) NSObject<RestClientDelegate> *delegate; // Do not retain delegates!
 
 - (void)sendRequestTo:(NSURL *)url usingVerb:(NSString *)verb withParameters:(NSDictionary *)parameters;

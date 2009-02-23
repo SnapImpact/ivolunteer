@@ -7,18 +7,25 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 #import "RMModelObject.h"
 
 @interface Location : RMModelObject {
 }
 
-@property (readonly, retain) NSString *uid;
-@property (readonly, retain) NSString *street;
+@property (copy) NSString *uid;
+@property (copy) NSString *street;
+@property (retain) CLLocation* location;
 
-@property (readonly, retain) NSMutableDictionary *events;
-@property (readonly, retain) NSMutableDictionary *organizations;
++ (id) locationWithId: (NSString*) uid
+               street: (NSString*) street
+             latitude: (double) latitude
+            longitude: (double) longitude;
 
-
+- (id) initWithId: (NSString*) uid
+           street: (NSString*) street
+         latitude: (double) latitude
+        longitude: (double) longitude;
 
 
 @end

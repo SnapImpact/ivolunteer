@@ -13,7 +13,6 @@
 
 @dynamic uid;
 @dynamic name;
-@dynamic organizations;
 
 @end
 

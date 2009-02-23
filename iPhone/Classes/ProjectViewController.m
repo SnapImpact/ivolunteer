@@ -9,6 +9,8 @@
 #import "ProjectViewController.h"
 #import "iPhoneAppDelegate.h"
 
+#import "EventsSortedByTimeDataSource.h"
+
 
 @implementation ProjectViewController
 
@@ -18,7 +20,7 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return 1;
 }
 
 
@@ -32,7 +34,7 @@
     }
     
     // Set up the cell
-	cell.text = [[NSString alloc] initWithFormat:@"%i",[indexPath indexAtPosition:1]];
+	 cell.text = @"Loading.."; //[[NSString alloc] initWithFormat:@"%i",[indexPath indexAtPosition:1]];
     return cell;
 }
 
@@ -42,13 +44,12 @@
 }
 
 
-/*
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Uncomment the following line to add the Edit button to the navigation bar.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+   [[self tableView] setDataSource: [[EventsSortedByTimeDataSource alloc] init] ];
 }
-*/
 
 
 /*

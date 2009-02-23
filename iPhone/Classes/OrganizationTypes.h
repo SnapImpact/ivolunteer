@@ -12,9 +12,8 @@
 @interface OrganizationTypes : RMModelObject {
 }
 
-@property (readonly, retain) NSString *uid;
-@property (readonly, retain) NSString *name;
-@property (readonly, retain) NSMutableDictionary *organizations;
+@property (copy) NSString *uid;
+@property (copy) NSString *name;
 
 @end
 

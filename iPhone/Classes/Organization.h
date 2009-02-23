@@ -12,15 +12,23 @@
 @interface Organization : RMModelObject {
 }
 
-@property (readonly, retain) NSString *uid;
-@property (readonly, retain) NSString *name;
-@property (readonly, retain) NSString *email;
-@property (readonly, retain) NSString *phone;
-@property (readonly, retain) NSURL *url;
-@property (readonly, retain) NSMutableDictionary *organizationTypes;
-@property (readonly, retain) NSMutableDictionary *events;
-@property (readonly, retain) NSMutableDictionary *interestAreas;
-@property (readonly, retain) NSMutableDictionary *locations;
+@property (copy) NSString *uid;
+@property (copy) NSString *name;
+@property (copy) NSString *email;
+@property (copy) NSString *phone;
+@property (retain) NSURL *url;
+
++ (id) organizationWithId: (NSString*) uid 
+                     name: (NSString*) name 
+                    email: (NSString*) email 
+                    phone: (NSString*) phone
+                      url: (NSString*) url;
+
+- (id) initWithId: (NSString*) uid 
+             name: (NSString*) name 
+            email: (NSString*) email 
+            phone: (NSString*) phone
+              url: (NSString*) url;
 
 @end
 

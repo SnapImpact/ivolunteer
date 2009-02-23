@@ -9,24 +9,28 @@
 #import <Foundation/Foundation.h>
 
 #import "Event.h"
-#import "InterestArea.h"
-#import "Location.h"
-#import "Organization.h"
-#import "Timestamp.h"
-#import "OrganizationTypes.h"
-#import "RMModelObject.h"
 
 @interface iVolunteerData : RMModelObject {
 }
 
-@property (nonatomic, retain) NSMutableDictionary *events;
-@property (nonatomic, retain) NSMutableDictionary *interestAreas;
-@property (nonatomic, retain) NSMutableDictionary *locations;
-@property (nonatomic, retain) NSMutableDictionary *organizations;
-@property (nonatomic, retain) NSArray *sortedEvents;
-@property (nonatomic, retain) NSArray *sortedLocations;
-@property (nonatomic, retain) NSArray *sortedInterestAreas;
-@property (nonatomic, retain) NSArray *sortedOrganizations;
+@property (retain) NSMutableDictionary *organizations;
+@property (retain) NSMutableDictionary *contacts;
+@property (retain) NSMutableDictionary *sources;
+@property (retain) NSMutableDictionary *locations;
+@property (retain) NSMutableDictionary *interestAreas;
+@property (retain) NSMutableDictionary *events;
+
+@property (retain) NSArray* eventsSortedIntoDays;  //nested array of events sorted into days
+@property (retain) NSArray* daysWithEvents; //array of strings of dates with upcoming events
+@property (retain) NSArray* interestAreasByName; //array of InterestAreas by name
+
++ (id) sharedVolunteerData;
+
+- (id) init;
+- (id) initWithTestData; //make a bogus test object
+
+- (NSArray*) eventsInDateSection: (unsigned int) section;
+- (void) sortData;
 
 @end
 

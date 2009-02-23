@@ -120,7 +120,7 @@
    }
    [params release];
    
-   if ([delegate respondsToSelector:@selector(restClientShouldRetainData:)])
+   if ([delegateMethods containsObject: @"restClientShouldRetainData:"])
    {
       retainData = [delegate restClientShouldRetainData:self];
    }
@@ -181,6 +181,42 @@
                                  encoding:NSUTF8StringEncoding] autorelease];
 }
 
+- (void) setDelegate: (NSObject<RestClientDelegate>*) d {
+   if( delegateMethods == nil ) {
+      delegateMethods = [NSMutableSet set];  
+   }
+   else {
+      [ delegateMethods removeAllObjects ];
+   }
+   
+   if ([delegate respondsToSelector:@selector(restClientShouldRetainData:)]) {
+      [delegateMethods addObject:@"restClientShouldRetainData:"];
+   }
+   if( [d respondsToSelector:@selector(restClient:didFailWithError:)] ) {
+      [delegateMethods addObject: @"restClient:didFailWithError:" ];
+   }
+   if ([delegate respondsToSelector:@selector(restClientHasBadCredentials:)]) {
+      [delegateMethods addObject:@"restClientHasBadCredentials:" ];
+   }
+   if ([delegate respondsToSelector:@selector(restClient:didCreateResourceAtURL:)]) {
+      [delegateMethods addObject:@"restClient:didCreateResourceAtURL:" ];
+   }
+   if ([delegate respondsToSelector:@selector(restClient:didReceiveStatusCode:)]) {
+      [delegateMethods addObject:@"restClient:didReceiveStatusCode:" ];
+   }
+   if ([delegate respondsToSelector:@selector(restClient:didReceiveData:)]) {
+      [delegateMethods addObject:@"restClient:didReceiveData:" ];
+   }
+   if ([delegate respondsToSelector:@selector(restClient:didFailWithError:)]) {
+      [delegateMethods addObject:@"restClient:didFailWithError:" ];
+   }
+   if ([delegate respondsToSelector:@selector(restClient:didRetrieveData:)]) {
+      [delegateMethods addObject:@"restClient:didRetrieveData:" ];
+   }
+   
+   delegate = d;
+}
+
 #pragma mark -
 #pragma mark Private methods
 
@@ -195,7 +231,7 @@
       
       if (!conn)
       {
-         if ([delegate respondsToSelector:@selector(restClient:didFailWithError:)])
+         if( [delegateMethods containsObject: @"restClient:didFailWithError:" ] )
          {
             NSMutableDictionary* info = [NSMutableDictionary dictionaryWithObject:[request URL] forKey:NSErrorFailingURLStringKey];
             [info setObject:@"Could not open connection" forKey:NSLocalizedDescriptionKey];
@@ -230,7 +266,7 @@
    else
    {
       [[challenge sender] cancelAuthenticationChallenge:challenge];
-      if ([delegate respondsToSelector:@selector(restClientHasBadCredentials:)])
+      if ([delegateMethods containsObject: @"restClientHasBadCredentials:"])
       {
          [delegate restClientHasBadCredentials:self];
       }
@@ -249,7 +285,7 @@
       case 201:
       {
          NSString* url = [[httpResponse allHeaderFields] objectForKey:@"Location"];
-         if ([delegate respondsToSelector:@selector(restClient:didCreateResourceAtURL:)])
+         if ([delegateMethods containsObject: @"restClient:didCreateResourceAtURL:"])
          {
             [delegate restClient:self didCreateResourceAtURL:url];
          }
@@ -262,7 +298,7 @@
          
       default:
       {
-         if ([delegate respondsToSelector:@selector(restClient:didReceiveStatusCode:)])
+         if ([delegateMethods containsObject: @"restClient:didReceiveStatusCode:"])
          {
             [delegate restClient:self didReceiveStatusCode:statusCode];
          }
@@ -278,7 +314,7 @@
       [receivedData appendData:data];
    }
    //TODO: cache this selector as it'll be called often
-   if ([delegate respondsToSelector:@selector(restClient:didReceiveData:)])
+   if ([delegateMethods containsObject: @"restClient:didReceiveData:"])
    {
       [delegate restClient:self didReceiveData:data];
    }
@@ -287,7 +323,7 @@
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
    [self cancelConnection];
-   if ([delegate respondsToSelector:@selector(restClient:didFailWithError:)])
+   if ([delegateMethods containsObject: @"restClient:didFailWithError:"])
    {
       [delegate restClient:self didFailWithError:error];
    }
@@ -296,7 +332,7 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
    [self cancelConnection];
-   if ([delegate respondsToSelector:@selector(restClient:didRetrieveData:)])
+   if ([delegateMethods containsObject: @"restClient:didRetrieveData:"])
    {
       [delegate restClient:self didRetrieveData:receivedData];
    }

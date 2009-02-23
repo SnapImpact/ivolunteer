@@ -15,11 +15,17 @@
 		2899E5600DE3E45000AC0155 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E55F0DE3E45000AC0155 /* RootViewController.xib */; };
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		28C286E10D94DF7D0034E888 /* ProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* ProjectViewController.m */; };
+		9455C4440F5214FA00296B87 /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = 9455C4430F5214FA00296B87 /* Contact.m */; };
+		9455C44E0F52165100296B87 /* Source.m in Sources */ = {isa = PBXBuildFile; fileRef = 9455C44D0F52165100296B87 /* Source.m */; };
+		9455C53E0F52270D00296B87 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9455C53D0F52270D00296B87 /* CoreLocation.framework */; };
+		9455C6110F5258DE00296B87 /* DateUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 9455C6100F5258DE00296B87 /* DateUtilities.m */; };
 		94A97B740F4386F40077E4E0 /* RMModelObject.mm in Sources */ = {isa = PBXBuildFile; fileRef = 94A97B730F4386F40077E4E0 /* RMModelObject.mm */; };
 		94A97B7F0F43890C0077E4E0 /* Data Model Plan in Resources */ = {isa = PBXBuildFile; fileRef = 94A97B7E0F43890C0077E4E0 /* Data Model Plan */; };
 		94A97B830F438B000077E4E0 /* RMModelObject-README in Resources */ = {isa = PBXBuildFile; fileRef = 94A97B820F438B000077E4E0 /* RMModelObject-README */; };
 		94A97BB80F4521D80077E4E0 /* RestClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A97BB70F4521D80077E4E0 /* RestClient.m */; };
 		94A97D3B0F452D610077E4E0 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 94A97D3A0F452D610077E4E0 /* libxml2.dylib */; };
+		94A97E300F48A37C0077E4E0 /* RestController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A97E2F0F48A37C0077E4E0 /* RestController.m */; };
+		94A97F250F48BD670077E4E0 /* EventsSortedByTimeDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A97F240F48BD670077E4E0 /* EventsSortedByTimeDataSource.m */; };
 		94BE56EB0F42954900A505F0 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE56EA0F42954900A505F0 /* Event.m */; };
 		94BE57100F4297F000A505F0 /* InterestArea.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE570F0F4297F000A505F0 /* InterestArea.m */; };
 		94BE57130F42988B00A505F0 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE57120F42988B00A505F0 /* Location.m */; };
@@ -45,6 +51,13 @@
 		28C286E00D94DF7D0034E888 /* ProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectViewController.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9455C4420F5214FA00296B87 /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
+		9455C4430F5214FA00296B87 /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
+		9455C44C0F52165100296B87 /* Source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Source.h; sourceTree = "<group>"; };
+		9455C44D0F52165100296B87 /* Source.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Source.m; sourceTree = "<group>"; };
+		9455C53D0F52270D00296B87 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		9455C60F0F5258DE00296B87 /* DateUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateUtilities.h; sourceTree = "<group>"; };
+		9455C6100F5258DE00296B87 /* DateUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateUtilities.m; sourceTree = "<group>"; };
 		94A97B720F4386F40077E4E0 /* RMModelObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMModelObject.h; sourceTree = "<group>"; };
 		94A97B730F4386F40077E4E0 /* RMModelObject.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RMModelObject.mm; sourceTree = "<group>"; };
 		94A97B7E0F43890C0077E4E0 /* Data Model Plan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Data Model Plan"; sourceTree = "<group>"; };
@@ -53,6 +66,11 @@
 		94A97BB70F4521D80077E4E0 /* RestClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestClient.m; sourceTree = "<group>"; };
 		94A97C500F4526020077E4E0 /* RestClientDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestClientDelegate.h; sourceTree = "<group>"; };
 		94A97D3A0F452D610077E4E0 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		94A97E2E0F48A37C0077E4E0 /* RestController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestController.h; sourceTree = "<group>"; };
+		94A97E2F0F48A37C0077E4E0 /* RestController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestController.m; sourceTree = "<group>"; };
+		94A97F1A0F48BBB20077E4E0 /* RootViewDataSourceProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewDataSourceProtocol.h; sourceTree = "<group>"; };
+		94A97F230F48BD670077E4E0 /* EventsSortedByTimeDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventsSortedByTimeDataSource.h; sourceTree = "<group>"; };
+		94A97F240F48BD670077E4E0 /* EventsSortedByTimeDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventsSortedByTimeDataSource.m; sourceTree = "<group>"; };
 		94BE56E90F42954900A505F0 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		94BE56EA0F42954900A505F0 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
 		94BE570E0F4297F000A505F0 /* InterestArea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterestArea.h; sourceTree = "<group>"; };
@@ -81,6 +99,7 @@
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */,
 				94A97D3B0F452D610077E4E0 /* libxml2.dylib in Frameworks */,
+				9455C53E0F52270D00296B87 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,6 +109,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				9455C60F0F5258DE00296B87 /* DateUtilities.h */,
+				9455C6100F5258DE00296B87 /* DateUtilities.m */,
 				94A97BB50F4521A80077E4E0 /* REST Interaction */,
 				94BE574D0F42A4E000A505F0 /* Data Sources */,
 				94BE56E80F4294E000A505F0 /* Data Model */,
@@ -146,6 +167,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9455C53D0F52270D00296B87 /* CoreLocation.framework */,
 				94A97D3A0F452D610077E4E0 /* libxml2.dylib */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
@@ -160,6 +182,8 @@
 				94A97BB60F4521D80077E4E0 /* RestClient.h */,
 				94A97BB70F4521D80077E4E0 /* RestClient.m */,
 				94A97C500F4526020077E4E0 /* RestClientDelegate.h */,
+				94A97E2E0F48A37C0077E4E0 /* RestController.h */,
+				94A97E2F0F48A37C0077E4E0 /* RestController.m */,
 			);
 			name = "REST Interaction";
 			sourceTree = "<group>";
@@ -167,6 +191,10 @@
 		94BE56E80F4294E000A505F0 /* Data Model */ = {
 			isa = PBXGroup;
 			children = (
+				9455C44C0F52165100296B87 /* Source.h */,
+				9455C44D0F52165100296B87 /* Source.m */,
+				9455C4420F5214FA00296B87 /* Contact.h */,
+				9455C4430F5214FA00296B87 /* Contact.m */,
 				94BE56E90F42954900A505F0 /* Event.h */,
 				94BE56EA0F42954900A505F0 /* Event.m */,
 				94BE570E0F4297F000A505F0 /* InterestArea.h */,
@@ -192,6 +220,9 @@
 		94BE574D0F42A4E000A505F0 /* Data Sources */ = {
 			isa = PBXGroup;
 			children = (
+				94A97F1A0F48BBB20077E4E0 /* RootViewDataSourceProtocol.h */,
+				94A97F230F48BD670077E4E0 /* EventsSortedByTimeDataSource.h */,
+				94A97F240F48BD670077E4E0 /* EventsSortedByTimeDataSource.m */,
 			);
 			name = "Data Sources";
 			sourceTree = "<group>";
@@ -273,6 +304,11 @@
 				94BE574C0F42A42D00A505F0 /* iVolunteerData.m in Sources */,
 				94A97B740F4386F40077E4E0 /* RMModelObject.mm in Sources */,
 				94A97BB80F4521D80077E4E0 /* RestClient.m in Sources */,
+				94A97E300F48A37C0077E4E0 /* RestController.m in Sources */,
+				94A97F250F48BD670077E4E0 /* EventsSortedByTimeDataSource.m in Sources */,
+				9455C4440F5214FA00296B87 /* Contact.m in Sources */,
+				9455C44E0F52165100296B87 /* Source.m in Sources */,
+				9455C6110F5258DE00296B87 /* DateUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
