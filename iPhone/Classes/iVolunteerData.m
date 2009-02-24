@@ -18,14 +18,17 @@
 @dynamic interestAreas;
 @dynamic events;
 
+@dynamic version;
+
 @dynamic eventsSortedIntoDays;  //nested array of events sorted into days
 @dynamic daysWithEvents; //array of NSDates with upcoming events
 @dynamic interestAreasByName;
 
 static iVolunteerData* _sharedInstance = nil;
+static NSString* kVolunteerDataRootKey = @"Root";
+static NSString* kVolunteerDataVersion = @"v1.1";
 
-+ (id) sharedVolunteerData 
-{
++ (id) sharedVolunteerData {
    if( _sharedInstance == nil ) {
       _sharedInstance = [[iVolunteerData alloc] initWithTestData];
       return _sharedInstance;
@@ -34,9 +37,47 @@ static iVolunteerData* _sharedInstance = nil;
    return _sharedInstance;
 }
 
++ (NSString*) archivePath {
+   NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+   return [[paths objectAtIndex: 0 ] stringByAppendingPathComponent: @"volunteer.data" ];
+}
+
++ (BOOL) archive {
+   NSMutableData* data = [NSMutableData data];
+   NSKeyedArchiver* archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData: data];
+   [archiver encodeObject: _sharedInstance forKey: kVolunteerDataRootKey ];
+   [archiver finishEncoding];
+   BOOL success = [data writeToFile: [iVolunteerData archivePath] atomically: YES];
+   [archiver release];
+   return success;
+}
+
++ (BOOL) restore {
+   NSData* data = [[NSData alloc] initWithContentsOfFile: [iVolunteerData archivePath]];
+   NSKeyedUnarchiver* unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData: data];
+   
+   iVolunteerData* restored = [unarchiver decodeObjectForKey: kVolunteerDataRootKey ];
+   [unarchiver finishDecoding];
+   [unarchiver release];
+   [data release];
+   
+   if((restored != nil) && ([restored.version isEqual: kVolunteerDataVersion])) {
+      if(_sharedInstance != nil) {
+         [_sharedInstance release];
+         _sharedInstance = nil;
+      }
+      _sharedInstance = [restored retain];
+      return YES;
+   }
+   else {
+      return NO;
+   }
+}
+
 - (id) init 
 {
    self = [iVolunteerData alloc];
+   self.version = kVolunteerDataVersion;
    
    self.organizations = [NSMutableDictionary dictionary];
    self.contacts = [NSMutableDictionary dictionary];
@@ -207,6 +248,28 @@ NSInteger _SortEventsByDate(id e1, id e2, void *context)
 NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
 {
    return [[ i1 name] compare: [i2 name]];
+}
+
+- (id) initWithCoder: (NSCoder*) decoder 
+{
+   if( self = [super initWithCoder: decoder] ) {
+      //cull any events which are older than today
+      NSEnumerator *enumerator = [self.events objectEnumerator];
+      NSMutableArray* eventsToCull = [NSMutableArray array];
+      id event;
+      while((event = [enumerator nextObject])) {
+         if( [[DateUtilities today] compare: [event date]] == NSOrderedDescending ) {
+            [eventsToCull addObject: [event uid] ];
+         }
+      }
+      if( [eventsToCull count] ) {
+         [ self.events removeObjectsForKeys: eventsToCull ];
+      }
+   }
+   
+   //resort data
+   [self sortData];
+   return self;
 }
 
 - (void) sortData

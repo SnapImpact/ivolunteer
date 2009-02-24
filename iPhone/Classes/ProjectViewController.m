@@ -14,6 +14,8 @@
 
 @implementation ProjectViewController
 
+@dynamic refreshButton;
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }

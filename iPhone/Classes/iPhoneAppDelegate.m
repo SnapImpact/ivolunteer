@@ -51,13 +51,15 @@
 	} else {
 		[self loadNavigationView];
 	}
-		[window makeKeyAndVisible];
-	
+		
+   [window makeKeyAndVisible];
+   [iVolunteerData restore];
 }
 
 
 - (void)applicationWillTerminate:(UIApplication *)application {
 	// Save data if appropriate
+   [ iVolunteerData archive ];
 }
 
 -(void) loadNavigationView

@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface ProjectViewController : UITableViewController {
+   IBOutlet UIButton* refreshButton;
 }
+
+@property (nonatomic, retain) UIButton* refreshButton;
 
 @end
