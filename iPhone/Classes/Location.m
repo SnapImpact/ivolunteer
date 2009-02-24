@@ -39,6 +39,14 @@
    return self;
 }
 
+- (void) dealloc {
+   self.uid = nil;
+   self.street = nil;
+   self.location = nil;
+   [super dealloc];
+}
+
+
 
 @end
 

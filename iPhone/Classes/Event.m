@@ -72,4 +72,18 @@
    return self;
 }
 
+- (void) dealloc {
+   self.uid = nil;
+   self.name = nil;
+   self.description = nil;
+   self.organization = nil;
+   self.contact = nil;
+   self.source = nil;
+   self.location = nil;
+   self.interestAreas = nil;
+   self.date = nil;
+   self.duration = nil;
+   [super dealloc];
+}
+
 @end

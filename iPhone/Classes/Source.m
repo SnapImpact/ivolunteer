@@ -35,5 +35,12 @@
    return self;
 }
 
+- (void) dealloc {
+   self.uid = nil;
+   self.name = nil;
+   self.url = nil;
+   [super dealloc];
+}
+
 
 @end

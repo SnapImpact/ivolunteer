@@ -14,6 +14,13 @@
 @dynamic uid;
 @dynamic date;
 
+- (void) dealloc {
+   self.uid = nil;
+   self.date = nil;
+   [super dealloc];
+}
+
+
 @end
 
 

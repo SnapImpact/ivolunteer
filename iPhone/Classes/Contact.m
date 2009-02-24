@@ -40,4 +40,12 @@
    return self;
 }
 
+- (void) dealloc {
+   self.uid = nil;
+   self.name = nil;
+   self.email = nil;
+   self.phone = nil;
+   [super dealloc];
+}
+
 @end

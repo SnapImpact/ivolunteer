@@ -262,6 +262,20 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
 
 }
                                
+- (void) dealloc {
+   self.organizations = nil;
+   self.contacts = nil;
+   self.sources = nil;
+   self.locations = nil;
+   self.interestAreas = nil;
+   self.events = nil;
+   
+   self.eventsSortedIntoDays = nil;
+   self.daysWithEvents = nil;
+   self.interestAreasByName = nil;
+   [super dealloc];
+}
+
                                
 
                                            
