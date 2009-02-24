@@ -13,7 +13,7 @@
 
 @dynamic uid;
 @dynamic name;
-@dynamic description;
+@dynamic details;
 
 @dynamic organization;
 @dynamic contact;
@@ -26,7 +26,7 @@
 
 + (id) eventWithId: (NSString*) uid
               name: (NSString*) name
-       description: (NSString*) description
+           details: (NSString*) details
       organization: (Organization*) organization
            contact: (Contact*) contact
             source: (Source*) source
@@ -37,20 +37,20 @@
 {
    Event* e = [Event alloc];
    return [[e initWithId: uid
-                   name: name
-            description: description
-           organization: organization
-                contact: contact
-                 source: source
-               location: location
-          interestAreas: interestAreas
-                   date: date
-               duration: duration ] autorelease ];
+                    name: name
+                 details: details
+            organization: organization
+                 contact: contact
+                  source: source
+                location: location
+           interestAreas: interestAreas
+                    date: date
+                duration: duration ] autorelease ];
 }
 
 - (id) initWithId: (NSString*) uid
              name: (NSString*) name
-      description: (NSString*) description
+      details: (NSString*) details
      organization: (Organization*) organization
           contact: (Contact*) contact
            source: (Source*) source
@@ -61,7 +61,7 @@
 {
    self.uid = uid;
    self.name = name;
-   self.description = description;
+   self.details = details;
    self.organization = organization;
    self.contact = contact;
    self.source = source;
@@ -75,7 +75,7 @@
 - (void) dealloc {
    self.uid = nil;
    self.name = nil;
-   self.description = nil;
+   self.details = nil;
    self.organization = nil;
    self.contact = nil;
    self.source = nil;

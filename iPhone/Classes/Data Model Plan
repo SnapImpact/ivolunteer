@@ -13,70 +13,11 @@ The plan for the Data Model (as outlined by RyanS).
   probably safer to not serialize any dictionaries and refill them at runtime.
 - After that, we just need to make some DataSources for the treeviews.
 
-
-- Event
--- title
--- description
-
---- Organization
---- Contact
---- DateSpan
---- Source
---- Location
---- InterestAreas
-
-- DateSpan
--- start
--- end
-
-- Location
--- address
--- CLLocation
-
--- Source
-- name
-- url
-
--- Contact
-- name
-- email
-- phone
-
--- OrganizationType
-- name
-
--- Organization
-- name
-- email
-- phone
-- url
---- OrganizationTypes
-
-
 Here's what I'd like to see as the REST interface for the iPhone app:
 
 * I pass you a location on a POST or GET request.
 * I receive an XML block like so:
 
-<events>
-   <event id="guid">
-     <title>Event Title</title>
-     <description>Event Description</description>
-     <organization id="guid" />  <!-- guid indexes into table below -->
-     <contact id="guid" /> <!-- contact overrides organization , not sure if DB schema supports this -->
-     <source id="guid" />
-     <location id="guid" />
-     <interestareas>
-        <interestarea id="guid"/>
-        <interestarea id="guid"/>
-     </interestareas>
-     <datespans>
-        <datespan id="guid" /> <!-- multiple datespans for recurring events, most will have 1 -->
-        <datespan id="guid" />
-     </datespan>
-   </event>
-   <event id="guid">...</events>
-</events>
 <organizations>
  <organization id="guid">
    <name>Org Name</name>
@@ -122,3 +63,22 @@ Here's what I'd like to see as the REST interface for the iPhone app:
   <name>Animal Protection and Welfare</name>
  </interestarea>
 </interestareas>
+<events>
+   <event id="guid">
+     <title>Event Title</title>
+     <details>Event Description</details>
+     <organization id="guid" />  <!-- guid indexes into table below -->
+     <contact id="guid" /> <!-- contact overrides organization , not sure if DB schema supports this -->
+     <source id="guid" />
+     <location id="guid" />
+     <interestareas>
+        <interestarea id="guid"/>
+        <interestarea id="guid"/>
+     </interestareas>
+     <datespans>
+        <datespan id="guid" /> <!-- multiple datespans for recurring events, most will have 1 -->
+        <datespan id="guid" />
+     </datespan>
+   </event>
+   <event id="guid">...</events>
+</events>

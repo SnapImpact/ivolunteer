@@ -228,11 +228,42 @@ static BOOL use24HourTime;
     [components1 day] == [components2 day];
 }
 
++ (BOOL) isSameWeek: (NSDate*) d1
+               date: (NSDate*) d2 {
+   NSCalendar* calendar = [NSCalendar currentCalendar];
+   NSDateComponents* c1 = [calendar components: (NSYearCalendarUnit | NSWeekCalendarUnit)
+                                      fromDate: d1];
+   NSDateComponents* c2 = [calendar components: (NSYearCalendarUnit | NSWeekCalendarUnit )
+                                      fromDate: d2];
+   return 
+   [c1 year] == [c2 year] &&
+   [c1 week] == [c2 week];
+}
+
++ (BOOL) isSameMonth: (NSDate*) d1
+                date: (NSDate*) d2 {
+   NSCalendar* calendar = [NSCalendar currentCalendar];
+   NSDateComponents* c1 = [calendar components: (NSYearCalendarUnit | NSMonthCalendarUnit)
+                                      fromDate: d1];
+   NSDateComponents* c2 = [calendar components: (NSYearCalendarUnit | NSMonthCalendarUnit )
+                                      fromDate: d2];
+   return 
+   [c1 year] == [c2 year] &&
+   [c1 month] == [c2 month];   
+}
+
 
 + (BOOL) isToday:(NSDate*) date {
     return [DateUtilities isSameDay:[NSDate date] date:date];
 }
 
++ (BOOL) isThisWeek:(NSDate*) date {
+   return [DateUtilities isSameWeek:[NSDate date] date: date];
+}
+
++ (BOOL) isThisMonth:(NSDate*) date {
+   return [DateUtilities isSameMonth:[NSDate date] date: date];
+}
 
 + (NSString*) format:(NSDate*) date formatter:(NSDateFormatter*) formatter {
     NSString* result;

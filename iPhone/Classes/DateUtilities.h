@@ -26,7 +26,15 @@
 + (BOOL) isSameDay:(NSDate*) d1
               date:(NSDate*) d2;
 
++ (BOOL) isSameWeek:(NSDate*) d1
+               date:(NSDate*) d2;
+
++ (BOOL) isSameMonth:(NSDate*) d1
+                date:(NSDate*) d2;
+
 + (BOOL) isToday:(NSDate*) date;
++ (BOOL) isThisWeek:(NSDate*) date;
++ (BOOL) isThisMonth:(NSDate*) date;
 
 + (NSString*) formatShortTime:(NSDate*) date;
 + (NSString*) formatShortDate:(NSDate*) date;

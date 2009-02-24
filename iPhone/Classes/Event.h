@@ -19,7 +19,7 @@
 
 @property (copy) NSString* uid;
 @property (copy) NSString* name;
-@property (copy) NSString* description;
+@property (copy) NSString* details;
 
 @property (retain) Organization* organization;
 @property (retain) Contact* contact;
@@ -31,7 +31,7 @@
 
 + (id) eventWithId: (NSString*) uid
               name: (NSString*) name
-       description: (NSString*) description
+           details: (NSString*) details
       organization: (Organization*) organization
            contact: (Contact*) contact
             source: (Source*) source
@@ -42,7 +42,7 @@
 
 - (id) initWithId: (NSString*) uid
              name: (NSString*) name
-      description: (NSString*) description
+          details: (NSString*) details
      organization: (Organization*) organization
           contact: (Contact*) contact
            source: (Source*) source

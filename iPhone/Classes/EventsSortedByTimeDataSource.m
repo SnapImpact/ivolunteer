@@ -9,6 +9,8 @@
 #import "EventsSortedByTimeDataSource.h"
 #import "iVolunteerData.h"
 
+#import "EventTableCell.h"
+
 @implementation EventsSortedByTimeDataSource
 
 #pragma mark RootViewDataSourceProtocol
@@ -64,16 +66,21 @@
    
    static NSString* CellIdentifier = @"EventTableViewCell";
    
-   UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier: CellIdentifier ];
-   if( cell == nil ){
-      cell = [[[UITableViewCell alloc] initWithFrame: CGRectZero reuseIdentifier: CellIdentifier ] autorelease];
+   EventTableCell* cell = (EventTableCell*) [tableView dequeueReusableCellWithIdentifier: CellIdentifier];
+   if(cell == nil) {
+      NSArray *nib = [[NSBundle mainBundle] loadNibNamed: @"EventTableCell" owner: self options: nil ];
+      cell = [nib objectAtIndex:0];
    }
-   cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-   cell.text = @"Event";
-	
-	return cell;
+   
+   NSArray* events = [[[iVolunteerData sharedVolunteerData] eventsSortedIntoDays] objectAtIndex: [indexPath section]]; 
+   Event* event = [events objectAtIndex: [indexPath row]];
+   
+   cell.event = event;
+   cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+   return cell;
 }
 
+/*
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
 	// returns the array of section titles. 
    // Something like:
@@ -84,9 +91,10 @@
    return [[iVolunteerData sharedVolunteerData] daysWithEvents];
    //return [ NSArray arrayWithObjects: @"Today", @"This Week", @"This Month", @"Further Out", nil ];
 }
+*/
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return [[self sectionIndexTitlesForTableView: tableView ] count ];
+	return [[[iVolunteerData sharedVolunteerData] daysWithEvents] count ];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {

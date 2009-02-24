@@ -19,6 +19,8 @@
 		9455C44E0F52165100296B87 /* Source.m in Sources */ = {isa = PBXBuildFile; fileRef = 9455C44D0F52165100296B87 /* Source.m */; };
 		9455C53E0F52270D00296B87 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9455C53D0F52270D00296B87 /* CoreLocation.framework */; };
 		9455C6110F5258DE00296B87 /* DateUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 9455C6100F5258DE00296B87 /* DateUtilities.m */; };
+		9455CA060F537DA600296B87 /* EventTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9455CA050F537DA600296B87 /* EventTableCell.m */; };
+		9455CA5B0F539EA800296B87 /* EventTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9455CA5A0F539EA800296B87 /* EventTableCell.xib */; };
 		94A97B740F4386F40077E4E0 /* RMModelObject.mm in Sources */ = {isa = PBXBuildFile; fileRef = 94A97B730F4386F40077E4E0 /* RMModelObject.mm */; };
 		94A97B7F0F43890C0077E4E0 /* Data Model Plan in Resources */ = {isa = PBXBuildFile; fileRef = 94A97B7E0F43890C0077E4E0 /* Data Model Plan */; };
 		94A97B830F438B000077E4E0 /* RMModelObject-README in Resources */ = {isa = PBXBuildFile; fileRef = 94A97B820F438B000077E4E0 /* RMModelObject-README */; };
@@ -58,6 +60,9 @@
 		9455C53D0F52270D00296B87 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		9455C60F0F5258DE00296B87 /* DateUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateUtilities.h; sourceTree = "<group>"; };
 		9455C6100F5258DE00296B87 /* DateUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateUtilities.m; sourceTree = "<group>"; };
+		9455CA040F537DA600296B87 /* EventTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventTableCell.h; sourceTree = "<group>"; };
+		9455CA050F537DA600296B87 /* EventTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventTableCell.m; sourceTree = "<group>"; };
+		9455CA5A0F539EA800296B87 /* EventTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventTableCell.xib; sourceTree = "<group>"; };
 		94A97B720F4386F40077E4E0 /* RMModelObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMModelObject.h; sourceTree = "<group>"; };
 		94A97B730F4386F40077E4E0 /* RMModelObject.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RMModelObject.mm; sourceTree = "<group>"; };
 		94A97B7E0F43890C0077E4E0 /* Data Model Plan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Data Model Plan"; sourceTree = "<group>"; };
@@ -109,6 +114,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				9455CA030F537D8200296B87 /* UI Classes */,
 				9455C60F0F5258DE00296B87 /* DateUtilities.h */,
 				9455C6100F5258DE00296B87 /* DateUtilities.m */,
 				94A97BB50F4521A80077E4E0 /* REST Interaction */,
@@ -160,6 +166,7 @@
 				2899E55F0DE3E45000AC0155 /* RootViewController.xib */,
 				28AD735F0D9D9599002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
+				9455CA5A0F539EA800296B87 /* EventTableCell.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -174,6 +181,15 @@
 				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9455CA030F537D8200296B87 /* UI Classes */ = {
+			isa = PBXGroup;
+			children = (
+				9455CA040F537DA600296B87 /* EventTableCell.h */,
+				9455CA050F537DA600296B87 /* EventTableCell.m */,
+			);
+			name = "UI Classes";
 			sourceTree = "<group>";
 		};
 		94A97BB50F4521A80077E4E0 /* REST Interaction */ = {
@@ -280,6 +296,7 @@
 				2899E5600DE3E45000AC0155 /* RootViewController.xib in Resources */,
 				94A97B7F0F43890C0077E4E0 /* Data Model Plan in Resources */,
 				94A97B830F438B000077E4E0 /* RMModelObject-README in Resources */,
+				9455CA5B0F539EA800296B87 /* EventTableCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,6 +326,7 @@
 				9455C4440F5214FA00296B87 /* Contact.m in Sources */,
 				9455C44E0F52165100296B87 /* Source.m in Sources */,
 				9455C6110F5258DE00296B87 /* DateUtilities.m in Sources */,
+				9455CA060F537DA600296B87 /* EventTableCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

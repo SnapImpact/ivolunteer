@@ -135,7 +135,7 @@ static iVolunteerData* _sharedInstance = nil;
    Event* e;
    e = [Event eventWithId: @"event1"
                      name: @"Animal Shelter Help"
-              description: @"Come volunteer at our animal shelter.  You will help clean cages and other fun stuff."
+                  details: @"Come volunteer at our animal shelter.  You will help clean cages and other fun stuff."
              organization: [self.organizations objectForKey: @"org3" ]
                   contact: [self.contacts objectForKey: @"contact1" ]
                    source: [self.sources objectForKey: @"source1" ]
@@ -148,7 +148,7 @@ static iVolunteerData* _sharedInstance = nil;
    
    e = [Event eventWithId: @"event2"
                      name: @"Volunteer Soup Kitchen"
-              description: @"Help us feed the homeless."
+                  details: @"Help us feed the homeless."
              organization: [self.organizations objectForKey: @"org2" ]
                   contact: [self.contacts objectForKey: @"contact2" ]
                    source: [self.sources objectForKey: @"source2" ]
@@ -161,7 +161,7 @@ static iVolunteerData* _sharedInstance = nil;
    
    e = [Event eventWithId: @"event3"
                      name: @"Wildlife Area Maintenance"
-              description: @"Help us clean up ths area."
+                  details: @"Help us clean up ths area."
              organization: [self.organizations objectForKey: @"org1" ]
                   contact: [self.contacts objectForKey: @"contact1" ]
                    source: [self.sources objectForKey: @"source1" ]
@@ -177,7 +177,7 @@ static iVolunteerData* _sharedInstance = nil;
       unsigned int uid = (i+4);
       e = [Event eventWithId: [NSString stringWithFormat: @"event%u", uid]
                         name: [NSString stringWithFormat: @"Random Event #%u", uid ]
-                 description: @"Random Event description."
+                     details: @"Random Event details."
                 organization: [self.organizations objectForKey: [NSString stringWithFormat: @"org%d", (rand() % [self.organizations count])+1 ]]
                      contact: [self.contacts objectForKey: [NSString stringWithFormat: @"contact%d", (rand() % [self.contacts count])+1 ]]
                       source: [self.sources objectForKey: [NSString stringWithFormat: @"source%d", (rand() % [self.sources count])+1 ]]
