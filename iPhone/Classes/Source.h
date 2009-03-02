@@ -7,14 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RMModelObject.h"
+#import "ModelBase.h"
 
-@interface Source : RMModelObject {
-
+@interface Source : ModelBase {
+   NSURL* url;
 }
 
-@property (copy) NSString* uid;
-@property (copy) NSString* name;
 @property (retain) NSURL* url;
 
 + (id) sourceWithId: (NSString*) uid

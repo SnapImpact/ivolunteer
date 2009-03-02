@@ -7,13 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RMModelObject.h"
+#import "ModelBase.h"
 
-@interface InterestArea : RMModelObject {
+@interface InterestArea : ModelBase {
 }
-
-@property (copy) NSString* uid;
-@property (copy) NSString* name;
 
 + (id) interestAreaWithId: (NSString*) uid
                      name: (NSString*) name;

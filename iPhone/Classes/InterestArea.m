@@ -11,9 +11,6 @@
 
 @implementation InterestArea
 
-@dynamic uid;
-@dynamic name;
-
 + (id) interestAreaWithId: (NSString*) uid
                      name: (NSString*) name
 {
@@ -22,18 +19,29 @@
                     name: name ] autorelease ];
 }
 
-- (id) initWithId: (NSString*) uid
-             name: (NSString*) name
+- (id) initWithId: (NSString*) uid_
+             name: (NSString*) name_
 {
-   self.uid = uid;
-   self.name = name;
+   [super initWithId: uid_ name: name_ ];
    return self;
 }
 
 - (void) dealloc {
-   self.uid = nil;
-   self.name = nil;
    [super dealloc];
 }
+
+- (void)encodeWithCoder:(NSCoder *)encoder
+{
+   BEGIN_ENCODER()
+   END_ENCODER()
+}
+
+- (id)initWithCoder:(NSCoder *)decoder
+{
+   BEGIN_DECODER()
+   END_DECODER()
+   return self;
+}
+
 
 @end

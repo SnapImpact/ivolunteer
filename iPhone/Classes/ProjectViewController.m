@@ -10,11 +10,14 @@
 #import "iPhoneAppDelegate.h"
 
 #import "EventsSortedByTimeDataSource.h"
+#import "EventTableCell.h"
 
 
 @implementation ProjectViewController
 
-@dynamic refreshButton;
+@synthesize refreshButton;
+@synthesize detailsController;
+@synthesize dataSource;
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -42,15 +45,47 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Navigation logic -- create and push a new view controller
+   //forward to the accessory button
+   [self tableView: tableView accessoryButtonTappedForRowWithIndexPath: indexPath ];
+   [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
+- (void) tableView: (UITableView*) tableView accessoryButtonTappedForRowWithIndexPath: (NSIndexPath*) indexPath
+{
+   /*
+   UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Hi"
+                                                   message: @"Hola"
+                                                  delegate: nil 
+                                         cancelButtonTitle: @"Gotcha" 
+                                         otherButtonTitles: nil ];
+   [alert show];
+   [alert release];
+   */
+      
+   id event = [self.dataSource objectForIndexPath: indexPath ];
+   if( self.detailsController == nil ) {
+      self.detailsController = [EventDetailsViewController viewWithEvent: event ];
+   }
+   else {
+      self.detailsController.event = event;
+   }
+   
+   iPhoneAppDelegate *del = [[UIApplication sharedApplication] delegate];
+   [del.navigationController pushViewController:self.detailsController animated: YES];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+   return [ EventTableCell height];
+}
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    // Uncomment the following line to add the Edit button to the navigation bar.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-   [[self tableView] setDataSource: [[EventsSortedByTimeDataSource alloc] init] ];
+   [super viewDidLoad];
+   self.detailsController = nil;
+   // Uncomment the following line to add the Edit button to the navigation bar.
+   // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+   self.dataSource = [EventsSortedByTimeDataSource dataSource];
+   [[self tableView] setDataSource: self.dataSource ];
 }
 
 

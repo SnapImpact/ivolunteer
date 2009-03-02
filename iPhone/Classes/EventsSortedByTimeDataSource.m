@@ -13,6 +13,12 @@
 
 @implementation EventsSortedByTimeDataSource
 
++ (id) dataSource 
+{
+   EventsSortedByTimeDataSource* ds = [[[EventsSortedByTimeDataSource alloc] init] autorelease ];
+   return ds;
+}
+
 #pragma mark RootViewDataSourceProtocol
 // these properties are used by the view controller
 // for the navigation and tab bar
@@ -37,7 +43,9 @@
 // index path, regardless of the sorting or display technique for the specific
 // datasource
 - (NSObject *)objectForIndexPath:(NSIndexPath *)indexPath {
-   return nil;
+   NSArray* events = [[[iVolunteerData sharedVolunteerData] eventsSortedIntoDays] objectAtIndex: [indexPath section]]; 
+   Event* event = [events objectAtIndex: [indexPath row]];
+   return event;
 }
 
 - (enum NavigationLevel) navigationLevel {
@@ -64,9 +72,7 @@
 	cell.element = [self atomicElementForIndexPath:indexPath];
    */
    
-   static NSString* CellIdentifier = @"EventTableViewCell";
-   
-   EventTableCell* cell = (EventTableCell*) [tableView dequeueReusableCellWithIdentifier: CellIdentifier];
+   EventTableCell* cell = (EventTableCell*) [tableView dequeueReusableCellWithIdentifier: [EventTableCell reuseIdentifier]];
    if(cell == nil) {
       NSArray *nib = [[NSBundle mainBundle] loadNibNamed: @"EventTableCell" owner: self options: nil ];
       cell = [nib objectAtIndex:0];
@@ -76,8 +82,13 @@
    Event* event = [events objectAtIndex: [indexPath row]];
    
    cell.event = event;
-   cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+   cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+   return [ EventTableCell height];
 }
 
 /*

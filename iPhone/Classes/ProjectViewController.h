@@ -7,11 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EventDetailsViewController.h"
+#import "EventsSortedByTimeDataSource.h"
 
 @interface ProjectViewController : UITableViewController {
    IBOutlet UIButton* refreshButton;
+   EventDetailsViewController* detailsController;
+   EventsSortedByTimeDataSource* dataSource;
 }
 
 @property (nonatomic, retain) UIButton* refreshButton;
+@property (nonatomic, retain) EventDetailsViewController* detailsController;
+@property (nonatomic, retain) EventsSortedByTimeDataSource* dataSource;
 
 @end

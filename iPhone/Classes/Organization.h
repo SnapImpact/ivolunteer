@@ -7,13 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RMModelObject.h"
+#import "ModelBase.h"
 
-@interface Organization : RMModelObject {
+@interface Organization : ModelBase {
+   NSString *email;
+   NSString *phone;
+   NSURL *url;
+   
 }
 
-@property (copy) NSString *uid;
-@property (copy) NSString *name;
 @property (copy) NSString *email;
 @property (copy) NSString *phone;
 @property (retain) NSURL *url;

@@ -8,14 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
-#import "RMModelObject.h"
+#import "ModelBase.h"
 
-@interface Location : RMModelObject {
+@interface Location : ModelBase {
+   CLLocation* location;
 }
 
-@property (copy) NSString *uid;
-@property (copy) NSString *street;
 @property (retain) CLLocation* location;
+@property (retain) NSString* street;
 
 + (id) locationWithId: (NSString*) uid
                street: (NSString*) street

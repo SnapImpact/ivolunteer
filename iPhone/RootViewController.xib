@@ -163,6 +163,10 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">ProjectViewController</string>
 					<string key="superclassName">UITableViewController</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">refreshButton</string>
+						<string key="NS.object.0">UIButton</string>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">Classes/ProjectViewController.h</string>

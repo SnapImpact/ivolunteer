@@ -7,20 +7,25 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RMModelObject.h"
+#import "ModelBase.h"
 #import "Organization.h"
 #import "Contact.h"
 #import "Source.h"
 #import "Location.h"
 #import "InterestArea.h"
 
-@interface Event : RMModelObject {
+@interface Event : ModelBase {
+   NSString* details;
+   Organization* organization;
+   Contact* contact;
+   NSDate* date;
+   NSNumber* duration;
+   Source* source;
+   Location* location;
+   NSArray* interestAreas;
 }
 
-@property (copy) NSString* uid;
-@property (copy) NSString* name;
 @property (copy) NSString* details;
-
 @property (retain) Organization* organization;
 @property (retain) Contact* contact;
 @property (retain) NSDate* date;

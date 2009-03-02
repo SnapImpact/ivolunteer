@@ -11,17 +11,15 @@
 
 @implementation Event
 
-@dynamic uid;
-@dynamic name;
-@dynamic details;
+@synthesize details;
 
-@dynamic organization;
-@dynamic contact;
-@dynamic date;
-@dynamic duration;
-@dynamic source;
-@dynamic location;
-@dynamic interestAreas;
+@synthesize organization;
+@synthesize contact;
+@synthesize date;
+@synthesize duration;
+@synthesize source;
+@synthesize location;
+@synthesize interestAreas;
 
 
 + (id) eventWithId: (NSString*) uid
@@ -48,33 +46,30 @@
                 duration: duration ] autorelease ];
 }
 
-- (id) initWithId: (NSString*) uid
-             name: (NSString*) name
-      details: (NSString*) details
-     organization: (Organization*) organization
-          contact: (Contact*) contact
-           source: (Source*) source
-         location: (Location*) location
-    interestAreas: (NSArray*) interestAreas
-             date:  (NSDate*) date
-         duration: (NSNumber*) duration
+- (id) initWithId: (NSString*) uid_
+             name: (NSString*) name_
+      details: (NSString*) details_
+     organization: (Organization*) organization_
+          contact: (Contact*) contact_
+           source: (Source*) source_
+         location: (Location*) location_
+    interestAreas: (NSArray*) interestAreas_
+             date:  (NSDate*) date_
+         duration: (NSNumber*) duration_
 {
-   self.uid = uid;
-   self.name = name;
-   self.details = details;
-   self.organization = organization;
-   self.contact = contact;
-   self.source = source;
-   self.location = location;
-   self.interestAreas = interestAreas;
-   self.date = date;
-   self.duration = duration;
+   [super initWithId: uid_ name: name_ ];
+   self.details = details_;
+   self.organization = organization_;
+   self.contact = contact_;
+   self.source = source_;
+   self.location = location_;
+   self.interestAreas = interestAreas_;
+   self.date = date_;
+   self.duration = duration_;
    return self;
 }
 
 - (void) dealloc {
-   self.uid = nil;
-   self.name = nil;
    self.details = nil;
    self.organization = nil;
    self.contact = nil;
@@ -85,5 +80,35 @@
    self.duration = nil;
    [super dealloc];
 }
+
+- (void)encodeWithCoder:(NSCoder *)encoder
+{
+   BEGIN_ENCODER()
+   ENCODE_PROP(details)
+   ENCODE_PROP(organization)
+   ENCODE_PROP(contact)
+   ENCODE_PROP(date)
+   ENCODE_PROP(duration)
+   ENCODE_PROP(source)
+   ENCODE_PROP(location)
+   ENCODE_PROP(interestAreas)
+   END_ENCODER()
+}
+
+- (id):(NSCoder *)decoder
+{
+   BEGIN_DECODER()
+   DECODE_PROP(details)
+   DECODE_PROP(organization)
+   DECODE_PROP(contact)
+   DECODE_PROP(date)
+   DECODE_PROP(duration)
+   DECODE_PROP(source)
+   DECODE_PROP(location)
+   DECODE_PROP(interestAreas)   
+   END_DECODER()
+   return self;
+}
+
 
 @end

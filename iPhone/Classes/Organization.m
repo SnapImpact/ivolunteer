@@ -11,11 +11,9 @@
 
 @implementation Organization
 
-@dynamic uid;
-@dynamic name;
-@dynamic email;
-@dynamic phone;
-@dynamic url;
+@synthesize email;
+@synthesize phone;
+@synthesize url;
 
 + (id) organizationWithId: (NSString*) uid 
                      name: (NSString*) name 
@@ -31,30 +29,45 @@
                       url: url] autorelease ];
 }
 
-- (id) initWithId: (NSString*) uid 
-             name: (NSString*) name 
-            email: (NSString*) email 
-            phone: (NSString*) phone
-              url: (NSString*) url
+- (id) initWithId: (NSString*) uid_ 
+             name: (NSString*) name_ 
+            email: (NSString*) email_ 
+            phone: (NSString*) phone_
+              url: (NSString*) url_
 {
-   self.uid = uid;
-   self.name = name;
-   self.email = email;
-   self.phone = phone;
-   self.url = [NSURL URLWithString: url ];
+   [super initWithId: uid_ name: name_ ];
+   self.email = email_;
+   self.phone = phone_;
+   self.url = [NSURL URLWithString: url_ ];
    
    return self;
 }
 
 - (void) dealloc {
-   self.uid = nil;
-   self.name = nil;
    self.email = nil;
    self.phone = nil;
    self.url = nil;
    [super dealloc];
 }
 
+- (void)encodeWithCoder:(NSCoder *)encoder
+{
+   BEGIN_ENCODER()
+   ENCODE_PROP(email)
+   ENCODE_PROP(phone)
+   ENCODE_PROP(url)
+   END_ENCODER()
+}
+
+- (id)initWithCoder:(NSCoder *)decoder
+{
+   BEGIN_DECODER()
+   DECODE_PROP(email)
+   DECODE_PROP(phone)
+   DECODE_PROP(url)
+   END_DECODER()
+   return self;
+}
 
 @end
 

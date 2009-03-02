@@ -18,11 +18,26 @@
 @synthesize details;
 @synthesize event;
 
++ (CGFloat) height
+{
+   return 54;
+}
+
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithFrame:frame reuseIdentifier:reuseIdentifier]) {
         // Initialization code
     }
     return self;
+}
+
+- (NSString*) reuseIdentifier
+{
+   return [EventTableCell reuseIdentifier];
+}
+
++ (NSString*) reuseIdentifier
+{
+   return @"EventTableCell";
 }
 
 

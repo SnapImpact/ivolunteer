@@ -9,10 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "RootViewDataSourceProtocol.h"
 
-@interface EventsSortedByTimeDataSource : NSObject <RootViewDataSourceProtocol> {
+@interface EventsSortedByTimeDataSource : NSObject <RootViewDataSourceProtocol, UITableViewDataSource> {
 
 }
 
++ (id) dataSource;
 
 #pragma mark RootViewDataSourceProtocol
 // these properties are used by the view controller

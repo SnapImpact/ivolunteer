@@ -17,6 +17,9 @@
    Event* event;
 }
 
++ (CGFloat) height;
++ (NSString*) reuseIdentifier;
+
 @property (nonatomic, retain) UILabel* time;
 @property (nonatomic, retain) UILabel* distance;
 @property (nonatomic, retain) UILabel* name;

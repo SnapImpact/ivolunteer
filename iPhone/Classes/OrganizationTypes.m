@@ -11,12 +11,7 @@
 
 @implementation OrganizationTypes
 
-@dynamic uid;
-@dynamic name;
-
 - (void) dealloc {
-   self.uid = nil;
-   self.name = nil;
    [super dealloc];
 }
 

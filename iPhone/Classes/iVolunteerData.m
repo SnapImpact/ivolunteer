@@ -11,22 +11,22 @@
 
 @implementation iVolunteerData
 
-@dynamic organizations;
-@dynamic contacts;
-@dynamic sources;
-@dynamic locations;
-@dynamic interestAreas;
-@dynamic events;
+@synthesize organizations;
+@synthesize contacts;
+@synthesize sources;
+@synthesize locations;
+@synthesize interestAreas;
+@synthesize events;
 
-@dynamic version;
+@synthesize version;
 
-@dynamic eventsSortedIntoDays;  //nested array of events sorted into days
-@dynamic daysWithEvents; //array of NSDates with upcoming events
-@dynamic interestAreasByName;
+@synthesize eventsSortedIntoDays;  //nested array of events sorted into days
+@synthesize daysWithEvents; //array of NSDates with upcoming events
+@synthesize interestAreasByName;
 
 static iVolunteerData* _sharedInstance = nil;
 static NSString* kVolunteerDataRootKey = @"Root";
-static NSString* kVolunteerDataVersion = @"v1.1";
+static NSString* kVolunteerDataVersion = @"v1.2";
 
 + (id) sharedVolunteerData {
    if( _sharedInstance == nil ) {
@@ -56,7 +56,20 @@ static NSString* kVolunteerDataVersion = @"v1.1";
    NSData* data = [[NSData alloc] initWithContentsOfFile: [iVolunteerData archivePath]];
    NSKeyedUnarchiver* unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData: data];
    
-   iVolunteerData* restored = [unarchiver decodeObjectForKey: kVolunteerDataRootKey ];
+   iVolunteerData* restored = nil;
+   
+   @try {
+      restored = [unarchiver decodeObjectForKey: kVolunteerDataRootKey ];
+   }
+   @catch (...) {
+      restored = nil;
+      //delete the file
+      NSLog( @"Excetion decoding persisted data, deleting data store." );
+      NSError* err;
+      if(![[NSFileManager defaultManager] removeItemAtPath: [iVolunteerData archivePath] error: &err]) {
+         NSLog( @"Error deleting data store: %@ ", err );
+      }
+   }
    [unarchiver finishDecoding];
    [unarchiver release];
    [data release];
@@ -215,9 +228,9 @@ static NSString* kVolunteerDataVersion = @"v1.1";
    
    srand(0);
    for(unsigned int i = 0; i < 100; i++ ) {
-      unsigned int uid = (i+4);
-      e = [Event eventWithId: [NSString stringWithFormat: @"event%u", uid]
-                        name: [NSString stringWithFormat: @"Random Event #%u", uid ]
+      unsigned int event_id = (i+4);
+      e = [Event eventWithId: [NSString stringWithFormat: @"event%u", event_id]
+                        name: [NSString stringWithFormat: @"Random Event #%u", event_id ]
                      details: @"Random Event details."
                 organization: [self.organizations objectForKey: [NSString stringWithFormat: @"org%d", (rand() % [self.organizations count])+1 ]]
                      contact: [self.contacts objectForKey: [NSString stringWithFormat: @"contact%d", (rand() % [self.contacts count])+1 ]]
@@ -250,28 +263,6 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
    return [[ i1 name] compare: [i2 name]];
 }
 
-- (id) initWithCoder: (NSCoder*) decoder 
-{
-   if( self = [super initWithCoder: decoder] ) {
-      //cull any events which are older than today
-      NSEnumerator *enumerator = [self.events objectEnumerator];
-      NSMutableArray* eventsToCull = [NSMutableArray array];
-      id event;
-      while((event = [enumerator nextObject])) {
-         if( [[DateUtilities today] compare: [event date]] == NSOrderedDescending ) {
-            [eventsToCull addObject: [event uid] ];
-         }
-      }
-      if( [eventsToCull count] ) {
-         [ self.events removeObjectsForKeys: eventsToCull ];
-      }
-   }
-   
-   //resort data
-   [self sortData];
-   return self;
-}
-
 - (void) sortData
 {
    NSMutableArray* sortedInterestAreas = [NSMutableArray arrayWithCapacity: [self.interestAreas count ]];
@@ -294,7 +285,7 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
    [eventsByDate sortUsingFunction: _SortEventsByDate context: self ];
    
    NSMutableArray* dayNames = [NSMutableArray arrayWithCapacity: 1 ];
-   NSMutableArray* eventsSortedIntoDays = [NSMutableArray arrayWithCapacity: 1 ];
+   NSMutableArray* _eventsSortedIntoDays = [NSMutableArray arrayWithCapacity: 1 ];
    enumerator = [eventsByDate objectEnumerator];
    NSDate* currentDate = nil;
    unsigned currentSubArray = 0;
@@ -306,22 +297,22 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
          else
             [ dayNames addObject: [DateUtilities formatShortDate: currentDate]];
          
-         [eventsSortedIntoDays addObject: [NSMutableArray array]];
-         [[eventsSortedIntoDays objectAtIndex: currentSubArray ] addObject: event ];
+         [_eventsSortedIntoDays addObject: [NSMutableArray array]];
+         [[_eventsSortedIntoDays objectAtIndex: currentSubArray ] addObject: event ];
       }
       else {
          if(![DateUtilities isSameDay: currentDate date: [event date]]) {
             currentDate = [event date];
             [dayNames addObject: [DateUtilities formatShortDate: currentDate ]];
-            [eventsSortedIntoDays addObject: [NSMutableArray array]];
+            [_eventsSortedIntoDays addObject: [NSMutableArray array]];
             currentSubArray++;
          }
-         [[eventsSortedIntoDays objectAtIndex: currentSubArray ] addObject: event ];
+         [[_eventsSortedIntoDays objectAtIndex: currentSubArray ] addObject: event ];
       }
    }
    
    self.daysWithEvents = dayNames;
-   self.eventsSortedIntoDays = eventsSortedIntoDays;
+   self.eventsSortedIntoDays = _eventsSortedIntoDays;
 
 }
                                
@@ -337,6 +328,56 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
    self.daysWithEvents = nil;
    self.interestAreasByName = nil;
    [super dealloc];
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder
+{
+   BEGIN_ENCODER()
+      ENCODE_PROP(organizations)
+      ENCODE_PROP(contacts)
+      ENCODE_PROP(sources)
+      ENCODE_PROP(locations)
+      ENCODE_PROP(interestAreas)
+      ENCODE_PROP(events)
+      
+      ENCODE_PROP(eventsSortedIntoDays)
+      ENCODE_PROP(daysWithEvents)
+      ENCODE_PROP(interestAreasByName)
+   END_ENCODER()
+}
+
+- (id)initWithCoder:(NSCoder *)decoder
+{
+   BEGIN_DECODER()
+      DECODE_PROP(organizations)
+      DECODE_PROP(contacts)
+      DECODE_PROP(sources)
+      DECODE_PROP(locations)
+      DECODE_PROP(interestAreas)
+      DECODE_PROP(events)
+      
+      DECODE_PROP(eventsSortedIntoDays)
+      DECODE_PROP(daysWithEvents)
+      DECODE_PROP(interestAreasByName)
+   END_DECODER()
+   
+   if(self) {
+      //cull any events which are older than today
+      NSEnumerator *enumerator = [self.events objectEnumerator];
+      NSMutableArray* eventsToCull = [NSMutableArray array];
+      id event;
+      while((event = [enumerator nextObject])) {
+         if( [[DateUtilities today] compare: [event date]] == NSOrderedDescending ) {
+            [eventsToCull addObject: [event uid] ];
+         }
+      }
+      if( [eventsToCull count] ) {
+         [ self.events removeObjectsForKeys: eventsToCull ];
+      }
+      [self sortData];      
+   }
+   
+   return self;
 }
 
                                

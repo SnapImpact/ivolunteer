@@ -21,9 +21,9 @@
 		9455C6110F5258DE00296B87 /* DateUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 9455C6100F5258DE00296B87 /* DateUtilities.m */; };
 		9455CA060F537DA600296B87 /* EventTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9455CA050F537DA600296B87 /* EventTableCell.m */; };
 		9455CA5B0F539EA800296B87 /* EventTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9455CA5A0F539EA800296B87 /* EventTableCell.xib */; };
-		94A97B740F4386F40077E4E0 /* RMModelObject.mm in Sources */ = {isa = PBXBuildFile; fileRef = 94A97B730F4386F40077E4E0 /* RMModelObject.mm */; };
+		9465B4830F5A25FC00B0F926 /* EventDetailsHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9465B4820F5A25FC00B0F926 /* EventDetailsHeaderCell.xib */; };
+		9483D93D0F5A184B00406DB3 /* EventDetailsHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9483D93C0F5A184B00406DB3 /* EventDetailsHeaderCell.m */; };
 		94A97B7F0F43890C0077E4E0 /* Data Model Plan in Resources */ = {isa = PBXBuildFile; fileRef = 94A97B7E0F43890C0077E4E0 /* Data Model Plan */; };
-		94A97B830F438B000077E4E0 /* RMModelObject-README in Resources */ = {isa = PBXBuildFile; fileRef = 94A97B820F438B000077E4E0 /* RMModelObject-README */; };
 		94A97BB80F4521D80077E4E0 /* RestClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A97BB70F4521D80077E4E0 /* RestClient.m */; };
 		94A97D3B0F452D610077E4E0 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 94A97D3A0F452D610077E4E0 /* libxml2.dylib */; };
 		94A97E300F48A37C0077E4E0 /* RestController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A97E2F0F48A37C0077E4E0 /* RestController.m */; };
@@ -32,9 +32,11 @@
 		94BE57100F4297F000A505F0 /* InterestArea.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE570F0F4297F000A505F0 /* InterestArea.m */; };
 		94BE57130F42988B00A505F0 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE57120F42988B00A505F0 /* Location.m */; };
 		94BE57160F42992200A505F0 /* Organization.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE57150F42992200A505F0 /* Organization.m */; };
-		94BE57190F429F6400A505F0 /* Timestamp.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE57180F429F6400A505F0 /* Timestamp.m */; };
 		94BE571C0F42A03900A505F0 /* OrganizationTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE571B0F42A03900A505F0 /* OrganizationTypes.m */; };
 		94BE574C0F42A42D00A505F0 /* iVolunteerData.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE574B0F42A42D00A505F0 /* iVolunteerData.m */; };
+		94DFFC140F579B27005D62B9 /* ModelBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DFFC130F579B27005D62B9 /* ModelBase.m */; };
+		94DFFF5C0F5A07E8005D62B9 /* EventDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DFFF5B0F5A07E8005D62B9 /* EventDetailsViewController.m */; };
+		94DFFFA70F5A0ABF005D62B9 /* ActionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DFFFA60F5A0ABF005D62B9 /* ActionsView.m */; };
 		E1DDD40F0EAAD73F006CA155 /* SplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1DDD40E0EAAD73F006CA155 /* SplashViewController.m */; };
 		E1DDD4110EAAD74E006CA155 /* SplashView.xib in Sources */ = {isa = PBXBuildFile; fileRef = E1DDD4100EAAD74E006CA155 /* SplashView.xib */; };
 /* End PBXBuildFile section */
@@ -63,10 +65,10 @@
 		9455CA040F537DA600296B87 /* EventTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventTableCell.h; sourceTree = "<group>"; };
 		9455CA050F537DA600296B87 /* EventTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventTableCell.m; sourceTree = "<group>"; };
 		9455CA5A0F539EA800296B87 /* EventTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventTableCell.xib; sourceTree = "<group>"; };
-		94A97B720F4386F40077E4E0 /* RMModelObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMModelObject.h; sourceTree = "<group>"; };
-		94A97B730F4386F40077E4E0 /* RMModelObject.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RMModelObject.mm; sourceTree = "<group>"; };
+		9465B4820F5A25FC00B0F926 /* EventDetailsHeaderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventDetailsHeaderCell.xib; sourceTree = "<group>"; };
+		9483D93B0F5A184B00406DB3 /* EventDetailsHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventDetailsHeaderCell.h; sourceTree = "<group>"; };
+		9483D93C0F5A184B00406DB3 /* EventDetailsHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventDetailsHeaderCell.m; sourceTree = "<group>"; };
 		94A97B7E0F43890C0077E4E0 /* Data Model Plan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Data Model Plan"; sourceTree = "<group>"; };
-		94A97B820F438B000077E4E0 /* RMModelObject-README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "RMModelObject-README"; sourceTree = "<group>"; };
 		94A97BB60F4521D80077E4E0 /* RestClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestClient.h; sourceTree = "<group>"; };
 		94A97BB70F4521D80077E4E0 /* RestClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestClient.m; sourceTree = "<group>"; };
 		94A97C500F4526020077E4E0 /* RestClientDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestClientDelegate.h; sourceTree = "<group>"; };
@@ -84,12 +86,16 @@
 		94BE57120F42988B00A505F0 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
 		94BE57140F42992200A505F0 /* Organization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Organization.h; sourceTree = "<group>"; };
 		94BE57150F42992200A505F0 /* Organization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Organization.m; sourceTree = "<group>"; };
-		94BE57170F429F6400A505F0 /* Timestamp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timestamp.h; sourceTree = "<group>"; };
-		94BE57180F429F6400A505F0 /* Timestamp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Timestamp.m; sourceTree = "<group>"; };
 		94BE571A0F42A03900A505F0 /* OrganizationTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrganizationTypes.h; sourceTree = "<group>"; };
 		94BE571B0F42A03900A505F0 /* OrganizationTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrganizationTypes.m; sourceTree = "<group>"; };
 		94BE574A0F42A42D00A505F0 /* iVolunteerData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iVolunteerData.h; sourceTree = "<group>"; };
 		94BE574B0F42A42D00A505F0 /* iVolunteerData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iVolunteerData.m; sourceTree = "<group>"; };
+		94DFFC120F579B27005D62B9 /* ModelBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelBase.h; sourceTree = "<group>"; };
+		94DFFC130F579B27005D62B9 /* ModelBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelBase.m; sourceTree = "<group>"; };
+		94DFFF5A0F5A07E8005D62B9 /* EventDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventDetailsViewController.h; sourceTree = "<group>"; };
+		94DFFF5B0F5A07E8005D62B9 /* EventDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventDetailsViewController.m; sourceTree = "<group>"; };
+		94DFFFA50F5A0AB6005D62B9 /* ActionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionsView.h; sourceTree = "<group>"; };
+		94DFFFA60F5A0ABF005D62B9 /* ActionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionsView.m; sourceTree = "<group>"; };
 		E1DDD40D0EAAD73F006CA155 /* SplashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplashViewController.h; sourceTree = "<group>"; };
 		E1DDD40E0EAAD73F006CA155 /* SplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplashViewController.m; sourceTree = "<group>"; };
 		E1DDD4100EAAD74E006CA155 /* SplashView.xib */ = {isa = PBXFileReference; explicitFileType = file.xib; fileEncoding = 4; path = SplashView.xib; sourceTree = "<group>"; };
@@ -167,6 +173,7 @@
 				28AD735F0D9D9599002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				9455CA5A0F539EA800296B87 /* EventTableCell.xib */,
+				9465B4820F5A25FC00B0F926 /* EventDetailsHeaderCell.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -186,8 +193,14 @@
 		9455CA030F537D8200296B87 /* UI Classes */ = {
 			isa = PBXGroup;
 			children = (
+				94DFFFA60F5A0ABF005D62B9 /* ActionsView.m */,
+				94DFFFA50F5A0AB6005D62B9 /* ActionsView.h */,
 				9455CA040F537DA600296B87 /* EventTableCell.h */,
 				9455CA050F537DA600296B87 /* EventTableCell.m */,
+				94DFFF5A0F5A07E8005D62B9 /* EventDetailsViewController.h */,
+				94DFFF5B0F5A07E8005D62B9 /* EventDetailsViewController.m */,
+				9483D93B0F5A184B00406DB3 /* EventDetailsHeaderCell.h */,
+				9483D93C0F5A184B00406DB3 /* EventDetailsHeaderCell.m */,
 			);
 			name = "UI Classes";
 			sourceTree = "<group>";
@@ -219,16 +232,13 @@
 				94BE57120F42988B00A505F0 /* Location.m */,
 				94BE57140F42992200A505F0 /* Organization.h */,
 				94BE57150F42992200A505F0 /* Organization.m */,
-				94BE57170F429F6400A505F0 /* Timestamp.h */,
-				94BE57180F429F6400A505F0 /* Timestamp.m */,
 				94BE571A0F42A03900A505F0 /* OrganizationTypes.h */,
 				94BE571B0F42A03900A505F0 /* OrganizationTypes.m */,
 				94BE574A0F42A42D00A505F0 /* iVolunteerData.h */,
 				94BE574B0F42A42D00A505F0 /* iVolunteerData.m */,
-				94A97B720F4386F40077E4E0 /* RMModelObject.h */,
-				94A97B730F4386F40077E4E0 /* RMModelObject.mm */,
 				94A97B7E0F43890C0077E4E0 /* Data Model Plan */,
-				94A97B820F438B000077E4E0 /* RMModelObject-README */,
+				94DFFC120F579B27005D62B9 /* ModelBase.h */,
+				94DFFC130F579B27005D62B9 /* ModelBase.m */,
 			);
 			name = "Data Model";
 			sourceTree = "<group>";
@@ -246,9 +256,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1D6058900D05DD3D006BFB54 /* iPhone */ = {
+		1D6058900D05DD3D006BFB54 /* iVolunteer */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "iPhone" */;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "iVolunteer" */;
 			buildPhases = (
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
@@ -258,7 +268,7 @@
 			);
 			dependencies = (
 			);
-			name = iPhone;
+			name = iVolunteer;
 			productName = iPhone;
 			productReference = 1D6058910D05DD3D006BFB54 /* iPhone.app */;
 			productType = "com.apple.product-type.application";
@@ -282,7 +292,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1D6058900D05DD3D006BFB54 /* iPhone */,
+				1D6058900D05DD3D006BFB54 /* iVolunteer */,
 			);
 		};
 /* End PBXProject section */
@@ -295,8 +305,8 @@
 				28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */,
 				2899E5600DE3E45000AC0155 /* RootViewController.xib in Resources */,
 				94A97B7F0F43890C0077E4E0 /* Data Model Plan in Resources */,
-				94A97B830F438B000077E4E0 /* RMModelObject-README in Resources */,
 				9455CA5B0F539EA800296B87 /* EventTableCell.xib in Resources */,
+				9465B4830F5A25FC00B0F926 /* EventDetailsHeaderCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,10 +326,8 @@
 				94BE57100F4297F000A505F0 /* InterestArea.m in Sources */,
 				94BE57130F42988B00A505F0 /* Location.m in Sources */,
 				94BE57160F42992200A505F0 /* Organization.m in Sources */,
-				94BE57190F429F6400A505F0 /* Timestamp.m in Sources */,
 				94BE571C0F42A03900A505F0 /* OrganizationTypes.m in Sources */,
 				94BE574C0F42A42D00A505F0 /* iVolunteerData.m in Sources */,
-				94A97B740F4386F40077E4E0 /* RMModelObject.mm in Sources */,
 				94A97BB80F4521D80077E4E0 /* RestClient.m in Sources */,
 				94A97E300F48A37C0077E4E0 /* RestController.m in Sources */,
 				94A97F250F48BD670077E4E0 /* EventsSortedByTimeDataSource.m in Sources */,
@@ -327,6 +335,10 @@
 				9455C44E0F52165100296B87 /* Source.m in Sources */,
 				9455C6110F5258DE00296B87 /* DateUtilities.m in Sources */,
 				9455CA060F537DA600296B87 /* EventTableCell.m in Sources */,
+				94DFFC140F579B27005D62B9 /* ModelBase.m in Sources */,
+				94DFFF5C0F5A07E8005D62B9 /* EventDetailsViewController.m in Sources */,
+				94DFFFA70F5A0ABF005D62B9 /* ActionsView.m in Sources */,
+				9483D93D0F5A184B00406DB3 /* EventDetailsHeaderCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,42 +348,49 @@
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ADDITIONAL_SDKS = "$(SRCROOT)/JSON/$(PLATFORM_NAME).sdk";
+				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan Schneider";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_GC = unsupported;
+				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iPhone_Prefix.pch;
+				GCC_USE_GCC3_PFE_SUPPORT = NO;
+				GCC_VERSION = 4.0;
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/JSON/iphoneos.sdk/usr/local/lib\"",
-					"\"$(SRCROOT)/JSON/iphonesimulator.sdk/usr/local/lib\"",
-					"\"$(SRCROOT)/JSON/macosx.sdk/usr/local/lib\"",
-				);
+				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = iPhone;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8250803D-5C4E-425F-B7E6-3E8B1EE77AD6";
+				SDKROOT = iphoneos2.1;
 			};
 			name = Debug;
 		};
 		1D6058950D05DD3E006BFB54 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ADDITIONAL_SDKS = "$(SRCROOT)/JSON/$(PLATFORM_NAME).sdk";
+				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan Schneider";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_DYNAMIC_NO_PIC = YES;
+				GCC_ENABLE_OBJC_GC = unsupported;
+				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iPhone_Prefix.pch;
+				GCC_USE_GCC3_PFE_SUPPORT = NO;
+				GCC_VERSION = 4.0;
 				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/JSON/iphoneos.sdk/usr/local/lib\"",
-					"\"$(SRCROOT)/JSON/iphonesimulator.sdk/usr/local/lib\"",
-					"\"$(SRCROOT)/JSON/macosx.sdk/usr/local/lib\"",
-				);
+				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = iPhone;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8250803D-5C4E-425F-B7E6-3E8B1EE77AD6";
+				SDKROOT = iphoneos2.1;
 			};
 			name = Release;
 		};
@@ -407,7 +426,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "iPhone" */ = {
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "iVolunteer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,

@@ -11,9 +11,9 @@
 
 @implementation Location
 
-@dynamic uid;
-@dynamic street;
-@dynamic location;
+@synthesize uid;
+@synthesize street;
+@synthesize location;
 
 + (id) locationWithId: (NSString*) uid
                street: (NSString*) street
@@ -27,23 +27,45 @@
               longitude: longitude ] autorelease ];
 }
 
-- (id) initWithId: (NSString*) uid
-           street: (NSString*) street
-         latitude: (double) latitude
-        longitude: (double) longitude
+- (id) initWithId: (NSString*) uid_
+           street: (NSString*) street_
+         latitude: (double) latitude_
+        longitude: (double) longitude_
 {
-   self.uid = uid;
-   self.street = street;
-   self.location = [[CLLocation alloc] initWithLatitude: latitude 
-                                              longitude: longitude ];
+   [super initWithId: uid_ name: street_ ];
+   self.location = [[CLLocation alloc] initWithLatitude: latitude_ 
+                                              longitude: longitude_ ];
    return self;
 }
 
+- (NSString*) street
+{
+   return self.name;
+}
+
+- (void) setStreet: (NSString*) street_ 
+{
+   self.name = street_;
+}
+
 - (void) dealloc {
-   self.uid = nil;
-   self.street = nil;
    self.location = nil;
    [super dealloc];
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder
+{
+   BEGIN_ENCODER()
+   ENCODE_PROP(location)
+   END_ENCODER()
+}
+
+- (id)initWithCoder:(NSCoder *)decoder
+{
+   BEGIN_DECODER()
+   DECODE_PROP(location)
+   END_DECODER()
+   return self;
 }
 
 

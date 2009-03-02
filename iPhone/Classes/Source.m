@@ -11,9 +11,7 @@
 
 @implementation Source
 
-@dynamic uid;
-@dynamic name;
-@dynamic url;
+@synthesize url;
 
 + (id) sourceWithId: (NSString*) uid
                name: (NSString*) name
@@ -25,21 +23,33 @@
                     url: url] autorelease];
 }
 
-- (id) initWithId: (NSString*) uid
-             name: (NSString*) name
-              url: (NSString*) url
+- (id) initWithId: (NSString*) uid_
+             name: (NSString*) name_
+              url: (NSString*) url_
 {
-   self.uid = uid;
-   self.name = name;
-   self.url = [NSURL URLWithString: url ];
+   [super initWithId: uid_ name: name_ ];
+   self.url = [NSURL URLWithString: url_ ];
    return self;
 }
 
 - (void) dealloc {
-   self.uid = nil;
-   self.name = nil;
    self.url = nil;
    [super dealloc];
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder
+{
+   BEGIN_ENCODER()
+   ENCODE_PROP(url)
+   END_ENCODER()
+}
+
+- (id)initWithCoder:(NSCoder *)decoder
+{
+   BEGIN_DECODER()
+   DECODE_PROP(url)
+   END_DECODER()
+   return self;
 }
 
 
