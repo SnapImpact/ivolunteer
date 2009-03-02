@@ -37,6 +37,7 @@
 		94DFFC140F579B27005D62B9 /* ModelBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DFFC130F579B27005D62B9 /* ModelBase.m */; };
 		94DFFF5C0F5A07E8005D62B9 /* EventDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DFFF5B0F5A07E8005D62B9 /* EventDetailsViewController.m */; };
 		94DFFFA70F5A0ABF005D62B9 /* ActionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DFFFA60F5A0ABF005D62B9 /* ActionsView.m */; };
+		94ED9C2A0F5BAFC600F2697F /* EventDetailsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94ED9C290F5BAFC600F2697F /* EventDetailsTableViewController.m */; };
 		E1DDD40F0EAAD73F006CA155 /* SplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1DDD40E0EAAD73F006CA155 /* SplashViewController.m */; };
 		E1DDD4110EAAD74E006CA155 /* SplashView.xib in Sources */ = {isa = PBXBuildFile; fileRef = E1DDD4100EAAD74E006CA155 /* SplashView.xib */; };
 /* End PBXBuildFile section */
@@ -45,7 +46,7 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* iPhoneAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPhoneAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* iPhoneAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iPhoneAppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* iPhone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iPhone.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* iVolunteer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iVolunteer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		2899E55F0DE3E45000AC0155 /* RootViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RootViewController.xib; sourceTree = "<group>"; };
@@ -96,6 +97,8 @@
 		94DFFF5B0F5A07E8005D62B9 /* EventDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventDetailsViewController.m; sourceTree = "<group>"; };
 		94DFFFA50F5A0AB6005D62B9 /* ActionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionsView.h; sourceTree = "<group>"; };
 		94DFFFA60F5A0ABF005D62B9 /* ActionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionsView.m; sourceTree = "<group>"; };
+		94ED9C280F5BAFC600F2697F /* EventDetailsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventDetailsTableViewController.h; sourceTree = "<group>"; };
+		94ED9C290F5BAFC600F2697F /* EventDetailsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventDetailsTableViewController.m; sourceTree = "<group>"; };
 		E1DDD40D0EAAD73F006CA155 /* SplashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplashViewController.h; sourceTree = "<group>"; };
 		E1DDD40E0EAAD73F006CA155 /* SplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplashViewController.m; sourceTree = "<group>"; };
 		E1DDD4100EAAD74E006CA155 /* SplashView.xib */ = {isa = PBXFileReference; explicitFileType = file.xib; fileEncoding = 4; path = SplashView.xib; sourceTree = "<group>"; };
@@ -139,7 +142,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* iPhone.app */,
+				1D6058910D05DD3D006BFB54 /* iVolunteer.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -201,6 +204,8 @@
 				94DFFF5B0F5A07E8005D62B9 /* EventDetailsViewController.m */,
 				9483D93B0F5A184B00406DB3 /* EventDetailsHeaderCell.h */,
 				9483D93C0F5A184B00406DB3 /* EventDetailsHeaderCell.m */,
+				94ED9C280F5BAFC600F2697F /* EventDetailsTableViewController.h */,
+				94ED9C290F5BAFC600F2697F /* EventDetailsTableViewController.m */,
 			);
 			name = "UI Classes";
 			sourceTree = "<group>";
@@ -270,7 +275,7 @@
 			);
 			name = iVolunteer;
 			productName = iPhone;
-			productReference = 1D6058910D05DD3D006BFB54 /* iPhone.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* iVolunteer.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -339,6 +344,7 @@
 				94DFFF5C0F5A07E8005D62B9 /* EventDetailsViewController.m in Sources */,
 				94DFFFA70F5A0ABF005D62B9 /* ActionsView.m in Sources */,
 				9483D93D0F5A184B00406DB3 /* EventDetailsHeaderCell.m in Sources */,
+				94ED9C2A0F5BAFC600F2697F /* EventDetailsTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -364,7 +370,7 @@
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_NAME = iPhone;
+				PRODUCT_NAME = iVolunteer;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8250803D-5C4E-425F-B7E6-3E8B1EE77AD6";
 				SDKROOT = iphoneos2.1;
 			};
@@ -388,7 +394,7 @@
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_NAME = iPhone;
+				PRODUCT_NAME = iVolunteer;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8250803D-5C4E-425F-B7E6-3E8B1EE77AD6";
 				SDKROOT = iphoneos2.1;
 			};

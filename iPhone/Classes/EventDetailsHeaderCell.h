@@ -23,4 +23,7 @@
 @property (retain) UILabel* date;
 @property (retain) UILabel* time;
 
++ (NSString*) reuseIdentifier;
++ (CGFloat) height;
+
 @end

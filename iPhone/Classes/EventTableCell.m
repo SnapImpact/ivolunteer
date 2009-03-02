@@ -30,11 +30,6 @@
     return self;
 }
 
-- (NSString*) reuseIdentifier
-{
-   return [EventTableCell reuseIdentifier];
-}
-
 + (NSString*) reuseIdentifier
 {
    return @"EventTableCell";

@@ -15,6 +15,6 @@
 
 @property (retain) Event* event;
 
-+ (id) view;
++ (id) viewWithEvent: (Event*) event ;
 
 @end

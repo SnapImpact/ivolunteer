@@ -64,7 +64,7 @@
       
    id event = [self.dataSource objectForIndexPath: indexPath ];
    if( self.detailsController == nil ) {
-      self.detailsController = [EventDetailsViewController viewWithEvent: event ];
+      self.detailsController = [EventDetailsTableViewController viewWithEvent: event ];
    }
    else {
       self.detailsController.event = event;

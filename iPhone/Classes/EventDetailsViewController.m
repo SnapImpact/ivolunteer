@@ -13,9 +13,10 @@
 
 @synthesize event;
 
-+ (id) view
++ (id) viewWithEvent: (Event*) event
 {
    EventDetailsViewController* view = [[[EventDetailsViewController alloc] initWithNibName: @"EventDetails" bundle: nil ] autorelease ];
+   view.event = event;
    return view;
 }
 

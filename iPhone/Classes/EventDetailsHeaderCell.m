@@ -17,6 +17,16 @@
 @synthesize date;
 @synthesize time;
 
++ (NSString*) reuseIdentifier
+{
+   return @"EventDetailsHeaderCell";
+}
+
++ (CGFloat) height
+{
+   return 100;
+}
+
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier {
    if (self = [super initWithFrame:frame reuseIdentifier:reuseIdentifier]) {
       // Initialization code
