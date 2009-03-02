@@ -15,6 +15,7 @@
 		2899E5600DE3E45000AC0155 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E55F0DE3E45000AC0155 /* RootViewController.xib */; };
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		28C286E10D94DF7D0034E888 /* ProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* ProjectViewController.m */; };
+		940875410F5C965C0037C286 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 940875400F5C965C0037C286 /* Entitlements.plist */; };
 		9455C4440F5214FA00296B87 /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = 9455C4430F5214FA00296B87 /* Contact.m */; };
 		9455C44E0F52165100296B87 /* Source.m in Sources */ = {isa = PBXBuildFile; fileRef = 9455C44D0F52165100296B87 /* Source.m */; };
 		9455C53E0F52270D00296B87 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9455C53D0F52270D00296B87 /* CoreLocation.framework */; };
@@ -57,6 +58,7 @@
 		28C286E00D94DF7D0034E888 /* ProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectViewController.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		940875400F5C965C0037C286 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		9455C4420F5214FA00296B87 /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
 		9455C4430F5214FA00296B87 /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
 		9455C44C0F52165100296B87 /* Source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Source.h; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				940875400F5C965C0037C286 /* Entitlements.plist */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -317,6 +320,7 @@
 				94A97B7F0F43890C0077E4E0 /* Data Model Plan in Resources */,
 				9455CA5B0F539EA800296B87 /* EventTableCell.xib in Resources */,
 				9465B4830F5A25FC00B0F926 /* EventDetailsHeaderCell.xib in Resources */,
+				940875410F5C965C0037C286 /* Entitlements.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,6 +366,7 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan Schneider";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -377,7 +382,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = iVolunteer;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8250803D-5C4E-425F-B7E6-3E8B1EE77AD6";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "779F5B3C-5567-485F-9011-90F075764B1F";
 				SDKROOT = iphoneos2.1;
 			};
 			name = Debug;
@@ -387,6 +392,7 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan Schneider";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -401,7 +407,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = iVolunteer;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8250803D-5C4E-425F-B7E6-3E8B1EE77AD6";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "779F5B3C-5567-485F-9011-90F075764B1F";
 				SDKROOT = iphoneos2.1;
 			};
 			name = Release;
