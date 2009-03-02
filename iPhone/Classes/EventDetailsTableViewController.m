@@ -7,6 +7,7 @@
 //
 
 #import "EventDetailsTableViewController.h"
+#import "AttributeCell.h"
 
 
 @implementation EventDetailsTableViewController
@@ -29,6 +30,7 @@
    
    event = [event_ retain];
    self.headerCell.event = event;
+   self.navigationItem.title = event.name;
    [self.tableView reloadData];
 }
 
@@ -126,6 +128,53 @@
    return 0;
 }
 
+- (UITableViewCell*) cellForContactsRow:(NSInteger) row 
+{
+   AttributeCell* cell = [[[AttributeCell alloc] initWithFrame:[UIScreen mainScreen].applicationFrame
+                                               reuseIdentifier:nil] autorelease];
+   
+   NSString* mapString = NSLocalizedString(@"Map", nil);
+   NSString* callString = NSLocalizedString(@"Call", nil);
+   NSString* mailString = NSLocalizedString(@"Mail", nil);
+   NSString* contactString = NSLocalizedString(@"Contact", nil);
+   NSString* sourceString = NSLocalizedString(@"Source", nil);
+   
+   CGSize size1 = [mapString sizeWithFont:[AttributeCell keyFont]];
+   CGSize size2 = [callString sizeWithFont:[AttributeCell keyFont]];
+   CGSize size3 = [mailString sizeWithFont:[AttributeCell keyFont]];
+   CGSize size4 = [contactString sizeWithFont:[AttributeCell keyFont]];
+   CGSize size5 = [sourceString sizeWithFont:[AttributeCell keyFont]];
+   
+   NSInteger width = MAX(size1.width, size2.width);
+   width = MAX(width, size3.width);
+   width = MAX(width, size4.width);
+   width = MAX(width, size5.width);
+   width += 30;
+   
+   switch(row) {
+      case 0:
+      [cell setKey: contactString
+             value: self.event.contact.name
+          keyWidth:width];
+         break;
+      case 1:
+      [cell setKey:mapString
+             value: self.event.location.street
+          keyWidth:width];
+         break;
+      case 2:
+         [cell setKey: callString value: self.event.contact.phone keyWidth: width ];
+         break;
+      case 3:
+         [cell setKey: mailString value: self.event.contact.email keyWidth: width ];
+         break;
+      case 4:
+         [cell setKey: sourceString value: self.event.source.name keyWidth: width ];
+         break;
+   }
+   
+   return cell;
+}
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -157,24 +206,7 @@
          cell.text = self.event.details;
          break;
       case 2:
-         switch(row) {
-            case 0:
-               cell.text = self.event.location.street;
-               break;
-            case 1:
-               cell.text = self.event.contact.name;
-               break;
-            case 2:
-               cell.text = self.event.contact.phone;
-               break;
-            case 3:
-               cell.text = self.event.contact.email;
-               break;
-            case 4:
-               cell.text = self.event.source.name;
-               break;
-         }
-         break;
+         return [self cellForContactsRow: row ];
       case 3:
          if( [self.event.interestAreas count] > 1 ) {
             if( row == 0) 

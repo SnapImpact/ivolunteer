@@ -23,4 +23,6 @@
 
 + (id) viewWithEvent: (Event*) event;
 
+- (UITableViewCell*) cellForContactsRow:(NSInteger) row ;
+
 @end
