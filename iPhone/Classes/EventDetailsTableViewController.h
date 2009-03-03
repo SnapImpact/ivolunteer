@@ -20,6 +20,8 @@
    UIFont* smallFont;
    UIFont* mediumFont;
    UIFont* largeFont;
+   NSString* signUpString;
+   NSString* signedUpString;
 }
 
 @property (retain) Event* event;
@@ -30,6 +32,9 @@
 @property (retain) UIFont* smallFont;
 @property (retain) UIFont* mediumFont;
 @property (retain) UIFont* largeFont;
+@property (copy) NSString* signedUpString;
+@property (copy) NSString* signUpString;
+
 
 
 + (id) viewWithEvent: (Event*) event;

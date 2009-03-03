@@ -23,6 +23,7 @@
    Source* source;
    Location* location;
    NSArray* interestAreas;
+   NSNumber* signedUp;
 }
 
 @property (copy) NSString* details;
@@ -33,6 +34,7 @@
 @property (retain) Source* source;
 @property (retain) Location* location;
 @property (retain) NSArray* interestAreas;
+@property (retain) NSNumber* signedUp;
 
 + (id) eventWithId: (NSString*) uid
               name: (NSString*) name

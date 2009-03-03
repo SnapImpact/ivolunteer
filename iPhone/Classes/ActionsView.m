@@ -45,7 +45,13 @@
 - (id) initWithTarget:(id) target_
             selectors:(NSArray*) selectors_
                titles:(NSArray*) titles_
-            arguments:(NSArray*) arguments_ {
+            arguments:(NSArray*) arguments_
+                image:(UIImage*) image
+         imagePressed:(UIImage*) imagePressed
+        imageSelected:(UIImage*) imageSelected
+            textColor:(UIColor*) textColor 
+    textColorSelected:textColorSelected {
+
     if (self = [super initWithFrame:CGRectZero]) {
         self.target = target_;
         self.selectors = selectors_;
@@ -60,7 +66,23 @@
             [button sizeToFit];
 
             [button addTarget:self action:@selector(onButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+           if( image != nil ) {
+              [button setBackgroundImage: image forState: UIControlStateNormal ];
+           }
+           if( imagePressed != nil ) {
+              [button setBackgroundImage: imagePressed forState: UIControlStateHighlighted ];
+           }
+           if( imageSelected != nil ) {
+              [button setBackgroundImage: imageSelected forState: UIControlStateSelected ];
+           }
+           if( textColor != nil ) {
+              [button setTitleColor: textColor forState: UIControlStateNormal ];
+           }
+           if( textColorSelected != nil ) {
+              [button setTitleColor: textColorSelected forState: UIControlStateSelected ];
+           }
 
+            button.tag = [ array count ] + 100;
             [array addObject:button];
             [self addSubview:button];
         }
@@ -87,7 +109,32 @@
     return [[[ActionsView alloc] initWithTarget:(id) target
                                       selectors:selectors
                                          titles:titles
-                                      arguments:arguments] autorelease];
+                                      arguments:arguments
+                                          image:nil
+                                   imagePressed:nil
+                                  imageSelected:nil
+                                      textColor:nil
+                              textColorSelected:nil] autorelease];
+}
+
++ (ActionsView*) viewWithTarget:(id) target
+                      selectors:(NSArray*) selectors
+                         titles:(NSArray*) titles
+                      arguments:(NSArray*) arguments
+                          image:(UIImage*) image
+                   imagePressed:(UIImage*) imagePressed
+                  imageSelected:(UIImage*) imageSelected
+                      textColor:(UIColor*) textColor 
+              textColorSelected:(UIColor*) textColorSelected {
+   return [[[ActionsView alloc] initWithTarget:(id) target
+                                     selectors:selectors
+                                        titles:titles
+                                     arguments:arguments
+                                         image:image
+                                  imagePressed:imagePressed
+                                 imageSelected:imageSelected   
+                                     textColor:textColor
+                             textColorSelected:textColorSelected] autorelease];
 }
 
 
@@ -126,6 +173,33 @@
 
 - (CGFloat) height {
     return height;
+}
+
+- (void) setTitle:(NSString*) title forButtonAtIndex:(NSUInteger) index selected:(BOOL)selected animate:(BOOL) animate {
+   UIButton* button = (UIButton*) [self viewWithTag: index+100 ];
+   if(animate) {
+      [UIView beginAnimations:@"relabel buttons" context:nil];
+      [UIView setAnimationDuration: 0.5 ];
+      if(selected)
+         button.alpha = 0.5;
+   }
+   if(button == nil ) {
+      [NSException raise: @"OutOfBoundsException" format: @"Index out of bounds: %d ", index ];
+   }
+   
+   if(selected) {
+      [button setTitle: title forState: UIControlStateSelected ];
+   }
+   else {
+      [button setTitle: title forState: UIControlStateNormal ];
+   }
+   [self layoutSubviews ];
+   button.selected = selected;
+   if(animate) {
+      if(selected)
+         button.alpha = 1.0;
+      [UIView commitAnimations];
+   }
 }
 
 

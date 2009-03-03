@@ -20,6 +20,7 @@
 @synthesize source;
 @synthesize location;
 @synthesize interestAreas;
+@synthesize signedUp;
 
 
 + (id) eventWithId: (NSString*) uid
@@ -66,6 +67,7 @@
    self.interestAreas = interestAreas_;
    self.date = date_;
    self.duration = duration_;
+   self.signedUp = [NSNumber numberWithBool: NO ];
    return self;
 }
 
@@ -92,6 +94,7 @@
    ENCODE_PROP(source)
    ENCODE_PROP(location)
    ENCODE_PROP(interestAreas)
+   ENCODE_PROP(signedUp);
    END_ENCODER()
 }
 
@@ -106,6 +109,7 @@
    DECODE_PROP(source)
    DECODE_PROP(location)
    DECODE_PROP(interestAreas)   
+   DECODE_PROP(signedUp);
    END_DECODER()
    return self;
 }

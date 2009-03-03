@@ -27,8 +27,19 @@
 + (ActionsView*) viewWithTarget:(id) target
                       selectors:(NSArray*) selectors
                          titles:(NSArray*) titles
-                      arguments:(NSArray*) arguments;
+                      arguments:(NSArray*) arguments ;
+
++ (ActionsView*) viewWithTarget:(id) target
+                      selectors:(NSArray*) selectors
+                         titles:(NSArray*) titles
+                      arguments:(NSArray*) arguments
+                          image:(UIImage*) image
+                   imagePressed:(UIImage*) imagePressed
+                  imageSelected:(UIImage*) imageSelected 
+                      textColor:(UIColor*) textColor 
+              textColorSelected:(UIColor*) textColorSelected;
 
 - (CGFloat) height;
+- (void) setTitle:(NSString*) titles forButtonAtIndex:(NSUInteger) index selected:(BOOL)selected animate:(BOOL) animate;
 
 @end

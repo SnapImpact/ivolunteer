@@ -40,6 +40,9 @@
 		94DFFC140F579B27005D62B9 /* ModelBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DFFC130F579B27005D62B9 /* ModelBase.m */; };
 		94DFFFA70F5A0ABF005D62B9 /* ActionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DFFFA60F5A0ABF005D62B9 /* ActionsView.m */; };
 		94ED9C2A0F5BAFC600F2697F /* EventDetailsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94ED9C290F5BAFC600F2697F /* EventDetailsTableViewController.m */; };
+		94F862950F5CCD0000986078 /* blueButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 94F862920F5CCD0000986078 /* blueButton.png */; };
+		94F862970F5CCD0000986078 /* whiteButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 94F862940F5CCD0000986078 /* whiteButton.png */; };
+		94F8629F0F5CCD8B00986078 /* greenButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 94F8629E0F5CCD8B00986078 /* greenButton.png */; };
 		E1DDD40F0EAAD73F006CA155 /* SplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1DDD40E0EAAD73F006CA155 /* SplashViewController.m */; };
 		E1DDD4110EAAD74E006CA155 /* SplashView.xib in Sources */ = {isa = PBXBuildFile; fileRef = E1DDD4100EAAD74E006CA155 /* SplashView.xib */; };
 /* End PBXBuildFile section */
@@ -104,6 +107,9 @@
 		94DFFFA60F5A0ABF005D62B9 /* ActionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionsView.m; sourceTree = "<group>"; };
 		94ED9C280F5BAFC600F2697F /* EventDetailsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventDetailsTableViewController.h; sourceTree = "<group>"; };
 		94ED9C290F5BAFC600F2697F /* EventDetailsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventDetailsTableViewController.m; sourceTree = "<group>"; };
+		94F862920F5CCD0000986078 /* blueButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueButton.png; sourceTree = "<group>"; };
+		94F862940F5CCD0000986078 /* whiteButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteButton.png; sourceTree = "<group>"; };
+		94F8629E0F5CCD8B00986078 /* greenButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greenButton.png; sourceTree = "<group>"; };
 		E1DDD40D0EAAD73F006CA155 /* SplashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplashViewController.h; sourceTree = "<group>"; };
 		E1DDD40E0EAAD73F006CA155 /* SplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplashViewController.m; sourceTree = "<group>"; };
 		E1DDD4100EAAD74E006CA155 /* SplashView.xib */ = {isa = PBXFileReference; explicitFileType = file.xib; fileEncoding = 4; path = SplashView.xib; sourceTree = "<group>"; };
@@ -177,6 +183,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				94F862980F5CCD0C00986078 /* Button Images */,
 				E1DDD4100EAAD74E006CA155 /* SplashView.xib */,
 				2899E55F0DE3E45000AC0155 /* RootViewController.xib */,
 				28AD735F0D9D9599002E5188 /* MainWindow.xib */,
@@ -266,6 +273,16 @@
 			name = "Data Sources";
 			sourceTree = "<group>";
 		};
+		94F862980F5CCD0C00986078 /* Button Images */ = {
+			isa = PBXGroup;
+			children = (
+				94F8629E0F5CCD8B00986078 /* greenButton.png */,
+				94F862920F5CCD0000986078 /* blueButton.png */,
+				94F862940F5CCD0000986078 /* whiteButton.png */,
+			);
+			name = "Button Images";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -321,6 +338,9 @@
 				9455CA5B0F539EA800296B87 /* EventTableCell.xib in Resources */,
 				9465B4830F5A25FC00B0F926 /* EventDetailsHeaderCell.xib in Resources */,
 				940875410F5C965C0037C286 /* Entitlements.plist in Resources */,
+				94F862950F5CCD0000986078 /* blueButton.png in Resources */,
+				94F862970F5CCD0000986078 /* whiteButton.png in Resources */,
+				94F8629F0F5CCD8B00986078 /* greenButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

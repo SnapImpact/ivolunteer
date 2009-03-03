@@ -20,6 +20,8 @@
 @synthesize smallFont;
 @synthesize mediumFont;
 @synthesize largeFont;
+@synthesize signedUpString;
+@synthesize signUpString;
 
 #pragma mark Constants
 #define kSectionsCount 4
@@ -65,6 +67,12 @@
    CGFloat width = [[UIScreen mainScreen] bounds].size.width;
    width -= (self.tableView.sectionHeaderHeight * 4);
    self.descriptionSize = CGSizeMake( width, self.tableView.rowHeight);
+   if([event.signedUp boolValue]) {
+      [ self.headerActions setTitle: signedUpString forButtonAtIndex: 0 selected: YES animate: NO ];
+   }
+   else {
+      [ self.headerActions setTitle: signUpString forButtonAtIndex:0 selected:NO animate:NO ];
+   }
    [self.tableView reloadData];
 }
 
@@ -73,6 +81,10 @@
 - (id)initWithStyle:(UITableViewStyle)style {
     // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
     if (self = [super initWithStyle:style]) {
+       
+       self.signedUpString = NSLocalizedString( @"Signed Up!", @"Should be positive, yay you signed up!" );
+       self.signUpString = NSLocalizedString( @"Sign Up", @"Indicates clicking this button will sign you up" );
+       
        NSArray* selectors = [NSArray arrayWithObjects:
                               [NSValue valueWithPointer: @selector(signUp)],
                               [NSValue valueWithPointer: @selector(share)],
@@ -80,13 +92,24 @@
                              ];
        
        NSArray* titles = [NSArray arrayWithObjects: 
-                              NSLocalizedString( @"Sign Up", nil),
+                              self.signUpString,
                               NSLocalizedString( @"Share", nil),
                               nil
                           ];
        
        NSArray* arguments = [NSArray arrayWithObjects: [NSNull null], [NSNull null], nil ];
-       self.headerActions = [ActionsView viewWithTarget: self selectors: selectors titles: titles arguments: arguments ];       
+       UIImage* buttonImage = [[UIImage imageNamed:@"whiteButton.png"] stretchableImageWithLeftCapWidth: 12.0 topCapHeight: 0 ];
+       UIImage* buttonImagePressed = [[UIImage imageNamed:@"blueButton.png"] stretchableImageWithLeftCapWidth: 12.0 topCapHeight: 0 ];
+       UIImage* buttonImageSelected = [[UIImage imageNamed:@"greenButton.png"] stretchableImageWithLeftCapWidth: 12.0 topCapHeight: 0 ];
+       self.headerActions = [ActionsView viewWithTarget: self 
+                                              selectors: selectors 
+                                                 titles: titles 
+                                              arguments: arguments 
+                                                  image: buttonImage
+                                           imagePressed: buttonImagePressed
+                                          imageSelected: buttonImageSelected
+                                              textColor: [UIColor darkTextColor]
+                                      textColorSelected: [UIColor whiteColor]];
        
        self.smallFont = [UIFont systemFontOfSize: 14 ];
        self.mediumFont = [UIFont systemFontOfSize: 16 ];
@@ -96,6 +119,7 @@
        self.descriptionCell = [[[UITableViewCell alloc] initWithFrame: CGRectZero reuseIdentifier: @"Description" ] autorelease];
        self.descriptionCell.font = self.smallFont;
        self.descriptionCell.lineBreakMode = UILineBreakModeWordWrap;
+       [self.descriptionCell setSelectionStyle: UITableViewCellSelectionStyleNone ];
        UITextView* text = [[[UITextView alloc] init] autorelease ];
        text.tag = 303;
        text.font = self.smallFont;
@@ -390,6 +414,18 @@
 
 - (void)dealloc {
     [super dealloc];
+}
+
+#pragma mark Action Callbacks
+- (void) signUp {
+   BOOL signedUp = [self.event.signedUp boolValue];
+   if(signedUp) {
+      [self.headerActions setTitle: @"Sign Up" forButtonAtIndex: 0 selected: NO animate: YES ];
+   }
+   else {
+      [self.headerActions setTitle: @"Signed Up!" forButtonAtIndex: 0 selected: YES animate: YES ];
+   }
+   self.event.signedUp = [NSNumber numberWithBool: !signedUp ];
 }
 
 
