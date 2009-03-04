@@ -16,6 +16,8 @@
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		28C286E10D94DF7D0034E888 /* ProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* ProjectViewController.m */; };
 		940875410F5C965C0037C286 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 940875400F5C965C0037C286 /* Entitlements.plist */; };
+		942E23BD0F5E107000C87AC1 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 942E23BC0F5E107000C87AC1 /* MapViewController.m */; };
+		942E23BF0F5E109400C87AC1 /* MapView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 942E23BE0F5E109400C87AC1 /* MapView.xib */; };
 		9455C4440F5214FA00296B87 /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = 9455C4430F5214FA00296B87 /* Contact.m */; };
 		9455C44E0F52165100296B87 /* Source.m in Sources */ = {isa = PBXBuildFile; fileRef = 9455C44D0F52165100296B87 /* Source.m */; };
 		9455C53E0F52270D00296B87 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9455C53D0F52270D00296B87 /* CoreLocation.framework */; };
@@ -62,6 +64,9 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		940875400F5C965C0037C286 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
+		942E23BB0F5E107000C87AC1 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		942E23BC0F5E107000C87AC1 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		942E23BE0F5E109400C87AC1 /* MapView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapView.xib; sourceTree = "<group>"; };
 		9455C4420F5214FA00296B87 /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
 		9455C4430F5214FA00296B87 /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
 		9455C44C0F52165100296B87 /* Source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Source.h; sourceTree = "<group>"; };
@@ -190,6 +195,7 @@
 				8D1107310486CEB800E47090 /* Info.plist */,
 				9455CA5A0F539EA800296B87 /* EventTableCell.xib */,
 				9465B4820F5A25FC00B0F926 /* EventDetailsHeaderCell.xib */,
+				942E23BE0F5E109400C87AC1 /* MapView.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -221,6 +227,8 @@
 				9483D93C0F5A184B00406DB3 /* EventDetailsHeaderCell.m */,
 				94ED9C280F5BAFC600F2697F /* EventDetailsTableViewController.h */,
 				94ED9C290F5BAFC600F2697F /* EventDetailsTableViewController.m */,
+				942E23BB0F5E107000C87AC1 /* MapViewController.h */,
+				942E23BC0F5E107000C87AC1 /* MapViewController.m */,
 			);
 			name = "UI Classes";
 			sourceTree = "<group>";
@@ -341,6 +349,7 @@
 				94F862950F5CCD0000986078 /* blueButton.png in Resources */,
 				94F862970F5CCD0000986078 /* whiteButton.png in Resources */,
 				94F8629F0F5CCD8B00986078 /* greenButton.png in Resources */,
+				942E23BF0F5E109400C87AC1 /* MapView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,6 +384,7 @@
 				94ED9C2A0F5BAFC600F2697F /* EventDetailsTableViewController.m in Sources */,
 				94BACFA60F5BBD5C00FDACED /* AttributeCell.m in Sources */,
 				94BACFB60F5BBFF700FDACED /* ColorCache.m in Sources */,
+				942E23BD0F5E107000C87AC1 /* MapViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

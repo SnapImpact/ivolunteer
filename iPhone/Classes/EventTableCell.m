@@ -7,6 +7,7 @@
 //
 
 #import "EventTableCell.h"
+#import "DateUtilities.h"
 
 
 @implementation EventTableCell
@@ -52,6 +53,7 @@
    event = [e retain];
    self.name.text = e.name;
    self.details.text = e.details;
+   self.time.text = [DateUtilities formatShortTime: e.date ];
 }
 
 

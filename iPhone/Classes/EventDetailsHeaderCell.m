@@ -7,7 +7,7 @@
 //
 
 #import "EventDetailsHeaderCell.h"
-
+#import "DateUtilities.h"
 
 @implementation EventDetailsHeaderCell
 
@@ -48,8 +48,8 @@
    event = [event_ retain];
    self.name.text = event_.name;
    self.organization.text = event_.organization.name;
-   self.date.text = event_.date.description;
-   self.time.text = event_.date.description;
+   self.date.text = [DateUtilities formatMediumDate: event_.date ];
+   self.time.text = [DateUtilities formatShortTime: event_.date ];
 }
 
 - (void)dealloc {

@@ -9,6 +9,8 @@
 #import "EventDetailsTableViewController.h"
 #import "AttributeCell.h"
 
+#import "MapViewController.h"
+
 
 @implementation EventDetailsTableViewController
 
@@ -123,6 +125,7 @@
        UITextView* text = [[[UITextView alloc] init] autorelease ];
        text.tag = 303;
        text.font = self.smallFont;
+       text.scrollEnabled = NO;
        text.editable = NO;
        [[self.descriptionCell contentView] addSubview: text ];
     }
@@ -200,14 +203,13 @@
 {
    NSAssert( row == kSectionDetailsHeaderRow, @"Only coded to support one row in DetailsHeader section!");
    
-   EventDetailsHeaderCell* header = (EventDetailsHeaderCell*) [self.tableView dequeueReusableCellWithIdentifier: [EventDetailsHeaderCell reuseIdentifier]];
-   if( header == nil ) {
+   if( self.headerCell == nil ) {
       NSArray *nib = [[NSBundle mainBundle] loadNibNamed: @"EventDetailsHeaderCell" owner: self options: nil ];
-      header = [nib objectAtIndex:0];
+      self.headerCell = [nib objectAtIndex:0];
    }
    
-   header.event = self.event;
-   return header;
+   self.headerCell.event = self.event;
+   return self.headerCell;
 }
 
 - (UITableViewCell*) cellForDescription: (NSUInteger) row 
@@ -369,6 +371,71 @@
 	// AnotherViewController *anotherViewController = [[AnotherViewController alloc] initWithNibName:@"AnotherView" bundle:nil];
 	// [self.navigationController pushViewController:anotherViewController];
 	// [anotherViewController release];
+   NSUInteger section = indexPath.section;
+   NSUInteger row = indexPath.row;
+   
+   UIViewController* subView = nil;
+   
+   switch(section) {
+      case kSectionDetailsHeader:
+         break;
+      case kSectionDescription:
+         break;
+      case kSectionContactInfo:
+         switch(row) {
+            case kSectionContactInfoRowName:
+               //add new contact?
+               break;
+            case kSectionContactInfoRowAddress:
+               //open map view
+               subView = (UIViewController*)[[MapViewController alloc] initWithNibName: @"MapView" bundle: nil ];
+               break;
+            case kSectionContactInfoRowPhone:
+               //call
+               @try {
+                  [[UIApplication sharedApplication] openURL: [NSString stringWithFormat: @"tel:%@", self.event.contact.phone ]];
+               }
+               @catch(...) {
+                  UIAlertView* alert = [[UIAlertView alloc ] initWithTitle:@"Simulator?" 
+                                                                   message:@"Calling unsupported, are you on the simulator?" 
+                                                                  delegate:nil
+                                                         cancelButtonTitle:@"Yes" 
+                                                         otherButtonTitles:@"No", nil  ];
+                  [alert show];
+                  [alert release];
+               }
+               break;
+            case kSectionContactInfoRowEmail:
+               //email
+               @try {
+                  [[UIApplication sharedApplication] openURL: [NSString stringWithFormat: @"mailto:%@", self.event.contact.email ]];
+               }
+               @catch(...) {
+                  UIAlertView* alert = [[UIAlertView alloc ] initWithTitle:@"Simulator?" 
+                                                                   message:@"Mailto unsupported, are you on the simulator?" 
+                                                                  delegate:nil
+                                                         cancelButtonTitle:@"Yes" 
+                                                         otherButtonTitles:@"No", nil  ];
+                  [alert show];
+                  [alert release];
+               }
+               break;
+            case kSectionContactInfoRowSource:
+               [[UIApplication sharedApplication] openURL: self.event.source.url ];
+               //open source url
+               break;
+         }
+         break;
+      case kSectionInterestAreas:
+         break;
+   }
+   
+   if(subView) {
+      [self.navigationController pushViewController:subView animated: YES];
+      [subView release];
+   }
+   
+   [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 

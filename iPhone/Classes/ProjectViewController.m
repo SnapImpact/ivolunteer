@@ -70,8 +70,7 @@
       self.detailsController.event = event;
    }
    
-   iPhoneAppDelegate *del = [[UIApplication sharedApplication] delegate];
-   [del.navigationController pushViewController:self.detailsController animated: YES];
+   [self.navigationController pushViewController:self.detailsController animated: YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
