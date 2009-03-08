@@ -14,10 +14,17 @@
    IBOutlet UIButton* refreshButton;
    EventDetailsTableViewController* detailsController;
    EventsSortedByTimeDataSource* dataSource;
+   UIBarButtonItem* settingsButtonItem;
+   UIBarButtonItem* sortButtonItem;
 }
 
-@property (nonatomic, retain) UIButton* refreshButton;
-@property (nonatomic, retain) EventDetailsTableViewController* detailsController;
-@property (nonatomic, retain) EventsSortedByTimeDataSource* dataSource;
+@property (retain) UIButton* refreshButton;
+@property (retain) EventDetailsTableViewController* detailsController;
+@property (retain) EventsSortedByTimeDataSource* dataSource;
+@property (retain) UIBarButtonItem* settingsButtonItem;
+@property (retain) UIBarButtonItem* sortButtonItem;
+
+- (void) settings ;
+- (void) sort ;
 
 @end

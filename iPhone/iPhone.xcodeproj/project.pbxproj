@@ -39,6 +39,7 @@
 		94BE57160F42992200A505F0 /* Organization.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE57150F42992200A505F0 /* Organization.m */; };
 		94BE571C0F42A03900A505F0 /* OrganizationTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE571B0F42A03900A505F0 /* OrganizationTypes.m */; };
 		94BE574C0F42A42D00A505F0 /* iVolunteerData.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE574B0F42A42D00A505F0 /* iVolunteerData.m */; };
+		94D3B2330F645E9B007C8AA9 /* Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D3B2320F645E9B007C8AA9 /* Logo.png */; };
 		94DFFC140F579B27005D62B9 /* ModelBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DFFC130F579B27005D62B9 /* ModelBase.m */; };
 		94DFFFA70F5A0ABF005D62B9 /* ActionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DFFFA60F5A0ABF005D62B9 /* ActionsView.m */; };
 		94ED9C2A0F5BAFC600F2697F /* EventDetailsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94ED9C290F5BAFC600F2697F /* EventDetailsTableViewController.m */; };
@@ -106,6 +107,7 @@
 		94BE571B0F42A03900A505F0 /* OrganizationTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrganizationTypes.m; sourceTree = "<group>"; };
 		94BE574A0F42A42D00A505F0 /* iVolunteerData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iVolunteerData.h; sourceTree = "<group>"; };
 		94BE574B0F42A42D00A505F0 /* iVolunteerData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iVolunteerData.m; sourceTree = "<group>"; };
+		94D3B2320F645E9B007C8AA9 /* Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Logo.png; sourceTree = "<group>"; };
 		94DFFC120F579B27005D62B9 /* ModelBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelBase.h; sourceTree = "<group>"; };
 		94DFFC130F579B27005D62B9 /* ModelBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelBase.m; sourceTree = "<group>"; };
 		94DFFFA50F5A0AB6005D62B9 /* ActionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionsView.h; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				94D3B2320F645E9B007C8AA9 /* Logo.png */,
 				94F862980F5CCD0C00986078 /* Button Images */,
 				E1DDD4100EAAD74E006CA155 /* SplashView.xib */,
 				2899E55F0DE3E45000AC0155 /* RootViewController.xib */,
@@ -350,6 +353,7 @@
 				94F862970F5CCD0000986078 /* whiteButton.png in Resources */,
 				94F8629F0F5CCD8B00986078 /* greenButton.png in Resources */,
 				942E23BF0F5E109400C87AC1 /* MapView.xib in Resources */,
+				94D3B2330F645E9B007C8AA9 /* Logo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

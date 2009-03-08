@@ -11,6 +11,7 @@
 
 @implementation SplashViewController
 @synthesize delegate;
+@synthesize segmentBackground;
 
 /*
 // Override initWithNibName:bundle: to load the view using a nib file then perform additional customization that is not appropriate for viewDidLoad.
@@ -28,12 +29,15 @@
 }
 */
 
-/*
 // Implement viewDidLoad to do additional setup after loading the view.
 - (void)viewDidLoad {
     [super viewDidLoad];
+   //set the image to the rounded rect
+   //UIImage* image = [[UIImage imageNamed:@"whiteButton.png"] stretchableImageWithLeftCapWidth: 12.0 topCapHeight: 0 ];
+   //[segmentBackground setBackgroundImage: image forState: UIControlStateNormal ];
+   
+   
 }
-*/
 
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

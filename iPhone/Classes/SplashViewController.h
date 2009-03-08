@@ -11,9 +11,11 @@
 
 @interface SplashViewController : UIViewController {
 	id delegate;
+   IBOutlet UIButton* segmentBackground;
 }
 
 @property (nonatomic,retain) id delegate;
+@property (retain) UIButton* IBOutlet segmentBackground;
 
 - (IBAction)splashOk:(id)sender forEvent:(UIEvent*)event;
 

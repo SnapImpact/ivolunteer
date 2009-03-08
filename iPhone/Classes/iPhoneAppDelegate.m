@@ -42,7 +42,8 @@
 	bool hasBeenRun = [def boolForKey:@"ivHasBeenRun"];
 	
 	[def setBool:true forKey:@"ivHasBeenRun"];
-	
+	hasBeenRun = NO;
+   
 	if(!hasBeenRun){
 		//load the splash screen
 		splashvc = [[SplashViewController alloc] initWithNibName:@"SplashView" bundle:[NSBundle mainBundle]];
