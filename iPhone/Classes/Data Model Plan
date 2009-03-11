@@ -1,0 +1,84 @@
+
+The plan for the Data Model (as outlined by RyanS).
+
+- Build Data Model objects based on all the data model objects in the REST interface using RMModelObject for simplicity.
+- Retrieve the data over the REST interface.
+- Use libxml2 to parse REST results, place them in iVolunteerData.
+- Backfill the mututable dictionaries with links to actual objects.
+-- This is required by libxml2 is a SAX parser not a DOM parser, and we won't have all the objects resolved in sequence.
+-- For example, if we pull in the OrganizationTypes first, the organization dictionary can't point to the actual 
+   organization objects yet since wehaven't pulled them.  So instead we'll need to insert something like (uid,nil), and
+   go back and fill the nil references with actual object references from iVolunteerData once we've visited all the REST collections.
+- The should get us a good set of data to work with.  We'll have to be careful about all the circular refs when serializing out, 
+  probably safer to not serialize any dictionaries and refill them at runtime.
+- After that, we just need to make some DataSources for the treeviews.
+
+Here's what I'd like to see as the REST interface for the iPhone app:
+
+* I pass you a location on a POST or GET request.
+* I receive an XML block like so:
+
+<organizations>
+ <organization id="guid">
+   <name>Org Name</name>
+   <email>name@domain</email>
+   <phone>303-555-1234</phone>
+   <url>http://some.domain.com/</url>
+ </organization>
+ <organization id="guid">...</organization>
+</organizations>
+<contacts>
+ <contact id="guid">
+  <name>FirstName LastName</name>
+  <phone>303-555-1234
+  <email>me@somewhere</email>
+ </contact>
+ <contact>...</contact>
+</contacts>
+<datespans>
+  <datespan id="guid">
+    <start>Some GMT date string</start>
+    <end>Some GMT date string</end>
+  </datespan>
+  <datespan id="guid">...</datespan>
+</datespans>
+<sources>
+ <source id="guid">
+  <name>Source Name</name>
+  <url>http://some-source.rg</url>
+ </source>
+ <source id="guid">...</source>
+</sources>
+<locations>
+ <location id="guid">
+  <lat>+43.307813</lat>
+  <lon>+88.242187</lon>
+  <address>719 Walnut St. Boulder, CO 80302</street>
+ </location>
+ <location id="guid">...</location>
+</locations>
+<interestareas>
+  <!-- if these are static, we can leave this out and I'll grab them only if I don't have the guid in my local cache -->
+ <interestarea id="guid">
+  <name>Animal Protection and Welfare</name>
+ </interestarea>
+</interestareas>
+<events>
+   <event id="guid">
+     <title>Event Title</title>
+     <details>Event Description</details>
+     <organization id="guid" />  <!-- guid indexes into table below -->
+     <contact id="guid" /> <!-- contact overrides organization , not sure if DB schema supports this -->
+     <source id="guid" />
+     <location id="guid" />
+     <interestareas>
+        <interestarea id="guid"/>
+        <interestarea id="guid"/>
+     </interestareas>
+     <datespans>
+        <datespan id="guid" /> <!-- multiple datespans for recurring events, most will have 1 -->
+        <datespan id="guid" />
+     </datespan>
+   </event>
+   <event id="guid">...</events>
+</events>

@@ -28,7 +28,7 @@
 
 #import "iPhoneAppDelegate.h"
 #import "ProjectViewController.h"
-
+#import "iVolunteerData.h"
 
 @implementation iPhoneAppDelegate
 
@@ -51,17 +51,19 @@
 	} else {
 		[self loadNavigationView];
 	}
-		[window makeKeyAndVisible];
-	
+		
+   [window makeKeyAndVisible];
+   [iVolunteerData restore];
 }
 
 
 - (void)applicationWillTerminate:(UIApplication *)application {
 	// Save data if appropriate
+   [ iVolunteerData archive ];
 }
 
 -(void) loadNavigationView
-{
+{   
 	[[splashvc view] removeFromSuperview];
 	// Configure and show the window
 	[window addSubview:[navigationController view]];
