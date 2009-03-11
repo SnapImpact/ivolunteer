@@ -129,13 +129,7 @@
             <url-pattern>*.jspf</url-pattern>
             <is-xml>true</is-xml>
         </jsp-property-group>
-        </jsp-config>
-    <ejb-local-ref>
-        <ejb-ref-name>vomlSessionBean</ejb-ref-name>
-        <ejb-ref-type>Session</ejb-ref-type>
-        <local>etl.vomlSessionLocal</local>
-        <ejb-link>server-ejb.jar#vomlSessionBean</ejb-link>
-    </ejb-local-ref>
+    </jsp-config>
     <ejb-local-ref>
         <ejb-ref-name>PersistenceFacade</ejb-ref-name>
         <ejb-ref-type>Session</ejb-ref-type>

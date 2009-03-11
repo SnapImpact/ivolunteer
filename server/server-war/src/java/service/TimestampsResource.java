@@ -37,7 +37,7 @@ import javax.ws.rs.core.UriInfo;
 import com.sun.jersey.api.core.ResourceContext;
 import converter.TimestampsConverter;
 import converter.TimestampConverter;
-import converter.TimestampListConverter;
+import converter.list.TimestampListConverter;
 import persistence.Timestamp;
 
 /**

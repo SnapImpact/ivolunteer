@@ -38,7 +38,7 @@ import com.sun.jersey.api.core.ResourceContext;
 import persistence.Location;
 import converter.LocationsConverter;
 import converter.LocationConverter;
-import converter.LocationListConverter;
+import converter.list.LocationListConverter;
 
 /**
  * 

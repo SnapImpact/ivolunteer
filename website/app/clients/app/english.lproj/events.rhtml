@@ -26,7 +26,7 @@
   <% split_view :workspace, :direction => :horizontal do %>
     <% view :sidebar, :outlet => true do %>
       <% scroll_view :outlet => true do %>
-        <%= view :filter, :view => 'App.FilterView', :outlet => true,
+        <%= view :source_list_view, :outlet => true,
           :content_value_key => 'name',
           :groupBy => 'type',
           :group_visible_key => 'type',
