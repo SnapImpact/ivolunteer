@@ -29,11 +29,13 @@
 #import "iPhoneAppDelegate.h"
 #import "ProjectViewController.h"
 #import "iVolunteerData.h"
+#import "DateUtilities.h"
 
 @implementation iPhoneAppDelegate
 
 @synthesize window;
 @synthesize navigationController;
+@synthesize restController;
 
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
@@ -55,6 +57,9 @@
 		
    [window makeKeyAndVisible];
    [iVolunteerData restore];
+   
+   self.restController = [[RestController alloc] initWithVolunteerData: [iVolunteerData sharedVolunteerData]];
+   [ self.restController beginGetEventsFrom: [DateUtilities today] until: [DateUtilities daysFromNow: 14]];
 }
 
 

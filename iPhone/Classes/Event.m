@@ -98,7 +98,7 @@
    END_ENCODER()
 }
 
-- (id):(NSCoder *)decoder
+- (id)initWithCoder:(NSCoder *)decoder
 {
    BEGIN_DECODER()
    DECODE_PROP(details)
