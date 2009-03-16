@@ -35,6 +35,11 @@
 		94A454610F6D932500866948 /* CJSONScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A454570F6D932500866948 /* CJSONScanner.m */; };
 		94A454620F6D932500866948 /* CJSONSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A454590F6D932500866948 /* CJSONSerializer.m */; };
 		94A454630F6D932500866948 /* CDataScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A4545A0F6D932500866948 /* CDataScanner.m */; };
+		94A4559E0F6DC24200866948 /* SplashLogoHand.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A455990F6DC24200866948 /* SplashLogoHand.png */; };
+		94A4559F0F6DC24200866948 /* SplashLogoBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A4559A0F6DC24200866948 /* SplashLogoBackground.png */; };
+		94A455A00F6DC24200866948 /* SplashLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A4559B0F6DC24200866948 /* SplashLogo.png */; };
+		94A455A10F6DC24200866948 /* SplashBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A4559C0F6DC24200866948 /* SplashBackground.png */; };
+		94A455A20F6DC24200866948 /* iPhoneSplashScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A4559D0F6DC24200866948 /* iPhoneSplashScreen.png */; };
 		94A97B7F0F43890C0077E4E0 /* Data Model Plan in Resources */ = {isa = PBXBuildFile; fileRef = 94A97B7E0F43890C0077E4E0 /* Data Model Plan */; };
 		94A97BB80F4521D80077E4E0 /* RestClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A97BB70F4521D80077E4E0 /* RestClient.m */; };
 		94A97D3B0F452D610077E4E0 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 94A97D3A0F452D610077E4E0 /* libxml2.dylib */; };
@@ -107,6 +112,11 @@
 		94A454590F6D932500866948 /* CJSONSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJSONSerializer.m; sourceTree = "<group>"; };
 		94A4545A0F6D932500866948 /* CDataScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDataScanner.m; path = TouchJSON/CDataScanner.m; sourceTree = "<group>"; };
 		94A4545B0F6D932500866948 /* CDataScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDataScanner.h; path = TouchJSON/CDataScanner.h; sourceTree = "<group>"; };
+		94A455990F6DC24200866948 /* SplashLogoHand.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SplashLogoHand.png; sourceTree = "<group>"; };
+		94A4559A0F6DC24200866948 /* SplashLogoBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SplashLogoBackground.png; sourceTree = "<group>"; };
+		94A4559B0F6DC24200866948 /* SplashLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SplashLogo.png; sourceTree = "<group>"; };
+		94A4559C0F6DC24200866948 /* SplashBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SplashBackground.png; sourceTree = "<group>"; };
+		94A4559D0F6DC24200866948 /* iPhoneSplashScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPhoneSplashScreen.png; sourceTree = "<group>"; };
 		94A97B7E0F43890C0077E4E0 /* Data Model Plan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Data Model Plan"; sourceTree = "<group>"; };
 		94A97BB60F4521D80077E4E0 /* RestClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestClient.h; sourceTree = "<group>"; };
 		94A97BB70F4521D80077E4E0 /* RestClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestClient.m; sourceTree = "<group>"; };
@@ -217,6 +227,11 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				94A455990F6DC24200866948 /* SplashLogoHand.png */,
+				94A4559A0F6DC24200866948 /* SplashLogoBackground.png */,
+				94A4559B0F6DC24200866948 /* SplashLogo.png */,
+				94A4559C0F6DC24200866948 /* SplashBackground.png */,
+				94A4559D0F6DC24200866948 /* iPhoneSplashScreen.png */,
 				94D3B2320F645E9B007C8AA9 /* Logo.png */,
 				94F862980F5CCD0C00986078 /* Button Images */,
 				E1DDD4100EAAD74E006CA155 /* SplashView.xib */,
@@ -424,6 +439,11 @@
 				942E23BF0F5E109400C87AC1 /* MapView.xib in Resources */,
 				94D3B2330F645E9B007C8AA9 /* Logo.png in Resources */,
 				944D15520F681FB3002ADC34 /* Default.png in Resources */,
+				94A4559E0F6DC24200866948 /* SplashLogoHand.png in Resources */,
+				94A4559F0F6DC24200866948 /* SplashLogoBackground.png in Resources */,
+				94A455A00F6DC24200866948 /* SplashLogo.png in Resources */,
+				94A455A10F6DC24200866948 /* SplashBackground.png in Resources */,
+				94A455A20F6DC24200866948 /* iPhoneSplashScreen.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

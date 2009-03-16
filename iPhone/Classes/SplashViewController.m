@@ -12,6 +12,9 @@
 @implementation SplashViewController
 @synthesize delegate;
 @synthesize segmentBackground;
+@synthesize hand;
+@synthesize logo;
+@synthesize background;
 
 /*
 // Override initWithNibName:bundle: to load the view using a nib file then perform additional customization that is not appropriate for viewDidLoad.
@@ -35,6 +38,13 @@
    //set the image to the rounded rect
    //UIImage* image = [[UIImage imageNamed:@"whiteButton.png"] stretchableImageWithLeftCapWidth: 12.0 topCapHeight: 0 ];
    //[segmentBackground setBackgroundImage: image forState: UIControlStateNormal ];
+   
+   [UIView beginAnimations:@"relabel buttons" context:nil];
+   [UIView setAnimationDuration: 0.75 ];
+   [background setFrame: CGRectMake(20, 15, 280, 128)];
+   [hand setFrame: CGRectMake(8, 0, 95, 138)];
+   [logo setFrame: CGRectMake(76, 44, 226, 128)];
+   [UIView commitAnimations];
    
    
 }
