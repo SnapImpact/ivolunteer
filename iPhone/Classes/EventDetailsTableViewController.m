@@ -393,7 +393,7 @@
             case kSectionContactInfoRowPhone:
                //call
                @try {
-                  [[UIApplication sharedApplication] openURL: [NSString stringWithFormat: @"tel:%@", self.event.contact.phone ]];
+                  [[UIApplication sharedApplication] openURL: [ NSURL URLWithString: [NSString stringWithFormat: @"tel:%@", self.event.contact.phone ]]];
                }
                @catch(...) {
                   UIAlertView* alert = [[UIAlertView alloc ] initWithTitle:@"Simulator?" 
@@ -408,7 +408,7 @@
             case kSectionContactInfoRowEmail:
                //email
                @try {
-                  [[UIApplication sharedApplication] openURL: [NSString stringWithFormat: @"mailto:%@", self.event.contact.email ]];
+                  [[UIApplication sharedApplication] openURL: [NSURL URLWithString: [NSString stringWithFormat: @"mailto:%@", self.event.contact.email ]]];
                }
                @catch(...) {
                   UIAlertView* alert = [[UIAlertView alloc ] initWithTitle:@"Simulator?" 

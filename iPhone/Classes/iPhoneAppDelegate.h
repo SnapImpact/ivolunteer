@@ -28,18 +28,20 @@
 
 #import <UIKit/UIKit.h>
 #import "SplashViewController.h"
+#import "RestController.h"
 
 
 @interface iPhoneAppDelegate : NSObject <UIApplicationDelegate> {
-    
-    UIWindow *window;
-    UINavigationController *navigationController;
-	SplashViewController *splashvc;
+   UIWindow *window;
+   UINavigationController *navigationController;
+   SplashViewController *splashvc;
+   RestController *restController;
 	
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
+@property (retain) RestController* restController;
 
 -(void) loadNavigationView;
 -(void) splashDidDoOk;

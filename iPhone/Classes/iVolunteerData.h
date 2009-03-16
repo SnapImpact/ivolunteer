@@ -47,6 +47,8 @@
 - (NSArray*) eventsInDateSection: (unsigned int) section;
 - (void) sortData;
 
+- (void) parseJson: (NSData*) data;
+
 @end
 
 

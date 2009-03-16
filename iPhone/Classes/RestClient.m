@@ -26,6 +26,7 @@
 @synthesize username;
 @synthesize password;
 @synthesize delegate;
+@synthesize delegateMethods;
 
 #pragma mark -
 #pragma mark Constructor and destructor
@@ -39,10 +40,11 @@
       conn = nil;
       
       asynchronous = YES;
-      mimeType = @"application/xml";
+      mimeType = @"application/json";
       delegate = nil;
       username = @"";
       password = @"";
+      self.delegateMethods = nil;
    }
    
    return self;
@@ -55,6 +57,7 @@
    self.mimeType = nil;
    self.username = nil;
    self.password = nil;
+   self.delegateMethods = nil;
    [super dealloc];
 }
 
@@ -182,35 +185,35 @@
 }
 
 - (void) setDelegate: (NSObject<RestClientDelegate>*) d {
-   if( delegateMethods == nil ) {
-      delegateMethods = [NSMutableSet set];  
+   if( self.delegateMethods == nil ) {
+      self.delegateMethods = [NSMutableSet set];  
    }
    else {
       [ delegateMethods removeAllObjects ];
    }
    
-   if ([delegate respondsToSelector:@selector(restClientShouldRetainData:)]) {
+   if ([d respondsToSelector:@selector(restClientShouldRetainData:)]) {
       [delegateMethods addObject:@"restClientShouldRetainData:"];
    }
    if( [d respondsToSelector:@selector(restClient:didFailWithError:)] ) {
       [delegateMethods addObject: @"restClient:didFailWithError:" ];
    }
-   if ([delegate respondsToSelector:@selector(restClientHasBadCredentials:)]) {
+   if ([d respondsToSelector:@selector(restClientHasBadCredentials:)]) {
       [delegateMethods addObject:@"restClientHasBadCredentials:" ];
    }
-   if ([delegate respondsToSelector:@selector(restClient:didCreateResourceAtURL:)]) {
+   if ([d respondsToSelector:@selector(restClient:didCreateResourceAtURL:)]) {
       [delegateMethods addObject:@"restClient:didCreateResourceAtURL:" ];
    }
-   if ([delegate respondsToSelector:@selector(restClient:didReceiveStatusCode:)]) {
+   if ([d respondsToSelector:@selector(restClient:didReceiveStatusCode:)]) {
       [delegateMethods addObject:@"restClient:didReceiveStatusCode:" ];
    }
-   if ([delegate respondsToSelector:@selector(restClient:didReceiveData:)]) {
+   if ([d respondsToSelector:@selector(restClient:didReceiveData:)]) {
       [delegateMethods addObject:@"restClient:didReceiveData:" ];
    }
-   if ([delegate respondsToSelector:@selector(restClient:didFailWithError:)]) {
+   if ([d respondsToSelector:@selector(restClient:didFailWithError:)]) {
       [delegateMethods addObject:@"restClient:didFailWithError:" ];
    }
-   if ([delegate respondsToSelector:@selector(restClient:didRetrieveData:)]) {
+   if ([d respondsToSelector:@selector(restClient:didRetrieveData:)]) {
       [delegateMethods addObject:@"restClient:didRetrieveData:" ];
    }
    

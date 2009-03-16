@@ -37,6 +37,7 @@
 @property (copy) NSString *username;
 @property (copy) NSString *password;
 @property (nonatomic, assign) NSObject<RestClientDelegate> *delegate; // Do not retain delegates!
+@property (retain) NSMutableSet* delegateMethods;
 
 - (void)sendRequestTo:(NSURL *)url usingVerb:(NSString *)verb withParameters:(NSDictionary *)parameters;
 - (void)uploadData:(NSData *)data toURL:(NSURL *)url;

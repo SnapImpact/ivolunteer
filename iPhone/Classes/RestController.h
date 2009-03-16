@@ -11,11 +11,11 @@
 #import "RestClient.h"
 
 @interface RestController : NSObject <RestClientDelegate> {
-   iVolunteerData* data;
+   iVolunteerData* iVD;
    RestClient* server;
 }
 
-@property (readwrite, retain) iVolunteerData* data ;
+@property (readwrite, retain) iVolunteerData* iVD ;
 
 - (RestController*) initWithVolunteerData:(iVolunteerData*)ivd ;
 - (void) beginGetEventsFrom: (NSDate*)dateFrom until: (NSDate*)dateUntil ;
