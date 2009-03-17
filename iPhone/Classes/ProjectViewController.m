@@ -172,6 +172,10 @@
 	[detailsController release];
 	[dataSource release];
 	[(NSObject *) busyIndicatorDelegate release];
+	[dataSource release];
+	[settingsButtonItem release];
+	[sortButtonItem release];
+	
     [super dealloc];
 }
 

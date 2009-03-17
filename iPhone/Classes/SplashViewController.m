@@ -15,7 +15,6 @@
 @synthesize busyIndicatorDelegate;
 @synthesize zipcodeField;
 @synthesize scrollView;
-@synthesize delegate;
 @synthesize segmentBackground;
 @synthesize hand;
 @synthesize logo;
@@ -38,17 +37,28 @@
 }
 */
 
+- (void)openingAnimationComplete
+{
+	if ([busyIndicatorDelegate isBusy])
+	{
+		[busyIndicatorDelegate startAnimatingWithMessage:@"Determining location..."];
+	}
+}
 
 - (void)viewDidLoad {
 	self.zipcodeField.hidden = YES;
 	scrollView.contentSize = CGSizeMake(320, 550);
+	scrollView.delaysContentTouches = NO;
     [super viewDidLoad];
+	
    //set the image to the rounded rect
    //UIImage* image = [[UIImage imageNamed:@"whiteButton.png"] stretchableImageWithLeftCapWidth: 12.0 topCapHeight: 0 ];
    //[segmentBackground setBackgroundImage: image forState: UIControlStateNormal ];
    
    [UIView beginAnimations:@"relabel buttons" context:nil];
    [UIView setAnimationDuration: 0.75 ];
+   [UIView setAnimationDelegate:self];
+   [UIView setAnimationDidStopSelector:@selector(openingAnimationComplete)];
    [background setFrame: CGRectMake(20, 15, 280, 128)];
    [hand setFrame: CGRectMake(8, 0, 95, 138)];
    [logo setFrame: CGRectMake(76, 44, 226, 128)];
@@ -74,6 +84,10 @@
 	[(NSObject *) self.busyIndicatorDelegate release];
 	[self.zipcodeField release];
 	[self.scrollView release];
+	[segmentBackground release];
+	[hand release];
+	[background release];
+	[logo release];
 	
     [super dealloc];
 }
@@ -91,6 +105,7 @@
 		iVolunteerData *data = [iVolunteerData sharedVolunteerData];
 		data.homeZip = self.zipcodeField.text;
 	}
+	[self scrollUp];
 	
 }
 

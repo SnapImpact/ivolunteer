@@ -17,7 +17,6 @@
 	id <BusyIndicatorDelegate> busyIndicatorDelegate;
 	UITextField *zipcodeField;
 	UIScrollView *scrollView;
-	id delegate;
    IBOutlet UIButton* segmentBackground;
    IBOutlet UIImageView* hand;
    IBOutlet UIImageView* background;
@@ -30,7 +29,7 @@
 @property (nonatomic,retain) id <BusyIndicatorDelegate> busyIndicatorDelegate;
 @property (nonatomic, retain) IBOutlet UITextField *zipcodeField;
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
-@property (nonatomic,retain) id delegate;
+
 @property (retain) UIButton* IBOutlet segmentBackground;
 @property (retain) IBOutlet UIImageView* hand;
 @property (retain) IBOutlet UIImageView* background;

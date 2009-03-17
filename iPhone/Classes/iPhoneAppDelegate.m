@@ -49,6 +49,7 @@
 	CLLocationManager * locationMgr = [[CLLocationManager alloc] init];
 	if (locationMgr)
 	{
+		isBusy = YES;
 		locationMgr.delegate = self;
 		locationMgr.desiredAccuracy = kCLLocationAccuracyKilometer;
 		[locationMgr startUpdatingLocation];
@@ -98,9 +99,16 @@
 	
 	[def setBool:true forKey:@"ivHasBeenRun"];
 	
+	NSDate *start1 = [NSDate date];
 	[iVolunteerData restore];
+	NSDate *end1 = [NSDate date];
+	NSLog(@"[iVolunteerData restore]: %g sec", [end1 timeIntervalSinceDate:start1]);
+	
+	NSDate *start2 = [NSDate date];
 	self.restController = [[RestController alloc] initWithVolunteerData: [iVolunteerData sharedVolunteerData]];
 	[ self.restController beginGetEventsFrom: [DateUtilities today] until: [DateUtilities daysFromNow: 14]];
+	NSDate *end2 = [NSDate date];
+	NSLog(@"rest contoller init: %g sec", [end2 timeIntervalSinceDate:start2]);
 	
 	[self getLocation];
 	
@@ -112,13 +120,13 @@
 		//load the splash screen
 		self.locationDelegate = splashvc;
 		[window addSubview:[splashvc view]];
-		[self startAnimatingWithMessage:@"Determining location..."];
 	} else {
 		splashvc = nil;
+		[self startAnimatingWithMessage:@"Determining location..."];
 		[self loadNavigationView];
 	}
-		
-   [window makeKeyAndVisible];
+	 [window makeKeyAndVisible];	
+  
 }
 
 
@@ -155,7 +163,7 @@
 	[busyIndicatorLabel release];
 	[navigationController release];
 	[now release];
-	
+	[restController release];
 	[window release];
 	[super dealloc];
 }
@@ -172,8 +180,14 @@
 #pragma mark -
 #pragma mark BusyIndicatorDelegate methods
 	
+- (BOOL)isBusy
+{
+	return isBusy;
+}
+
 - (void)stopAnimating
 {
+	isBusy = NO;
 	[self.floatingView removeFromSuperview];
 }
 - (void)startAnimatingWithMessage:(NSString *)message
@@ -183,6 +197,7 @@
 
 - (void)startAnimatingWithMessage:(NSString *)message atBottom:(BOOL)atBottom
 {
+	isBusy = YES;
 	self.busyIndicatorView.hidden = NO;
 	if (message)
 	{
