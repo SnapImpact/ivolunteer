@@ -23,6 +23,8 @@
 @synthesize eventsSortedIntoDays;  //nested array of events sorted into days
 @synthesize daysWithEvents; //array of NSDates with upcoming events
 @synthesize interestAreasByName;
+@synthesize myLocation;
+@synthesize homeZip;
 
 static iVolunteerData* _sharedInstance = nil;
 static NSString* kVolunteerDataRootKey = @"Root";
@@ -323,7 +325,8 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
    self.locations = nil;
    self.interestAreas = nil;
    self.events = nil;
-   
+	self.myLocation = nil;
+	self.homeZip = nil;
    self.eventsSortedIntoDays = nil;
    self.daysWithEvents = nil;
    self.interestAreasByName = nil;
@@ -339,7 +342,9 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
       ENCODE_PROP(locations)
       ENCODE_PROP(interestAreas)
       ENCODE_PROP(events)
-      
+      ENCODE_PROP(homeZip)
+	  ENCODE_PROP(myLocation)
+	
       ENCODE_PROP(eventsSortedIntoDays)
       ENCODE_PROP(daysWithEvents)
       ENCODE_PROP(interestAreasByName)
@@ -355,7 +360,9 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
       DECODE_PROP(locations)
       DECODE_PROP(interestAreas)
       DECODE_PROP(events)
-      
+	  DECODE_PROP(homeZip)
+	  DECODE_PROP(myLocation)
+	
       DECODE_PROP(eventsSortedIntoDays)
       DECODE_PROP(daysWithEvents)
       DECODE_PROP(interestAreasByName)

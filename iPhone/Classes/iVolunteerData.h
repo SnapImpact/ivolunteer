@@ -17,6 +17,8 @@
    NSMutableDictionary *locations;
    NSMutableDictionary *interestAreas;
    NSMutableDictionary *events;
+	CLLocation *myLocation;
+	NSString *homeZip;
    
    NSArray* eventsSortedIntoDays;  //nested array of events sorted into days
    NSArray* daysWithEvents; //array of strings of dates with upcoming events
@@ -30,6 +32,8 @@
 @property (retain) NSMutableDictionary *locations;
 @property (retain) NSMutableDictionary *interestAreas;
 @property (retain) NSMutableDictionary *events;
+@property (retain) CLLocation *myLocation;
+@property (retain) NSString *homeZip;
 
 @property (retain) NSArray* eventsSortedIntoDays;  //nested array of events sorted into days
 @property (retain) NSArray* daysWithEvents; //array of strings of dates with upcoming events

@@ -34,26 +34,88 @@
 
 @synthesize window;
 @synthesize navigationController;
+@synthesize floatingView;
+@synthesize busyIndicatorView;
+@synthesize busyIndicatorLabel;
+@synthesize locationDelegate;
 
+- (void)getLocation
+{
+	// initialize timestamp to use to compare results from location services.
+	now = [[NSDate alloc] init];
+	
+	CLLocationManager * locationMgr = [[CLLocationManager alloc] init];
+	if (locationMgr)
+	{
+		locationMgr.delegate = self;
+		locationMgr.desiredAccuracy = kCLLocationAccuracyKilometer;
+		[locationMgr startUpdatingLocation];
+	}
+}
+
+- (void)locationManager:(CLLocationManager *)manager 
+	   didFailWithError:(NSError *)error
+{
+	NSLog(@"Getting fix on current position, no position yet...");
+	if (error.code == kCLErrorDenied)
+	{
+		// user denied request to determine location
+		
+		[manager stopUpdatingLocation];
+		if (locationDelegate)
+		{
+			[locationDelegate locationIsAvailable:nil];
+		}
+		
+	}
+}
+- (void)locationManager:(CLLocationManager *)manager 
+	didUpdateToLocation:(CLLocation *)newLocation 
+		   fromLocation:(CLLocation *)oldLocation
+{
+	NSLog(@"Getting fix on current position...");
+	if ([newLocation.timestamp compare:now] == NSOrderedDescending)
+	{
+		[manager stopUpdatingLocation];
+		if (locationDelegate)
+		{
+			[locationDelegate locationIsAvailable:newLocation];
+		}
+		iVolunteerData *data = [iVolunteerData sharedVolunteerData];
+		data.myLocation = newLocation;
+	}
+}
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
+	
+	//TODO: check for internet connectivity!
+	
 	//check the user defaults for firstRun
 	NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
 	bool hasBeenRun = [def boolForKey:@"ivHasBeenRun"];
 	
 	[def setBool:true forKey:@"ivHasBeenRun"];
 	
+	[iVolunteerData restore];
+	[self getLocation];
+	
+	splashvc = [[SplashViewController alloc] initWithNibName:@"SplashView" bundle:[NSBundle mainBundle]];
+	splashvc.dismissalDelegate = self;
+	splashvc.busyIndicatorDelegate = self;
+	
+
 	if(!hasBeenRun){
 		//load the splash screen
-		splashvc = [[SplashViewController alloc] initWithNibName:@"SplashView" bundle:[NSBundle mainBundle]];
-		splashvc.delegate = self;
+		self.locationDelegate = splashvc;
 		[window addSubview:[splashvc view]];
+		[self startAnimatingWithMessage:@"Determining location..."];
 	} else {
+		splashvc = nil;
 		[self loadNavigationView];
 	}
 		
    [window makeKeyAndVisible];
-   [iVolunteerData restore];
+
 }
 
 
@@ -68,19 +130,83 @@
 	// Configure and show the window
 	[window addSubview:[navigationController view]];
 	[window setNeedsDisplay];	
+	
+	UIViewController *viewController = [navigationController topViewController];	
+	if ([viewController respondsToSelector:@selector(setBusyIndicatorDelegate:)])
+	{
+		[viewController performSelector:@selector(setBusyIndicatorDelegate:) withObject:self];
+	}
+	
+	if ([viewController conformsToProtocol:@protocol(LocationAvailabilityDelegate)])
+	{
+		id <LocationAvailabilityDelegate> locationAvailabilityDelegate = (id <LocationAvailabilityDelegate>)viewController;
+		self.locationDelegate = locationAvailabilityDelegate;
+	}
+	
 }
 
 - (void)dealloc {
+	[(NSObject *) locationDelegate release];
+	[floatingView release];
+	[busyIndicatorView release];
+	[busyIndicatorLabel release];
 	[navigationController release];
+	[now release];
+	
 	[window release];
 	[super dealloc];
 }
 
--(void) splashDidDoOk
+#pragma mark -
+#pragma mark ScreenDismissalDelegate methods
+
+- (void)dismissScreen
 {
 	[self loadNavigationView];
 }
+
+
+#pragma mark -
+#pragma mark BusyIndicatorDelegate methods
 	
-		
+- (void)stopAnimating
+{
+	[self.floatingView removeFromSuperview];
+}
+- (void)startAnimatingWithMessage:(NSString *)message
+{
+	[self startAnimatingWithMessage:message atBottom:NO];
+}
+
+- (void)startAnimatingWithMessage:(NSString *)message atBottom:(BOOL)atBottom
+{
+	self.busyIndicatorView.hidden = NO;
+	if (message)
+	{
+		self.busyIndicatorLabel.text = message;
+	}
+	else
+	{
+		self.busyIndicatorLabel.text = @"Please wait...";
+	}
+	
+	if (atBottom)
+	{
+		self.busyIndicatorView.frame = CGRectMake(self.busyIndicatorView.frame.origin.x, 
+												  400, 
+												  self.busyIndicatorView.frame.size.width, 
+												  self.busyIndicatorView.frame.size.height);
+	}
+	else
+	{
+		self.busyIndicatorView.frame = CGRectMake(self.busyIndicatorView.frame.origin.x, 
+												  210, 
+												  self.busyIndicatorView.frame.size.width, 
+												  self.busyIndicatorView.frame.size.height);
+	}
+	
+	[window addSubview:self.floatingView];
+	[window bringSubviewToFront:self.floatingView];
+}
 									   
 @end

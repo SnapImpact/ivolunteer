@@ -28,20 +28,29 @@
 
 #import <UIKit/UIKit.h>
 #import "SplashViewController.h"
+#import "LocationAvailabilityDelegate.h"
+#import "BusyIndicatorDelegate.h"
+#import "ScreenDismissalDelegate.h"
 
-
-@interface iPhoneAppDelegate : NSObject <UIApplicationDelegate> {
+@interface iPhoneAppDelegate : NSObject <UIApplicationDelegate, BusyIndicatorDelegate, ScreenDismissalDelegate, CLLocationManagerDelegate> {
     
+	id <LocationAvailabilityDelegate> locationDelegate;
     UIWindow *window;
     UINavigationController *navigationController;
 	SplashViewController *splashvc;
-	
+	UIView *floatingView;
+	UIView *busyIndicatorView;
+	UILabel *busyIndicatorLabel;
+	NSDate *now;
 }
 
+@property (nonatomic, retain) id <LocationAvailabilityDelegate> locationDelegate;
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
+@property (nonatomic, retain) IBOutlet UIView *floatingView;
+@property (nonatomic, retain) IBOutlet UIView *busyIndicatorView;
+@property (nonatomic, retain) IBOutlet UILabel *busyIndicatorLabel;
 
 -(void) loadNavigationView;
--(void) splashDidDoOk;
 @end
 

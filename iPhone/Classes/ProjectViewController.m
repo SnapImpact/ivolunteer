@@ -18,6 +18,7 @@
 @synthesize refreshButton;
 @synthesize detailsController;
 @synthesize dataSource;
+@synthesize busyIndicatorDelegate;
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -62,14 +63,15 @@
    [alert release];
    */
       
-   id event = [self.dataSource objectForIndexPath: indexPath ];
+   Event *event = (Event *)[self.dataSource objectForIndexPath: indexPath ];
    if( self.detailsController == nil ) {
       self.detailsController = [EventDetailsTableViewController viewWithEvent: event ];
    }
    else {
       self.detailsController.event = event;
    }
-   
+	self.detailsController.busyIndicatorDelegate = self.busyIndicatorDelegate;
+	
    [self.navigationController pushViewController:self.detailsController animated: YES];
 }
 
@@ -159,7 +161,18 @@
 
 
 - (void)dealloc {
+	[refreshButton release];
+	[detailsController release];
+	[dataSource release];
+	[(NSObject *) busyIndicatorDelegate release];
     [super dealloc];
+}
+
+#pragma mark -
+#pragma mark LocationAvailabilityDelegate methods
+
+- (void)locationIsAvailable:(CLLocation *)location
+{
 }
 
 

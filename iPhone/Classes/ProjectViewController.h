@@ -9,13 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "EventDetailsTableViewController.h"
 #import "EventsSortedByTimeDataSource.h"
+#import "BusyIndicatorDelegate.h"
+#import "LocationAvailabilityDelegate.h"
 
-@interface ProjectViewController : UITableViewController {
+@interface ProjectViewController : UITableViewController <LocationAvailabilityDelegate>{
    IBOutlet UIButton* refreshButton;
+   id <BusyIndicatorDelegate> busyIndicatorDelegate;
    EventDetailsTableViewController* detailsController;
    EventsSortedByTimeDataSource* dataSource;
 }
-
+@property (nonatomic,retain) id <BusyIndicatorDelegate> busyIndicatorDelegate;
 @property (nonatomic, retain) UIButton* refreshButton;
 @property (nonatomic, retain) EventDetailsTableViewController* detailsController;
 @property (nonatomic, retain) EventsSortedByTimeDataSource* dataSource;

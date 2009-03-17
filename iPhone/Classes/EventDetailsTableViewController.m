@@ -24,6 +24,7 @@
 @synthesize largeFont;
 @synthesize signedUpString;
 @synthesize signUpString;
+@synthesize busyIndicatorDelegate;
 
 #pragma mark Constants
 #define kSectionsCount 4
@@ -480,6 +481,17 @@
 
 
 - (void)dealloc {
+	[(NSObject *) busyIndicatorDelegate release];
+	[event release];
+	[headerCell release];
+	[headerActions release];
+	[descriptionCell release];
+	[smallFont release];
+	[mediumFont release];
+	[largeFont release];
+	[signUpString release];
+	[signedUpString release];
+	
     [super dealloc];
 }
 

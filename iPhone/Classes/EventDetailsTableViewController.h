@@ -10,8 +10,10 @@
 #import "Event.h"
 #import "EventDetailsHeaderCell.h"
 #import "ActionsView.h"
+#import "BusyIndicatorDelegate.h"
 
 @interface EventDetailsTableViewController : UITableViewController {
+   id <BusyIndicatorDelegate> busyIndicatorDelegate;
    Event* event;
    EventDetailsHeaderCell* headerCell;
    ActionsView* headerActions;
@@ -23,7 +25,7 @@
    NSString* signUpString;
    NSString* signedUpString;
 }
-
+@property (nonatomic,retain) id <BusyIndicatorDelegate> busyIndicatorDelegate;
 @property (retain) Event* event;
 @property (retain) EventDetailsHeaderCell* headerCell;
 @property (retain) ActionsView* headerActions;
