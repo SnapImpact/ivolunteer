@@ -38,7 +38,7 @@ import com.sun.jersey.api.core.ResourceContext;
 import persistence.Distance;
 import converter.DistancesConverter;
 import converter.DistanceConverter;
-import converter.DistanceListConverter;
+import converter.list.DistanceListConverter;
 
 /**
  * 

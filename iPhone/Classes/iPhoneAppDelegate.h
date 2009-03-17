@@ -32,6 +32,7 @@
 #import "BusyIndicatorDelegate.h"
 #import "ScreenDismissalDelegate.h"
 
+#import "RestController.h"
 @interface iPhoneAppDelegate : NSObject <UIApplicationDelegate, BusyIndicatorDelegate, ScreenDismissalDelegate, CLLocationManagerDelegate> {
     
 	id <LocationAvailabilityDelegate> locationDelegate;
@@ -42,6 +43,9 @@
 	UIView *busyIndicatorView;
 	UILabel *busyIndicatorLabel;
 	NSDate *now;
+   RestController *restController;
+	
+
 }
 
 @property (nonatomic, retain) id <LocationAvailabilityDelegate> locationDelegate;
@@ -50,6 +54,8 @@
 @property (nonatomic, retain) IBOutlet UIView *floatingView;
 @property (nonatomic, retain) IBOutlet UIView *busyIndicatorView;
 @property (nonatomic, retain) IBOutlet UILabel *busyIndicatorLabel;
+@property (retain) RestController* restController;
+
 
 -(void) loadNavigationView;
 @end

@@ -37,7 +37,7 @@ import javax.ws.rs.core.UriInfo;
 import com.sun.jersey.api.core.ResourceContext;
 import converter.TimeframesConverter;
 import converter.TimeframeConverter;
-import converter.TimeframeListConverter;
+import converter.list.TimeframeListConverter;
 import persistence.Timeframe;
 
 /**

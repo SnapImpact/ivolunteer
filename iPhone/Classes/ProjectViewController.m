@@ -19,6 +19,9 @@
 @synthesize detailsController;
 @synthesize dataSource;
 @synthesize busyIndicatorDelegate;
+@synthesize settingsButtonItem;
+@synthesize sortButtonItem;
+
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -85,6 +88,10 @@
    self.detailsController = nil;
    // Uncomment the following line to add the Edit button to the navigation bar.
    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+   self.settingsButtonItem = [[[UIBarButtonItem alloc] initWithTitle: @"Settings" style: UIBarButtonItemStylePlain target: self action:@selector(settings)] autorelease];
+   self.sortButtonItem = [[[UIBarButtonItem alloc] initWithTitle: @"Sort" style: UIBarButtonItemStylePlain target: self action:@selector(sort)] autorelease];
+   self.navigationItem.leftBarButtonItem = self.settingsButtonItem;
+   self.navigationItem.rightBarButtonItem = self.sortButtonItem;
    self.dataSource = [EventsSortedByTimeDataSource dataSource];
    [[self tableView] setDataSource: self.dataSource ];
 }
@@ -175,6 +182,14 @@
 {
 }
 
+
+- (void) settings 
+{
+}
+
+- (void) sort 
+{
+}
 
 @end
 

@@ -179,7 +179,7 @@
    UIButton* button = (UIButton*) [self viewWithTag: index+100 ];
    if(animate) {
       [UIView beginAnimations:@"relabel buttons" context:nil];
-      [UIView setAnimationDuration: 0.5 ];
+      [UIView setAnimationDuration: 0.75 ];
       if(selected)
          button.alpha = 0.5;
    }

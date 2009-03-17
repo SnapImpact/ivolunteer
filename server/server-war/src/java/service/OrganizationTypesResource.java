@@ -38,7 +38,7 @@ import com.sun.jersey.api.core.ResourceContext;
 import persistence.OrganizationType;
 import converter.OrganizationTypesConverter;
 import converter.OrganizationTypeConverter;
-import converter.OrganizationTypeListConverter;
+import converter.list.OrganizationTypeListConverter;
 
 /**
  * 

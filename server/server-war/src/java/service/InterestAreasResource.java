@@ -38,7 +38,7 @@ import com.sun.jersey.api.core.ResourceContext;
 import persistence.InterestArea;
 import converter.InterestAreasConverter;
 import converter.InterestAreaConverter;
-import converter.InterestAreaListConverter;
+import converter.list.InterestAreaListConverter;
 
 /**
  * 

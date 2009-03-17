@@ -19,6 +19,7 @@
 
 + (NSDate*) today;
 + (NSDate*) tomorrow;
++ (NSDate*) daysFromNow: (NSUInteger) days;
 
 + (NSDate*) dateWithNaturalLanguageString:(NSString*) string;
 + (NSDate*) parseIS08601Date:(NSString*) string;

@@ -38,7 +38,8 @@ import com.sun.jersey.api.core.ResourceContext;
 import persistence.Event;
 import converter.EventsConverter;
 import converter.EventConverter;
-import converter.EventListConverter;
+import converter.list.EventListConverter;
+import converter.consolidated.ConsolidatedConverter;
 
 /**
  * 
@@ -59,7 +60,7 @@ public class EventsResource extends Base {
 	/**
 	 * Get method for retrieving a collection of Event instance in XML format.
 	 * 
-	 * @return an instance of EventsConverter
+	 * @return an instance of ConsolidatedEventsConverter
 	 */
 	@GET
 	@Produces( { "application/xml", "application/json" })
@@ -108,6 +109,17 @@ public class EventsResource extends Base {
 			@QueryParam("query") @DefaultValue("SELECT e FROM Event e") String query) {
 		return new EventListConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(),
 				uriInfo.getBaseUri());
+	}
+
+    @Path("consolidated/")
+	@GET
+	@Produces( { "application/json", "application/xml" })
+	public ConsolidatedConverter consolidated(@QueryParam("start") @DefaultValue("0") int start,
+			@QueryParam("max") @DefaultValue("10") int max,
+            @QueryParam("expandLevel") @DefaultValue("1") int expandLevel,
+			@QueryParam("query") @DefaultValue("SELECT e FROM Event e") String query) {
+		return new ConsolidatedConverter(getEntities(start, max, query), uriInfo.getAbsolutePath(),
+				uriInfo.getBaseUri(), expandLevel);
 	}
 
 	/**

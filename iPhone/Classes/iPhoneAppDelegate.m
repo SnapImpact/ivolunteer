@@ -29,6 +29,7 @@
 #import "iPhoneAppDelegate.h"
 #import "ProjectViewController.h"
 #import "iVolunteerData.h"
+#import "DateUtilities.h"
 
 @implementation iPhoneAppDelegate
 
@@ -38,6 +39,7 @@
 @synthesize busyIndicatorView;
 @synthesize busyIndicatorLabel;
 @synthesize locationDelegate;
+@synthesize restController;
 
 - (void)getLocation
 {
@@ -97,13 +99,15 @@
 	[def setBool:true forKey:@"ivHasBeenRun"];
 	
 	[iVolunteerData restore];
+	self.restController = [[RestController alloc] initWithVolunteerData: [iVolunteerData sharedVolunteerData]];
+	[ self.restController beginGetEventsFrom: [DateUtilities today] until: [DateUtilities daysFromNow: 14]];
+	
 	[self getLocation];
 	
 	splashvc = [[SplashViewController alloc] initWithNibName:@"SplashView" bundle:[NSBundle mainBundle]];
 	splashvc.dismissalDelegate = self;
 	splashvc.busyIndicatorDelegate = self;
 	
-
 	if(!hasBeenRun){
 		//load the splash screen
 		self.locationDelegate = splashvc;
@@ -115,7 +119,6 @@
 	}
 		
    [window makeKeyAndVisible];
-
 }
 
 
