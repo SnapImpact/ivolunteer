@@ -93,12 +93,6 @@
 	
 	//TODO: check for internet connectivity!
 	
-	//check the user defaults for firstRun
-	NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-	bool hasBeenRun = [def boolForKey:@"ivHasBeenRun"];
-	
-	[def setBool:true forKey:@"ivHasBeenRun"];
-	
 	NSDate *start1 = [NSDate date];
 	[iVolunteerData restore];
 	NSDate *end1 = [NSDate date];
@@ -116,17 +110,9 @@
 	splashvc.dismissalDelegate = self;
 	splashvc.busyIndicatorDelegate = self;
 	
-	if(!hasBeenRun){
-		//load the splash screen
-		self.locationDelegate = splashvc;
-		[window addSubview:[splashvc view]];
-	} else {
-		splashvc = nil;
-		[self startAnimatingWithMessage:@"Determining location..."];
-		[self loadNavigationView];
-	}
-	 [window makeKeyAndVisible];	
-  
+   self.locationDelegate = splashvc;
+   [window addSubview:[splashvc view]];
+	[window makeKeyAndVisible];	
 }
 
 

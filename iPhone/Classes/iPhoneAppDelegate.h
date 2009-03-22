@@ -36,8 +36,8 @@
 @interface iPhoneAppDelegate : NSObject <UIApplicationDelegate, BusyIndicatorDelegate, ScreenDismissalDelegate, CLLocationManagerDelegate> {
     
 	id <LocationAvailabilityDelegate> locationDelegate;
-    UIWindow *window;
-    UINavigationController *navigationController;
+   UIWindow *window;
+   UINavigationController *navigationController;
 	SplashViewController *splashvc;
 	UIView *floatingView;
 	UIView *busyIndicatorView;
