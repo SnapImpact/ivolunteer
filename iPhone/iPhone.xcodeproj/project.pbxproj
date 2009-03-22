@@ -15,25 +15,25 @@
 		2899E5600DE3E45000AC0155 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E55F0DE3E45000AC0155 /* RootViewController.xib */; };
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		28C286E10D94DF7D0034E888 /* ProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* ProjectViewController.m */; };
-		5C8418660F6F528E00BBEACC /* CDataScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C8418550F6F528E00BBEACC /* CDataScanner.m */; };
-		5C8418670F6F528E00BBEACC /* CDataScanner_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C8418580F6F528E00BBEACC /* CDataScanner_Extensions.m */; };
-		5C8418680F6F528E00BBEACC /* NSCharacterSet_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C84185A0F6F528E00BBEACC /* NSCharacterSet_Extensions.m */; };
-		5C8418690F6F528E00BBEACC /* NSDictionary_JSONExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C84185C0F6F528E00BBEACC /* NSDictionary_JSONExtensions.m */; };
-		5C84186A0F6F528E00BBEACC /* NSScanner_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C84185E0F6F528E00BBEACC /* NSScanner_Extensions.m */; };
-		5C84186B0F6F528E00BBEACC /* CJSONDeserializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C8418610F6F528E00BBEACC /* CJSONDeserializer.m */; };
-		5C84186C0F6F528E00BBEACC /* CJSONScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C8418630F6F528E00BBEACC /* CJSONScanner.m */; };
-		5C84186D0F6F528E00BBEACC /* CJSONSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C8418650F6F528E00BBEACC /* CJSONSerializer.m */; };
 		5C8418780F6F538200BBEACC /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C8418720F6F538200BBEACC /* Default.png */; };
-		5C8418790F6F538200BBEACC /* iPhoneSplashScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C8418730F6F538200BBEACC /* iPhoneSplashScreen.png */; };
-		5C84187A0F6F538200BBEACC /* SplashBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C8418740F6F538200BBEACC /* SplashBackground.png */; };
-		5C84187B0F6F538200BBEACC /* SplashLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C8418750F6F538200BBEACC /* SplashLogo.png */; };
-		5C84187C0F6F538200BBEACC /* SplashLogoBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C8418760F6F538200BBEACC /* SplashLogoBackground.png */; };
-		5C84187D0F6F538200BBEACC /* SplashLogoHand.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C8418770F6F538200BBEACC /* SplashLogoHand.png */; };
-		5CA641F30F6C629A00B181AF /* GeoCoderClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CA641F20F6C629A00B181AF /* GeoCoderClient.m */; };
-		5CA642340F6C698000B181AF /* busy_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CA642330F6C698000B181AF /* busy_background.png */; };
 		940875410F5C965C0037C286 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 940875400F5C965C0037C286 /* Entitlements.plist */; };
 		942E23BD0F5E107000C87AC1 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 942E23BC0F5E107000C87AC1 /* MapViewController.m */; };
 		942E23BF0F5E109400C87AC1 /* MapView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 942E23BE0F5E109400C87AC1 /* MapView.xib */; };
+		943BD0AA0F76EB5000363DF2 /* CDataScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 943BD0990F76EB5000363DF2 /* CDataScanner.m */; };
+		943BD0AB0F76EB5000363DF2 /* CDataScanner_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 943BD09C0F76EB5000363DF2 /* CDataScanner_Extensions.m */; };
+		943BD0AC0F76EB5000363DF2 /* NSCharacterSet_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 943BD09E0F76EB5000363DF2 /* NSCharacterSet_Extensions.m */; };
+		943BD0AD0F76EB5000363DF2 /* NSDictionary_JSONExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 943BD0A00F76EB5000363DF2 /* NSDictionary_JSONExtensions.m */; };
+		943BD0AE0F76EB5000363DF2 /* NSScanner_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 943BD0A20F76EB5000363DF2 /* NSScanner_Extensions.m */; };
+		943BD0AF0F76EB5000363DF2 /* CJSONDeserializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 943BD0A50F76EB5000363DF2 /* CJSONDeserializer.m */; };
+		943BD0B00F76EB5000363DF2 /* CJSONScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 943BD0A70F76EB5000363DF2 /* CJSONScanner.m */; };
+		943BD0B10F76EB5000363DF2 /* CJSONSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 943BD0A90F76EB5000363DF2 /* CJSONSerializer.m */; };
+		943BD0B50F76EB7900363DF2 /* GeoCoderClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 943BD0B30F76EB7900363DF2 /* GeoCoderClient.m */; };
+		943BD0C00F76EBC100363DF2 /* busy_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 943BD0BA0F76EBC100363DF2 /* busy_background.png */; };
+		943BD0C10F76EBC100363DF2 /* SplashLogoHand.png in Resources */ = {isa = PBXBuildFile; fileRef = 943BD0BB0F76EBC100363DF2 /* SplashLogoHand.png */; };
+		943BD0C20F76EBC100363DF2 /* SplashLogoBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 943BD0BC0F76EBC100363DF2 /* SplashLogoBackground.png */; };
+		943BD0C30F76EBC100363DF2 /* SplashLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 943BD0BD0F76EBC100363DF2 /* SplashLogo.png */; };
+		943BD0C40F76EBC100363DF2 /* SplashBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 943BD0BE0F76EBC100363DF2 /* SplashBackground.png */; };
+		943BD0C50F76EBC100363DF2 /* iPhoneSplashScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 943BD0BF0F76EBC100363DF2 /* iPhoneSplashScreen.png */; };
 		9455C4440F5214FA00296B87 /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = 9455C4430F5214FA00296B87 /* Contact.m */; };
 		9455C44E0F52165100296B87 /* Source.m in Sources */ = {isa = PBXBuildFile; fileRef = 9455C44D0F52165100296B87 /* Source.m */; };
 		9455C53E0F52270D00296B87 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9455C53D0F52270D00296B87 /* CoreLocation.framework */; };
@@ -78,40 +78,40 @@
 		28C286DF0D94DF7D0034E888 /* ProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectViewController.h; sourceTree = "<group>"; };
 		28C286E00D94DF7D0034E888 /* ProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectViewController.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		5C8418540F6F528E00BBEACC /* CDataScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDataScanner.h; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/TouchJSON/CDataScanner.h; sourceTree = SDKROOT; };
-		5C8418550F6F528E00BBEACC /* CDataScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDataScanner.m; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/TouchJSON/CDataScanner.m; sourceTree = SDKROOT; };
-		5C8418570F6F528E00BBEACC /* CDataScanner_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDataScanner_Extensions.h; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/TouchJSON/Extensions/CDataScanner_Extensions.h; sourceTree = SDKROOT; };
-		5C8418580F6F528E00BBEACC /* CDataScanner_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDataScanner_Extensions.m; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/TouchJSON/Extensions/CDataScanner_Extensions.m; sourceTree = SDKROOT; };
-		5C8418590F6F528E00BBEACC /* NSCharacterSet_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSCharacterSet_Extensions.h; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/TouchJSON/Extensions/NSCharacterSet_Extensions.h; sourceTree = SDKROOT; };
-		5C84185A0F6F528E00BBEACC /* NSCharacterSet_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSCharacterSet_Extensions.m; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/TouchJSON/Extensions/NSCharacterSet_Extensions.m; sourceTree = SDKROOT; };
-		5C84185B0F6F528E00BBEACC /* NSDictionary_JSONExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSDictionary_JSONExtensions.h; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/TouchJSON/Extensions/NSDictionary_JSONExtensions.h; sourceTree = SDKROOT; };
-		5C84185C0F6F528E00BBEACC /* NSDictionary_JSONExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSDictionary_JSONExtensions.m; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/TouchJSON/Extensions/NSDictionary_JSONExtensions.m; sourceTree = SDKROOT; };
-		5C84185D0F6F528E00BBEACC /* NSScanner_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSScanner_Extensions.h; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/TouchJSON/Extensions/NSScanner_Extensions.h; sourceTree = SDKROOT; };
-		5C84185E0F6F528E00BBEACC /* NSScanner_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSScanner_Extensions.m; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/TouchJSON/Extensions/NSScanner_Extensions.m; sourceTree = SDKROOT; };
-		5C8418600F6F528E00BBEACC /* CJSONDeserializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CJSONDeserializer.h; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/TouchJSON/JSON/CJSONDeserializer.h; sourceTree = SDKROOT; };
-		5C8418610F6F528E00BBEACC /* CJSONDeserializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CJSONDeserializer.m; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/TouchJSON/JSON/CJSONDeserializer.m; sourceTree = SDKROOT; };
-		5C8418620F6F528E00BBEACC /* CJSONScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CJSONScanner.h; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/TouchJSON/JSON/CJSONScanner.h; sourceTree = SDKROOT; };
-		5C8418630F6F528E00BBEACC /* CJSONScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CJSONScanner.m; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/TouchJSON/JSON/CJSONScanner.m; sourceTree = SDKROOT; };
-		5C8418640F6F528E00BBEACC /* CJSONSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CJSONSerializer.h; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/TouchJSON/JSON/CJSONSerializer.h; sourceTree = SDKROOT; };
-		5C8418650F6F528E00BBEACC /* CJSONSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CJSONSerializer.m; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/TouchJSON/JSON/CJSONSerializer.m; sourceTree = SDKROOT; };
 		5C8418720F6F538200BBEACC /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		5C8418730F6F538200BBEACC /* iPhoneSplashScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iPhoneSplashScreen.png; path = /Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/iPhoneSplashScreen.png; sourceTree = "<absolute>"; };
-		5C8418740F6F538200BBEACC /* SplashBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SplashBackground.png; path = /Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/SplashBackground.png; sourceTree = "<absolute>"; };
-		5C8418750F6F538200BBEACC /* SplashLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SplashLogo.png; path = /Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/SplashLogo.png; sourceTree = "<absolute>"; };
-		5C8418760F6F538200BBEACC /* SplashLogoBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SplashLogoBackground.png; path = /Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/SplashLogoBackground.png; sourceTree = "<absolute>"; };
-		5C8418770F6F538200BBEACC /* SplashLogoHand.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SplashLogoHand.png; path = /Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/SplashLogoHand.png; sourceTree = "<absolute>"; };
-		5CA641F10F6C629A00B181AF /* GeoCoderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GeoCoderClient.h; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/GeoCoderClient.h; sourceTree = SDKROOT; };
-		5CA641F20F6C629A00B181AF /* GeoCoderClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GeoCoderClient.m; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/GeoCoderClient.m; sourceTree = SDKROOT; };
-		5CA641F40F6C62B500B181AF /* GeoCoderConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GeoCoderConstants.h; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/GeoCoderConstants.h; sourceTree = SDKROOT; };
 		5CA641F70F6C638D00B181AF /* LocationAvailabilityDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationAvailabilityDelegate.h; sourceTree = "<group>"; };
 		5CA641F80F6C639B00B181AF /* BusyIndicatorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusyIndicatorDelegate.h; sourceTree = "<group>"; };
 		5CA6420E0F6C674A00B181AF /* ScreenDismissalDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenDismissalDelegate.h; sourceTree = "<group>"; };
-		5CA642330F6C698000B181AF /* busy_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = busy_background.png; path = /Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/busy_background.png; sourceTree = "<absolute>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		940875400F5C965C0037C286 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		942E23BB0F5E107000C87AC1 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		942E23BC0F5E107000C87AC1 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		942E23BE0F5E109400C87AC1 /* MapView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapView.xib; sourceTree = "<group>"; };
+		943BD0980F76EB5000363DF2 /* CDataScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDataScanner.h; sourceTree = "<group>"; };
+		943BD0990F76EB5000363DF2 /* CDataScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDataScanner.m; sourceTree = "<group>"; };
+		943BD09B0F76EB5000363DF2 /* CDataScanner_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDataScanner_Extensions.h; sourceTree = "<group>"; };
+		943BD09C0F76EB5000363DF2 /* CDataScanner_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDataScanner_Extensions.m; sourceTree = "<group>"; };
+		943BD09D0F76EB5000363DF2 /* NSCharacterSet_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSCharacterSet_Extensions.h; sourceTree = "<group>"; };
+		943BD09E0F76EB5000363DF2 /* NSCharacterSet_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSCharacterSet_Extensions.m; sourceTree = "<group>"; };
+		943BD09F0F76EB5000363DF2 /* NSDictionary_JSONExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDictionary_JSONExtensions.h; sourceTree = "<group>"; };
+		943BD0A00F76EB5000363DF2 /* NSDictionary_JSONExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDictionary_JSONExtensions.m; sourceTree = "<group>"; };
+		943BD0A10F76EB5000363DF2 /* NSScanner_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSScanner_Extensions.h; sourceTree = "<group>"; };
+		943BD0A20F76EB5000363DF2 /* NSScanner_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSScanner_Extensions.m; sourceTree = "<group>"; };
+		943BD0A40F76EB5000363DF2 /* CJSONDeserializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJSONDeserializer.h; sourceTree = "<group>"; };
+		943BD0A50F76EB5000363DF2 /* CJSONDeserializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJSONDeserializer.m; sourceTree = "<group>"; };
+		943BD0A60F76EB5000363DF2 /* CJSONScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJSONScanner.h; sourceTree = "<group>"; };
+		943BD0A70F76EB5000363DF2 /* CJSONScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJSONScanner.m; sourceTree = "<group>"; };
+		943BD0A80F76EB5000363DF2 /* CJSONSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJSONSerializer.h; sourceTree = "<group>"; };
+		943BD0A90F76EB5000363DF2 /* CJSONSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJSONSerializer.m; sourceTree = "<group>"; };
+		943BD0B20F76EB7900363DF2 /* GeoCoderConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoCoderConstants.h; sourceTree = "<group>"; };
+		943BD0B30F76EB7900363DF2 /* GeoCoderClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeoCoderClient.m; sourceTree = "<group>"; };
+		943BD0B40F76EB7900363DF2 /* GeoCoderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoCoderClient.h; sourceTree = "<group>"; };
+		943BD0BA0F76EBC100363DF2 /* busy_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = busy_background.png; sourceTree = "<group>"; };
+		943BD0BB0F76EBC100363DF2 /* SplashLogoHand.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SplashLogoHand.png; sourceTree = "<group>"; };
+		943BD0BC0F76EBC100363DF2 /* SplashLogoBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SplashLogoBackground.png; sourceTree = "<group>"; };
+		943BD0BD0F76EBC100363DF2 /* SplashLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SplashLogo.png; sourceTree = "<group>"; };
+		943BD0BE0F76EBC100363DF2 /* SplashBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SplashBackground.png; sourceTree = "<group>"; };
+		943BD0BF0F76EBC100363DF2 /* iPhoneSplashScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPhoneSplashScreen.png; sourceTree = "<group>"; };
 		9455C4420F5214FA00296B87 /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
 		9455C4430F5214FA00296B87 /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
 		9455C44C0F52165100296B87 /* Source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Source.h; sourceTree = "<group>"; };
@@ -184,8 +184,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				5C8418530F6F528E00BBEACC /* TouchJSON */,
-				5CA641F00F6C628300B181AF /* GeoCoder */,
+				943BD0B60F76EB7D00363DF2 /* GeoCoder */,
+				943BD0970F76EB5000363DF2 /* TouchJSON */,
 				9455CA030F537D8200296B87 /* UI Classes */,
 				9455C60F0F5258DE00296B87 /* DateUtilities.h */,
 				9455C6100F5258DE00296B87 /* DateUtilities.m */,
@@ -264,69 +264,66 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		5C8418530F6F528E00BBEACC /* TouchJSON */ = {
-			isa = PBXGroup;
-			children = (
-				5C8418540F6F528E00BBEACC /* CDataScanner.h */,
-				5C8418550F6F528E00BBEACC /* CDataScanner.m */,
-				5C8418560F6F528E00BBEACC /* Extensions */,
-				5C84185F0F6F528E00BBEACC /* JSON */,
-			);
-			name = TouchJSON;
-			path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/TouchJSON;
-			sourceTree = SDKROOT;
-		};
-		5C8418560F6F528E00BBEACC /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				5C8418570F6F528E00BBEACC /* CDataScanner_Extensions.h */,
-				5C8418580F6F528E00BBEACC /* CDataScanner_Extensions.m */,
-				5C8418590F6F528E00BBEACC /* NSCharacterSet_Extensions.h */,
-				5C84185A0F6F528E00BBEACC /* NSCharacterSet_Extensions.m */,
-				5C84185B0F6F528E00BBEACC /* NSDictionary_JSONExtensions.h */,
-				5C84185C0F6F528E00BBEACC /* NSDictionary_JSONExtensions.m */,
-				5C84185D0F6F528E00BBEACC /* NSScanner_Extensions.h */,
-				5C84185E0F6F528E00BBEACC /* NSScanner_Extensions.m */,
-			);
-			name = Extensions;
-			path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/TouchJSON/Extensions;
-			sourceTree = SDKROOT;
-		};
-		5C84185F0F6F528E00BBEACC /* JSON */ = {
-			isa = PBXGroup;
-			children = (
-				5C8418600F6F528E00BBEACC /* CJSONDeserializer.h */,
-				5C8418610F6F528E00BBEACC /* CJSONDeserializer.m */,
-				5C8418620F6F528E00BBEACC /* CJSONScanner.h */,
-				5C8418630F6F528E00BBEACC /* CJSONScanner.m */,
-				5C8418640F6F528E00BBEACC /* CJSONSerializer.h */,
-				5C8418650F6F528E00BBEACC /* CJSONSerializer.m */,
-			);
-			name = JSON;
-			path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/TouchJSON/JSON;
-			sourceTree = SDKROOT;
-		};
-		5CA641F00F6C628300B181AF /* GeoCoder */ = {
-			isa = PBXGroup;
-			children = (
-				5CA641F40F6C62B500B181AF /* GeoCoderConstants.h */,
-				5CA641F10F6C629A00B181AF /* GeoCoderClient.h */,
-				5CA641F20F6C629A00B181AF /* GeoCoderClient.m */,
-			);
-			name = GeoCoder;
-			sourceTree = "<group>";
-		};
 		5CA642350F6C698600B181AF /* images */ = {
 			isa = PBXGroup;
 			children = (
-				5C8418730F6F538200BBEACC /* iPhoneSplashScreen.png */,
-				5C8418740F6F538200BBEACC /* SplashBackground.png */,
-				5C8418750F6F538200BBEACC /* SplashLogo.png */,
-				5C8418760F6F538200BBEACC /* SplashLogoBackground.png */,
-				5C8418770F6F538200BBEACC /* SplashLogoHand.png */,
-				5CA642330F6C698000B181AF /* busy_background.png */,
+				943BD0BA0F76EBC100363DF2 /* busy_background.png */,
+				943BD0BB0F76EBC100363DF2 /* SplashLogoHand.png */,
+				943BD0BC0F76EBC100363DF2 /* SplashLogoBackground.png */,
+				943BD0BD0F76EBC100363DF2 /* SplashLogo.png */,
+				943BD0BE0F76EBC100363DF2 /* SplashBackground.png */,
+				943BD0BF0F76EBC100363DF2 /* iPhoneSplashScreen.png */,
 			);
 			name = images;
+			sourceTree = "<group>";
+		};
+		943BD0970F76EB5000363DF2 /* TouchJSON */ = {
+			isa = PBXGroup;
+			children = (
+				943BD0980F76EB5000363DF2 /* CDataScanner.h */,
+				943BD0990F76EB5000363DF2 /* CDataScanner.m */,
+				943BD09A0F76EB5000363DF2 /* Extensions */,
+				943BD0A30F76EB5000363DF2 /* JSON */,
+			);
+			path = TouchJSON;
+			sourceTree = "<group>";
+		};
+		943BD09A0F76EB5000363DF2 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				943BD09B0F76EB5000363DF2 /* CDataScanner_Extensions.h */,
+				943BD09C0F76EB5000363DF2 /* CDataScanner_Extensions.m */,
+				943BD09D0F76EB5000363DF2 /* NSCharacterSet_Extensions.h */,
+				943BD09E0F76EB5000363DF2 /* NSCharacterSet_Extensions.m */,
+				943BD09F0F76EB5000363DF2 /* NSDictionary_JSONExtensions.h */,
+				943BD0A00F76EB5000363DF2 /* NSDictionary_JSONExtensions.m */,
+				943BD0A10F76EB5000363DF2 /* NSScanner_Extensions.h */,
+				943BD0A20F76EB5000363DF2 /* NSScanner_Extensions.m */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		943BD0A30F76EB5000363DF2 /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				943BD0A40F76EB5000363DF2 /* CJSONDeserializer.h */,
+				943BD0A50F76EB5000363DF2 /* CJSONDeserializer.m */,
+				943BD0A60F76EB5000363DF2 /* CJSONScanner.h */,
+				943BD0A70F76EB5000363DF2 /* CJSONScanner.m */,
+				943BD0A80F76EB5000363DF2 /* CJSONSerializer.h */,
+				943BD0A90F76EB5000363DF2 /* CJSONSerializer.m */,
+			);
+			path = JSON;
+			sourceTree = "<group>";
+		};
+		943BD0B60F76EB7D00363DF2 /* GeoCoder */ = {
+			isa = PBXGroup;
+			children = (
+				943BD0B20F76EB7900363DF2 /* GeoCoderConstants.h */,
+				943BD0B30F76EB7900363DF2 /* GeoCoderClient.m */,
+				943BD0B40F76EB7900363DF2 /* GeoCoderClient.h */,
+			);
+			name = GeoCoder;
 			sourceTree = "<group>";
 		};
 		9455CA030F537D8200296B87 /* UI Classes */ = {
@@ -467,13 +464,13 @@
 				94F862970F5CCD0000986078 /* whiteButton.png in Resources */,
 				94F8629F0F5CCD8B00986078 /* greenButton.png in Resources */,
 				942E23BF0F5E109400C87AC1 /* MapView.xib in Resources */,
-				5CA642340F6C698000B181AF /* busy_background.png in Resources */,
 				5C8418780F6F538200BBEACC /* Default.png in Resources */,
-				5C8418790F6F538200BBEACC /* iPhoneSplashScreen.png in Resources */,
-				5C84187A0F6F538200BBEACC /* SplashBackground.png in Resources */,
-				5C84187B0F6F538200BBEACC /* SplashLogo.png in Resources */,
-				5C84187C0F6F538200BBEACC /* SplashLogoBackground.png in Resources */,
-				5C84187D0F6F538200BBEACC /* SplashLogoHand.png in Resources */,
+				943BD0C00F76EBC100363DF2 /* busy_background.png in Resources */,
+				943BD0C10F76EBC100363DF2 /* SplashLogoHand.png in Resources */,
+				943BD0C20F76EBC100363DF2 /* SplashLogoBackground.png in Resources */,
+				943BD0C30F76EBC100363DF2 /* SplashLogo.png in Resources */,
+				943BD0C40F76EBC100363DF2 /* SplashBackground.png in Resources */,
+				943BD0C50F76EBC100363DF2 /* iPhoneSplashScreen.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -509,15 +506,15 @@
 				94BACFA60F5BBD5C00FDACED /* AttributeCell.m in Sources */,
 				94BACFB60F5BBFF700FDACED /* ColorCache.m in Sources */,
 				942E23BD0F5E107000C87AC1 /* MapViewController.m in Sources */,
-				5CA641F30F6C629A00B181AF /* GeoCoderClient.m in Sources */,
-				5C8418660F6F528E00BBEACC /* CDataScanner.m in Sources */,
-				5C8418670F6F528E00BBEACC /* CDataScanner_Extensions.m in Sources */,
-				5C8418680F6F528E00BBEACC /* NSCharacterSet_Extensions.m in Sources */,
-				5C8418690F6F528E00BBEACC /* NSDictionary_JSONExtensions.m in Sources */,
-				5C84186A0F6F528E00BBEACC /* NSScanner_Extensions.m in Sources */,
-				5C84186B0F6F528E00BBEACC /* CJSONDeserializer.m in Sources */,
-				5C84186C0F6F528E00BBEACC /* CJSONScanner.m in Sources */,
-				5C84186D0F6F528E00BBEACC /* CJSONSerializer.m in Sources */,
+				943BD0AA0F76EB5000363DF2 /* CDataScanner.m in Sources */,
+				943BD0AB0F76EB5000363DF2 /* CDataScanner_Extensions.m in Sources */,
+				943BD0AC0F76EB5000363DF2 /* NSCharacterSet_Extensions.m in Sources */,
+				943BD0AD0F76EB5000363DF2 /* NSDictionary_JSONExtensions.m in Sources */,
+				943BD0AE0F76EB5000363DF2 /* NSScanner_Extensions.m in Sources */,
+				943BD0AF0F76EB5000363DF2 /* CJSONDeserializer.m in Sources */,
+				943BD0B00F76EB5000363DF2 /* CJSONScanner.m in Sources */,
+				943BD0B10F76EB5000363DF2 /* CJSONSerializer.m in Sources */,
+				943BD0B50F76EB7900363DF2 /* GeoCoderClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
