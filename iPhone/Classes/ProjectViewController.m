@@ -55,17 +55,7 @@
 }
 
 - (void) tableView: (UITableView*) tableView accessoryButtonTappedForRowWithIndexPath: (NSIndexPath*) indexPath
-{
-   /*
-   UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Hi"
-                                                   message: @"Hola"
-                                                  delegate: nil 
-                                         cancelButtonTitle: @"Gotcha" 
-                                         otherButtonTitles: nil ];
-   [alert show];
-   [alert release];
-   */
-      
+{      
    Event *event = (Event *)[self.dataSource objectForIndexPath: indexPath ];
    if( self.detailsController == nil ) {
       self.detailsController = [EventDetailsTableViewController viewWithEvent: event ];
@@ -88,10 +78,8 @@
    self.detailsController = nil;
    // Uncomment the following line to add the Edit button to the navigation bar.
    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-   self.settingsButtonItem = [[[UIBarButtonItem alloc] initWithTitle: @"Settings" style: UIBarButtonItemStylePlain target: self action:@selector(settings)] autorelease];
-   self.sortButtonItem = [[[UIBarButtonItem alloc] initWithTitle: @"Sort" style: UIBarButtonItemStylePlain target: self action:@selector(sort)] autorelease];
-   self.navigationItem.leftBarButtonItem = self.settingsButtonItem;
-   self.navigationItem.rightBarButtonItem = self.sortButtonItem;
+   //self.sortButtonItem = [[[UIBarButtonItem alloc] initWithTitle: @"Sort" style: UIBarButtonItemStylePlain target: self action:@selector(sort)] autorelease];
+   //self.navigationItem.rightBarButtonItem = self.sortButtonItem;
    self.dataSource = [EventsSortedByTimeDataSource dataSource];
    [[self tableView] setDataSource: self.dataSource ];
 }

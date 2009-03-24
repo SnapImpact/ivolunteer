@@ -35,6 +35,7 @@
 
 @synthesize window;
 @synthesize navigationController;
+@synthesize tabBarController;
 @synthesize floatingView;
 @synthesize busyIndicatorView;
 @synthesize busyIndicatorLabel;
@@ -125,10 +126,16 @@
 {   
 	[[splashvc view] removeFromSuperview];
 	// Configure and show the window
-	[window addSubview:[navigationController view]];
+#ifdef USE_TABS
+   [window addSubview:[tabBarController view]];
+   [window setNeedsDisplay];
+   UIViewController* viewController = [tabBarController selectedViewController];
+#else
+   [window addSubview:[navigationController view]];
 	[window setNeedsDisplay];	
-	
 	UIViewController *viewController = [navigationController topViewController];	
+#endif
+   
 	if ([viewController respondsToSelector:@selector(setBusyIndicatorDelegate:)])
 	{
 		[viewController performSelector:@selector(setBusyIndicatorDelegate:) withObject:self];
@@ -148,6 +155,7 @@
 	[busyIndicatorView release];
 	[busyIndicatorLabel release];
 	[navigationController release];
+   [tabBarController release];
 	[now release];
 	[restController release];
 	[window release];
@@ -191,7 +199,7 @@
 	}
 	else
 	{
-		self.busyIndicatorLabel.text = @"Please wait...";
+		self.busyIndicatorLabel.text = NSLocalizedString(@"Please wait...", @"Tell user to wait/that application is busy.");
 	}
 	
 	if (atBottom)

@@ -232,14 +232,6 @@
 					<int key="connectionID">44</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">segmentBackground</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="685845220"/>
-					</object>
-					<int key="connectionID">45</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">splashOk:forEvent:</string>
 						<reference key="source" ref="685845220"/>
@@ -291,6 +283,14 @@
 					</object>
 					<int key="connectionID">53</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">continueButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="685845220"/>
+					</object>
+					<int key="connectionID">56</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -336,6 +336,7 @@
 						<int key="objectID">29</int>
 						<reference key="object" ref="685845220"/>
 						<reference key="parent" ref="191373211"/>
+						<string key="objectName">continueButton</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">34</int>
@@ -403,7 +404,7 @@
 					<string>SplashViewController</string>
 					<string>UIResponder</string>
 					<string>UIScrollView</string>
-					<string>{{546, 295}, {320, 480}}</string>
+					<string>{{415, 295}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -435,7 +436,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">54</int>
+			<int key="maxID">56</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -468,24 +469,22 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>background</string>
 							<string>busyIndicatorDelegate</string>
-							<string>delegate</string>
+							<string>continueButton</string>
 							<string>dismissalDelegate</string>
 							<string>hand</string>
 							<string>logo</string>
 							<string>scrollView</string>
-							<string>segmentBackground</string>
 							<string>zipcodeField</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UIImageView</string>
 							<string>id</string>
-							<string>id</string>
+							<string>UIButton</string>
 							<string>id</string>
 							<string>UIImageView</string>
 							<string>UIImageView</string>
 							<string>UIScrollView</string>
-							<string>UIButton</string>
 							<string>UITextField</string>
 						</object>
 					</object>
