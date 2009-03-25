@@ -1,0 +1,73 @@
+<%#
+/*
+*  Copyright (c) 2008 Boulder Community Foundation - iVolunteer
+*
+*  Permission is hereby granted, free of charge, to any person obtaining a copy
+*  of this software and associated documentation files (the "Software"), to deal
+*  in the Software without restriction, including without limitation the rights
+*  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+*  copies of the Software, and to permit persons to whom the Software is
+*  furnished to do so, subject to the following conditions:
+*
+*  The above copyright notice and this permission notice shall be included in
+*  all copies or substantial portions of the Software.
+*
+*  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+*  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+*  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+*  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+*  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+*  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+*  THE SOFTWARE.
+*/
+%>
+
+<% view :home_tab do %>
+    <div id="content_area"> <!-- This is a div for the content !-->
+      <div id="content_top_section">
+        <div id="left_two_thirds">
+          <div id="coming_soon"><img src="<%= static_url('img/comingsoon.png') %>" alt="coming soon" /></div>
+          <div id="zip_area">
+            <span class="zip_title">Enter Your Zip<form action="#" method="post"><input type="text" id="zip_form"></form></span>
+          to find volunteer opportunities
+          <div id="submit_button"><a href="#">Go!</a></div>
+          </div>
+          <div id="nearby_results">
+            <div id="bottom_section_title">Nearby Opportunities</div>
+            <div id="bottom_section_text">
+              <ul>
+                <li>4/01/09 - Donate Blood at the Red Cross</li>
+                <li>4/01/09 - Donate Blood at the Red Cross</li>
+                <li>4/01/09 - Donate Blood at the Red Cross</li>
+                <li>4/01/09 - Donate Blood at the Red Cross</li>
+                <li>4/01/09 - Donate Blood at the Red Cross</li>
+                <li>4/01/09 - Donate Blood at the Red Cross</li>
+                <li>4/01/09 - Donate Blood at the Red Cross</li>
+                <li>4/01/09 - Donate Blood at the Red Cross</li>
+                <li>4/01/09 - Donate Blood at the Red Cross</li>
+                <li>4/01/09 - Donate Blood at the Red Cross</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div id="right_one_third"><img src="<%= static_url('img/Picture1.png') %>" alt="share options"></div>
+        <div style ="clear:both" />
+      </div>
+      <br />
+      <div id="content_bottom_section">
+        <div id="left_third">
+          <div id="bottom_section_title">Recent Blog Entries</div>
+          <div id="bottom_section_text">iVolunteer Rocks! iVolunteer Rocks! iVolunteer Rocks! iVolunteer Rocks! </div>
+        </div>
+        <div id="mid_third">
+          <div id="bottom_section_title">Partner With Us</div>
+          <div id="bottom_section_text">iVolunteer Rocks! iVolunteer Rocks! iVolunteer Rocks! iVolunteer Rocks! </div>
+        </div>
+        <div id="right_third"><div id="bottom_section_title">Connect With Us</div>
+        <div id="bottom_section_text">iVolunteer Rocks! iVolunteer Rocks! iVolunteer Rocks! iVolunteer Rocks! </div>
+        </div>
+        <div style="clear:both">
+      </div>
+      </div>
+    </div>
+<% end %>
