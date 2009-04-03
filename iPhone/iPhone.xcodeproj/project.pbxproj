@@ -40,6 +40,7 @@
 		9455C6110F5258DE00296B87 /* DateUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 9455C6100F5258DE00296B87 /* DateUtilities.m */; };
 		9455CA060F537DA600296B87 /* EventTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9455CA050F537DA600296B87 /* EventTableCell.m */; };
 		9455CA5B0F539EA800296B87 /* EventTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9455CA5A0F539EA800296B87 /* EventTableCell.xib */; };
+		9456EBBE0F8311D900653FEC /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9456EBBD0F8311D900653FEC /* Icon.png */; };
 		9465B4830F5A25FC00B0F926 /* EventDetailsHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9465B4820F5A25FC00B0F926 /* EventDetailsHeaderCell.xib */; };
 		9483D93D0F5A184B00406DB3 /* EventDetailsHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9483D93C0F5A184B00406DB3 /* EventDetailsHeaderCell.m */; };
 		94A97B7F0F43890C0077E4E0 /* Data Model Plan in Resources */ = {isa = PBXBuildFile; fileRef = 94A97B7E0F43890C0077E4E0 /* Data Model Plan */; };
@@ -47,6 +48,9 @@
 		94A97D3B0F452D610077E4E0 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 94A97D3A0F452D610077E4E0 /* libxml2.dylib */; };
 		94A97E300F48A37C0077E4E0 /* RestController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A97E2F0F48A37C0077E4E0 /* RestController.m */; };
 		94A97F250F48BD670077E4E0 /* EventsSortedByTimeDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A97F240F48BD670077E4E0 /* EventsSortedByTimeDataSource.m */; };
+		94AE8B590F859F8C006AD78D /* UpcomingIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 94AE8B560F859F8C006AD78D /* UpcomingIcon.png */; };
+		94AE8B5A0F859F8C006AD78D /* SettingsIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 94AE8B570F859F8C006AD78D /* SettingsIcon.png */; };
+		94AE8B5B0F859F8C006AD78D /* MyEventsIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 94AE8B580F859F8C006AD78D /* MyEventsIcon.png */; };
 		94BACFA60F5BBD5C00FDACED /* AttributeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BACFA50F5BBD5C00FDACED /* AttributeCell.m */; };
 		94BACFB60F5BBFF700FDACED /* ColorCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BACFB50F5BBFF700FDACED /* ColorCache.m */; };
 		94BE56EB0F42954900A505F0 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE56EA0F42954900A505F0 /* Event.m */; };
@@ -122,6 +126,7 @@
 		9455CA040F537DA600296B87 /* EventTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventTableCell.h; sourceTree = "<group>"; };
 		9455CA050F537DA600296B87 /* EventTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventTableCell.m; sourceTree = "<group>"; };
 		9455CA5A0F539EA800296B87 /* EventTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventTableCell.xib; sourceTree = "<group>"; };
+		9456EBBD0F8311D900653FEC /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		9465B4820F5A25FC00B0F926 /* EventDetailsHeaderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventDetailsHeaderCell.xib; sourceTree = "<group>"; };
 		9483D93B0F5A184B00406DB3 /* EventDetailsHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventDetailsHeaderCell.h; sourceTree = "<group>"; };
 		9483D93C0F5A184B00406DB3 /* EventDetailsHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventDetailsHeaderCell.m; sourceTree = "<group>"; };
@@ -135,6 +140,9 @@
 		94A97F1A0F48BBB20077E4E0 /* RootViewDataSourceProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewDataSourceProtocol.h; sourceTree = "<group>"; };
 		94A97F230F48BD670077E4E0 /* EventsSortedByTimeDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventsSortedByTimeDataSource.h; sourceTree = "<group>"; };
 		94A97F240F48BD670077E4E0 /* EventsSortedByTimeDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventsSortedByTimeDataSource.m; sourceTree = "<group>"; };
+		94AE8B560F859F8C006AD78D /* UpcomingIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UpcomingIcon.png; sourceTree = "<group>"; };
+		94AE8B570F859F8C006AD78D /* SettingsIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SettingsIcon.png; sourceTree = "<group>"; };
+		94AE8B580F859F8C006AD78D /* MyEventsIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MyEventsIcon.png; sourceTree = "<group>"; };
 		94BACFA40F5BBD5C00FDACED /* AttributeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttributeCell.h; sourceTree = "<group>"; };
 		94BACFA50F5BBD5C00FDACED /* AttributeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributeCell.m; sourceTree = "<group>"; };
 		94BACFB40F5BBFF700FDACED /* ColorCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorCache.h; sourceTree = "<group>"; };
@@ -238,6 +246,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				94AE8B550F859F78006AD78D /* Tab Icons */,
+				9456EBBD0F8311D900653FEC /* Icon.png */,
 				5C8418720F6F538200BBEACC /* Default.png */,
 				5CA642350F6C698600B181AF /* images */,
 				94F862980F5CCD0C00986078 /* Button Images */,
@@ -359,6 +369,16 @@
 			name = "REST Interaction";
 			sourceTree = "<group>";
 		};
+		94AE8B550F859F78006AD78D /* Tab Icons */ = {
+			isa = PBXGroup;
+			children = (
+				94AE8B560F859F8C006AD78D /* UpcomingIcon.png */,
+				94AE8B570F859F8C006AD78D /* SettingsIcon.png */,
+				94AE8B580F859F8C006AD78D /* MyEventsIcon.png */,
+			);
+			name = "Tab Icons";
+			sourceTree = "<group>";
+		};
 		94BE56E80F4294E000A505F0 /* Data Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -471,6 +491,10 @@
 				943BD0C30F76EBC100363DF2 /* SplashLogo.png in Resources */,
 				943BD0C40F76EBC100363DF2 /* SplashBackground.png in Resources */,
 				943BD0C50F76EBC100363DF2 /* iPhoneSplashScreen.png in Resources */,
+				9456EBBE0F8311D900653FEC /* Icon.png in Resources */,
+				94AE8B590F859F8C006AD78D /* UpcomingIcon.png in Resources */,
+				94AE8B5A0F859F8C006AD78D /* SettingsIcon.png in Resources */,
+				94AE8B5B0F859F8C006AD78D /* MyEventsIcon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -527,7 +551,8 @@
 				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Hassan Abdel-Rahman";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Ryan Schneider";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan Schneider";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -542,7 +567,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = iVolunteer;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "057718CE-D815-4DEB-8921-21EEAC528F70";
+				PROVISIONING_PROFILE = "8250803D-5C4E-425F-B7E6-3E8B1EE77AD6";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8250803D-5C4E-425F-B7E6-3E8B1EE77AD6";
 				SDKROOT = iphoneos2.1;
 			};
 			name = Debug;
@@ -553,7 +579,8 @@
 				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Hassan Abdel-Rahman";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Ryan Schneider";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan Schneider";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_DYNAMIC_NO_PIC = YES;
@@ -567,7 +594,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = iVolunteer;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "057718CE-D815-4DEB-8921-21EEAC528F70";
+				PROVISIONING_PROFILE = "8250803D-5C4E-425F-B7E6-3E8B1EE77AD6";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8250803D-5C4E-425F-B7E6-3E8B1EE77AD6";
 				SDKROOT = iphoneos2.1;
 			};
 			name = Release;

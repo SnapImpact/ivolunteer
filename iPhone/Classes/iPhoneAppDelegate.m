@@ -126,6 +126,7 @@
 {   
 	[[splashvc view] removeFromSuperview];
 	// Configure and show the window
+#define USE_TABS
 #ifdef USE_TABS
    [window addSubview:[tabBarController view]];
    [window setNeedsDisplay];
