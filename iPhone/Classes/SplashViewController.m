@@ -54,6 +54,7 @@
    UIImage* buttonImage = [[UIImage imageNamed:@"greenButton.png"] stretchableImageWithLeftCapWidth: 12.0 topCapHeight: 0 ];
    [continueButton setBackgroundImage: buttonImage forState: UIControlStateNormal];
    [continueButton setTitleColor: [UIColor whiteColor] forState: UIControlStateNormal ];
+   [continueButton setHidden:YES];
    
    [super viewDidLoad];
    
@@ -149,6 +150,7 @@
 		
 		self.zipcodeField.hidden = NO;
 	}
+	[continueButton setHidden:NO];
 }
 
 @end

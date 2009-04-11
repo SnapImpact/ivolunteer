@@ -31,14 +31,14 @@
 #import "LocationAvailabilityDelegate.h"
 #import "BusyIndicatorDelegate.h"
 #import "ScreenDismissalDelegate.h"
-
+#import "MemoryTabViewController.h"
 #import "RestController.h"
 @interface iPhoneAppDelegate : NSObject <UIApplicationDelegate, BusyIndicatorDelegate, ScreenDismissalDelegate, CLLocationManagerDelegate> {
     
 	id <LocationAvailabilityDelegate> locationDelegate;
    UIWindow *window;
    UINavigationController *navigationController;
-   UITabBarController* tabBarController;
+   MemoryTabViewController* tabBarController;
 	SplashViewController *splashvc;
 	UIView *floatingView;
 	UIView *busyIndicatorView;
@@ -51,7 +51,7 @@
 @property (nonatomic, retain) id <LocationAvailabilityDelegate> locationDelegate;
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
-@property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
+@property (nonatomic, retain) IBOutlet MemoryTabViewController *tabBarController;
 @property (nonatomic, retain) IBOutlet UIView *floatingView;
 @property (nonatomic, retain) IBOutlet UIView *busyIndicatorView;
 @property (nonatomic, retain) IBOutlet UILabel *busyIndicatorLabel;
