@@ -15,7 +15,7 @@
 @synthesize busyIndicatorDelegate;
 @synthesize zipcodeField;
 @synthesize scrollView;
-@synthesize segmentBackground;
+@synthesize continueButton;
 @synthesize hand;
 @synthesize logo;
 @synthesize background;
@@ -41,7 +41,8 @@
 {
 	if ([busyIndicatorDelegate isBusy])
 	{
-		[busyIndicatorDelegate startAnimatingWithMessage:@"Determining location..."];
+      NSString* msg = NSLocalizedString(@"Determining location...", @"Tell user we are determining the location of their iPhone");
+		[busyIndicatorDelegate startAnimatingWithMessage: msg atBottom: YES];
 	}
 }
 
@@ -49,13 +50,14 @@
 	self.zipcodeField.hidden = YES;
 	scrollView.contentSize = CGSizeMake(320, 550);
 	scrollView.delaysContentTouches = NO;
-    [super viewDidLoad];
-	
-   //set the image to the rounded rect
-   //UIImage* image = [[UIImage imageNamed:@"whiteButton.png"] stretchableImageWithLeftCapWidth: 12.0 topCapHeight: 0 ];
-   //[segmentBackground setBackgroundImage: image forState: UIControlStateNormal ];
    
-   [UIView beginAnimations:@"relabel buttons" context:nil];
+   UIImage* buttonImage = [[UIImage imageNamed:@"greenButton.png"] stretchableImageWithLeftCapWidth: 12.0 topCapHeight: 0 ];
+   [continueButton setBackgroundImage: buttonImage forState: UIControlStateNormal];
+   [continueButton setTitleColor: [UIColor whiteColor] forState: UIControlStateNormal ];
+   
+   [super viewDidLoad];
+   
+   [UIView beginAnimations:@"animate logo" context:nil];
    [UIView setAnimationDuration: 0.75 ];
    [UIView setAnimationDelegate:self];
    [UIView setAnimationDidStopSelector:@selector(openingAnimationComplete)];
@@ -84,7 +86,7 @@
 	[(NSObject *) self.busyIndicatorDelegate release];
 	[self.zipcodeField release];
 	[self.scrollView release];
-	[segmentBackground release];
+	[continueButton release];
 	[hand release];
 	[background release];
 	[logo release];
@@ -137,11 +139,11 @@
 	if (!location)
 	{
 		
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Could Not Determine Location" 
-														message:@"Enter the zip code from which you would like to use to find volunteer opportunities." 
-													   delegate:nil 
-											  cancelButtonTitle:@"Ok"
-											  otherButtonTitles:nil];
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Could Not Determine Location", @"Could not determine location")
+                                                      message:NSLocalizedString(@"Enter the zip code from which you would like to use to find volunteer opportunities.", @"How will we internationalize zipcodes?")
+                                                     delegate:nil 
+                                            cancelButtonTitle:NSLocalizedString(@"Ok", @"Ok")
+                                            otherButtonTitles:nil];
 		[alert show];
 		[alert release];
 		

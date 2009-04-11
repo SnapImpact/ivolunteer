@@ -35,6 +35,7 @@
 
 @synthesize window;
 @synthesize navigationController;
+@synthesize tabBarController;
 @synthesize floatingView;
 @synthesize busyIndicatorView;
 @synthesize busyIndicatorLabel;
@@ -92,12 +93,6 @@
 	
 	//TODO: check for internet connectivity!
 	
-	//check the user defaults for firstRun
-	NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-	bool hasBeenRun = [def boolForKey:@"ivHasBeenRun"];
-	
-	[def setBool:true forKey:@"ivHasBeenRun"];
-	
 	NSDate *start1 = [NSDate date];
 	[iVolunteerData restore];
 	NSDate *end1 = [NSDate date];
@@ -115,17 +110,9 @@
 	splashvc.dismissalDelegate = self;
 	splashvc.busyIndicatorDelegate = self;
 	
-	if(!hasBeenRun){
-		//load the splash screen
-		self.locationDelegate = splashvc;
-		[window addSubview:[splashvc view]];
-	} else {
-		splashvc = nil;
-		[self startAnimatingWithMessage:@"Determining location..."];
-		[self loadNavigationView];
-	}
-	 [window makeKeyAndVisible];	
-  
+   self.locationDelegate = splashvc;
+   [window addSubview:[splashvc view]];
+	[window makeKeyAndVisible];	
 }
 
 
@@ -138,10 +125,17 @@
 {   
 	[[splashvc view] removeFromSuperview];
 	// Configure and show the window
-	[window addSubview:[navigationController view]];
+#define USE_TABS
+#ifdef USE_TABS
+   [window addSubview:[tabBarController view]];
+   [window setNeedsDisplay];
+   UIViewController* viewController = [tabBarController selectedViewController];
+#else
+   [window addSubview:[navigationController view]];
 	[window setNeedsDisplay];	
-	
 	UIViewController *viewController = [navigationController topViewController];	
+#endif
+   
 	if ([viewController respondsToSelector:@selector(setBusyIndicatorDelegate:)])
 	{
 		[viewController performSelector:@selector(setBusyIndicatorDelegate:) withObject:self];
@@ -161,6 +155,7 @@
 	[busyIndicatorView release];
 	[busyIndicatorLabel release];
 	[navigationController release];
+   [tabBarController release];
 	[now release];
 	[restController release];
 	[window release];
@@ -204,7 +199,7 @@
 	}
 	else
 	{
-		self.busyIndicatorLabel.text = @"Please wait...";
+		self.busyIndicatorLabel.text = NSLocalizedString(@"Please wait...", @"Tell user to wait/that application is busy.");
 	}
 	
 	if (atBottom)

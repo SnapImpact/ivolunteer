@@ -29,7 +29,7 @@
 #define BEGIN_ENCODER() /* encoder start */ \
    [super encodeWithCoder: encoder ];
 
-#define ENCODE_PROP(p) NSLog(@"Encoding: %@.%@", [self description], @ # p ); [encoder encodeObject: p forKey: @ # p ];
+#define ENCODE_PROP(p) /*NSLog(@"Encoding: %@.%@", [self description], @ # p );*/ [encoder encodeObject: p forKey: @ # p ];
 
 #define END_ENCODER() /* encoder end */
 
@@ -37,7 +37,7 @@
    if (self = [super initWithCoder: decoder ] ) { \
 
 
-#define DECODE_PROP(p) NSLog(@"Decoding: %@.%@", [self description], @ # p ); self.p = [decoder decodeObjectForKey: @ # p ];
+#define DECODE_PROP(p) /*NSLog(@"Decoding: %@.%@", [self description], @ # p );*/ self.p = [decoder decodeObjectForKey: @ # p ];
 
 #define END_DECODER() /* decoder end */ \
    }
