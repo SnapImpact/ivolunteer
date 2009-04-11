@@ -16,9 +16,6 @@
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		28C286E10D94DF7D0034E888 /* ProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* ProjectViewController.m */; };
 		5C8418780F6F538200BBEACC /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C8418720F6F538200BBEACC /* Default.png */; };
-		5CADF4320F90F64300690E94 /* MemoryTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CADF4310F90F64300690E94 /* MemoryTabViewController.m */; };
-		5CADF4420F90F7FC00690E94 /* MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CADF43E0F90F7FC00690E94 /* MapView.m */; };
-		5CADF4430F90F7FC00690E94 /* MapWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CADF4410F90F7FC00690E94 /* MapWebView.m */; };
 		5CADF4450F90F83A00690E94 /* marker.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CADF4440F90F83A00690E94 /* marker.png */; };
 		940875410F5C965C0037C286 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 940875400F5C965C0037C286 /* Entitlements.plist */; };
 		942E23BD0F5E107000C87AC1 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 942E23BC0F5E107000C87AC1 /* MapViewController.m */; };
@@ -63,6 +60,9 @@
 		94BE57160F42992200A505F0 /* Organization.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE57150F42992200A505F0 /* Organization.m */; };
 		94BE571C0F42A03900A505F0 /* OrganizationTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE571B0F42A03900A505F0 /* OrganizationTypes.m */; };
 		94BE574C0F42A42D00A505F0 /* iVolunteerData.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE574B0F42A42D00A505F0 /* iVolunteerData.m */; };
+		94C3AE830F91452D00153859 /* MapWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C3AE7E0F91452D00153859 /* MapWebView.m */; };
+		94C3AE840F91452D00153859 /* MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C3AE810F91452D00153859 /* MapView.m */; };
+		94C3AE870F91455000153859 /* MemoryTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C3AE850F91455000153859 /* MemoryTabViewController.m */; };
 		94DFFC140F579B27005D62B9 /* ModelBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DFFC130F579B27005D62B9 /* ModelBase.m */; };
 		94DFFFA70F5A0ABF005D62B9 /* ActionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DFFFA60F5A0ABF005D62B9 /* ActionsView.m */; };
 		94ED9C2A0F5BAFC600F2697F /* EventDetailsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94ED9C290F5BAFC600F2697F /* EventDetailsTableViewController.m */; };
@@ -90,14 +90,7 @@
 		5CA641F70F6C638D00B181AF /* LocationAvailabilityDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationAvailabilityDelegate.h; sourceTree = "<group>"; };
 		5CA641F80F6C639B00B181AF /* BusyIndicatorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusyIndicatorDelegate.h; sourceTree = "<group>"; };
 		5CA6420E0F6C674A00B181AF /* ScreenDismissalDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenDismissalDelegate.h; sourceTree = "<group>"; };
-		5CADF4300F90F64300690E94 /* MemoryTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MemoryTabViewController.h; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/MemoryTabViewController.h; sourceTree = SDKROOT; };
-		5CADF4310F90F64300690E94 /* MemoryTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MemoryTabViewController.m; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/MemoryTabViewController.m; sourceTree = SDKROOT; };
-		5CADF43E0F90F7FC00690E94 /* MapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapView.m; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/MapView.m; sourceTree = SDKROOT; };
-		5CADF43F0F90F7FC00690E94 /* MapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapView.h; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/MapView.h; sourceTree = SDKROOT; };
-		5CADF4400F90F7FC00690E94 /* MapWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapWebView.h; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/MapWebView.h; sourceTree = SDKROOT; };
-		5CADF4410F90F7FC00690E94 /* MapWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapWebView.m; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/MapWebView.m; sourceTree = SDKROOT; };
 		5CADF4440F90F83A00690E94 /* marker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = marker.png; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/marker.png; sourceTree = SDKROOT; };
-		5CADF4460F90F8A800690E94 /* MapViewConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapViewConstants.h; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/MapViewConstants.h; sourceTree = SDKROOT; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		940875400F5C965C0037C286 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		942E23BB0F5E107000C87AC1 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
@@ -171,6 +164,13 @@
 		94BE571B0F42A03900A505F0 /* OrganizationTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrganizationTypes.m; sourceTree = "<group>"; };
 		94BE574A0F42A42D00A505F0 /* iVolunteerData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iVolunteerData.h; sourceTree = "<group>"; };
 		94BE574B0F42A42D00A505F0 /* iVolunteerData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iVolunteerData.m; sourceTree = "<group>"; };
+		94C3AE7E0F91452D00153859 /* MapWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapWebView.m; sourceTree = "<group>"; };
+		94C3AE7F0F91452D00153859 /* MapWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapWebView.h; sourceTree = "<group>"; };
+		94C3AE800F91452D00153859 /* MapViewConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewConstants.h; sourceTree = "<group>"; };
+		94C3AE810F91452D00153859 /* MapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapView.m; sourceTree = "<group>"; };
+		94C3AE820F91452D00153859 /* MapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapView.h; sourceTree = "<group>"; };
+		94C3AE850F91455000153859 /* MemoryTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemoryTabViewController.m; sourceTree = "<group>"; };
+		94C3AE860F91455000153859 /* MemoryTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemoryTabViewController.h; sourceTree = "<group>"; };
 		94DFFC120F579B27005D62B9 /* ModelBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelBase.h; sourceTree = "<group>"; };
 		94DFFC130F579B27005D62B9 /* ModelBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelBase.m; sourceTree = "<group>"; };
 		94DFFFA50F5A0AB6005D62B9 /* ActionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionsView.h; sourceTree = "<group>"; };
@@ -304,11 +304,11 @@
 		5CADF43D0F90F7E100690E94 /* MapView */ = {
 			isa = PBXGroup;
 			children = (
-				5CADF4460F90F8A800690E94 /* MapViewConstants.h */,
-				5CADF43E0F90F7FC00690E94 /* MapView.m */,
-				5CADF43F0F90F7FC00690E94 /* MapView.h */,
-				5CADF4400F90F7FC00690E94 /* MapWebView.h */,
-				5CADF4410F90F7FC00690E94 /* MapWebView.m */,
+				94C3AE7E0F91452D00153859 /* MapWebView.m */,
+				94C3AE7F0F91452D00153859 /* MapWebView.h */,
+				94C3AE800F91452D00153859 /* MapViewConstants.h */,
+				94C3AE810F91452D00153859 /* MapView.m */,
+				94C3AE820F91452D00153859 /* MapView.h */,
 			);
 			name = MapView;
 			sourceTree = "<group>";
@@ -365,8 +365,8 @@
 		9455CA030F537D8200296B87 /* UI Classes */ = {
 			isa = PBXGroup;
 			children = (
-				5CADF4300F90F64300690E94 /* MemoryTabViewController.h */,
-				5CADF4310F90F64300690E94 /* MemoryTabViewController.m */,
+				94C3AE850F91455000153859 /* MemoryTabViewController.m */,
+				94C3AE860F91455000153859 /* MemoryTabViewController.h */,
 				94BACFB40F5BBFF700FDACED /* ColorCache.h */,
 				94BACFB50F5BBFF700FDACED /* ColorCache.m */,
 				94BACFA40F5BBD5C00FDACED /* AttributeCell.h */,
@@ -568,9 +568,9 @@
 				943BD0B00F76EB5000363DF2 /* CJSONScanner.m in Sources */,
 				943BD0B10F76EB5000363DF2 /* CJSONSerializer.m in Sources */,
 				943BD0B50F76EB7900363DF2 /* GeoCoderClient.m in Sources */,
-				5CADF4320F90F64300690E94 /* MemoryTabViewController.m in Sources */,
-				5CADF4420F90F7FC00690E94 /* MapView.m in Sources */,
-				5CADF4430F90F7FC00690E94 /* MapWebView.m in Sources */,
+				94C3AE830F91452D00153859 /* MapWebView.m in Sources */,
+				94C3AE840F91452D00153859 /* MapView.m in Sources */,
+				94C3AE870F91455000153859 /* MemoryTabViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
