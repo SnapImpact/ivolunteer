@@ -69,7 +69,6 @@
 		{
 			[locationDelegate locationIsAvailable:nil];
 		}
-		
 	}
 }
 - (void)locationManager:(CLLocationManager *)manager 
