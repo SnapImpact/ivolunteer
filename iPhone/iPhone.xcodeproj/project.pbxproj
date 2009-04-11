@@ -16,6 +16,10 @@
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		28C286E10D94DF7D0034E888 /* ProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* ProjectViewController.m */; };
 		5C8418780F6F538200BBEACC /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C8418720F6F538200BBEACC /* Default.png */; };
+		5CADF4320F90F64300690E94 /* MemoryTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CADF4310F90F64300690E94 /* MemoryTabViewController.m */; };
+		5CADF4420F90F7FC00690E94 /* MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CADF43E0F90F7FC00690E94 /* MapView.m */; };
+		5CADF4430F90F7FC00690E94 /* MapWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CADF4410F90F7FC00690E94 /* MapWebView.m */; };
+		5CADF4450F90F83A00690E94 /* marker.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CADF4440F90F83A00690E94 /* marker.png */; };
 		940875410F5C965C0037C286 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 940875400F5C965C0037C286 /* Entitlements.plist */; };
 		942E23BD0F5E107000C87AC1 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 942E23BC0F5E107000C87AC1 /* MapViewController.m */; };
 		942E23BF0F5E109400C87AC1 /* MapView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 942E23BE0F5E109400C87AC1 /* MapView.xib */; };
@@ -86,6 +90,14 @@
 		5CA641F70F6C638D00B181AF /* LocationAvailabilityDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationAvailabilityDelegate.h; sourceTree = "<group>"; };
 		5CA641F80F6C639B00B181AF /* BusyIndicatorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusyIndicatorDelegate.h; sourceTree = "<group>"; };
 		5CA6420E0F6C674A00B181AF /* ScreenDismissalDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenDismissalDelegate.h; sourceTree = "<group>"; };
+		5CADF4300F90F64300690E94 /* MemoryTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MemoryTabViewController.h; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/MemoryTabViewController.h; sourceTree = SDKROOT; };
+		5CADF4310F90F64300690E94 /* MemoryTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MemoryTabViewController.m; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/MemoryTabViewController.m; sourceTree = SDKROOT; };
+		5CADF43E0F90F7FC00690E94 /* MapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapView.m; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/MapView.m; sourceTree = SDKROOT; };
+		5CADF43F0F90F7FC00690E94 /* MapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapView.h; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/MapView.h; sourceTree = SDKROOT; };
+		5CADF4400F90F7FC00690E94 /* MapWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapWebView.h; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/MapWebView.h; sourceTree = SDKROOT; };
+		5CADF4410F90F7FC00690E94 /* MapWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapWebView.m; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/MapWebView.m; sourceTree = SDKROOT; };
+		5CADF4440F90F83A00690E94 /* marker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = marker.png; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/marker.png; sourceTree = SDKROOT; };
+		5CADF4460F90F8A800690E94 /* MapViewConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapViewConstants.h; path = ../../../../../../Users/hassan/Desktop/actionfeed/iVolunteer/ivolunteer/iPhone/Classes/MapViewConstants.h; sourceTree = SDKROOT; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		940875400F5C965C0037C286 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		942E23BB0F5E107000C87AC1 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
@@ -192,6 +204,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				5CADF43D0F90F7E100690E94 /* MapView */,
 				943BD0B60F76EB7D00363DF2 /* GeoCoder */,
 				943BD0970F76EB5000363DF2 /* TouchJSON */,
 				9455CA030F537D8200296B87 /* UI Classes */,
@@ -277,6 +290,7 @@
 		5CA642350F6C698600B181AF /* images */ = {
 			isa = PBXGroup;
 			children = (
+				5CADF4440F90F83A00690E94 /* marker.png */,
 				943BD0BA0F76EBC100363DF2 /* busy_background.png */,
 				943BD0BB0F76EBC100363DF2 /* SplashLogoHand.png */,
 				943BD0BC0F76EBC100363DF2 /* SplashLogoBackground.png */,
@@ -285,6 +299,18 @@
 				943BD0BF0F76EBC100363DF2 /* iPhoneSplashScreen.png */,
 			);
 			name = images;
+			sourceTree = "<group>";
+		};
+		5CADF43D0F90F7E100690E94 /* MapView */ = {
+			isa = PBXGroup;
+			children = (
+				5CADF4460F90F8A800690E94 /* MapViewConstants.h */,
+				5CADF43E0F90F7FC00690E94 /* MapView.m */,
+				5CADF43F0F90F7FC00690E94 /* MapView.h */,
+				5CADF4400F90F7FC00690E94 /* MapWebView.h */,
+				5CADF4410F90F7FC00690E94 /* MapWebView.m */,
+			);
+			name = MapView;
 			sourceTree = "<group>";
 		};
 		943BD0970F76EB5000363DF2 /* TouchJSON */ = {
@@ -339,6 +365,8 @@
 		9455CA030F537D8200296B87 /* UI Classes */ = {
 			isa = PBXGroup;
 			children = (
+				5CADF4300F90F64300690E94 /* MemoryTabViewController.h */,
+				5CADF4310F90F64300690E94 /* MemoryTabViewController.m */,
 				94BACFB40F5BBFF700FDACED /* ColorCache.h */,
 				94BACFB50F5BBFF700FDACED /* ColorCache.m */,
 				94BACFA40F5BBD5C00FDACED /* AttributeCell.h */,
@@ -495,6 +523,7 @@
 				94AE8B590F859F8C006AD78D /* UpcomingIcon.png in Resources */,
 				94AE8B5A0F859F8C006AD78D /* SettingsIcon.png in Resources */,
 				94AE8B5B0F859F8C006AD78D /* MyEventsIcon.png in Resources */,
+				5CADF4450F90F83A00690E94 /* marker.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -539,6 +568,9 @@
 				943BD0B00F76EB5000363DF2 /* CJSONScanner.m in Sources */,
 				943BD0B10F76EB5000363DF2 /* CJSONSerializer.m in Sources */,
 				943BD0B50F76EB7900363DF2 /* GeoCoderClient.m in Sources */,
+				5CADF4320F90F64300690E94 /* MemoryTabViewController.m in Sources */,
+				5CADF4420F90F7FC00690E94 /* MapView.m in Sources */,
+				5CADF4430F90F7FC00690E94 /* MapWebView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
