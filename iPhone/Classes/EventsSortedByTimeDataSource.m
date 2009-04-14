@@ -59,12 +59,19 @@
    EventTableCell* cell = (EventTableCell*) [tableView dequeueReusableCellWithIdentifier: [EventTableCell reuseIdentifier]];
    if(cell == nil) {
       NSArray *nib = [[NSBundle mainBundle] loadNibNamed: @"EventTableCell" owner: self options: nil ];
-      cell = [nib objectAtIndex:0];
+      NSEnumerator* e = [nib objectEnumerator];
+      id objectInNib;
+      while(objectInNib = [e nextObject]) {
+         if( [objectInNib isKindOfClass: [EventTableCell class]] ) {
+            cell = (EventTableCell*)objectInNib;
+         }
+      }
    }
    
    NSArray* events = [[[iVolunteerData sharedVolunteerData] eventsSortedIntoDays] objectAtIndex: [indexPath section]]; 
    Event* event = [events objectAtIndex: [indexPath row]];
    
+   NSLog( @"Class of cell is %@", [cell class] );
    cell.event = event;
    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
    return cell;
