@@ -64,7 +64,6 @@
 	if (error.code == kCLErrorDenied)
 	{
 		// user denied request to determine location
-		
 		[manager stopUpdatingLocation];
 		if (locationDelegate)
 		{
