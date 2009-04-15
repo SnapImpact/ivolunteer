@@ -85,8 +85,8 @@
     // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
     if (self = [super initWithStyle:style]) {
        
-       self.signedUpString = NSLocalizedString( @"Signed Up!", @"Should be positive, yay you signed up!" );
-       self.signUpString = NSLocalizedString( @"Sign Up", @"Indicates clicking this button will sign you up" );
+       self.signedUpString = NSLocalizedString( @"Registered", @"Should be positive, yay you signed up!" );
+       self.signUpString = NSLocalizedString( @"Register", @"Indicates clicking this button will sign you up" );
        
        NSArray* selectors = [NSArray arrayWithObjects:
                               [NSValue valueWithPointer: @selector(signUp)],

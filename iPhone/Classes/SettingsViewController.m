@@ -11,13 +11,10 @@
 
 @implementation SettingsViewController
 
-@synthesize radiusPicker;
-@synthesize radiusLabel;
-@synthesize radiusPickerData;
 @synthesize zipcodeField;
 @synthesize nameField;
 @synthesize emailField;
-@synthesize zipOrLocationSegment;
+@synthesize scrollView;
 
 /*
 // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -39,7 +36,8 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
    [super viewDidLoad];
-   self.radiusPickerData = [NSArray arrayWithObjects: @" 5", @"10", @"25", @"50", nil ];
+   self.scrollView.contentSize = CGSizeMake(320, 550);
+	self.scrollView.delaysContentTouches = NO;
 }
 
 
@@ -58,33 +56,18 @@
 
 
 - (void)dealloc {
-    [super dealloc];
-}
-
-#pragma mark Picker Data Source
-- (NSInteger) numberOfComponentsInPickerView: (UIPickerView*) pickerView
-{
-   return 1;
-}
-
-- (NSInteger) pickerView: (UIPickerView*) pickerView
- numberOfRowsInComponent: (NSInteger) component 
-{
-   return [self.radiusPickerData count];
-}
-
-- (NSString*) pickerView: (UIPickerView*) pickerView
-             titleForRow: (NSInteger) row
-            forComponent: (NSInteger) component
-{
-   return [self.radiusPickerData objectAtIndex:row];
+   [super dealloc];
+   self.zipcodeField = nil;
+   self.nameField = nil;
+   self.emailField = nil;
+   self.scrollView = nil;
 }
 
 - (IBAction)zipcodeUpdated
 {
 	if ([self.zipcodeField.text length] >= 5)
 	{
-      [self.zipcodeField resignFirstResponder];
+      [self dismissKeyboard];
 	}
 }
 
@@ -93,24 +76,18 @@
    [ self.zipcodeField resignFirstResponder ]; 
    [ self.nameField resignFirstResponder ]; 
    [ self.emailField resignFirstResponder ]; 
+   [ self scrollUp ];
 }
 
-- (IBAction) zipOrLocationSegmentChanged
+-(IBAction)scrollDown
 {
-   [ self.zipcodeField resignFirstResponder ]; 
-   [ self.nameField resignFirstResponder ]; 
-   [ self.emailField resignFirstResponder ]; 
-   
-   if ([self.zipOrLocationSegment selectedSegmentIndex] == 0 ) {
-      [ self.zipcodeField setHidden: YES];
-      [ self.radiusPicker setHidden: NO];
-      [ self.radiusLabel setHidden: NO];
-   }
-   else {
-      [ self.zipcodeField setHidden: NO];
-      [ self.radiusPicker setHidden: YES];
-      [ self.radiusLabel setHidden: YES];
-   }
+	[self.scrollView setContentOffset:CGPointMake(0,100) animated:YES];
 }
+
+-(IBAction)scrollUp
+{
+	[self.scrollView setContentOffset:CGPointMake(0,0) animated:YES];
+}
+
 
 @end

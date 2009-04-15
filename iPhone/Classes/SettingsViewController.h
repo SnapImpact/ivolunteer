@@ -9,26 +9,21 @@
 #import <UIKit/UIKit.h>
 
 
-@interface SettingsViewController : UIViewController<UIPickerViewDelegate, UIPickerViewDataSource> {
-   NSArray *radiusPickerData;
-   IBOutlet UIPickerView* radiusPicker;
-   IBOutlet UILabel *radiusLabel;
+@interface SettingsViewController : UIViewController {
    IBOutlet UITextField *zipcodeField;
    IBOutlet UITextField *nameField;
    IBOutlet UITextField *emailField;
-   IBOutlet UISegmentedControl *zipOrLocationSegment;
+   IBOutlet UIScrollView *scrollView;
 }
 
-@property (nonatomic, retain) UIPickerView* radiusPicker;
-@property (nonatomic, retain) UILabel* radiusLabel;
-@property (nonatomic, retain) NSArray* radiusPickerData;
 @property (nonatomic, retain) UITextField *zipcodeField;
 @property (nonatomic, retain) UITextField *nameField;
 @property (nonatomic, retain) UITextField *emailField;
-@property (nonatomic, retain) UISegmentedControl *zipOrLocationSegment;
+@property (nonatomic, retain) UIScrollView *scrollView;
 
 - (IBAction) zipcodeUpdated;
-- (IBAction) zipOrLocationSegmentChanged;
 - (IBAction) dismissKeyboard;
+- (IBAction)scrollDown;
+- (IBAction)scrollUp;
 
 @end
