@@ -63,6 +63,9 @@
 		94C3AE830F91452D00153859 /* MapWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C3AE7E0F91452D00153859 /* MapWebView.m */; };
 		94C3AE840F91452D00153859 /* MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C3AE810F91452D00153859 /* MapView.m */; };
 		94C3AE870F91455000153859 /* MemoryTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C3AE850F91455000153859 /* MemoryTabViewController.m */; };
+		94CC40F80F9EB85900EFFEF1 /* RegisterConfirmationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CC40F70F9EB85900EFFEF1 /* RegisterConfirmationViewController.m */; };
+		94CC41050F9EBD7900EFFEF1 /* RegisterConfirmationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94CC41040F9EBD7900EFFEF1 /* RegisterConfirmationView.xib */; };
+		94CC410E0F9EC0B900EFFEF1 /* ActionSheetShine.png in Resources */ = {isa = PBXBuildFile; fileRef = 94CC410D0F9EC0B900EFFEF1 /* ActionSheetShine.png */; };
 		94DFFC140F579B27005D62B9 /* ModelBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DFFC130F579B27005D62B9 /* ModelBase.m */; };
 		94DFFFA70F5A0ABF005D62B9 /* ActionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DFFFA60F5A0ABF005D62B9 /* ActionsView.m */; };
 		94ED9C2A0F5BAFC600F2697F /* EventDetailsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94ED9C290F5BAFC600F2697F /* EventDetailsTableViewController.m */; };
@@ -172,6 +175,10 @@
 		94C3AE820F91452D00153859 /* MapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapView.h; sourceTree = "<group>"; };
 		94C3AE850F91455000153859 /* MemoryTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemoryTabViewController.m; sourceTree = "<group>"; };
 		94C3AE860F91455000153859 /* MemoryTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemoryTabViewController.h; sourceTree = "<group>"; };
+		94CC40F60F9EB85900EFFEF1 /* RegisterConfirmationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterConfirmationViewController.h; sourceTree = "<group>"; };
+		94CC40F70F9EB85900EFFEF1 /* RegisterConfirmationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterConfirmationViewController.m; sourceTree = "<group>"; };
+		94CC41040F9EBD7900EFFEF1 /* RegisterConfirmationView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegisterConfirmationView.xib; sourceTree = "<group>"; };
+		94CC410D0F9EC0B900EFFEF1 /* ActionSheetShine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ActionSheetShine.png; sourceTree = "<group>"; };
 		94DFFC120F579B27005D62B9 /* ModelBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelBase.h; sourceTree = "<group>"; };
 		94DFFC130F579B27005D62B9 /* ModelBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelBase.m; sourceTree = "<group>"; };
 		94DFFFA50F5A0AB6005D62B9 /* ActionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionsView.h; sourceTree = "<group>"; };
@@ -246,6 +253,7 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				940875400F5C965C0037C286 /* Entitlements.plist */,
+				94CC41040F9EBD7900EFFEF1 /* RegisterConfirmationView.xib */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -293,6 +301,7 @@
 		5CA642350F6C698600B181AF /* images */ = {
 			isa = PBXGroup;
 			children = (
+				94CC410D0F9EC0B900EFFEF1 /* ActionSheetShine.png */,
 				5CADF4440F90F83A00690E94 /* marker.png */,
 				943BD0BA0F76EBC100363DF2 /* busy_background.png */,
 				943BD0BB0F76EBC100363DF2 /* SplashLogoHand.png */,
@@ -386,6 +395,8 @@
 				942E23BC0F5E107000C87AC1 /* MapViewController.m */,
 				94F2B8550F943622004C7ECB /* SettingsViewController.h */,
 				94F2B8560F943622004C7ECB /* SettingsViewController.m */,
+				94CC40F60F9EB85900EFFEF1 /* RegisterConfirmationViewController.h */,
+				94CC40F70F9EB85900EFFEF1 /* RegisterConfirmationViewController.m */,
 			);
 			name = "UI Classes";
 			sourceTree = "<group>";
@@ -529,6 +540,8 @@
 				94AE8B5A0F859F8C006AD78D /* SettingsIcon.png in Resources */,
 				94AE8B5B0F859F8C006AD78D /* MyEventsIcon.png in Resources */,
 				5CADF4450F90F83A00690E94 /* marker.png in Resources */,
+				94CC41050F9EBD7900EFFEF1 /* RegisterConfirmationView.xib in Resources */,
+				94CC410E0F9EC0B900EFFEF1 /* ActionSheetShine.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -577,6 +590,7 @@
 				94C3AE840F91452D00153859 /* MapView.m in Sources */,
 				94C3AE870F91455000153859 /* MemoryTabViewController.m in Sources */,
 				94F2B8570F943622004C7ECB /* SettingsViewController.m in Sources */,
+				94CC40F80F9EB85900EFFEF1 /* RegisterConfirmationViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

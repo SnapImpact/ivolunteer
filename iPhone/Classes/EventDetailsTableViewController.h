@@ -24,7 +24,10 @@
    UIFont* largeFont;
    NSString* signUpString;
    NSString* signedUpString;
+   IBOutlet UIView* floatingView;
 }
+
+@property (nonatomic, retain) UIView *floatingView;
 @property (nonatomic,retain) id <BusyIndicatorDelegate> busyIndicatorDelegate;
 @property (retain) Event* event;
 @property (retain) EventDetailsHeaderCell* headerCell;
@@ -42,3 +45,4 @@
 + (id) viewWithEvent: (Event*) event;
 
 @end
+
