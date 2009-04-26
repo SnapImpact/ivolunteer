@@ -10,8 +10,6 @@
 #import "AttributeCell.h"
 
 #import "MapViewController.h"
-#import "RegisterConfirmationViewController.h"
-
 
 @implementation EventDetailsTableViewController
 
@@ -499,26 +497,19 @@
 
 #pragma mark Action Callbacks
 - (void) signUp {
-   
-   NSArray *nib = [[NSBundle mainBundle] loadNibNamed: @"RegisterConfirmationView" owner: self options: nil ];
-   RegisterConfirmationViewController* sheet = (RegisterConfirmationViewController*) [nib objectAtIndex: 0];
-   //TODO: populate the stuff
-   
-   [self.view addSubview: sheet.view ];
-   
-   
-
-   
-   BOOL signedUp = [self.event.signedUp boolValue];
-   if(signedUp) {
-      [self.headerActions setTitle: @"Sign Up" forButtonAtIndex: 0 selected: NO animate: YES ];
+   if (![self.event.signedUp boolValue]) {
+      UIWindow* window = [[UIApplication sharedApplication].windows objectAtIndex: 0];
+      [RegisterConfirmationViewController displaySheetForEvent: self.event inWindow: window delegate: self];
    }
-   else {
-      [self.headerActions setTitle: @"Signed Up!" forButtonAtIndex: 0 selected: YES animate: YES ];
-   }
-   self.event.signedUp = [NSNumber numberWithBool: !signedUp ];
 }
 
+- (void) didConfirmRegistration {
+   [self.headerActions setTitle:  self.signedUpString forButtonAtIndex: 0 selected: YES animate: YES ];
+   self.event.signedUp = [NSNumber numberWithBool: YES];
+}
+
+- (void) didCancelRegistration {
+}
 
 @end
 
