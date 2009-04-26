@@ -504,14 +504,14 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
                }
                else {
                   //add
-                  e = [Event eventWithId:event_id
-                                    name:event_name
-                                 details:description
+                  e = [Event eventWithId: event_id
+                                    name: event_name
+                                 details: description
                             organization: [self.organizations objectForKey: org_id]
                                  contact: nil
                                   source: nil 
                                 location: nil 
-                           interestAreas:event_interestAreas
+                           interestAreas: event_interestAreas
                                     date: [timestamps objectForKey: ts]
                                 duration: duration ];
                   //don't add them for now until we hande nils in the UI
