@@ -11,9 +11,9 @@
 
 #import "MapViewController.h"
 
-
 @implementation EventDetailsTableViewController
 
+@synthesize floatingView;
 @synthesize event;
 @synthesize headerCell;
 @synthesize headerActions;
@@ -85,8 +85,8 @@
     // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
     if (self = [super initWithStyle:style]) {
        
-       self.signedUpString = NSLocalizedString( @"Signed Up!", @"Should be positive, yay you signed up!" );
-       self.signUpString = NSLocalizedString( @"Sign Up", @"Indicates clicking this button will sign you up" );
+       self.signedUpString = NSLocalizedString( @"Registered!", @"Should be positive, yay you signed up!" );
+       self.signUpString = NSLocalizedString( @"Register", @"Indicates clicking this button will sign you up" );
        
        NSArray* selectors = [NSArray arrayWithObjects:
                               [NSValue valueWithPointer: @selector(signUp)],
@@ -491,22 +491,26 @@
 	[largeFont release];
 	[signUpString release];
 	[signedUpString release];
-	
-    [super dealloc];
+   self.floatingView = nil;
+   [super dealloc];
 }
 
 #pragma mark Action Callbacks
 - (void) signUp {
-   BOOL signedUp = [self.event.signedUp boolValue];
-   if(signedUp) {
-      [self.headerActions setTitle: @"Sign Up" forButtonAtIndex: 0 selected: NO animate: YES ];
+   if (![self.event.signedUp boolValue]) {
+      UIWindow* window = [[UIApplication sharedApplication].windows objectAtIndex: 0];
+      [RegisterConfirmationViewController displaySheetForEvent: self.event inWindow: window delegate: self];
    }
-   else {
-      [self.headerActions setTitle: @"Signed Up!" forButtonAtIndex: 0 selected: YES animate: YES ];
-   }
-   self.event.signedUp = [NSNumber numberWithBool: !signedUp ];
 }
 
+- (void) didConfirmRegistration {
+   [self.headerActions setTitle:  self.signedUpString forButtonAtIndex: 0 selected: YES animate: YES ];
+   self.event.signedUp = [NSNumber numberWithBool: YES];
+}
+
+- (void) didCancelRegistration {
+}
 
 @end
+
 
