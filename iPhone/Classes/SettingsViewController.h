@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+#define kSettingsKey @"Settings"
+#define kSettingsKeyName @"name"
+#define kSettingsKeyEmail @"email"
+#define kSettingsKeyZipcode @"zipcode"
+#define kSettingsKeyUseZipcode @"useZipcode"
+
 
 @interface SettingsViewController : UIViewController<UIActionSheetDelegate> {
    IBOutlet UITextField *zipcodeField;
