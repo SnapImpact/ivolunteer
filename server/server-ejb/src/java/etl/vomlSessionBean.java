@@ -59,7 +59,7 @@ public class vomlSessionBean implements vomlSessionLocal {
 			Unmarshaller unmarshaller = jc.createUnmarshaller();
 			vo = (VolunteerOpportunities) unmarshaller
 					.unmarshal(new File(
-							"/Users/dave/Documents/iVolunteer/code/ivolunteer/test_data/handsonnetwork_restricted_mucked.xml"));
+							"/Users/dave/Documents/iVolunteer/code/ivolunteer/test_data/handsonnetwork.xml"));
 			List<VolunteerOpportunity> opps = vo.getVolunteerOpportunity();
 
 			SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -93,7 +93,12 @@ public class vomlSessionBean implements vomlSessionLocal {
 			}
 
 			for (VolunteerOpportunity opp : opps) {
-				System.out.println(opp.getTitle());
+
+                if ( opp.getTitle() == null ) {
+                    continue;
+                }
+                
+                System.out.println(opp.getTitle());
 
 				// SponsoringOrganization sponsor =
 				// opp.getSponsoringOrganizations().getSponsoringOrganization().iterator().next();
