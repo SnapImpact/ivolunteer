@@ -117,7 +117,12 @@ public class vomlSessionBean implements vomlSessionLocal {
 						em.persist(org);
 					}
 
-					String sponsorAddress = sponsor.getAddress1() + " " + sponsor.getAddress2();
+                    String sponsorAddress = sponsor.getAddress1();
+                    if (sponsor.getAddress2() != null) {
+                        sponsorAddress =
+                            ((sponsorAddress==null)?"":(sponsorAddress + " "))
+                            + sponsor.getAddress2();
+                    }
 					persistence.Location loc;
 					boolean newLoc = false;
 					try {
@@ -226,6 +231,33 @@ public class vomlSessionBean implements vomlSessionLocal {
 				}
 				ev.setInterestAreaCollection(currentIAs);
 
+                org.networkforgood.xml.namespaces.voml.Location location = opp.getLocations().getLocation();
+                String locationAddress = location.getAddress1();
+                if (location.getAddress2() != null) {
+                    locationAddress = 
+                        ((locationAddress==null)?"":(locationAddress + " "))
+                        + location.getAddress2();
+                }
+                persistence.Location loc;
+                boolean newLoc = false;
+                try {
+                    locationQuery.setParameter("street", locationAddress);
+                    locationQuery.setParameter("zip", location.getZipOrPostalCode());
+                    loc = (persistence.Location) locationQuery.getSingleResult();
+                } catch (NoResultException nr) {
+                    newLoc = true;
+                    loc = new persistence.Location();
+                    loc.setId(UUID.randomUUID().toString());
+                    loc.setStreet(locationAddress);
+                    loc.setCity(location.getCity());
+                    loc.setState(location.getStateOrProvince());
+                    loc.setZip(location.getZipOrPostalCode());
+                    em.persist(loc);
+                }
+
+                if (newLoc) {
+                    ev.getLocationCollection().add(loc);
+                }
 				em.merge(ev);
 				em.flush();
 

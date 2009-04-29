@@ -51,7 +51,9 @@ import javax.persistence.Table;
 		@NamedQuery(name = "Location.findByLocation", query = "SELECT l FROM Location l WHERE l.location = :location"),
 		@NamedQuery(name = "Location.findByLatitude", query = "SELECT l FROM Location l WHERE l.latitude = :latitude"),
 		@NamedQuery(name = "Location.findByLongitude", query = "SELECT l FROM Location l WHERE l.longitude = :longitude"),
-		@NamedQuery(name = "Location.findByStreetZip", query = "SELECT l FROM Location l WHERE l.street = :street and l.zip = :zip") })
+		@NamedQuery(name = "Location.findByStreetZip", query = "SELECT l FROM Location l WHERE l.street = :street and l.zip = :zip"),
+        @NamedQuery(name = "Location.findNullLatLon", query = "SELECT l FROM Location l WHERE l.latitude is null and l.longitude is null and (l.street is not null or l.city is not null or l.state is not null or l.zip is not null)")
+})
 public class Location implements Serializable, IdInterface {
 	private static final long			serialVersionUID	= 1L;
 	@Id
