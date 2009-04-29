@@ -44,6 +44,11 @@
 		9456EBBE0F8311D900653FEC /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9456EBBD0F8311D900653FEC /* Icon.png */; };
 		9465B4830F5A25FC00B0F926 /* EventDetailsHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9465B4820F5A25FC00B0F926 /* EventDetailsHeaderCell.xib */; };
 		9483D93D0F5A184B00406DB3 /* EventDetailsHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9483D93C0F5A184B00406DB3 /* EventDetailsHeaderCell.m */; };
+		94A6E08D0FA7E8A2004F3412 /* MyEventsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A6E08C0FA7E8A2004F3412 /* MyEventsViewController.m */; };
+		94A6E09C0FA7E952004F3412 /* EventsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A6E09B0FA7E952004F3412 /* EventsViewController.m */; };
+		94A6E14A0FA7EB3A004F3412 /* UpcomingEventsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A6E1490FA7EB3A004F3412 /* UpcomingEventsViewController.m */; };
+		94A6E1F80FA7F776004F3412 /* UpcomingEventsSortedByTimeDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A6E1F70FA7F776004F3412 /* UpcomingEventsSortedByTimeDataSource.m */; };
+		94A6E1FB0FA7F7B0004F3412 /* MyEventsSortedByTimeDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A6E1FA0FA7F7B0004F3412 /* MyEventsSortedByTimeDataSource.m */; };
 		94A97B7F0F43890C0077E4E0 /* Data Model Plan in Resources */ = {isa = PBXBuildFile; fileRef = 94A97B7E0F43890C0077E4E0 /* Data Model Plan */; };
 		94A97BB80F4521D80077E4E0 /* RestClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A97BB70F4521D80077E4E0 /* RestClient.m */; };
 		94A97D3B0F452D610077E4E0 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 94A97D3A0F452D610077E4E0 /* libxml2.dylib */; };
@@ -139,6 +144,16 @@
 		9465B4820F5A25FC00B0F926 /* EventDetailsHeaderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventDetailsHeaderCell.xib; sourceTree = "<group>"; };
 		9483D93B0F5A184B00406DB3 /* EventDetailsHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventDetailsHeaderCell.h; sourceTree = "<group>"; };
 		9483D93C0F5A184B00406DB3 /* EventDetailsHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventDetailsHeaderCell.m; sourceTree = "<group>"; };
+		94A6E08B0FA7E8A2004F3412 /* MyEventsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyEventsViewController.h; sourceTree = "<group>"; };
+		94A6E08C0FA7E8A2004F3412 /* MyEventsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyEventsViewController.m; sourceTree = "<group>"; };
+		94A6E09A0FA7E952004F3412 /* EventsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventsViewController.h; sourceTree = "<group>"; };
+		94A6E09B0FA7E952004F3412 /* EventsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventsViewController.m; sourceTree = "<group>"; };
+		94A6E1480FA7EB3A004F3412 /* UpcomingEventsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpcomingEventsViewController.h; sourceTree = "<group>"; };
+		94A6E1490FA7EB3A004F3412 /* UpcomingEventsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpcomingEventsViewController.m; sourceTree = "<group>"; };
+		94A6E1F60FA7F776004F3412 /* UpcomingEventsSortedByTimeDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpcomingEventsSortedByTimeDataSource.h; sourceTree = "<group>"; };
+		94A6E1F70FA7F776004F3412 /* UpcomingEventsSortedByTimeDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpcomingEventsSortedByTimeDataSource.m; sourceTree = "<group>"; };
+		94A6E1F90FA7F7B0004F3412 /* MyEventsSortedByTimeDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyEventsSortedByTimeDataSource.h; sourceTree = "<group>"; };
+		94A6E1FA0FA7F7B0004F3412 /* MyEventsSortedByTimeDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyEventsSortedByTimeDataSource.m; sourceTree = "<group>"; };
 		94A97B7E0F43890C0077E4E0 /* Data Model Plan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Data Model Plan"; sourceTree = "<group>"; };
 		94A97BB60F4521D80077E4E0 /* RestClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestClient.h; sourceTree = "<group>"; };
 		94A97BB70F4521D80077E4E0 /* RestClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestClient.m; sourceTree = "<group>"; };
@@ -225,8 +240,6 @@
 				94BE56E80F4294E000A505F0 /* Data Model */,
 				E1DDD40D0EAAD73F006CA155 /* SplashViewController.h */,
 				E1DDD40E0EAAD73F006CA155 /* SplashViewController.m */,
-				28C286DF0D94DF7D0034E888 /* ProjectViewController.h */,
-				28C286E00D94DF7D0034E888 /* ProjectViewController.m */,
 				1D3623240D0F684500981E51 /* iPhoneAppDelegate.h */,
 				1D3623250D0F684500981E51 /* iPhoneAppDelegate.m */,
 				5CA641F70F6C638D00B181AF /* LocationAvailabilityDelegate.h */,
@@ -377,6 +390,8 @@
 		9455CA030F537D8200296B87 /* UI Classes */ = {
 			isa = PBXGroup;
 			children = (
+				28C286DF0D94DF7D0034E888 /* ProjectViewController.h */,
+				28C286E00D94DF7D0034E888 /* ProjectViewController.m */,
 				94C3AE850F91455000153859 /* MemoryTabViewController.m */,
 				94C3AE860F91455000153859 /* MemoryTabViewController.h */,
 				94BACFB40F5BBFF700FDACED /* ColorCache.h */,
@@ -397,6 +412,12 @@
 				94F2B8560F943622004C7ECB /* SettingsViewController.m */,
 				94CC40F60F9EB85900EFFEF1 /* RegisterConfirmationViewController.h */,
 				94CC40F70F9EB85900EFFEF1 /* RegisterConfirmationViewController.m */,
+				94A6E08B0FA7E8A2004F3412 /* MyEventsViewController.h */,
+				94A6E08C0FA7E8A2004F3412 /* MyEventsViewController.m */,
+				94A6E09A0FA7E952004F3412 /* EventsViewController.h */,
+				94A6E09B0FA7E952004F3412 /* EventsViewController.m */,
+				94A6E1480FA7EB3A004F3412 /* UpcomingEventsViewController.h */,
+				94A6E1490FA7EB3A004F3412 /* UpcomingEventsViewController.m */,
 			);
 			name = "UI Classes";
 			sourceTree = "<group>";
@@ -455,6 +476,10 @@
 				94A97F1A0F48BBB20077E4E0 /* RootViewDataSourceProtocol.h */,
 				94A97F230F48BD670077E4E0 /* EventsSortedByTimeDataSource.h */,
 				94A97F240F48BD670077E4E0 /* EventsSortedByTimeDataSource.m */,
+				94A6E1F60FA7F776004F3412 /* UpcomingEventsSortedByTimeDataSource.h */,
+				94A6E1F70FA7F776004F3412 /* UpcomingEventsSortedByTimeDataSource.m */,
+				94A6E1F90FA7F7B0004F3412 /* MyEventsSortedByTimeDataSource.h */,
+				94A6E1FA0FA7F7B0004F3412 /* MyEventsSortedByTimeDataSource.m */,
 			);
 			name = "Data Sources";
 			sourceTree = "<group>";
@@ -591,6 +616,11 @@
 				94C3AE870F91455000153859 /* MemoryTabViewController.m in Sources */,
 				94F2B8570F943622004C7ECB /* SettingsViewController.m in Sources */,
 				94CC40F80F9EB85900EFFEF1 /* RegisterConfirmationViewController.m in Sources */,
+				94A6E08D0FA7E8A2004F3412 /* MyEventsViewController.m in Sources */,
+				94A6E09C0FA7E952004F3412 /* EventsViewController.m in Sources */,
+				94A6E14A0FA7EB3A004F3412 /* UpcomingEventsViewController.m in Sources */,
+				94A6E1F80FA7F776004F3412 /* UpcomingEventsSortedByTimeDataSource.m in Sources */,
+				94A6E1FB0FA7F7B0004F3412 /* MyEventsSortedByTimeDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

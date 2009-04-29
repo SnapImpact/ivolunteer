@@ -8,6 +8,7 @@
 
 #import "EventDetailsTableViewController.h"
 #import "AttributeCell.h"
+#import "iVolunteerData.h"
 
 #import "MapViewController.h"
 
@@ -506,6 +507,7 @@
 - (void) didConfirmRegistration {
    [self.headerActions setTitle:  self.signedUpString forButtonAtIndex: 0 selected: YES animate: YES ];
    self.event.signedUp = [NSNumber numberWithBool: YES];
+   [[iVolunteerData sharedVolunteerData] updateMyEventsDataSource: self.event];
 }
 
 - (void) didCancelRegistration {
