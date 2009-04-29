@@ -59,7 +59,9 @@ public class vomlSessionBean implements vomlSessionLocal {
 			Unmarshaller unmarshaller = jc.createUnmarshaller();
 			vo = (VolunteerOpportunities) unmarshaller
 					.unmarshal(new File(
-							"/Users/dave/Documents/iVolunteer/code/ivolunteer/test_data/handsonnetwork_restricted_mucked.xml"));
+                    "/home/markchance/" +
+//							"/Users/mark/"+
+                            "Projects/iVolunteer/ivolunteer/test_data/handsonnetwork_restricted_mucked.xml"));
 			List<VolunteerOpportunity> opps = vo.getVolunteerOpportunity();
 
 			SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -117,12 +119,12 @@ public class vomlSessionBean implements vomlSessionLocal {
 						em.persist(org);
 					}
 
-                    String sponsorAddress = sponsor.getAddress1();
-                    if (sponsor.getAddress2() != null) {
-                        sponsorAddress =
-                            ((sponsorAddress==null)?"":(sponsorAddress + " "))
-                            + sponsor.getAddress2();
-                    }
+                                        String sponsorAddress = sponsor.getAddress1();
+                                        if (sponsor.getAddress2() != null) {
+                                            sponsorAddress =
+                                                ((sponsorAddress==null)?"":(sponsorAddress + " "))
+                                                + sponsor.getAddress2();
+                                        }
 					persistence.Location loc;
 					boolean newLoc = false;
 					try {
