@@ -18,6 +18,10 @@
 @synthesize refreshButton;
 @synthesize detailsController;
 @synthesize dataSource;
+@synthesize busyIndicatorDelegate;
+@synthesize settingsButtonItem;
+@synthesize sortButtonItem;
+
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -51,25 +55,16 @@
 }
 
 - (void) tableView: (UITableView*) tableView accessoryButtonTappedForRowWithIndexPath: (NSIndexPath*) indexPath
-{
-   /*
-   UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Hi"
-                                                   message: @"Hola"
-                                                  delegate: nil 
-                                         cancelButtonTitle: @"Gotcha" 
-                                         otherButtonTitles: nil ];
-   [alert show];
-   [alert release];
-   */
-      
-   id event = [self.dataSource objectForIndexPath: indexPath ];
+{      
+   Event *event = (Event *)[self.dataSource objectForIndexPath: indexPath ];
    if( self.detailsController == nil ) {
       self.detailsController = [EventDetailsTableViewController viewWithEvent: event ];
    }
    else {
       self.detailsController.event = event;
    }
-   
+	self.detailsController.busyIndicatorDelegate = self.busyIndicatorDelegate;
+	
    [self.navigationController pushViewController:self.detailsController animated: YES];
 }
 
@@ -83,6 +78,8 @@
    self.detailsController = nil;
    // Uncomment the following line to add the Edit button to the navigation bar.
    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+   //self.sortButtonItem = [[[UIBarButtonItem alloc] initWithTitle: @"Sort" style: UIBarButtonItemStylePlain target: self action:@selector(sort)] autorelease];
+   //self.navigationItem.rightBarButtonItem = self.sortButtonItem;
    self.dataSource = [EventsSortedByTimeDataSource dataSource];
    [[self tableView] setDataSource: self.dataSource ];
 }
@@ -159,9 +156,32 @@
 
 
 - (void)dealloc {
+	[refreshButton release];
+	[detailsController release];
+	[dataSource release];
+	[(NSObject *) busyIndicatorDelegate release];
+	[dataSource release];
+	[settingsButtonItem release];
+	[sortButtonItem release];
+	
     [super dealloc];
 }
 
+#pragma mark -
+#pragma mark LocationAvailabilityDelegate methods
+
+- (void)locationIsAvailable:(CLLocation *)location
+{
+}
+
+
+- (void) settings 
+{
+}
+
+- (void) sort 
+{
+}
 
 @end
 

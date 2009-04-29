@@ -9,15 +9,27 @@
 #import <UIKit/UIKit.h>
 #import "EventDetailsTableViewController.h"
 #import "EventsSortedByTimeDataSource.h"
+#import "BusyIndicatorDelegate.h"
+#import "LocationAvailabilityDelegate.h"
 
-@interface ProjectViewController : UITableViewController {
+@interface ProjectViewController : UITableViewController <LocationAvailabilityDelegate>{
    IBOutlet UIButton* refreshButton;
+   id <BusyIndicatorDelegate> busyIndicatorDelegate;
    EventDetailsTableViewController* detailsController;
    EventsSortedByTimeDataSource* dataSource;
+   UIBarButtonItem* settingsButtonItem;
+   UIBarButtonItem* sortButtonItem;
 }
 
-@property (nonatomic, retain) UIButton* refreshButton;
-@property (nonatomic, retain) EventDetailsTableViewController* detailsController;
-@property (nonatomic, retain) EventsSortedByTimeDataSource* dataSource;
+@property (nonatomic,retain) id <BusyIndicatorDelegate> busyIndicatorDelegate;
+@property (retain) UIButton* refreshButton;
+@property (retain) EventDetailsTableViewController* detailsController;
+@property (retain) EventsSortedByTimeDataSource* dataSource;
+@property (retain) UIBarButtonItem* settingsButtonItem;
+@property (retain) UIBarButtonItem* sortButtonItem;
+
+- (void) settings ;
+- (void) sort ;
+
 
 @end

@@ -213,6 +213,15 @@ static BOOL use24HourTime;
                                                         options:0];
 }
 
++ (NSDate*) daysFromNow: (NSUInteger) days {
+   NSDateComponents* components = [[[NSDateComponents alloc] init] autorelease];
+   components.day = days;
+   
+   return [[NSCalendar currentCalendar] dateByAddingComponents:components
+                                                        toDate:[DateUtilities today]
+                                                       options:0];
+}
+
 
 + (BOOL) isSameDay:(NSDate*) d1
               date:(NSDate*) d2 {
@@ -346,6 +355,20 @@ static BOOL use24HourTime;
         components.day = [[string substringWithRange:NSMakeRange(8, 2)] intValue];
 
         return [[NSCalendar currentCalendar] dateFromComponents:components];
+    }
+    else if (string.length == 20) {
+       //e.g. 2008-12-18T18:30:00Z
+       //     01234567890123456789
+       NSDateComponents* components = [[[NSDateComponents alloc] init] autorelease];
+       components.year = [[string substringWithRange:NSMakeRange(0, 4)] intValue];
+       components.month = [[string substringWithRange:NSMakeRange(5, 2)] intValue];
+       components.day = [[string substringWithRange:NSMakeRange(8, 2)] intValue];
+       components.hour = [[string substringWithRange:NSMakeRange(11, 2)] intValue];
+       components.minute = [[string substringWithRange:NSMakeRange(14, 2)] intValue]; 
+       components.second = [[string substringWithRange:NSMakeRange(17, 2)] intValue];
+       
+       return [[NSCalendar currentCalendar] dateFromComponents:components];
+       
     }
 
     return nil;

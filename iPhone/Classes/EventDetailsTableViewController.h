@@ -10,8 +10,11 @@
 #import "Event.h"
 #import "EventDetailsHeaderCell.h"
 #import "ActionsView.h"
+#import "BusyIndicatorDelegate.h"
+#import "RegisterConfirmationViewController.h"
 
-@interface EventDetailsTableViewController : UITableViewController {
+@interface EventDetailsTableViewController : UITableViewController<RegisterConfirmationProtocol> {
+   id <BusyIndicatorDelegate> busyIndicatorDelegate;
    Event* event;
    EventDetailsHeaderCell* headerCell;
    ActionsView* headerActions;
@@ -22,8 +25,11 @@
    UIFont* largeFont;
    NSString* signUpString;
    NSString* signedUpString;
+   IBOutlet UIView* floatingView;
 }
 
+@property (nonatomic, retain) UIView *floatingView;
+@property (nonatomic,retain) id <BusyIndicatorDelegate> busyIndicatorDelegate;
 @property (retain) Event* event;
 @property (retain) EventDetailsHeaderCell* headerCell;
 @property (retain) ActionsView* headerActions;
@@ -35,8 +41,10 @@
 @property (copy) NSString* signedUpString;
 @property (copy) NSString* signUpString;
 
-
+- (void) didConfirmRegistration;
+- (void) didCancelRegistration;
 
 + (id) viewWithEvent: (Event*) event;
 
 @end
+

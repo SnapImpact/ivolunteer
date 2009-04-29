@@ -56,31 +56,22 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-   /*
-	AtomicElementTableViewCell *cell = (AtomicElementTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"AtomicElementTableViewCell"];
-	if (cell == nil) {
-		cell = [[[AtomicElementTableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"AtomicElementTableViewCell"] autorelease];
-	}
-   
-	// configure cell contents
-	// all the rows should show the disclosure indicator
-	if ([self showDisclosureIcon])
-		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-	
-	// set the element for this cell as specified by the datasource. The atomicElementForIndexPath: is declared
-	// as part of the ElementsDataSource Protocol and will return the appropriate element for the index row
-	cell.element = [self atomicElementForIndexPath:indexPath];
-   */
-   
    EventTableCell* cell = (EventTableCell*) [tableView dequeueReusableCellWithIdentifier: [EventTableCell reuseIdentifier]];
    if(cell == nil) {
       NSArray *nib = [[NSBundle mainBundle] loadNibNamed: @"EventTableCell" owner: self options: nil ];
-      cell = [nib objectAtIndex:0];
+      NSEnumerator* e = [nib objectEnumerator];
+      id objectInNib;
+      while(objectInNib = [e nextObject]) {
+         if( [objectInNib isKindOfClass: [EventTableCell class]] ) {
+            cell = (EventTableCell*)objectInNib;
+         }
+      }
    }
    
    NSArray* events = [[[iVolunteerData sharedVolunteerData] eventsSortedIntoDays] objectAtIndex: [indexPath section]]; 
    Event* event = [events objectAtIndex: [indexPath row]];
    
+   NSLog( @"Class of cell is %@", [cell class] );
    cell.event = event;
    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
    return cell;
@@ -90,19 +81,6 @@
 {
    return [ EventTableCell height];
 }
-
-/*
-- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
-	// returns the array of section titles. 
-   // Something like:
-   //  Today
-   //  This Week
-   //  This Month
-   //  Further Out
-   return [[iVolunteerData sharedVolunteerData] daysWithEvents];
-   //return [ NSArray arrayWithObjects: @"Today", @"This Week", @"This Month", @"Further Out", nil ];
-}
-*/
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 	return [[[iVolunteerData sharedVolunteerData] daysWithEvents] count ];

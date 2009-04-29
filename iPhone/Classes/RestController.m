@@ -11,32 +11,32 @@
 
 @implementation RestController
 
-@synthesize data;
+@synthesize iVD;
 
 - (RestController*) initWithVolunteerData: (iVolunteerData*) ivd {
    [super init];
-   [self setData: ivd];
+   [self setIVD: ivd];
    server = [[RestClient alloc] init ];
    [server setDelegate: self];
    return self;
 }
 
 - (void) beginGetEventsFrom:(NSDate*) dateFrom until: (NSDate*) dateUntil {
-   NSURL* url = [NSURL URLWithString: @"http://actionfeed.org/server/resources/timestamps/" ];
+   NSURL* url = [NSURL URLWithString: @"http://actionfeed.org/server/resources/events/consolidated" ];
    NSLog( @"Beginning request to: %@ ", url );
    [server sendRequestTo: url usingVerb: @"GET" withParameters: nil ];
-   [url release];
 }
 
 #pragma mark RestClient deletgate methods
 - (BOOL)restClientShouldRetainData:(RestClient *)ri {
    //we'll parse it as we get it
-   return NO;
+   return YES;
 }
 
 - (void)restClient:(RestClient *)ri didRetrieveData:(NSData *)data {
    //tell parser we are done
    NSLog( @"Retrieved all data." );
+   [[iVolunteerData sharedVolunteerData] parseJson: data ];
 }
 
 - (void)restClient:(RestClient *)ri didReceiveData:(NSData*)data {
