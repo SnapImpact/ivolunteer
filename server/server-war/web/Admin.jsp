@@ -41,6 +41,20 @@
                             onClick="webui.suntheme4_2.common.timeoutSubmitForm(this.form, 'radioButtonGroup1');"
                             style="position: absolute; left: 144px; top: 96px" valueChangeListenerExpression="#{Admin.radioButtonGroup1_processValueChange}"/>
                     </webuijsf:form>
+                    <webuijsf:form id="form2">
+                        <webuijsf:radioButtonGroup id="radioButtonGroup2" items="#{Admin.radioButtonGroup2DefaultOptions.options}"
+                            onClick="webui.suntheme4_2.common.timeoutSubmitForm(this.form, 'radioButtonGroup2');"
+                            style="position: absolute; left: 144px; top: 296px" valueChangeListenerExpression="#{Admin.radioButtonGroup2_processValueChange}"/>
+                    </webuijsf:form>
+                    <webuijsf:form id="form3">
+                        <webuijsf:staticText>Address:</webuijsf:staticText>
+                        <webuijsf:textField label="addr"/>
+                        <webuijsf:staticText>Latitude: </webuijsf:staticText>
+                        <webuijsf:staticText binding="#{Admin.latitude}"/>
+                        <webuijsf:staticText>Longitude:</webuijsf:staticText>
+                        <webuijsf:staticText binding="#{Admin.longitude}"/>
+                        <webuijsf:button actionExpression="#{Admin.encodeAddress_processValueChange}"/>
+                    </webuijsf:form>
                 </webuijsf:body>
             </webuijsf:html>
         </webuijsf:page>
