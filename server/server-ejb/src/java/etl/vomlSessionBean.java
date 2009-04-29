@@ -62,6 +62,7 @@ public class vomlSessionBean implements vomlSessionLocal {
                     "/home/markchance/" +
 //							"/Users/mark/"+
                             "Projects/iVolunteer/ivolunteer/test_data/handsonnetwork_restricted_mucked.xml"));
+
 			List<VolunteerOpportunity> opps = vo.getVolunteerOpportunity();
 
 			SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -95,7 +96,12 @@ public class vomlSessionBean implements vomlSessionLocal {
 			}
 
 			for (VolunteerOpportunity opp : opps) {
-				System.out.println(opp.getTitle());
+
+                if ( opp.getTitle() == null ) {
+                    continue;
+                }
+                
+                System.out.println(opp.getTitle());
 
 				// SponsoringOrganization sponsor =
 				// opp.getSponsoringOrganizations().getSponsoringOrganization().iterator().next();
@@ -234,12 +240,14 @@ public class vomlSessionBean implements vomlSessionLocal {
 				ev.setInterestAreaCollection(currentIAs);
 
                 org.networkforgood.xml.namespaces.voml.Location location = opp.getLocations().getLocation();
+
                 String locationAddress = location.getAddress1();
                 if (location.getAddress2() != null) {
                     locationAddress = 
                         ((locationAddress==null)?"":(locationAddress + " "))
                         + location.getAddress2();
                 }
+                
                 persistence.Location loc;
                 boolean newLoc = false;
                 try {
@@ -260,6 +268,7 @@ public class vomlSessionBean implements vomlSessionLocal {
                 if (newLoc) {
                     ev.getLocationCollection().add(loc);
                 }
+
 				em.merge(ev);
 				em.flush();
 
