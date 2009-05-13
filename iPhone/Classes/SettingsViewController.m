@@ -7,6 +7,7 @@
 //
 
 #import "SettingsViewController.h"
+#import "InterestAreaFilterController.h"
 
 
 @implementation SettingsViewController
@@ -133,6 +134,13 @@
 {
    UIActionSheet* action = [[UIActionSheet alloc] initWithTitle: @"Reset All Settings?" delegate: self cancelButtonTitle: @"Cancel" destructiveButtonTitle: @"Reset" otherButtonTitles: nil ];
    [action showInView: self.floatingView];
+}
+
+-(IBAction)filterInterestAreas {
+    //TODO: navigation
+    InterestAreaFilterController *controller = [[[ InterestAreaFilterController alloc] initWithNibName: @"InterestAreaFilterController" bundle: nil] autorelease];
+    UINavigationController *nav = self.navigationController;
+    [nav pushViewController: controller animated: YES];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex

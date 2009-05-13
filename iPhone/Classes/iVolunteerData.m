@@ -31,7 +31,7 @@
 
 static iVolunteerData* _sharedInstance = nil;
 static NSString* kVolunteerDataRootKey = @"Root";
-static NSString* kVolunteerDataVersion = @"v1.2";
+static NSString* kVolunteerDataVersion = @"v1.3";
 
 + (id) sharedVolunteerData {
    if( _sharedInstance == nil ) {
@@ -376,10 +376,11 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
       ENCODE_PROP(interestAreas)
       ENCODE_PROP(events)
       ENCODE_PROP(homeZip)
-	  ENCODE_PROP(myLocation)
-	
+      ENCODE_PROP(myLocation)
       ENCODE_PROP(upcomingEventsSortedIntoDays)
+      ENCODE_PROP(myEventsSortedIntoDays)
       ENCODE_PROP(daysWithUpcomingEvents)
+      ENCODE_PROP(daysWithMyEvents)
       ENCODE_PROP(interestAreasByName)
    END_ENCODER()
 }
@@ -397,7 +398,9 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
    DECODE_PROP(homeZip)
    DECODE_PROP(myLocation)
    DECODE_PROP(upcomingEventsSortedIntoDays)
+   DECODE_PROP(myEventsSortedIntoDays)
    DECODE_PROP(daysWithUpcomingEvents)
+   DECODE_PROP(daysWithMyEvents)
    DECODE_PROP(interestAreasByName)
    END_DECODER()
    

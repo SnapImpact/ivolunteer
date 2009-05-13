@@ -38,10 +38,11 @@
 
 - (IBAction) zipcodeUpdated;
 - (IBAction) dismissKeyboard;
-- (IBAction)scrollDown;
-- (IBAction)scrollUp;
-- (IBAction)saveSettings;
-- (IBAction)resetSettings;
+- (IBAction) scrollDown;
+- (IBAction) scrollUp;
+- (IBAction) saveSettings;
+- (IBAction) resetSettings;
+- (IBAction) filterInterestAreas;
 
 @end
 
