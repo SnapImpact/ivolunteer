@@ -54,9 +54,6 @@ public class locationencoderSessionBean implements locationencoderSessionLocal {
                 if (loc.getLatitude() != null && loc.getLongitude()!=null) {
                     em.merge(loc); // ??
                     em.flush();
-//                    updateQuery.setParameter("lat", loc.getLatitude());
-//                    updateQuery.setParameter("lon", loc.getLongitude());
-//                    updateQuery.executeUpdate();
                 }
             }
         } catch (NoResultException nr) {

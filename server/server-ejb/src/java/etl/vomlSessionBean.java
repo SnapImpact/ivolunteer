@@ -21,7 +21,7 @@
  */
 package etl;
 
-import javax.ejb.Stateful;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -44,7 +44,7 @@ import persistence.*;
  * 
  * @author Dave Angulo
  */
-@Stateful
+@Stateless
 @TransactionManagement(TransactionManagementType.BEAN)
 public class vomlSessionBean implements vomlSessionLocal {
 
@@ -95,8 +95,8 @@ public class vomlSessionBean implements vomlSessionLocal {
             Integer oppNum = 0;
 
             while ( oppNum < numOpps ) {
-                engine.writeToDb(opps.subList(oppNum, oppNum+100), orgType, source);
-                oppNum = oppNum + 100;
+                engine.writeToDb(opps.subList(oppNum, oppNum + 1), orgType, source);
+                oppNum++;
                 System.out.println(oppNum + "/" + numOpps);
                 em.flush();
                 userTransaction.commit();

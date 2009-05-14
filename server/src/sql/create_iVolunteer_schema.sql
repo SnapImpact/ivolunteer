@@ -12,6 +12,8 @@ CREATE TABLE LOCATION (
     PRIMARY KEY (ID)
 );
 
+SELECT AddGeometryColumn( 'public', 'location', 'geom', 4326, 'POINT', 2 );
+
 CREATE TABLE TIMESTAMP (
     ID VARCHAR(36) NOT NULL,
     TIMESTAMP TIMESTAMP NOT NULL,
