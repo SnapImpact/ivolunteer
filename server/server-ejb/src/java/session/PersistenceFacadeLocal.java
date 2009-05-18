@@ -44,4 +44,6 @@ public interface PersistenceFacadeLocal {
 
 	List<? extends IdInterface> findAll(String query, int start, int max);
 
+    public List<? extends IdInterface> findByLoc(String queryName, int start, int max, String lat, String lng, int radius);
+
 }
