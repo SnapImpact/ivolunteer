@@ -60,23 +60,23 @@ public class Location implements Serializable, IdInterface {
 	private static final long			serialVersionUID	= 1L;
 	@Id
 	@Basic(optional = false)
-	@Column(name = "ID")
+	@Column(name = "id")
 	private String						id;
-	@Column(name = "STREET")
+	@Column(name = "street")
 	private String						street;
-	@Column(name = "CITY")
+	@Column(name = "city")
 	private String						city;
-	@Column(name = "STATE")
+	@Column(name = "state")
 	private String						state;
-	@Column(name = "ZIP")
+	@Column(name = "zip")
 	private String						zip;
-	@Column(name = "LOCATION")
+	@Column(name = "location")
 	private String						location;
-	@Column(name = "LATITUDE")
+	@Column(name = "latitude")
 	private String						latitude;
-	@Column(name = "LONGITUDE")
+	@Column(name = "longitude")
 	private String						longitude;
-	@JoinTable(name = "ORGANIZATION_LOCATION", joinColumns = { @JoinColumn(name = "LOCATION_ID", referencedColumnName = "ID") }, inverseJoinColumns = { @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ID") })
+	@JoinTable(name = "ORGANIZATION_LOCATION", joinColumns = { @JoinColumn(name = "location_id", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "organization_id", referencedColumnName = "id") })
 	@ManyToMany
 	private Collection<Organization>	organizationCollection;
 	@ManyToMany(mappedBy = "locationCollection")

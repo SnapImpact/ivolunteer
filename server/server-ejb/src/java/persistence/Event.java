@@ -92,16 +92,16 @@ public class Event implements Serializable, IdInterface {
 	private String						sourceKey;
 	@Column(name = "source_url")
 	private String						sourceUrl;
-	@JoinTable(name = "EVENT_INTEREST_AREA", joinColumns = { @JoinColumn(name = "EVENT_ID", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "INTEREST_AREA_ID", referencedColumnName = "ID") })
+	@JoinTable(name = "EVENT_INTEREST_AREA", joinColumns = { @JoinColumn(name = "EVENT_ID", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "INTEREST_AREA_ID", referencedColumnName = "id") })
 	@ManyToMany
 	private Collection<InterestArea>	interestAreaCollection;
-	@JoinTable(name = "EVENT_TIMESTAMP", joinColumns = { @JoinColumn(name = "EVENT_ID", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "TIMESTAMP_ID", referencedColumnName = "ID") })
+	@JoinTable(name = "EVENT_TIMESTAMP", joinColumns = { @JoinColumn(name = "EVENT_ID", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "TIMESTAMP_ID", referencedColumnName = "id") })
 	@ManyToMany
 	private Collection<Timestamp>		timestampCollection;
-	@JoinTable(name = "EVENT_LOCATION", joinColumns = { @JoinColumn(name = "EVENT_ID", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "LOCATION_ID", referencedColumnName = "ID") })
+	@JoinTable(name = "EVENT_LOCATION", joinColumns = { @JoinColumn(name = "EVENT_ID", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "LOCATION_ID", referencedColumnName = "id") })
 	@ManyToMany
 	private Collection<Location>		locationCollection;
-	@JoinTable(name = "EVENT_ORGANIZATION", joinColumns = { @JoinColumn(name = "EVENT_ID", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ID") })
+	@JoinTable(name = "EVENT_ORGANIZATION", joinColumns = { @JoinColumn(name = "EVENT_ID", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "id") })
 	@ManyToMany
 	private Collection<Organization>	organizationCollection;
 	@JoinColumn(name = "SOURCE_ID", referencedColumnName = "id")

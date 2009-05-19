@@ -49,12 +49,12 @@ public class Network implements Serializable, IdInterface {
 	private static final long		serialVersionUID	= 1L;
 	@Id
 	@Basic(optional = false)
-	@Column(name = "ID")
+	@Column(name = "id")
 	private String					id;
 	@Basic(optional = false)
-	@Column(name = "NAME")
+	@Column(name = "name")
 	private String					name;
-	@Column(name = "URL")
+	@Column(name = "url")
 	private String					url;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "networkId")
 	private Collection<Integration>	integrationCollection;

@@ -47,15 +47,15 @@ public class SourceInterestMap implements Serializable, IdInterface {
 	private static final long	serialVersionUID	= 1L;
 	@Id
 	@Basic(optional = false)
-	@Column(name = "ID")
+	@Column(name = "id")
 	private String				id;
 	@Basic(optional = false)
-	@Column(name = "SOURCE_KEY")
+	@Column(name = "source_key")
 	private String				sourceKey;
-	@JoinColumn(name = "INTEREST_AREA_ID", referencedColumnName = "ID")
+	@JoinColumn(name = "interest_area_id", referencedColumnName = "id")
 	@ManyToOne(optional = false)
 	private InterestArea		interestAreaId;
-	@JoinColumn(name = "SOURCE_ID", referencedColumnName = "ID")
+	@JoinColumn(name = "source_id", referencedColumnName = "id")
 	@ManyToOne(optional = false)
 	private Source				sourceId;
 
