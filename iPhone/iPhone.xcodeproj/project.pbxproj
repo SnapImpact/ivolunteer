@@ -61,7 +61,6 @@
 		94BACFB60F5BBFF700FDACED /* ColorCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BACFB50F5BBFF700FDACED /* ColorCache.m */; };
 		94BE51350FBA50D500AD1858 /* InterestAreaFilterController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE51330FBA50D500AD1858 /* InterestAreaFilterController.m */; };
 		94BE51360FBA50D500AD1858 /* InterestAreaFilterController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94BE51340FBA50D500AD1858 /* InterestAreaFilterController.xib */; };
-		94BE517A0FBA5E0C00AD1858 /* InterestAreaFilterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE51790FBA5E0C00AD1858 /* InterestAreaFilterTableViewCell.m */; };
 		94BE56EB0F42954900A505F0 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE56EA0F42954900A505F0 /* Event.m */; };
 		94BE57100F4297F000A505F0 /* InterestArea.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE570F0F4297F000A505F0 /* InterestArea.m */; };
 		94BE57130F42988B00A505F0 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BE57120F42988B00A505F0 /* Location.m */; };
@@ -177,9 +176,6 @@
 		94BE51320FBA50D500AD1858 /* InterestAreaFilterController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterestAreaFilterController.h; sourceTree = "<group>"; };
 		94BE51330FBA50D500AD1858 /* InterestAreaFilterController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InterestAreaFilterController.m; sourceTree = "<group>"; };
 		94BE51340FBA50D500AD1858 /* InterestAreaFilterController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InterestAreaFilterController.xib; sourceTree = "<group>"; };
-		94BE51780FBA5E0C00AD1858 /* InterestAreaFilterTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterestAreaFilterTableViewCell.h; sourceTree = "<group>"; };
-		94BE51790FBA5E0C00AD1858 /* InterestAreaFilterTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InterestAreaFilterTableViewCell.m; sourceTree = "<group>"; };
-		94BE51990FBA60D800AD1858 /* InterestAreaSelectionDelegateProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterestAreaSelectionDelegateProtocol.h; sourceTree = "<group>"; };
 		94BE56E90F42954900A505F0 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		94BE56EA0F42954900A505F0 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
 		94BE570E0F4297F000A505F0 /* InterestArea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterestArea.h; sourceTree = "<group>"; };
@@ -430,9 +426,6 @@
 				94BE51320FBA50D500AD1858 /* InterestAreaFilterController.h */,
 				94BE51330FBA50D500AD1858 /* InterestAreaFilterController.m */,
 				94BE51340FBA50D500AD1858 /* InterestAreaFilterController.xib */,
-				94BE51780FBA5E0C00AD1858 /* InterestAreaFilterTableViewCell.h */,
-				94BE51790FBA5E0C00AD1858 /* InterestAreaFilterTableViewCell.m */,
-				94BE51990FBA60D800AD1858 /* InterestAreaSelectionDelegateProtocol.h */,
 			);
 			name = "UI Classes";
 			sourceTree = "<group>";
@@ -638,7 +631,6 @@
 				94A6E1F80FA7F776004F3412 /* UpcomingEventsSortedByTimeDataSource.m in Sources */,
 				94A6E1FB0FA7F7B0004F3412 /* MyEventsSortedByTimeDataSource.m in Sources */,
 				94BE51350FBA50D500AD1858 /* InterestAreaFilterController.m in Sources */,
-				94BE517A0FBA5E0C00AD1858 /* InterestAreaFilterTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

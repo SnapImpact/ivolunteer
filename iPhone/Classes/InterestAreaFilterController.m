@@ -7,13 +7,12 @@
 //
 
 #import "InterestAreaFilterController.h"
-#import "InterestAreaFilterTableViewCell.h"
 #import "iVolunteerData.h"
 
 @implementation InterestAreaFilterController
 
 @synthesize allInterestAreas;
-@synthesize view;
+@synthesize tableView;
 @synthesize selectedInterestAreas;
 
 /*
@@ -31,6 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.allInterestAreas = [[iVolunteerData sharedVolunteerData] interestAreasByName];
+    self.selectedInterestAreas = [NSMutableArray array];
 }
 
 /*
@@ -53,15 +53,20 @@
 	// e.g. self.myOutlet = nil;
 }
 
-- (void) toggleInterestArea:(InterestArea *)interestArea
-{
+- (void) toggleInterestArea:(InterestArea*)interestArea {
+    if( [self.selectedInterestAreas containsObject: interestArea] ) {
+        [self.selectedInterestAreas removeObject: interestArea ];
+    }
+    else {
+        [self.selectedInterestAreas addObject: interestArea ];
+    }
 }
 
 
 - (void)dealloc {
     self.selectedInterestAreas = nil;
     self.allInterestAreas = nil;
-    self.view = nil;
+    self.tableView = nil;
     [super dealloc];
 }
 
@@ -72,6 +77,8 @@
     NSUInteger row = indexPath.row;
     NSUInteger section = indexPath.section;
     
+    NSLog(@"Getting interestArea(%d:%d)", section, row);
+    
     if(section != 0) 
         return nil;
     
@@ -79,23 +86,43 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView_ cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString* reuseIdentifier = @"InterestAreaFilters";
-    InterestAreaFilterTableViewCell *cell = (InterestAreaFilterTableViewCell*)[tableView_ dequeueReusableCellWithIdentifier: reuseIdentifier ];
+    
+    static NSString *CellIdentifier = @"Cell";
+    UITableViewCell *cell = [tableView_ dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[InterestAreaFilterTableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:reuseIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
     }
     
-    cell.interestArea = [self interestAreaForIndexPath: indexPath];
+    // Set up the cell...	
+    InterestArea* interestArea = [self interestAreaForIndexPath: indexPath];
+    cell.text = interestArea.name;
+    if( [self.selectedInterestAreas containsObject: interestArea] ) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+    else {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+    
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 44;
+    return 45;
 }
 
 - (void)tableView:(UITableView *)tableView_ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    InterestAreaFilterTableViewCell* cell = (InterestAreaFilterTableViewCell*) [self tableView: tableView_ cellForRowAtIndexPath: indexPath];
-    [cell toggle];
+    UITableViewCell* cell = (UITableViewCell*) [self tableView: tableView_ cellForRowAtIndexPath: indexPath];
+    InterestArea* interestArea = [self interestAreaForIndexPath: indexPath];
+    if( [self.selectedInterestAreas containsObject: interestArea] ) {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        [self.selectedInterestAreas removeObject: interestArea];
+    }
+    else {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        [self.selectedInterestAreas addObject: interestArea];
+    }    
+    [tableView_ deselectRowAtIndexPath: indexPath animated: YES];
+    [tableView_ reloadData];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -104,7 +131,9 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (self.allInterestAreas) {
-        return [self.allInterestAreas count];
+        NSUInteger len = [self.allInterestAreas count];
+        NSLog(@"Rows: %d", len);
+        return len;
     }
     return 0;
 }

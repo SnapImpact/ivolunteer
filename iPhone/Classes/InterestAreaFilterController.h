@@ -7,16 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "InterestAreaSelectionDelegateProtocol.h"
 
-@interface InterestAreaFilterController : UIViewController<UITableViewDelegate, UITableViewDataSource, InterestAreaSelectionDelegateProtocol> {
+@interface InterestAreaFilterController : UIViewController<UITableViewDelegate, UITableViewDataSource> {
     NSMutableArray* allInterestAreas;
     NSMutableArray* selectedInterestAreas;    
-    IBOutlet UITableView* view;
+    IBOutlet UITableView* tableView;
 }
 
 @property (nonatomic, retain) NSMutableArray *allInterestAreas;
-@property (nonatomic, retain) UITableView *view;
+@property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic, retain) NSMutableArray *selectedInterestAreas;
 
 - (IBAction) save;
