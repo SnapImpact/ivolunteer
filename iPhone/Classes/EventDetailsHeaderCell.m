@@ -27,19 +27,6 @@
    return 100;
 }
 
-- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier {
-   if (self = [super initWithFrame:frame reuseIdentifier:reuseIdentifier]) {
-      // Initialization code
-      if( self.event != nil ) {
-         self.name.text = self.event.name;
-         self.organization.text = self.event.organization.name;
-         self.date.text = self.event.date.description;
-         self.time.text = self.event.date.description;
-      }
-   }
-   return self;
-}
-
 - (void) setEvent: (Event*) event_ 
 {
    if(event)

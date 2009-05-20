@@ -7,6 +7,7 @@
 //
 
 #import "Event.h"
+#import "iVolunteerData.h"
 
 
 @implementation Event
@@ -21,7 +22,6 @@
 @synthesize location;
 @synthesize interestAreas;
 @synthesize signedUp;
-
 
 + (id) eventWithId: (NSString*) uid
               name: (NSString*) name

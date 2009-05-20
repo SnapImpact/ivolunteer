@@ -20,9 +20,11 @@
 	CLLocation *myLocation;
 	NSString *homeZip;
    
-   NSArray* eventsSortedIntoDays;  //nested array of events sorted into days
-   NSArray* daysWithEvents; //array of strings of dates with upcoming events
-   NSArray* interestAreasByName; //array of InterestAreas by name
+   NSMutableArray* upcomingEventsSortedIntoDays;  //nested array of events sorted into days
+   NSMutableArray* myEventsSortedIntoDays;  //nested array of my events sorted into days
+   NSMutableArray* daysWithUpcomingEvents; //array of strings of dates with upcoming events
+   NSMutableArray* daysWithMyEvents; //array of strings of dates with upcoming events
+   NSMutableArray* interestAreasByName; //array of InterestAreas by name
    NSString* version;   
 }
 
@@ -35,9 +37,11 @@
 @property (retain) CLLocation *myLocation;
 @property (retain) NSString *homeZip;
 
-@property (retain) NSArray* eventsSortedIntoDays;  //nested array of events sorted into days
-@property (retain) NSArray* daysWithEvents; //array of strings of dates with upcoming events
-@property (retain) NSArray* interestAreasByName; //array of InterestAreas by name
+@property (retain) NSMutableArray* upcomingEventsSortedIntoDays;  //nested array of events sorted into days
+@property (retain) NSMutableArray* myEventsSortedIntoDays;  //nested array of my events sorted into days
+@property (retain) NSMutableArray* daysWithUpcomingEvents; //array of strings of dates with upcoming events
+@property (retain) NSMutableArray* daysWithMyEvents; //array of strings of dates with upcoming events
+@property (retain) NSMutableArray* interestAreasByName; //array of InterestAreas by name
 @property (copy)   NSString* version;
 
 + (id) sharedVolunteerData;
@@ -48,8 +52,8 @@
 - (id) init;
 - (id) initWithTestData; //make a bogus test object
 
-- (NSArray*) eventsInDateSection: (unsigned int) section;
 - (void) sortData;
+- (void) updateMyEventsDataSource: (Event*) event;
 
 - (void) parseJson: (NSData*) data;
 

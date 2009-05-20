@@ -8,7 +8,7 @@
 
 #import "RegisterConfirmationViewController.h"
 #import "DateUtilities.h"
-
+#import "SettingsViewController.h"
 
 @implementation RegisterConfirmationViewController
 
@@ -49,6 +49,13 @@
    
    [self.cancelButton setBackgroundImage: buttonGrey forState: UIControlStateNormal ];
    [self.confirmButton setBackgroundImage: buttonGreen forState: UIControlStateNormal ];
+   
+   NSMutableDictionary* settings_ = (NSMutableDictionary*) CFPreferencesCopyAppValue((CFStringRef) kSettingsKey, 
+                                                                                     kCFPreferencesCurrentApplication);
+   if(settings_) {
+      self.nameField.text = [settings_ objectForKey: kSettingsKeyName];
+      self.emailField.text = [settings_ objectForKey: kSettingsKeyEmail];
+   }
 }
 
 /*
@@ -90,12 +97,17 @@
    self.eventTime.text = [DateUtilities formatShortTime: event_.date ];
 }
 
+- (void) animationDidStopWithId: (NSString*) animationId finished: (BOOL) finished context: (void*) context {
+   [self.view removeFromSuperview];
+   [self release];
+}
+
 - (void) dismissSheet {
    [UIView beginAnimations: @"Sheet slide out" context: nil];
+   [UIView setAnimationDelegate: self];
+   [UIView setAnimationDidStopSelector: @selector(animationDidStopWithId:finished:context:)];
    self.view.frame = CGRectMake(0, 480, self.view.frame.size.width, self.view.frame.size.height);
    [UIView commitAnimations];
-   [self.view removeFromSuperview];
-   [self dealloc];
 }
 
 - (IBAction) confirmClicked {

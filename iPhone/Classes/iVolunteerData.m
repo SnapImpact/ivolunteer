@@ -21,15 +21,17 @@
 
 @synthesize version;
 
-@synthesize eventsSortedIntoDays;  //nested array of events sorted into days
-@synthesize daysWithEvents; //array of NSDates with upcoming events
+@synthesize upcomingEventsSortedIntoDays;  //nested array of events sorted into days
+@synthesize myEventsSortedIntoDays;
+@synthesize daysWithUpcomingEvents; //array of NSDates with upcoming events
+@synthesize daysWithMyEvents; //array of NSDates with upcoming events
 @synthesize interestAreasByName;
 @synthesize myLocation;
 @synthesize homeZip;
 
 static iVolunteerData* _sharedInstance = nil;
 static NSString* kVolunteerDataRootKey = @"Root";
-static NSString* kVolunteerDataVersion = @"v1.2";
+static NSString* kVolunteerDataVersion = @"v1.3";
 
 + (id) sharedVolunteerData {
    if( _sharedInstance == nil ) {
@@ -103,8 +105,9 @@ static NSString* kVolunteerDataVersion = @"v1.2";
    self.events = [NSMutableDictionary dictionary];
    
    self.interestAreasByName = nil;
-   self.eventsSortedIntoDays = nil;
-   self.daysWithEvents = nil;
+   self.upcomingEventsSortedIntoDays = nil;
+   self.myEventsSortedIntoDays = nil;
+   self.daysWithUpcomingEvents = nil;
    
    return self;
 }
@@ -251,11 +254,6 @@ static NSString* kVolunteerDataVersion = @"v1.2";
    return self;
 }
 
-- (NSArray*) eventsInDateSection: (unsigned int) section
-{
-   return [ self.eventsSortedIntoDays objectAtIndex: section ];
-}
-
 NSInteger _SortEventsByDate(id e1, id e2, void *context)
 {
    return [[ e1 date ] compare: [e2 date]];
@@ -264,6 +262,13 @@ NSInteger _SortEventsByDate(id e1, id e2, void *context)
 NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
 {
    return [[ i1 name] compare: [i2 name]];
+}
+
+- (NSString*) dateToString: (NSDate*) date {
+   if( [DateUtilities isToday: date])
+      return [NSString stringWithString: @"Today"];
+   else
+      return [NSString stringWithString: [DateUtilities formatShortDate: date]];
 }
 
 - (void) sortData
@@ -275,7 +280,7 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
       [ sortedInterestAreas addObject: interestArea ];
    }
    
-   self.interestAreasByName = [sortedInterestAreas sortedArrayUsingFunction: _SortInterestAreasByName context: self];
+   self.interestAreasByName = (NSMutableArray*)[sortedInterestAreas sortedArrayUsingFunction: _SortInterestAreasByName context: self];
    
    //sort events by date
    NSMutableArray* eventsByDate = [NSMutableArray arrayWithCapacity: [self.events count]];
@@ -314,9 +319,34 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
       }
    }
    
-   self.daysWithEvents = dayNames;
-   self.eventsSortedIntoDays = _eventsSortedIntoDays;
+   self.daysWithUpcomingEvents = dayNames;
+   self.upcomingEventsSortedIntoDays = _eventsSortedIntoDays;
+}
 
+- (void) updateMyEventsDataSource: (Event*) event {
+   if (!self.myEventsSortedIntoDays) {
+      self.myEventsSortedIntoDays = [NSMutableArray array];
+   }
+         
+   NSString* date = [self dateToString: event.date];
+   int i = 0;
+   for( NSString* existingDay in self.daysWithMyEvents ) {
+      if ([existingDay isEqualToString: date]) {
+         [[self.myEventsSortedIntoDays objectAtIndex: i] addObject: event];
+         [[self.myEventsSortedIntoDays objectAtIndex: i] sortUsingFunction: _SortEventsByDate context: self ];
+         return;
+      }
+      i++;
+   }
+   
+   if (!self.daysWithMyEvents) {
+      self.daysWithMyEvents = [NSMutableArray array];
+   }
+   [self.daysWithMyEvents addObject: date];
+   NSUInteger index = [self.daysWithMyEvents count]-1;
+   [self.myEventsSortedIntoDays addObject: [NSMutableArray array]];
+   [[self.myEventsSortedIntoDays objectAtIndex: index] addObject: event];
+   [[self.myEventsSortedIntoDays objectAtIndex: index] sortUsingFunction: _SortEventsByDate context: self ];
 }
                                
 - (void) dealloc {
@@ -328,8 +358,9 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
    self.events = nil;
 	self.myLocation = nil;
 	self.homeZip = nil;
-   self.eventsSortedIntoDays = nil;
-   self.daysWithEvents = nil;
+   self.upcomingEventsSortedIntoDays = nil;
+   self.myEventsSortedIntoDays = nil;
+   self.daysWithUpcomingEvents = nil;
    self.interestAreasByName = nil;
    [super dealloc];
 }
@@ -345,10 +376,11 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
       ENCODE_PROP(interestAreas)
       ENCODE_PROP(events)
       ENCODE_PROP(homeZip)
-	  ENCODE_PROP(myLocation)
-	
-      ENCODE_PROP(eventsSortedIntoDays)
-      ENCODE_PROP(daysWithEvents)
+      ENCODE_PROP(myLocation)
+      ENCODE_PROP(upcomingEventsSortedIntoDays)
+      ENCODE_PROP(myEventsSortedIntoDays)
+      ENCODE_PROP(daysWithUpcomingEvents)
+      ENCODE_PROP(daysWithMyEvents)
       ENCODE_PROP(interestAreasByName)
    END_ENCODER()
 }
@@ -356,19 +388,20 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
 - (id)initWithCoder:(NSCoder *)decoder
 {
    BEGIN_DECODER()
-      DECODE_PROP(version)
-      DECODE_PROP(organizations)
-      DECODE_PROP(contacts)
-      DECODE_PROP(sources)
-      DECODE_PROP(locations)
-      DECODE_PROP(interestAreas)
-      DECODE_PROP(events)
-	  DECODE_PROP(homeZip)
-	  DECODE_PROP(myLocation)
-	
-      DECODE_PROP(eventsSortedIntoDays)
-      DECODE_PROP(daysWithEvents)
-      DECODE_PROP(interestAreasByName)
+   DECODE_PROP(version)
+   DECODE_PROP(organizations)
+   DECODE_PROP(contacts)
+   DECODE_PROP(sources)
+   DECODE_PROP(locations)
+   DECODE_PROP(interestAreas)
+   DECODE_PROP(events)
+   DECODE_PROP(homeZip)
+   DECODE_PROP(myLocation)
+   DECODE_PROP(upcomingEventsSortedIntoDays)
+   DECODE_PROP(myEventsSortedIntoDays)
+   DECODE_PROP(daysWithUpcomingEvents)
+   DECODE_PROP(daysWithMyEvents)
+   DECODE_PROP(interestAreasByName)
    END_DECODER()
    
    if(self) {
@@ -504,14 +537,14 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
                }
                else {
                   //add
-                  e = [Event eventWithId:event_id
-                                    name:event_name
-                                 details:description
+                  e = [Event eventWithId: event_id
+                                    name: event_name
+                                 details: description
                             organization: [self.organizations objectForKey: org_id]
                                  contact: nil
                                   source: nil 
                                 location: nil 
-                           interestAreas:event_interestAreas
+                           interestAreas: event_interestAreas
                                     date: [timestamps objectForKey: ts]
                                 duration: duration ];
                   //don't add them for now until we hande nils in the UI
