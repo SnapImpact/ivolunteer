@@ -66,6 +66,7 @@
       [self loadSettings];
    }
 
+   [settings_ release];
    [self updateSettings];
 }
 

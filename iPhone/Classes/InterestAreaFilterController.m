@@ -30,7 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.allInterestAreas = [[iVolunteerData sharedVolunteerData] interestAreasByName];
-    self.selectedInterestAreas = [NSMutableArray array];
+    self.selectedInterestAreas = [[[NSMutableArray alloc] initWithArray:[InterestArea loadInterestAreasFromPreferences]] autorelease];
 }
 
 /*
@@ -113,16 +113,38 @@
 - (void)tableView:(UITableView *)tableView_ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell* cell = (UITableViewCell*) [self tableView: tableView_ cellForRowAtIndexPath: indexPath];
     InterestArea* interestArea = [self interestAreaForIndexPath: indexPath];
+	BOOL didChange = YES;
     if( [self.selectedInterestAreas containsObject: interestArea] ) {
-        cell.accessoryType = UITableViewCellAccessoryNone;
-        [self.selectedInterestAreas removeObject: interestArea];
+		if ([self.selectedInterestAreas count] > 1)
+		{
+			cell.accessoryType = UITableViewCellAccessoryNone;
+			[self.selectedInterestAreas removeObject: interestArea];
+		}
+		else
+		{
+			didChange = NO;
+			UIAlertView* alert = [[UIAlertView alloc] initWithTitle: @"Cannot Remove All Interests" 
+															message: @"You must have at least one interest selected." 
+														   delegate: nil 
+												  cancelButtonTitle: @"Ok" 
+												  otherButtonTitles: nil];
+			[alert show];
+			[alert release];
+		}
+        
     }
     else {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
         [self.selectedInterestAreas addObject: interestArea];
-    }    
-    [tableView_ deselectRowAtIndexPath: indexPath animated: YES];
-    [tableView_ reloadData];
+    }   
+	
+	if (self.selectedInterestAreas && didChange)
+	{
+		[InterestArea saveInterestAreasToPreferences:self.selectedInterestAreas];
+		[tableView_ reloadData];
+	}
+	
+	[tableView_ deselectRowAtIndexPath: indexPath animated: NO];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

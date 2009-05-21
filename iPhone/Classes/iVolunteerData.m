@@ -280,6 +280,7 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
       [ sortedInterestAreas addObject: interestArea ];
    }
    
+   // IMPORTANT: this needs to be able to return all the interest areas possible in order for [InterestArea loadInterestAreasFromPreferences] to work correctly
    self.interestAreasByName = (NSMutableArray*)[sortedInterestAreas sortedArrayUsingFunction: _SortInterestAreasByName context: self];
    
    //sort events by date

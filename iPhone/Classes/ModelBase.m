@@ -37,6 +37,24 @@
    return self;
 }
 
+- (NSString *)description
+{
+	return [NSString stringWithFormat:@"uid=%@ name=%@", self.uid, self.name];
+}
+
+- (BOOL)isEqual:(id)anObject
+{
+	if ([anObject isKindOfClass:[ModelBase class]])
+	{
+		ModelBase * aModelObject = (ModelBase *)anObject;
+		return [self.uid isEqualToString:[aModelObject uid]] && [self.name isEqualToString:[aModelObject name]];
+	}
+	else
+	{
+		return [super isEqual:anObject];
+	}
+}
+
 - (void) dealloc
 {
    self.uid = nil;
