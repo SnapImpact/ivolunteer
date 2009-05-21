@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+#define kInterestAreaKey @"SelectedInterestArea"
+
+
 @interface InterestAreaFilterController : UIViewController<UITableViewDelegate, UITableViewDataSource> {
     NSMutableArray* allInterestAreas;
     NSMutableArray* selectedInterestAreas;    
