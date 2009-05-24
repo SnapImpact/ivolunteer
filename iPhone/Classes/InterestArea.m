@@ -47,6 +47,7 @@
 	}
 	NSLog(@"Writing out serialized interest areas: %@",result);
 	CFPreferencesSetAppValue((CFStringRef) kInterestAreaKey, result, kCFPreferencesCurrentApplication);
+	CFPreferencesAppSynchronize(kCFPreferencesCurrentApplication);
 
 	[result release];	
 }
