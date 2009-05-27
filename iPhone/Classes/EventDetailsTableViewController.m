@@ -257,7 +257,7 @@
          [cell setKey: contactString value: self.event.contact.name keyWidth:width];
          break;
       case kSectionContactInfoRowAddress:
-         [cell setKey:mapString value: self.event.location.street keyWidth:width];
+         [cell setKey:mapString value: self.event.location.address keyWidth:width];
          break;
       case kSectionContactInfoRowPhone:
          [cell setKey: callString value: self.event.contact.phone keyWidth: width ];

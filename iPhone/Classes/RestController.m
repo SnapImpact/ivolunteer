@@ -22,9 +22,9 @@
 }
 
 - (void) beginGetEventsFrom:(NSDate*) dateFrom until: (NSDate*) dateUntil {
-   NSURL* url = [NSURL URLWithString: @"http://actionfeed.org/server/resources/events/consolidated" ];
-   NSLog( @"Beginning request to: %@ ", url );
-   [server sendRequestTo: url usingVerb: @"GET" withParameters: nil ];
+    NSURL* url = [NSURL URLWithString: @"http://actionfeed.org/server/resources/events/consolidated?ip=75.151.84.102" ];
+    NSLog( @"Beginning request to: %@ ", url );
+    [server sendRequestTo: url usingVerb: @"GET" withParameters: nil ];
 }
 
 #pragma mark RestClient deletgate methods

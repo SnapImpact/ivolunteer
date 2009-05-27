@@ -11,41 +11,48 @@
 
 @implementation Location
 
+@synthesize zip;
+@synthesize state;
+@synthesize address;
+@synthesize city;
 @synthesize uid;
-@synthesize street;
 @synthesize location;
 
 + (id) locationWithId: (NSString*) uid
-               street: (NSString*) street
+              address: (NSString*) address
+                 city: (NSString*) city
+                state: (NSString*) state
+                  zip: (NSString*) zip
              latitude: (double) latitude
             longitude: (double) longitude
 {
    Location* l = [Location alloc];
    return [[l initWithId: uid
-                 street: street
+                 address: address
+                    city: city
+                   state: state
+                     zip: zip            
                latitude: latitude
               longitude: longitude ] autorelease ];
 }
 
 - (id) initWithId: (NSString*) uid_
-           street: (NSString*) street_
+          address: (NSString*) address_
+             city: (NSString*) city_
+            state: (NSString*) state_
+              zip: (NSString*) zip_
          latitude: (double) latitude_
         longitude: (double) longitude_
 {
-   [super initWithId: uid_ name: street_ ];
-   self.location = [[CLLocation alloc] initWithLatitude: latitude_ 
-                                              longitude: longitude_ ];
+    NSString* name_ = [NSString stringWithFormat: @"%@ %@,%@ %@", address_, city_, state_, zip_];
+    [super initWithId: uid_ name: name_ ];
+    self.address = address_;
+    self.city = city_;
+    self.state = state_;
+    self.zip = zip_;
+    self.location = [[CLLocation alloc] initWithLatitude: latitude_ 
+                                               longitude: longitude_ ];
    return self;
-}
-
-- (NSString*) street
-{
-   return self.name;
-}
-
-- (void) setStreet: (NSString*) street_ 
-{
-   self.name = street_;
 }
 
 - (void) dealloc {
@@ -55,22 +62,34 @@
 
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
-   BEGIN_ENCODER()
-   ENCODE_PROP(location)
-   END_ENCODER()
+    BEGIN_ENCODER()
+    ENCODE_PROP(location)
+    ENCODE_PROP(address)
+    ENCODE_PROP(city)
+    ENCODE_PROP(state)
+    ENCODE_PROP(zip)
+    END_ENCODER()
 }
 
 - (id)initWithCoder:(NSCoder *)decoder
 {
-   BEGIN_DECODER()
-   DECODE_PROP(location)
-   END_DECODER()
-   return self;
+    BEGIN_DECODER()
+    DECODE_PROP(location)
+    DECODE_PROP(address)
+    DECODE_PROP(city)
+    DECODE_PROP(state)
+    DECODE_PROP(zip)
+    END_DECODER()
+    return self;
 }
 
 
 
 @end
+
+
+
+
 
 
 

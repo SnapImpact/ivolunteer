@@ -35,10 +35,16 @@
             phone: (NSString*) phone_
               url: (NSString*) url_
 {
-   [super initWithId: uid_ name: name_ ];
-   self.email = email_;
-   self.phone = phone_;
-   self.url = [NSURL URLWithString: url_ ];
+    [super initWithId: uid_ name: name_ ];
+    self.email = email_;
+    self.phone = phone_;
+
+    if (url_) { 
+        self.url = [NSURL URLWithString: url_ ];
+    }
+    else {
+        self.url = nil;
+    }
    
    return self;
 }
