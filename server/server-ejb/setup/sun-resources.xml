@@ -11,4 +11,29 @@
     <property name="URL" value="jdbc:derby://localhost:1527/ivolunteer"/>
     <property name="driverClass" value="org.apache.derby.jdbc.ClientDriver"/>
   </jdbc-connection-pool>
+  <!--
+	Use this section of config if you want to test using an SMTP
+	server/connection instead of running in production or on a 
+	server which doesn't have a mailer daemon running...
+
+mail-resource debug="false" enabled="true"
+    from="mark.chance@gmail.com" host="smtp.gmail.com"
+    jndi-name="mail/MailSession" object-type="user" store-protocol="imap"
+    store-protocol-class="com.sun.mail.imap.IMAPStore" transport-protocol="smtp"
+    transport-protocol-class="com.sun.mail.smtp.SMTPTransport"
+    user="mark.chance@gmail.com">
+    <description>Emailer through Gmail</description>
+    < -- these are optional since they're not used
+    <property name="mail-smtps-host" value="smtp.gmail.com"/>
+    <property name="mail-smtps-password" value="your gmail password"/>
+    <property name="mail-smtps-socketFactory-class" value="javax.net.ssl.SSLSocketFactory"/>
+    <property name="mail-smtps-auth" value="true"/>
+    <property name="mail-smtps-socketFactory-port" value="465"/>
+    <property name="mail-smtps-port" value="465"/>
+    <property name="mail-smtps-user" value="prady...@gmail.com"/>
+    <property name="mail-smtps-starttls-enable" value="true"/>
+    <property name="mail-smtps-socketFactory-fallback" value="false"/>
+    - - >
+  </mail-resource>
+  -->
 </resources>
