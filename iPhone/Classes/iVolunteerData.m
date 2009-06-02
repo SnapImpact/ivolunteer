@@ -428,6 +428,13 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
 
 - (void) parseJson: (NSData*) data
 {
+	self.organizations = [NSMutableDictionary dictionary];
+	self.contacts = [NSMutableDictionary dictionary];
+	self.sources = [NSMutableDictionary dictionary];
+	self.locations = [NSMutableDictionary dictionary];
+	self.interestAreas = [NSMutableDictionary dictionary];
+	self.events = [NSMutableDictionary dictionary];
+	
     NSString* utf8 = [NSString stringWithUTF8String: [data bytes]];
     NSData* utf32Data = [utf8 dataUsingEncoding: NSUTF32BigEndianStringEncoding ];
     NSError* error =  nil;
