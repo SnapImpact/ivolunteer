@@ -100,19 +100,6 @@
 	[dismissalDelegate dismissScreen];
 }
 
-- (IBAction)dismissKeyboard
-{
-	[self.zipcodeField resignFirstResponder];
-	if ([self.zipcodeField.text length] == 5)
-	{
-		iVolunteerData *data = [iVolunteerData sharedVolunteerData];
-		data.homeZip = self.zipcodeField.text;
-		[self loadDataFeed];
-	}
-	[self scrollUp];
-	
-}
-
 - (void)loadDataFeed
 {
 	NSDate *start1 = [NSDate date];
@@ -125,6 +112,19 @@
 	[restController beginGetEventsFrom: [DateUtilities today] until: [DateUtilities daysFromNow: 14]];
 	NSDate *end2 = [NSDate date];
 	NSLog(@"rest contoller init: %g sec", [end2 timeIntervalSinceDate:start2]);	
+}
+
+- (IBAction)dismissKeyboard
+{
+	[self.zipcodeField resignFirstResponder];
+	if ([self.zipcodeField.text length] == 5)
+	{
+		iVolunteerData *data = [iVolunteerData sharedVolunteerData];
+		data.homeZip = self.zipcodeField.text;
+		[self loadDataFeed];
+	}
+	[self scrollUp];
+	
 }
 
 - (IBAction)zipcodeUpdated
