@@ -8,6 +8,7 @@
 
 #import "SplashViewController.h"
 #import "iVolunteerData.h"
+#import "DateUtilities.h"
 
 @implementation SplashViewController
 
@@ -19,7 +20,6 @@
 @synthesize hand;
 @synthesize logo;
 @synthesize background;
-
 
 /*
 // Override initWithNibName:bundle: to load the view using a nib file then perform additional customization that is not appropriate for viewDidLoad.
@@ -107,9 +107,24 @@
 	{
 		iVolunteerData *data = [iVolunteerData sharedVolunteerData];
 		data.homeZip = self.zipcodeField.text;
+		[self loadDataFeed];
 	}
 	[self scrollUp];
 	
+}
+
+- (void)loadDataFeed
+{
+	NSDate *start1 = [NSDate date];
+	[iVolunteerData restore];
+	NSDate *end1 = [NSDate date];
+	NSLog(@"[iVolunteerData restore]: %g sec", [end1 timeIntervalSinceDate:start1]);
+	
+	NSDate *start2 = [NSDate date];
+	RestController *restController = [[RestController alloc] initWithVolunteerData: [iVolunteerData sharedVolunteerData]];
+	[restController beginGetEventsFrom: [DateUtilities today] until: [DateUtilities daysFromNow: 14]];
+	NSDate *end2 = [NSDate date];
+	NSLog(@"rest contoller init: %g sec", [end2 timeIntervalSinceDate:start2]);	
 }
 
 - (IBAction)zipcodeUpdated
@@ -149,6 +164,10 @@
 		[alert release];
 		
 		self.zipcodeField.hidden = NO;
+	}
+	else
+	{
+		[self loadDataFeed];
 	}
 	[continueButton setHidden:NO];
 }

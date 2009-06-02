@@ -2,9 +2,9 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="7.03">
 	<data>
 		<int key="IBDocument.SystemTarget">528</int>
-		<string key="IBDocument.SystemVersion">9G55</string>
+		<string key="IBDocument.SystemVersion">9J61</string>
 		<string key="IBDocument.InterfaceBuilderVersion">677</string>
-		<string key="IBDocument.AppKitVersion">949.43</string>
+		<string key="IBDocument.AppKitVersion">949.46</string>
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -49,15 +49,15 @@
 									<object class="IBUILabel" id="200778031">
 										<reference key="NSNextResponder" ref="893692178"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{20, 6}, {40, 21}}</string>
+										<string key="NSFrame">{{8, 6}, {49, 21}}</string>
 										<reference key="NSSuperview" ref="893692178"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
-										<string key="IBUIText">12 AM</string>
-										<object class="NSFont" key="IBUIFont" id="680558146">
+										<string key="IBUIText">12:30pm</string>
+										<object class="NSFont" key="IBUIFont">
 											<string key="NSName">Helvetica</string>
-											<double key="NSSize">1.400000e+01</double>
+											<double key="NSSize">1.200000e+01</double>
 											<int key="NSfFlags">16</int>
 										</object>
 										<object class="NSColor" key="IBUITextColor" id="1059900600">
@@ -66,19 +66,19 @@
 										</object>
 										<nil key="IBUIHighlightedColor"/>
 										<int key="IBUIBaselineAdjustment">1</int>
+										<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 										<float key="IBUIMinimumFontSize">1.000000e+01</float>
-										<int key="IBUITextAlignment">1</int>
 									</object>
 									<object class="IBUILabel" id="916309802">
 										<reference key="NSNextResponder" ref="893692178"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{20, 23}, {43, 13}}</string>
+										<string key="NSFrame">{{8, 23}, {49, 13}}</string>
 										<reference key="NSSuperview" ref="893692178"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="IBUIText">100 miles</string>
-										<object class="NSFont" key="IBUIFont">
+										<object class="NSFont" key="IBUIFont" id="261305516">
 											<string key="NSName">Helvetica</string>
 											<double key="NSSize">1.000000e+01</double>
 											<int key="NSfFlags">16</int>
@@ -94,41 +94,45 @@
 										</object>
 										<nil key="IBUIHighlightedColor"/>
 										<int key="IBUIBaselineAdjustment">1</int>
+										<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 										<float key="IBUIMinimumFontSize">8.000000e+00</float>
 									</object>
 									<object class="IBUILabel" id="921351957">
 										<reference key="NSNextResponder" ref="893692178"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{73, 3}, {208, 21}}</string>
+										<string key="NSFrame">{{65, 0}, {243, 18}}</string>
 										<reference key="NSSuperview" ref="893692178"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="IBUIText">Event Name</string>
 										<object class="NSFont" key="IBUIFont">
-											<string key="NSName">Helvetica</string>
-											<double key="NSSize">1.600000e+01</double>
+											<string key="NSName">Helvetica-Bold</string>
+											<double key="NSSize">1.100000e+01</double>
 											<int key="NSfFlags">16</int>
 										</object>
 										<reference key="IBUITextColor" ref="1059900600"/>
 										<nil key="IBUIHighlightedColor"/>
 										<int key="IBUIBaselineAdjustment">1</int>
+										<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 										<float key="IBUIMinimumFontSize">1.000000e+01</float>
 									</object>
 									<object class="IBUILabel" id="687171068">
 										<reference key="NSNextResponder" ref="893692178"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{73, 23}, {208, 21}}</string>
+										<string key="NSFrame">{{65, 18}, {227, 34}}</string>
 										<reference key="NSSuperview" ref="893692178"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
-										<string key="IBUIText">Description of the event go</string>
-										<reference key="IBUIFont" ref="680558146"/>
+										<string key="IBUIText">Description of the event go tex cc c c cc c c cc c c t test tes tes tser ser es rse rse r ser ser se rse r ser ser</string>
+										<reference key="IBUIFont" ref="261305516"/>
 										<reference key="IBUITextColor" ref="1059900600"/>
 										<nil key="IBUIHighlightedColor"/>
 										<int key="IBUIBaselineAdjustment">1</int>
+										<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 										<float key="IBUIMinimumFontSize">1.000000e+01</float>
+										<int key="IBUINumberOfLines">0</int>
 									</object>
 								</object>
 								<string key="NSFrame">{{0, 1}, {320, 52}}</string>
@@ -143,7 +147,7 @@
 								<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 							</object>
 						</object>
-						<string key="NSFrameSize">{297, 53}</string>
+						<string key="NSFrameSize">{300, 53}</string>
 						<reference key="NSSuperview" ref="48700517"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
@@ -241,10 +245,10 @@
 						<reference key="object" ref="893692178"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="921351957"/>
-							<reference ref="687171068"/>
 							<reference ref="916309802"/>
 							<reference ref="200778031"/>
+							<reference ref="687171068"/>
+							<reference ref="921351957"/>
 						</object>
 						<reference key="parent" ref="48700517"/>
 					</object>
@@ -352,5 +356,6 @@
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.LastKnownRelativeProjectPath">iPhone.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
+		<string key="IBCocoaTouchPluginVersion">3.0</string>
 	</data>
 </archive>

@@ -10,18 +10,18 @@
 #import "ScreenDismissalDelegate.h"
 #import "BusyIndicatorDelegate.h"
 #import "LocationAvailabilityDelegate.h"
-
+#import "RestController.h"
 
 @interface SplashViewController : UIViewController <LocationAvailabilityDelegate> {
 	id <ScreenDismissalDelegate> dismissalDelegate;
 	id <BusyIndicatorDelegate> busyIndicatorDelegate;
 	UITextField *zipcodeField;
 	UIScrollView *scrollView;
-   IBOutlet UIButton* continueButton;
-   IBOutlet UIImageView* hand;
-   IBOutlet UIImageView* background;
-   IBOutlet UIImageView* logo;
-
+	IBOutlet UIButton* continueButton;
+	IBOutlet UIImageView* hand;
+	IBOutlet UIImageView* background;
+	IBOutlet UIImageView* logo;
+	
 }
 
 
