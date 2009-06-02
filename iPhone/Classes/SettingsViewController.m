@@ -124,11 +124,12 @@
 
 -(IBAction)saveSettings
 {
-   [self loadSettings];
-   CFPreferencesSetAppValue((CFStringRef) kSettingsKey, self.settings, kCFPreferencesCurrentApplication);
-   UIAlertView* alert = [[UIAlertView alloc] initWithTitle: @"Settings Saved" message: @"Your settings have been saved." delegate: nil cancelButtonTitle: @"Ok" otherButtonTitles: nil];
-   [alert show];
-   [alert release];
+	[self loadSettings];
+	CFPreferencesSetAppValue((CFStringRef) kSettingsKey, self.settings, kCFPreferencesCurrentApplication);
+	CFPreferencesAppSynchronize(kCFPreferencesCurrentApplication);
+	UIAlertView* alert = [[UIAlertView alloc] initWithTitle: @"Settings Saved" message: @"Your settings have been saved." delegate: nil cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+	[alert show];
+	[alert release];
 }
 
 -(IBAction)resetSettings

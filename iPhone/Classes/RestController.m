@@ -7,7 +7,7 @@
 //
 
 #import "RestController.h"
-
+#import "SettingsViewController.h"
 
 @implementation RestController
 
@@ -22,7 +22,51 @@
 }
 
 - (void) beginGetEventsFrom:(NSDate*) dateFrom until: (NSDate*) dateUntil {
-    NSURL* url = [NSURL URLWithString: @"http://actionfeed.org/server/resources/events/consolidated?ip=75.151.84.102" ];
+	
+	NSString *urlStr = nil;
+	CLLocation *currentLocation = iVD.myLocation;
+	NSDictionary* settings = (NSDictionary*) CFPreferencesCopyAppValue((CFStringRef) kSettingsKey, 
+																					kCFPreferencesCurrentApplication);
+	BOOL useZipCodeOverride = NO;
+	NSString *zipcode = nil;
+	if (settings)
+	{
+		zipcode = [settings objectForKey:kSettingsKeyZipcode];
+		NSNumber *useZipCodeNum = [settings objectForKey:kSettingsKeyUseZipcode];
+		useZipCodeOverride = [useZipCodeNum boolValue];
+	}
+
+	//TODO: Need to verify feed format for zipcodes and long/lat params
+	
+	if (useZipCodeOverride && zipcode)
+	{
+		urlStr = [[[NSString alloc] initWithFormat:@"http://actionfeed.org/server/resources/events/consolidated?zip=%@", zipcode] autorelease];
+	}
+	else if (currentLocation)
+	{
+		// use iVolunteerData long/lat to pull feed
+		urlStr = [[[NSString alloc] initWithFormat:@"http://actionfeed.org/server/resources/events/consolidated?lat=%lf&long=%lf", 
+				   currentLocation.coordinate.latitude, 
+				   currentLocation.coordinate.longitude] autorelease];
+	}
+	else if (zipcode)
+	{
+		urlStr = [[[NSString alloc] initWithFormat:@"http://actionfeed.org/server/resources/events/consolidated?zip=%@", zipcode] autorelease];
+	}
+	else
+	{
+		// cannot determine location--display popup to user
+			
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Could Not Determine Location", @"Could not determine location")
+															message:NSLocalizedString(@"Cannot determine your current location. Please enter your home zip code from the Settings tab.", @"How will we internationalize zipcodes?")
+														   delegate:nil 
+												  cancelButtonTitle:NSLocalizedString(@"Ok", @"Ok")
+												  otherButtonTitles:nil];
+			[alert show];
+			[alert release];
+			urlStr = @"http://actionfeed.org/server/resources/events/consolidated";
+	}
+    NSURL* url = [NSURL URLWithString: urlStr ];
     NSLog( @"Beginning request to: %@ ", url );
     [server sendRequestTo: url usingVerb: @"GET" withParameters: nil ];
 }

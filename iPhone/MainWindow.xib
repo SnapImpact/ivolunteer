@@ -2,14 +2,14 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="7.03">
 	<data>
 		<int key="IBDocument.SystemTarget">528</int>
-		<string key="IBDocument.SystemVersion">9G55</string>
+		<string key="IBDocument.SystemVersion">9J61</string>
 		<string key="IBDocument.InterfaceBuilderVersion">677</string>
-		<string key="IBDocument.AppKitVersion">949.43</string>
+		<string key="IBDocument.AppKitVersion">949.46</string>
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="19"/>
 			<integer value="172"/>
+			<integer value="19"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -154,7 +154,7 @@
 						<string key="IBUIContentStretch">{{0, 0}, {0, 0}}</string>
 						<int key="IBUIBarStyle">1</int>
 					</object>
-					<object class="NSArray" key="IBUIViewControllers">
+					<object class="NSMutableArray" key="IBUIViewControllers">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="IBUIViewController" id="479585607">
 							<object class="IBUIView" key="IBUIView" id="964570672">
@@ -417,6 +417,10 @@
 								<string key="IBUITitle">Projects</string>
 								<object class="IBUINavigationItem" key="IBUINavigationItem" id="394667715">
 									<string key="IBUITitle">Upcoming Events</string>
+									<object class="IBUIBarButtonItem" key="IBUIBackBarButtonItem" id="362077123">
+										<string key="IBUITitle">Upcoming</string>
+										<int key="IBUIStyle">1</int>
+									</object>
 								</object>
 								<reference key="IBUIParentViewController" ref="1023370859"/>
 								<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
@@ -801,6 +805,10 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">14</int>
 						<reference key="object" ref="394667715"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="362077123"/>
+						</object>
 						<reference key="parent" ref="619226028"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -978,6 +986,11 @@
 						<reference key="object" ref="992334161"/>
 						<reference key="parent" ref="314303157"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">248</int>
+						<reference key="object" ref="362077123"/>
+						<reference key="parent" ref="394667715"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -1091,7 +1104,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">247</int>
+			<int key="maxID">248</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

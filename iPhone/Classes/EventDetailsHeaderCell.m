@@ -35,8 +35,8 @@
    event = [event_ retain];
    self.name.text = event_.name;
    self.organization.text = event_.organization.name;
-   self.date.text = [DateUtilities formatMediumDate: event_.date ];
-   self.time.text = [DateUtilities formatShortTime: event_.date ];
+	self.date.text = [[[NSString alloc] initWithFormat:@"%@ at %@", [DateUtilities formatMediumDate: event_.date ], [DateUtilities formatShortTime: event_.date ]] autorelease];
+   //self.time.text = [DateUtilities formatShortTime: event_.date ];
 }
 
 - (void)dealloc {

@@ -18,8 +18,6 @@
 @synthesize event;
 @synthesize headerCell;
 @synthesize headerActions;
-@synthesize descriptionCell;
-@synthesize descriptionSize;
 @synthesize smallFont;
 @synthesize mediumFont;
 @synthesize largeFont;
@@ -68,9 +66,7 @@
    event = [event_ retain];
    self.headerCell.event = event;
    self.navigationItem.title = event.name;
-   CGFloat width = [[UIScreen mainScreen] bounds].size.width;
-   width -= (self.tableView.sectionHeaderHeight * 4);
-   self.descriptionSize = CGSizeMake( width, self.tableView.rowHeight);
+
    if([event.signedUp boolValue]) {
       [ self.headerActions setTitle: signedUpString forButtonAtIndex: 0 selected: YES animate: NO ];
    }
@@ -82,72 +78,52 @@
 
 #pragma mark UITableViewController methods
 
-- (id)initWithStyle:(UITableViewStyle)style {
-    // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-    if (self = [super initWithStyle:style]) {
-       
-       self.signedUpString = NSLocalizedString( @"Registered!", @"Should be positive, yay you signed up!" );
-       self.signUpString = NSLocalizedString( @"Register", @"Indicates clicking this button will sign you up" );
-       
-       NSArray* selectors = [NSArray arrayWithObjects:
-                              [NSValue valueWithPointer: @selector(signUp)],
-                              [NSValue valueWithPointer: @selector(share)],
-                              nil
-                             ];
-       
-       NSArray* titles = [NSArray arrayWithObjects: 
-                              self.signUpString,
-                              NSLocalizedString( @"Share", nil),
-                              nil
-                          ];
-       
-       NSArray* arguments = [NSArray arrayWithObjects: [NSNull null], [NSNull null], nil ];
-       UIImage* buttonImage = [[UIImage imageNamed:@"whiteButton.png"] stretchableImageWithLeftCapWidth: 12.0 topCapHeight: 0 ];
-       UIImage* buttonImagePressed = [[UIImage imageNamed:@"blueButton.png"] stretchableImageWithLeftCapWidth: 12.0 topCapHeight: 0 ];
-       UIImage* buttonImageSelected = [[UIImage imageNamed:@"greenButton.png"] stretchableImageWithLeftCapWidth: 12.0 topCapHeight: 0 ];
-       self.headerActions = [ActionsView viewWithTarget: self 
-                                              selectors: selectors 
-                                                 titles: titles 
-                                              arguments: arguments 
-                                                  image: buttonImage
-                                           imagePressed: buttonImagePressed
-                                          imageSelected: buttonImageSelected
-                                              textColor: [UIColor darkTextColor]
-                                      textColorSelected: [UIColor whiteColor]];
-       
-       self.smallFont = [UIFont systemFontOfSize: 14 ];
-       self.mediumFont = [UIFont systemFontOfSize: 16 ];
-       self.largeFont = [UIFont systemFontOfSize: 18 ];
-       
-       //let's go ahead and build descriptionCell, makes life easier
-       self.descriptionCell = [[[UITableViewCell alloc] initWithFrame: CGRectZero reuseIdentifier: @"Description" ] autorelease];
-       self.descriptionCell.font = self.smallFont;
-       self.descriptionCell.lineBreakMode = UILineBreakModeWordWrap;
-       [self.descriptionCell setSelectionStyle: UITableViewCellSelectionStyleNone ];
-       UITextView* text = [[[UITextView alloc] init] autorelease ];
-       text.tag = 303;
-       text.font = self.smallFont;
-       text.scrollEnabled = NO;
-       text.editable = NO;
-       [[self.descriptionCell contentView] addSubview: text ];
-    }
-    return self;
-}
-
-/*
 - (void)viewDidLoad {
-    [super viewDidLoad];
 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+	self.signedUpString = NSLocalizedString( @"Registered!", @"Should be positive, yay you signed up!" );
+	self.signUpString = NSLocalizedString( @"Register", @"Indicates clicking this button will sign you up" );
+	
+	NSArray* selectors = [NSArray arrayWithObjects:
+						  [NSValue valueWithPointer: @selector(signUp)],
+						  [NSValue valueWithPointer: @selector(share)],
+						  nil
+						  ];
+	
+	NSArray* titles = [NSArray arrayWithObjects: 
+					   self.signUpString,
+					   NSLocalizedString( @"Share", nil),
+					   nil
+					   ];
+	
+	NSArray* arguments = [NSArray arrayWithObjects: [NSNull null], [NSNull null], nil ];
+	UIImage* buttonImage = [[UIImage imageNamed:@"whiteButton.png"] stretchableImageWithLeftCapWidth: 12.0 topCapHeight: 0 ];
+	UIImage* buttonImagePressed = [[UIImage imageNamed:@"blueButton.png"] stretchableImageWithLeftCapWidth: 12.0 topCapHeight: 0 ];
+	UIImage* buttonImageSelected = [[UIImage imageNamed:@"greenButton.png"] stretchableImageWithLeftCapWidth: 12.0 topCapHeight: 0 ];
+	self.headerActions = [ActionsView viewWithTarget: self 
+										   selectors: selectors 
+											  titles: titles 
+										   arguments: arguments 
+											   image: buttonImage
+										imagePressed: buttonImagePressed
+									   imageSelected: buttonImageSelected
+										   textColor: [UIColor darkTextColor]
+								   textColorSelected: [UIColor whiteColor]];
+	
+	self.smallFont = [UIFont systemFontOfSize: 14 ];
+	self.mediumFont = [UIFont systemFontOfSize: 16 ];
+	self.largeFont = [UIFont systemFontOfSize: 18 ];
+	
+	[super viewDidLoad];
 }
-*/
 
-/*
+
+
 - (void)viewWillAppear:(BOOL)animated {
+	//let's go ahead and build descriptionCell, makes life easier
+		
     [super viewWillAppear:animated];
 }
-*/
+
 /*
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -216,7 +192,23 @@
 
 - (UITableViewCell*) cellForDescription: (NSUInteger) row 
 {
-   return self.descriptionCell;
+	int operatingWidth = [[UIScreen mainScreen] bounds].size.width - (self.tableView.sectionHeaderHeight * 4);
+	UITableViewCell *descriptionCell_ = [[[UITableViewCell alloc] initWithFrame: CGRectZero reuseIdentifier: @"Description" ] autorelease];
+	descriptionCell_.font = self.smallFont;
+	descriptionCell_.lineBreakMode = UILineBreakModeTailTruncation;
+	[descriptionCell_ setSelectionStyle: UITableViewCellSelectionStyleNone ];
+	
+	CGSize size = [self.event.details sizeWithFont: self.smallFont 
+				   constrainedToSize: CGSizeMake(operatingWidth - 20, 1000 ) 
+				   lineBreakMode: UILineBreakModeWordWrap ];
+	UILabel *text = [[[UILabel alloc] init] autorelease];
+	text.font = self.smallFont;
+	text.text = self.event.details;
+	text.frame = CGRectMake(20, 10, operatingWidth, size.height);
+	text.numberOfLines = 0;
+	[descriptionCell_ addSubview:text];
+	
+   return descriptionCell_;
 }
 
 - (UITableViewCell*) cellForContactInfoRow:(NSInteger) row 
@@ -323,6 +315,7 @@
    return nil;
 }
 
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
    NSUInteger row = indexPath.row;
@@ -334,20 +327,16 @@
    }
    else if ( section == kSectionDescription ) {
       NSAssert( row == kSectionDescriptionRow, @"Unsupported Row Id for Description" );
-      NSString* str = self.event.details;
-      CGSize size = [ str sizeWithFont: self.smallFont 
-                     constrainedToSize: CGSizeMake(self.descriptionSize.width - 20, 1000 ) 
-                         lineBreakMode: UILineBreakModeWordWrap ];
-      
-      self.descriptionSize = CGSizeMake(self.descriptionSize.width, size.height);
-      UITextView* text = (UITextView*)[self.descriptionCell viewWithTag: 303 ];
-      text.frame = CGRectMake( 10, 0, self.descriptionSize.width, size.height + 10 );
-      text.text = str;
-      return text.frame.size.height + 11;
+	   int operatingWidth = [[UIScreen mainScreen] bounds].size.width - (self.tableView.sectionHeaderHeight * 4);
+	   CGSize size = [self.event.details sizeWithFont: self.smallFont 
+					  constrainedToSize: CGSizeMake(operatingWidth - 20, 1000 ) 
+					  lineBreakMode: UILineBreakModeWordWrap ];
+	   return size.height + 20;
    }
    
-   return self.tableView.rowHeight;
+    return self.tableView.rowHeight; 
 }
+ 
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
@@ -486,7 +475,6 @@
 	[event release];
 	[headerCell release];
 	[headerActions release];
-	[descriptionCell release];
 	[smallFont release];
 	[mediumFont release];
 	[largeFont release];
