@@ -13,11 +13,8 @@
 
 @implementation EventsSortedByTimeDataSource
 
-+ (id) dataSource 
-{
-   EventsSortedByTimeDataSource* ds = [[[EventsSortedByTimeDataSource alloc] init] autorelease ];
-   return ds;
-}
+@synthesize dateNamesForEvents;
+@synthesize eventsSortedByTime;
 
 #pragma mark RootViewDataSourceProtocol
 // these properties are used by the view controller
@@ -43,7 +40,7 @@
 // index path, regardless of the sorting or display technique for the specific
 // datasource
 - (NSObject *)objectForIndexPath:(NSIndexPath *)indexPath {
-   NSArray* events = [[[iVolunteerData sharedVolunteerData] eventsSortedIntoDays] objectAtIndex: [indexPath section]]; 
+   NSArray* events = [self.eventsSortedByTime objectAtIndex: [indexPath section]]; 
    Event* event = [events objectAtIndex: [indexPath row]];
    return event;
 }
@@ -68,7 +65,7 @@
       }
    }
    
-   NSArray* events = [[[iVolunteerData sharedVolunteerData] eventsSortedIntoDays] objectAtIndex: [indexPath section]]; 
+   NSArray* events = [self.eventsSortedByTime objectAtIndex: [indexPath section]]; 
    Event* event = [events objectAtIndex: [indexPath row]];
    
    NSLog( @"Class of cell is %@", [cell class] );
@@ -83,7 +80,10 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return [[[iVolunteerData sharedVolunteerData] daysWithEvents] count ];
+	NSUInteger count = [self.dateNamesForEvents count ];
+   if(!count)
+      return 1;
+   return count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
@@ -94,13 +94,22 @@
 - (NSInteger)tableView:(UITableView *)tableView  numberOfRowsInSection:(NSInteger)section {
 	//return the number of elements in the given section
    //something like:
-   NSArray* arr = [[iVolunteerData sharedVolunteerData] eventsInDateSection: section];
+   NSArray* arr = [self.eventsSortedByTime objectAtIndex: section];
    return [arr count];
 }
 
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-   return [[[iVolunteerData sharedVolunteerData] daysWithEvents] objectAtIndex: section ];
+   if (section > [self.dateNamesForEvents count]) {
+      return nil;
+   }
+   return [self.dateNamesForEvents objectAtIndex: section ];
+}
+
++ (id) dataSource {
+   return nil;
 }
 
 @end
+
+

@@ -11,24 +11,41 @@
 #import "ModelBase.h"
 
 @interface Location : ModelBase {
-   CLLocation* location;
+    CLLocation* location;
+    NSString* address;
+    NSString* city;
+    NSString* state;
+    NSString* zip;
 }
 
+@property (nonatomic, retain) NSString *zip;
+@property (nonatomic, retain) NSString *state;
+@property (nonatomic, retain) NSString *address;
+@property (nonatomic, retain) NSString *city;
 @property (retain) CLLocation* location;
-@property (retain) NSString* street;
 
 + (id) locationWithId: (NSString*) uid
-               street: (NSString*) street
+               address: (NSString*) address
+                 city: (NSString*) city
+                state: (NSString*) state
+                  zip: (NSString*) zip
              latitude: (double) latitude
             longitude: (double) longitude;
 
 - (id) initWithId: (NSString*) uid
-           street: (NSString*) street
+          address: (NSString*) address
+             city: (NSString*) city
+            state: (NSString*) state
+              zip: (NSString*) zip
          latitude: (double) latitude
         longitude: (double) longitude;
 
 
 @end
+
+
+
+
 
 
 

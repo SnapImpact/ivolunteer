@@ -42,6 +42,7 @@
 - (id) initWithFrame:(CGRect) frame reuseIdentifier:(NSString*) reuseIdentifier {
     if (self = [super initWithFrame:frame reuseIdentifier:reuseIdentifier]) {
         self.keyLabel = [[[UILabel alloc] initWithFrame:frame] autorelease];
+		
         self.valueLabel = [[[UILabel alloc] initWithFrame:frame] autorelease];
 
         keyLabel.textColor = [ColorCache commandColor];
@@ -72,7 +73,7 @@
     {
         CGRect frame = valueLabel.frame;
         frame.origin.y = floor((self.contentView.frame.size.height - valueLabel.frame.size.height) / 2);
-        frame.size.width = self.contentView.frame.size.width - frame.origin.x;
+        frame.size.width = self.contentView.frame.size.width - frame.origin.x - 10;
         valueLabel.frame = frame;
     }
 }

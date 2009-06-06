@@ -12,7 +12,7 @@
 #import "BusyIndicatorDelegate.h"
 #import "LocationAvailabilityDelegate.h"
 
-@interface ProjectViewController : UITableViewController <LocationAvailabilityDelegate>{
+@interface ProjectViewController : UITableViewController<LocationAvailabilityDelegate>{
    IBOutlet UIButton* refreshButton;
    id <BusyIndicatorDelegate> busyIndicatorDelegate;
    EventDetailsTableViewController* detailsController;

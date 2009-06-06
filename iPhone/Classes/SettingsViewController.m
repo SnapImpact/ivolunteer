@@ -7,6 +7,7 @@
 //
 
 #import "SettingsViewController.h"
+#import "InterestAreaFilterController.h"
 
 
 @implementation SettingsViewController
@@ -19,12 +20,6 @@
 @synthesize scrollView;
 @synthesize floatingView;
 @synthesize settings;
-
-#define SETTINGS_KEY @"Settings"
-#define SETTINGS_KEY_NAME @"name"
-#define SETTINGS_KEY_EMAIL @"email"
-#define SETTINGS_KEY_ZIPCODE @"zipcode"
-#define SETTINGS_KEY_USE_ZIPCODE @"useZipcode"
 
 /*
 // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -43,17 +38,17 @@
 */
 
 - (void) updateSettings {
-   self.nameField.text = [self.settings objectForKey: SETTINGS_KEY_NAME];
-   self.emailField.text = [self.settings objectForKey: SETTINGS_KEY_EMAIL];
-   self.zipcodeField.text = [self.settings objectForKey: SETTINGS_KEY_ZIPCODE];
-   self.useZipCode.on = [[self.settings objectForKey: SETTINGS_KEY_USE_ZIPCODE] boolValue];
+   self.nameField.text = [self.settings objectForKey: kSettingsKeyName];
+   self.emailField.text = [self.settings objectForKey: kSettingsKeyEmail];
+   self.zipcodeField.text = [self.settings objectForKey: kSettingsKeyZipcode];
+   self.useZipCode.on = [[self.settings objectForKey: kSettingsKeyUseZipcode] boolValue];
 }
 
 - (void) loadSettings {
-   [self.settings setObject: self.nameField.text forKey: SETTINGS_KEY_NAME ];
-   [self.settings setObject: self.emailField.text forKey: SETTINGS_KEY_EMAIL ];
-   [self.settings setObject: self.zipcodeField.text forKey: SETTINGS_KEY_ZIPCODE ];
-   [self.settings setObject: [NSNumber numberWithBool: self.useZipCode.on] forKey: SETTINGS_KEY_USE_ZIPCODE ];   
+   [self.settings setObject: self.nameField.text forKey: kSettingsKeyName ];
+   [self.settings setObject: self.emailField.text forKey: kSettingsKeyEmail ];
+   [self.settings setObject: self.zipcodeField.text forKey: kSettingsKeyZipcode ];
+   [self.settings setObject: [NSNumber numberWithBool: self.useZipCode.on] forKey: kSettingsKeyUseZipcode ];   
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -61,7 +56,7 @@
    [super viewDidLoad];
    self.scrollView.contentSize = CGSizeMake(320, 550);
 	self.scrollView.delaysContentTouches = NO;
-   NSMutableDictionary* settings_ = (NSMutableDictionary*) CFPreferencesCopyAppValue((CFStringRef) SETTINGS_KEY, 
+   NSMutableDictionary* settings_ = (NSMutableDictionary*) CFPreferencesCopyAppValue((CFStringRef) kSettingsKey, 
                                                           kCFPreferencesCurrentApplication);
    if (settings_) {
       self.settings = settings_;
@@ -71,6 +66,7 @@
       [self loadSettings];
    }
 
+   [settings_ release];
    [self updateSettings];
 }
 
@@ -128,11 +124,12 @@
 
 -(IBAction)saveSettings
 {
-   [self loadSettings];
-   CFPreferencesSetAppValue((CFStringRef) SETTINGS_KEY, self.settings, kCFPreferencesCurrentApplication);
-   UIAlertView* alert = [[UIAlertView alloc] initWithTitle: @"Settings Saved" message: @"Your settings have been saved." delegate: nil cancelButtonTitle: @"Ok" otherButtonTitles: nil];
-   [alert show];
-   [alert release];
+	[self loadSettings];
+	CFPreferencesSetAppValue((CFStringRef) kSettingsKey, self.settings, kCFPreferencesCurrentApplication);
+	CFPreferencesAppSynchronize(kCFPreferencesCurrentApplication);
+	UIAlertView* alert = [[UIAlertView alloc] initWithTitle: @"Settings Saved" message: @"Your settings have been saved." delegate: nil cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+	[alert show];
+	[alert release];
 }
 
 -(IBAction)resetSettings
@@ -141,13 +138,20 @@
    [action showInView: self.floatingView];
 }
 
+-(IBAction)filterInterestAreas {
+    //TODO: navigation
+    InterestAreaFilterController *controller = [[[ InterestAreaFilterController alloc] initWithNibName: @"InterestAreaFilterController" bundle: nil] autorelease];
+    UINavigationController *nav = self.navigationController;
+    [nav pushViewController: controller animated: YES];
+}
+
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
    if(buttonIndex == 0) {
-      [self.settings setObject: @"" forKey: SETTINGS_KEY_NAME ];
-      [self.settings setObject: @"" forKey: SETTINGS_KEY_EMAIL ];
-      [self.settings setObject: @"" forKey: SETTINGS_KEY_ZIPCODE ];
-      [self.settings setObject: [NSNumber numberWithBool: NO] forKey: SETTINGS_KEY_USE_ZIPCODE ];   
+      [self.settings setObject: @"" forKey: kSettingsKeyName ];
+      [self.settings setObject: @"" forKey: kSettingsKeyEmail ];
+      [self.settings setObject: @"" forKey: kSettingsKeyZipcode ];
+      [self.settings setObject: [NSNumber numberWithBool: NO] forKey: kSettingsKeyUseZipcode ];   
       [self updateSettings];
    }
 }

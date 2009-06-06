@@ -21,15 +21,17 @@
 
 @synthesize version;
 
-@synthesize eventsSortedIntoDays;  //nested array of events sorted into days
-@synthesize daysWithEvents; //array of NSDates with upcoming events
+@synthesize upcomingEventsSortedIntoDays;  //nested array of events sorted into days
+@synthesize myEventsSortedIntoDays;
+@synthesize daysWithUpcomingEvents; //array of NSDates with upcoming events
+@synthesize daysWithMyEvents; //array of NSDates with upcoming events
 @synthesize interestAreasByName;
 @synthesize myLocation;
 @synthesize homeZip;
 
 static iVolunteerData* _sharedInstance = nil;
 static NSString* kVolunteerDataRootKey = @"Root";
-static NSString* kVolunteerDataVersion = @"v1.2";
+static NSString* kVolunteerDataVersion = @"v1.4";
 
 + (id) sharedVolunteerData {
    if( _sharedInstance == nil ) {
@@ -103,8 +105,9 @@ static NSString* kVolunteerDataVersion = @"v1.2";
    self.events = [NSMutableDictionary dictionary];
    
    self.interestAreasByName = nil;
-   self.eventsSortedIntoDays = nil;
-   self.daysWithEvents = nil;
+   self.upcomingEventsSortedIntoDays = nil;
+   self.myEventsSortedIntoDays = nil;
+   self.daysWithUpcomingEvents = nil;
    
    return self;
 }
@@ -113,6 +116,7 @@ static NSString* kVolunteerDataVersion = @"v1.2";
 {
    self = [self init];
    
+    /*
    Organization* o;
    o = [ Organization organizationWithId: @"org1"
                                     name: @"ActionFeed"
@@ -246,14 +250,10 @@ static NSString* kVolunteerDataVersion = @"v1.2";
       [self.events setObject: e forKey: e.uid ];
       
    }
+     */
    
    [self sortData];
    return self;
-}
-
-- (NSArray*) eventsInDateSection: (unsigned int) section
-{
-   return [ self.eventsSortedIntoDays objectAtIndex: section ];
 }
 
 NSInteger _SortEventsByDate(id e1, id e2, void *context)
@@ -266,6 +266,13 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
    return [[ i1 name] compare: [i2 name]];
 }
 
+- (NSString*) dateToString: (NSDate*) date {
+   if( [DateUtilities isToday: date])
+      return [NSString stringWithString: @"Today"];
+   else
+      return [NSString stringWithString: [DateUtilities formatShortDate: date]];
+}
+
 - (void) sortData
 {
    NSMutableArray* sortedInterestAreas = [NSMutableArray arrayWithCapacity: [self.interestAreas count ]];
@@ -275,7 +282,8 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
       [ sortedInterestAreas addObject: interestArea ];
    }
    
-   self.interestAreasByName = [sortedInterestAreas sortedArrayUsingFunction: _SortInterestAreasByName context: self];
+   // IMPORTANT: this needs to be able to return all the interest areas possible in order for [InterestArea loadInterestAreasFromPreferences] to work correctly
+   self.interestAreasByName = (NSMutableArray*)[sortedInterestAreas sortedArrayUsingFunction: _SortInterestAreasByName context: self];
    
    //sort events by date
    NSMutableArray* eventsByDate = [NSMutableArray arrayWithCapacity: [self.events count]];
@@ -314,9 +322,34 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
       }
    }
    
-   self.daysWithEvents = dayNames;
-   self.eventsSortedIntoDays = _eventsSortedIntoDays;
+   self.daysWithUpcomingEvents = dayNames;
+   self.upcomingEventsSortedIntoDays = _eventsSortedIntoDays;
+}
 
+- (void) updateMyEventsDataSource: (Event*) event {
+   if (!self.myEventsSortedIntoDays) {
+      self.myEventsSortedIntoDays = [NSMutableArray array];
+   }
+         
+   NSString* date = [self dateToString: event.date];
+   int i = 0;
+   for( NSString* existingDay in self.daysWithMyEvents ) {
+      if ([existingDay isEqualToString: date]) {
+         [[self.myEventsSortedIntoDays objectAtIndex: i] addObject: event];
+         [[self.myEventsSortedIntoDays objectAtIndex: i] sortUsingFunction: _SortEventsByDate context: self ];
+         return;
+      }
+      i++;
+   }
+   
+   if (!self.daysWithMyEvents) {
+      self.daysWithMyEvents = [NSMutableArray array];
+   }
+   [self.daysWithMyEvents addObject: date];
+   NSUInteger index = [self.daysWithMyEvents count]-1;
+   [self.myEventsSortedIntoDays addObject: [NSMutableArray array]];
+   [[self.myEventsSortedIntoDays objectAtIndex: index] addObject: event];
+   [[self.myEventsSortedIntoDays objectAtIndex: index] sortUsingFunction: _SortEventsByDate context: self ];
 }
                                
 - (void) dealloc {
@@ -328,8 +361,9 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
    self.events = nil;
 	self.myLocation = nil;
 	self.homeZip = nil;
-   self.eventsSortedIntoDays = nil;
-   self.daysWithEvents = nil;
+   self.upcomingEventsSortedIntoDays = nil;
+   self.myEventsSortedIntoDays = nil;
+   self.daysWithUpcomingEvents = nil;
    self.interestAreasByName = nil;
    [super dealloc];
 }
@@ -345,10 +379,11 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
       ENCODE_PROP(interestAreas)
       ENCODE_PROP(events)
       ENCODE_PROP(homeZip)
-	  ENCODE_PROP(myLocation)
-	
-      ENCODE_PROP(eventsSortedIntoDays)
-      ENCODE_PROP(daysWithEvents)
+      ENCODE_PROP(myLocation)
+      ENCODE_PROP(upcomingEventsSortedIntoDays)
+      ENCODE_PROP(myEventsSortedIntoDays)
+      ENCODE_PROP(daysWithUpcomingEvents)
+      ENCODE_PROP(daysWithMyEvents)
       ENCODE_PROP(interestAreasByName)
    END_ENCODER()
 }
@@ -356,19 +391,20 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
 - (id)initWithCoder:(NSCoder *)decoder
 {
    BEGIN_DECODER()
-      DECODE_PROP(version)
-      DECODE_PROP(organizations)
-      DECODE_PROP(contacts)
-      DECODE_PROP(sources)
-      DECODE_PROP(locations)
-      DECODE_PROP(interestAreas)
-      DECODE_PROP(events)
-	  DECODE_PROP(homeZip)
-	  DECODE_PROP(myLocation)
-	
-      DECODE_PROP(eventsSortedIntoDays)
-      DECODE_PROP(daysWithEvents)
-      DECODE_PROP(interestAreasByName)
+   DECODE_PROP(version)
+   DECODE_PROP(organizations)
+   DECODE_PROP(contacts)
+   DECODE_PROP(sources)
+   DECODE_PROP(locations)
+   DECODE_PROP(interestAreas)
+   DECODE_PROP(events)
+   DECODE_PROP(homeZip)
+   DECODE_PROP(myLocation)
+   DECODE_PROP(upcomingEventsSortedIntoDays)
+   DECODE_PROP(myEventsSortedIntoDays)
+   DECODE_PROP(daysWithUpcomingEvents)
+   DECODE_PROP(daysWithMyEvents)
+   DECODE_PROP(interestAreasByName)
    END_DECODER()
    
    if(self) {
@@ -392,139 +428,223 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
 
 - (void) parseJson: (NSData*) data
 {
-   NSString* utf8 = [NSString stringWithUTF8String: [data bytes]];
-   NSData* utf32Data = [utf8 dataUsingEncoding: NSUTF32BigEndianStringEncoding ];
-   NSError* error =  nil;
-   NSDictionary *json = [[CJSONDeserializer deserializer] deserializeAsDictionary: utf32Data error: &error];
-   
-   //setup a temp autorelease pool here for performance
-   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-   
-   @try {
-      //First let's do organizations
-      NSArray* orgArray = [ json objectForKey: @"organizations"];
-      if( orgArray != nil ) {
-         NSEnumerator* e = [orgArray objectEnumerator];
-         NSDictionary* org;
-         while((org = (NSDictionary*)[e nextObject])) {
-            if(org != nil) {
-               //find it in the current list of organizations
-               //or insert it
-               Organization* o = [ self.organizations objectForKey: [org objectForKey: @"id"]];
-               if( o !=  nil ) {
-                  //update the properties
-                  o.uid = [[org objectForKey: @"id" ] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
-                  o.name = [[org objectForKey: @"name"] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
-                  o.email = [[org objectForKey:@"email"] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
-                  o.phone = [[org objectForKey:@"phone"] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
-                  o.url = [NSURL URLWithString: [[org objectForKey:@"url"] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]]];
-               }
-               else {
-                  //add it
-                  o = [Organization organizationWithId: [[org objectForKey: @"id" ] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]]
-                                                  name: [[org objectForKey: @"name"] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]]
-                                                 email: [[org objectForKey: @"email"] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]]
-                                                 phone: [[org objectForKey: @"phone" ] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]]
-                                                   url: [[org objectForKey: @"url"] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]]];
-                  
-                  [self.organizations setObject: o forKey: o.uid ];
-               }
+	self.organizations = [NSMutableDictionary dictionary];
+	self.contacts = [NSMutableDictionary dictionary];
+	self.sources = [NSMutableDictionary dictionary];
+	self.locations = [NSMutableDictionary dictionary];
+	self.interestAreas = [NSMutableDictionary dictionary];
+	self.events = [NSMutableDictionary dictionary];
+	
+    NSString* utf8 = [NSString stringWithUTF8String: [data bytes]];
+    NSData* utf32Data = [utf8 dataUsingEncoding: NSUTF32BigEndianStringEncoding ];
+    NSError* error =  nil;
+    NSDictionary *json = [[CJSONDeserializer deserializer] deserializeAsDictionary: utf32Data error: &error];
+    
+    //setup a temp autorelease pool here for performance
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    
+    @try {
+        //First let's do organizations
+        NSArray* orgArray = [ json objectForKey: @"organizations"];
+        if( orgArray != nil ) {
+            NSEnumerator* e = [orgArray objectEnumerator];
+            NSDictionary* org;
+            while((org = (NSDictionary*)[e nextObject])) {
+                if(org != nil) {
+                    //find it in the current list of organizations
+                    //or insert it
+                    Organization* o = [ self.organizations objectForKey: [org objectForKey: @"id"]];
+                    if( o !=  nil ) {
+                        //update the properties
+                        o.uid = [[org objectForKey: @"id" ] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
+                        o.name = [[org objectForKey: @"name"] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
+                        o.email = [[org objectForKey:@"email"] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
+                        o.phone = [[org objectForKey:@"phone"] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
+                        NSString* url = [org objectForKey: @"url"];
+                        if(url) {
+                            o.url = [NSURL URLWithString: [url stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]]];
+                        }
+                        else {
+                            o.url = nil;
+                        }
+                    }
+                    else {
+                        //add it
+                        o = [Organization organizationWithId: [[org objectForKey: @"id" ] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]]
+                                                        name: [[org objectForKey: @"name"] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]]
+                                                       email: [[org objectForKey: @"email"] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]]
+                                                       phone: [[org objectForKey: @"phone" ] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]]
+                                                         url: [[org objectForKey: @"url"] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]]];
+                        
+                        [self.organizations setObject: o forKey: o.uid ];
+                    }
+                }
             }
-         }
-      }
-      
-      //now let's get the timestamps into a useable format
-      NSArray* timestampsArray = [json objectForKey: @"timestamps" ];
-      NSMutableDictionary* timestamps = [NSMutableDictionary dictionaryWithCapacity: (timestampsArray != nil) ? [timestampsArray count] : 0];
-      if( timestampsArray != nil ) {
-         NSEnumerator* e = [timestampsArray objectEnumerator];
-         NSDictionary* timestamp;
-         while((timestamp = (NSDictionary*) [e nextObject])) {
-            NSDate* date = [DateUtilities parseIS08601Date: [timestamp objectForKey: @"timestamp"]];
-            [ timestamps setObject: date
-                            forKey: [timestamp objectForKey: @"id"]];
-         }
-      }
-      
-      //And finally, the events
-      NSArray* eventsArray = [json objectForKey: @"events" ];
-      if(eventsArray != nil ) {
-         NSEnumerator* e = [eventsArray objectEnumerator];
-         NSDictionary* event;
-         while((event = (NSDictionary*)[e nextObject])) {
-            id tsC = [event objectForKey: @"timestampCollection"];
-            NSArray* timestampCollection;
-            if( [tsC isKindOfClass: [NSArray class]] )
-               timestampCollection = tsC;
-            else {
-               timestampCollection = [NSArray arrayWithObject: tsC ];
+        }
+        
+        //now let's get the timestamps into a useable format
+        NSArray* timestampsArray = [json objectForKey: @"timestamps" ];
+        NSMutableDictionary* timestamps = [NSMutableDictionary dictionaryWithCapacity: (timestampsArray != nil) ? [timestampsArray count] : 0];
+        if( timestampsArray != nil ) {
+            NSEnumerator* e = [timestampsArray objectEnumerator];
+            NSDictionary* timestamp;
+            while((timestamp = (NSDictionary*) [e nextObject])) {
+                NSDate* date = [DateUtilities parseIS08601Date: [timestamp objectForKey: @"timestamp"]];
+                [ timestamps setObject: date
+                                forKey: [timestamp objectForKey: @"id"]];
             }
-            
-            NSEnumerator* ts_e = [timestampCollection objectEnumerator];
-            NSString* ts;
-            while(( ts = (NSString*)[ts_e nextObject] )) {
-               NSString* event_id = [NSString stringWithFormat: @"event:%@-timestamp:%@", [event objectForKey: @"id"], ts];
-               NSString* event_name = [event objectForKey: @"title" ];
-               NSNumber* duration = [NSNumber numberWithInt: [[event objectForKey: @"duration"] intValue]];
-               NSString* description = [event objectForKey:@"description"];
-               
-               NSString* org_id;
-               id orgCollection = [event objectForKey: @"organizationCollection"];
-               if( [orgCollection isKindOfClass: [NSArray class]] ) {
-                  //TODO: handle multiple orgs here
-                  //for now just use the first one
-                  org_id = [orgCollection objectAtIndex: 0 ];
-               }
-               else {
-                  org_id = orgCollection;
-               }
-               
-               NSMutableArray* event_interestAreas = [NSMutableArray array];
-               id interestAreaCollection = [event objectForKey: @"interestAreaCollection"];
-               if( [interestAreaCollection isKindOfClass: [NSArray class]] ) {
-                  NSEnumerator* iaCe = [interestAreaCollection objectEnumerator];
-                  id ia_id;
-                  while((ia_id = [iaCe nextObject])) {
-                     InterestArea* ia = [self.interestAreas objectForKey: ia_id];
-                     if(ia != nil) 
-                        [event_interestAreas addObject: ia];
-                  }
-               }
-               else {
-                  id ia_id = interestAreaCollection;
-                  InterestArea* ia = [self.interestAreas objectForKey:ia_id];
-                  if(ia !=  nil)
-                     [event_interestAreas addObject:ia];
-               }
-               
-               Event* e = [self.events objectForKey: event_id];
-               if(e != nil) {
-                  //update
-                  
-               }
-               else {
-                  //add
-                  e = [Event eventWithId:event_id
-                                    name:event_name
-                                 details:description
-                            organization: [self.organizations objectForKey: org_id]
-                                 contact: nil
-                                  source: nil 
-                                location: nil 
-                           interestAreas:event_interestAreas
-                                    date: [timestamps objectForKey: ts]
-                                duration: duration ];
-                  //don't add them for now until we hande nils in the UI
-                  //[self.events setObject: e forKey: e.uid ];
-               }            
+        }
+        
+        //source
+        //location
+        NSArray* locationsArray = [json objectForKey: @"locations"];
+        if(locationsArray != nil ) {
+            for (NSDictionary* location in locationsArray) {
+                NSString* address = [location objectForKey: @"address"];
+                NSString* city = [location objectForKey: @"city"];
+                NSString* state = [location objectForKey: @"state"];
+                NSString* zip = [location objectForKey: @"zip"];
+                NSString* latString = [location objectForKey: @"latitude"];
+                double lat = 0.0;
+                if(latString) {
+                    lat = [latString doubleValue];
+                }
+                NSString* lonString = [location objectForKey: @"longitude"];
+                double lon = 0.0;
+                if(lonString) {
+                    lon = [lonString doubleValue];
+                }
+                NSString* location_id = [location objectForKey: @"id"];
+                Location * location = [Location locationWithId: location_id 
+                                                       address: address
+                                                          city: city
+                                                         state: state
+                                                           zip: zip
+                                                      latitude: lat 
+                                                     longitude: lon];
+                [self.locations setObject: location forKey: location_id];
             }
-         }
-      }
-   }
-   @finally {
-      //close down our temp pool
-      [pool release];
-   }   
+        }
+        
+        //And finally, the events
+        NSArray* eventsArray = [json objectForKey: @"events" ];
+        if(eventsArray != nil ) {
+            NSEnumerator* e = [eventsArray objectEnumerator];
+            NSDictionary* event;
+            while((event = (NSDictionary*)[e nextObject])) {
+                id tsC = [event objectForKey: @"timestampCollection"];
+                NSArray* timestampCollection;
+                if( [tsC isKindOfClass: [NSArray class]] )
+                    timestampCollection = tsC;
+                else {
+                    timestampCollection = [NSArray arrayWithObject: tsC ];
+                }
+                
+                NSEnumerator* ts_e = [timestampCollection objectEnumerator];
+                NSString* ts;
+                while(( ts = (NSString*)[ts_e nextObject] )) {
+                    NSString* event_id = [NSString stringWithFormat: @"event:%@-timestamp:%@", [event objectForKey: @"id"], ts];
+                    NSString* event_name = [event objectForKey: @"title" ];
+                    NSNumber* duration = [NSNumber numberWithInt: [[event objectForKey: @"duration"] intValue]];
+                    NSString* description = [event objectForKey:@"description"];
+                    
+                    NSString* org_id;
+                    id orgCollection = [event objectForKey: @"organizationCollection"];
+                    if( [orgCollection isKindOfClass: [NSArray class]] ) {
+                        //TODO: handle multiple orgs here
+                        //for now just use the first one
+                        org_id = [orgCollection objectAtIndex: 0 ];
+                    }
+                    else {
+                        org_id = orgCollection;
+                    }
+                    
+                    NSMutableArray* event_interestAreas = [NSMutableArray array];
+                    id interestAreaCollection = [event objectForKey: @"interestAreaCollection"];
+                    if( [interestAreaCollection isKindOfClass: [NSArray class]] ) {
+                        NSEnumerator* iaCe = [interestAreaCollection objectEnumerator];
+                        id ia_id;
+                        while((ia_id = [iaCe nextObject])) {
+                            InterestArea* ia = [self.interestAreas objectForKey: ia_id];
+                            if(ia != nil) 
+                                [event_interestAreas addObject: ia];
+                        }
+                    }
+                    else {
+                        id ia_id = interestAreaCollection;
+                        InterestArea* ia = [self.interestAreas objectForKey:ia_id];
+                        if(ia !=  nil)
+                            [event_interestAreas addObject:ia];
+                    }
+                    
+                    //contacts
+                    //So, the feed doesn't have a discrete contact object
+                    //So the logic is:
+                    // if event has prop("phone")
+                    //  contact.phone = event.phone
+                    // else
+                    //  contact.phone = organization.phone
+                    // else
+                    //  contact.phone = nil
+                    
+                    NSString *contactName, *contactPhone, *contactEmail;
+                    contactName = [event objectForKey: @"name"];
+                    if(!contactName) {
+                        contactName = [[self.organizations objectForKey: org_id] name];
+                    }
+                    contactPhone = [event objectForKey: @"phone"];
+                    if(!contactPhone) {
+                        contactPhone = [[self.organizations objectForKey: org_id] phone];
+                    }
+                    contactEmail = [event objectForKey: @"emai"];
+                    if(!contactEmail) {
+                        contactEmail = [[self.organizations objectForKey: org_id] email];
+                    }
+                    NSString* contactUid = [ NSString stringWithFormat:@"name=%@:phone=%@:email=%@", contactName, contactPhone, contactEmail];
+                    Contact* contact = [Contact contactWithId: contactUid
+                                                         name: contactName
+                                                        email: contactEmail
+                                                        phone: contactPhone ];
+                    NSAssert(contact, @"Contact is nil");
+                    
+                    id locationCollection = [event objectForKey: @"locationCollection" ];
+                    NSString *location_id;
+                    if ([locationCollection isKindOfClass: [NSArray class]]) {
+                        location_id = [locationCollection objectAtIndex: 0];
+                    }
+                    else {
+                        location_id = locationCollection;
+                    }
+                    Location* location = [self.locations objectForKey: location_id];
+                    Event* e = [self.events objectForKey: event_id];
+                    if(e != nil) {
+                        //update
+                        
+                    }
+                    else {
+                        //add
+                        e = [Event eventWithId: event_id
+                                          name: event_name
+                                       details: description
+                                  organization: [self.organizations objectForKey: org_id]
+                                       contact: contact
+                                        source: nil 
+                                      location: location 
+                                 interestAreas: event_interestAreas
+                                          date: [timestamps objectForKey: ts]
+                                      duration: duration ];
+                        //don't add them for now until we hande nils in the UI
+                        [self.events setObject: e forKey: e.uid ];
+                    }            
+                }
+            }
+        }
+        [self sortData];
+    }
+    @finally {
+        //close down our temp pool
+        [pool release];
+    }   
 }
    
 @end

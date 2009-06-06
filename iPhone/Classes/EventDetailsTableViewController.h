@@ -18,14 +18,13 @@
    Event* event;
    EventDetailsHeaderCell* headerCell;
    ActionsView* headerActions;
-   UITableViewCell* descriptionCell;
-   CGSize descriptionSize;
    UIFont* smallFont;
    UIFont* mediumFont;
    UIFont* largeFont;
    NSString* signUpString;
    NSString* signedUpString;
    IBOutlet UIView* floatingView;
+	int descriptionHeight;
 }
 
 @property (nonatomic, retain) UIView *floatingView;
@@ -33,8 +32,6 @@
 @property (retain) Event* event;
 @property (retain) EventDetailsHeaderCell* headerCell;
 @property (retain) ActionsView* headerActions;
-@property (retain) UITableViewCell* descriptionCell;
-@property CGSize descriptionSize;
 @property (retain) UIFont* smallFont;
 @property (retain) UIFont* mediumFont;
 @property (retain) UIFont* largeFont;

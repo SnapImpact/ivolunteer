@@ -40,7 +40,6 @@
 @synthesize busyIndicatorView;
 @synthesize busyIndicatorLabel;
 @synthesize locationDelegate;
-@synthesize restController;
 
 - (void)getLocation
 {
@@ -90,19 +89,9 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
 	
-	//TODO: check for internet connectivity!
+	//TODO HASSAN AND RYAN DO NOT FORGET!!!!!!: check for internet connectivity!
 	
-	NSDate *start1 = [NSDate date];
-	[iVolunteerData restore];
-	NSDate *end1 = [NSDate date];
-	NSLog(@"[iVolunteerData restore]: %g sec", [end1 timeIntervalSinceDate:start1]);
-	
-	NSDate *start2 = [NSDate date];
-	self.restController = [[RestController alloc] initWithVolunteerData: [iVolunteerData sharedVolunteerData]];
-	[ self.restController beginGetEventsFrom: [DateUtilities today] until: [DateUtilities daysFromNow: 14]];
-	NSDate *end2 = [NSDate date];
-	NSLog(@"rest contoller init: %g sec", [end2 timeIntervalSinceDate:start2]);
-	
+		
 	[self getLocation];
 	
 	splashvc = [[SplashViewController alloc] initWithNibName:@"SplashView" bundle:[NSBundle mainBundle]];
@@ -154,9 +143,8 @@
 	[busyIndicatorView release];
 	[busyIndicatorLabel release];
 	[navigationController release];
-   [tabBarController release];
+	[tabBarController release];
 	[now release];
-	[restController release];
 	[window release];
 	[super dealloc];
 }

@@ -8,9 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "ModelBase.h"
+#define kInterestAreaKey @"SelectedInterestArea"
 
 @interface InterestArea : ModelBase {
 }
+
++ (NSArray *) loadInterestAreasFromPreferences;
++ (void) saveInterestAreasToPreferences: (NSArray *)interestAreaArray;
 
 + (id) interestAreaWithId: (NSString*) uid
                      name: (NSString*) name;

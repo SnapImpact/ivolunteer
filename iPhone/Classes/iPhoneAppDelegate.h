@@ -36,15 +36,14 @@
 @interface iPhoneAppDelegate : NSObject <UIApplicationDelegate, BusyIndicatorDelegate, ScreenDismissalDelegate, CLLocationManagerDelegate> {
     
 	id <LocationAvailabilityDelegate> locationDelegate;
-   UIWindow *window;
-   UINavigationController *navigationController;
-   MemoryTabViewController* tabBarController;
+	UIWindow *window;
+	UINavigationController *navigationController;
+	MemoryTabViewController* tabBarController;
 	SplashViewController *splashvc;
 	UIView *floatingView;
 	UIView *busyIndicatorView;
 	UILabel *busyIndicatorLabel;
 	NSDate *now;
-   RestController *restController;
 	BOOL isBusy;
 }
 
@@ -55,7 +54,6 @@
 @property (nonatomic, retain) IBOutlet UIView *floatingView;
 @property (nonatomic, retain) IBOutlet UIView *busyIndicatorView;
 @property (nonatomic, retain) IBOutlet UILabel *busyIndicatorLabel;
-@property (retain) RestController* restController;
 
 
 -(void) loadNavigationView;

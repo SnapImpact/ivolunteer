@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+#define kSettingsKey @"Settings"
+#define kSettingsKeyName @"name"
+#define kSettingsKeyEmail @"email"
+#define kSettingsKeyZipcode @"zipcode"
+#define kSettingsKeyUseZipcode @"useZipcode"
+
 
 @interface SettingsViewController : UIViewController<UIActionSheetDelegate> {
    IBOutlet UITextField *zipcodeField;
@@ -32,10 +38,11 @@
 
 - (IBAction) zipcodeUpdated;
 - (IBAction) dismissKeyboard;
-- (IBAction)scrollDown;
-- (IBAction)scrollUp;
-- (IBAction)saveSettings;
-- (IBAction)resetSettings;
+- (IBAction) scrollDown;
+- (IBAction) scrollUp;
+- (IBAction) saveSettings;
+- (IBAction) resetSettings;
+- (IBAction) filterInterestAreas;
 
 @end
 

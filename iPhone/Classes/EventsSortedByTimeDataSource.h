@@ -10,8 +10,12 @@
 #import "RootViewDataSourceProtocol.h"
 
 @interface EventsSortedByTimeDataSource : NSObject <RootViewDataSourceProtocol, UITableViewDataSource> {
-
+   NSArray* eventsSortedByTime;
+   NSArray* dateNamesForEvents;
 }
+
+@property (nonatomic, retain) NSArray *dateNamesForEvents;
+@property (nonatomic, retain) NSArray *eventsSortedByTime;
 
 + (id) dataSource;
 
@@ -36,3 +40,5 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section;
 
 @end
+
+
