@@ -19,7 +19,6 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *  THE SOFTWARE.
  */
-
 package etl;
 
 import javax.ejb.Stateless;
@@ -35,10 +34,11 @@ import java.util.List;
  */
 @Stateless
 public class locationencoderSessionBean implements locationencoderSessionLocal {
-	@PersistenceContext
-	private EntityManager	em;
 
-	public void updateLocationTableLatLon() {
+    @PersistenceContext
+    private EntityManager em;
+
+    public void updateLocationTableLatLon() {
         Query locationQuery = em.createNamedQuery("Location.findNullLatLon");
 //        Query updateQuery = em.createNamedQuery("Location.updateLatLong");
         geocodeSessionBean encoder = new geocodeSessionBean();
@@ -47,11 +47,10 @@ public class locationencoderSessionBean implements locationencoderSessionLocal {
             List<persistence.Location> locationList = (List<persistence.Location>) locationQuery.getResultList();
             for (persistence.Location loc : locationList) {
                 encoder.encodeAddress(loc);
-    System.err.println(((
-            (loc.getStreet()!=null || loc.getCity()!=null || loc.getState()!=null || loc.getZip()!=null) &&
-            (loc.getLatitude() == null || loc.getLongitude()==null))?"ERROR ":"")+
-            "Encoding '"+loc.getStreet()+"','"+loc.getCity()+"','"+loc.getState()+"','"+loc.getZip()+"' to "+loc.getLatitude()+", "+loc.getLongitude());
-                if (loc.getLatitude() != null && loc.getLongitude()!=null) {
+                System.err.println((((loc.getStreet() != null || loc.getCity() != null || loc.getState() != null || loc.getZip() != null) &&
+                        (loc.getLatitude() == null || loc.getLongitude() == null)) ? "ERROR " : "") +
+                        "Encoding '" + loc.getStreet() + "','" + loc.getCity() + "','" + loc.getState() + "','" + loc.getZip() + "' to " + loc.getLatitude() + ", " + loc.getLongitude());
+                if (loc.getLatitude() != null && loc.getLongitude() != null) {
                     em.merge(loc); // ??
                     em.flush();
                 }
@@ -60,13 +59,12 @@ public class locationencoderSessionBean implements locationencoderSessionLocal {
             System.out.println("No locations need updating");
             return;
         }
-	}
+    }
 
-	public void persist(Object object) {
-		em.persist(object);
-	}
+    public void persist(Object object) {
+        em.persist(object);
+    }
 
-	// Add business logic below. (Right-click in editor and choose
-	// "Insert Code > Add Business Method" or "Web Service > Add Operation")
-
+    // Add business logic below. (Right-click in editor and choose
+    // "Insert Code > Add Business Method" or "Web Service > Add Operation")
 }

@@ -35,17 +35,21 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import java.util.Collection;
 import persistence.IdInterface;
+import etl.geocodeSessionLocal;
 
 public class Base {
 	protected CachingServiceLocator		serviceLocator	= CachingServiceLocator.getInstance();
 	protected String					ejbName;
 	protected PersistenceFacadeLocal	persistenceFacade;
+    protected geocodeSessionLocal       geo;
 
 	public Base() {
 		try {
 			javax.naming.Context c = new InitialContext();
 			this.persistenceFacade = (PersistenceFacadeLocal) serviceLocator
 					.getLocalHome("java:comp/env/PersistenceFacade");
+            this.geo = (geocodeSessionLocal) serviceLocator
+                    .getLocalHome("java:comp/env/geocodeSessionLocal");
 		} catch (NamingException ne) {
 			Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
 			throw new RuntimeException(ne);

@@ -160,7 +160,7 @@ public class EventRecordConverter {
 	 * @return value for duration
 	 */
 	@XmlElement
-	public Short getDuration() {
+	public Long getDuration() {
 		return (expandLevel > 0) ? entity.getDuration() : null;
 	}
 
@@ -170,7 +170,7 @@ public class EventRecordConverter {
 	 * @param value
 	 *            the value to set
 	 */
-	public void setDuration(Short value) {
+	public void setDuration(Long value) {
 		entity.setDuration(value);
 	}
 

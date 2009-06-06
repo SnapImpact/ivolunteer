@@ -51,6 +51,7 @@ public class vomlSessionEngineBean implements vomlSessionEngineLocal {
     public void writeToDb(List<VolunteerOpportunity> opps, OrganizationType orgType, Source source) {
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dateFormatter.setLenient(false);
 
         Query organizationQuery = em.createNamedQuery("Organization.findByName");
         Query eventQuery = em.createNamedQuery("Event.findByTitle");
@@ -251,7 +252,7 @@ public class vomlSessionEngineBean implements vomlSessionEngineLocal {
                     } else {
                         Date endDate = dateFormatter.parse(oppDate.getEndDate() + " " + oppDate.getEndTime());
                         long dur = (endDate.getTime() - startDate.getTime()) / 1000;
-                        ev.setDuration((short) dur);
+                        ev.setDuration((long) dur);
                     }
                 } catch (ParseException pe) {
                     System.out.println(pe.toString());

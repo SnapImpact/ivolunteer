@@ -22,15 +22,9 @@
 package service;
 
 import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientHandlerException;
-import com.sun.jersey.api.client.ClientRequest;
 import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.filter.ClientFilter;
-import java.io.IOException;
 import java.util.Collection;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
@@ -43,26 +37,17 @@ import javax.ws.rs.DefaultValue;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.core.MediaType;
 import com.sun.jersey.api.core.ResourceContext;
-import com.sun.jersey.api.json.JSONJAXBContext;
-import javax.xml.bind.JAXBException;
-import org.codehaus.jackson.map.BaseMapper;
 import persistence.Event;
+import persistence.Location;
 import converter.EventsConverter;
 import converter.EventConverter;
 import converter.list.EventListConverter;
 import converter.consolidated.ConsolidatedConverter;
 import javax.ws.rs.core.MultivaluedMap;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
-import java.util.ArrayList;
-import java.util.List;
-import javax.ws.rs.core.GenericEntity;
-import saas.iplocationtools.IpEncodingService;
+import java.util.logging.Level;
 import saas.iplocationtools.ResponseConverter;
-import org.netbeans.saas.RestConnection;
-import org.netbeans.saas.RestResponse;
-import com.sun.jersey.json.impl.JSONUnmarshaller;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -78,7 +63,6 @@ public class EventsResource extends Base {
     protected ResourceContext resourceContext;
     @Context
     HttpServletRequest hsr;
-
     Client client = Client.create();
     WebResource r = client.resource("http://iplocationtools.com");
 
@@ -150,21 +134,37 @@ public class EventsResource extends Base {
             @QueryParam("ip") String ip,
             @QueryParam("lat") String lat,
             @QueryParam("long") String lng,
+            @QueryParam("street") String street,
+            @QueryParam("city") String city,
+            @QueryParam("state") String state,
+            @QueryParam("zip") String zip,
             @QueryParam("radius") @DefaultValue("100") int radius) {
 
-        if ( lat == null || lng == null ) {
+        if (lat == null || lng == null) {
 
-            if ( ip == null ) {
-                ip = hsr.getRemoteAddr();
-            }
+            if (street != null || city != null || state != null || zip != null) {
+                Location loc = new Location();
+                loc.setStreet(street);
+                loc.setCity(city);
+                loc.setState(state);
+                loc.setZip(zip);
 
-            ResponseConverter resp = getIpGeo(ip);
+                geo.encodeAddress(loc);
+                lat = loc.getLatitude();
+                lng = loc.getLongitude();
+            } else {
+                if (ip == null) {
+                    ip = hsr.getRemoteAddr();
+                }
 
-            if (resp != null &
-                    (resp.getLatitude() != null &&
-                    resp.getLongitude() != null)) {
-                lat = resp.getLatitude();
-                lng = resp.getLongitude();
+                ResponseConverter resp = getIpGeo(ip);
+
+                if (resp != null &
+                        (resp.getLatitude() != null &&
+                        resp.getLongitude() != null)) {
+                    lat = resp.getLatitude();
+                    lng = resp.getLongitude();
+                }
             }
         }
 
@@ -176,7 +176,7 @@ public class EventsResource extends Base {
 
     @Consumes("application/json")
     protected ResponseConverter getIpGeo(String ip) {
-        
+
 
         MultivaluedMap<String, String> params = new MultivaluedMapImpl();
         params.add("ip", ip);
@@ -200,7 +200,7 @@ public class EventsResource extends Base {
         return (Collection<Event>) super.getEntities(start, max, query);
     }
 
-    protected Collection<Event> getEntitiesByLoc(int start, int max, String lat, String lng, int radius ) {
+    protected Collection<Event> getEntitiesByLoc(int start, int max, String lat, String lng, int radius) {
         return (Collection<Event>) persistenceFacade.findByLoc("Event.findNearLocation", start, max, lat, lng, radius);
     }
 }

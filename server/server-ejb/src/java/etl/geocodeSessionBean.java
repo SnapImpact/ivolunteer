@@ -149,8 +149,8 @@ public class geocodeSessionBean implements geocodeSessionLocal {
                     if (subNode.getNodeType() == Node.TEXT_NODE) {
                         // lon/lat
                         String[] lonlat = subNode.getNodeValue().split(",");
-                        loc.setLatitude(lonlat[0]);
-                        loc.setLongitude(lonlat[1]);
+                        loc.setLatitude(lonlat[1]);
+                        loc.setLongitude(lonlat[0]);
                         return true;
                     }
                 }

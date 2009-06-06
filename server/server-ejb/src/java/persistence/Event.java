@@ -60,9 +60,13 @@ import javax.persistence.Table;
         query = "SELECT e.id, e.title, e.description, e.duration, e.contact, e.url, " +
                 "e.phone, e.email, e.source_key, e.source_url FROM Event e " +
                 "JOIN Event_Location el on e.id = el.event_id " +
-                "WHERE el.location_id IN " +
-                "(SELECT id from Location " +
-                "   WHERE ST_Distance_Sphere(GeometryFromText(?, 4326), location.geom) < ? ) ",
+                "JOIN Location l on el.location_id = l.id " +
+                "JOIN Event_Timestamp et on e.id = et.event_id " +
+                "JOIN Timestamp t on et.timestamp_id = t.id " +
+                "WHERE t.timestamp >= 'today' AND " +
+                "e.duration < 604800 AND " +
+                "ST_Distance_Sphere(GeometryFromText(?, 4326), l.geom) < ? " +
+                "ORDER BY ST_Distance_Sphere(GeometryFromText(?, 4326), l.geom) ",
         resultClass = persistence.Event.class
         )
 
@@ -79,7 +83,7 @@ public class Event implements Serializable, IdInterface {
 	@Column(name = "description")
 	private String						description;
 	@Column(name = "duration")
-	private Short						duration;
+	private Long						duration;
 	@Column(name = "contact")
 	private String						contact;
 	@Column(name = "url")
@@ -145,11 +149,11 @@ public class Event implements Serializable, IdInterface {
 		this.description = description;
 	}
 
-	public Short getDuration() {
+	public Long getDuration() {
 		return duration;
 	}
 
-	public void setDuration(Short duration) {
+	public void setDuration(Long duration) {
 		this.duration = duration;
 	}
 
