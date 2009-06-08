@@ -41,6 +41,8 @@
 @synthesize busyIndicatorLabel;
 @synthesize locationDelegate;
 
+iPhoneAppDelegate* _staticInstance = nil;
+
 - (void)getLocation
 {
 	// initialize timestamp to use to compare results from location services.
@@ -91,22 +93,23 @@
 	
 	//TODO HASSAN AND RYAN DO NOT FORGET!!!!!!: check for internet connectivity!
 	
-		
+    
+    _staticInstance = self;
 	[self getLocation];
 	
 	splashvc = [[SplashViewController alloc] initWithNibName:@"SplashView" bundle:[NSBundle mainBundle]];
 	splashvc.dismissalDelegate = self;
 	splashvc.busyIndicatorDelegate = self;
 	
-   self.locationDelegate = splashvc;
-   [window addSubview:[splashvc view]];
+    self.locationDelegate = splashvc;
+    [window addSubview:[splashvc view]];
 	[window makeKeyAndVisible];	
 }
 
 
 - (void)applicationWillTerminate:(UIApplication *)application {
 	// Save data if appropriate
-   [ iVolunteerData archive ];
+    [ iVolunteerData archive ];
 }
 
 -(void) loadNavigationView
@@ -115,15 +118,15 @@
 	// Configure and show the window
 #define USE_TABS
 #ifdef USE_TABS
-   [window addSubview:[tabBarController view]];
-   [window setNeedsDisplay];
-   UIViewController* viewController = [tabBarController selectedViewController];
+    [window addSubview:[tabBarController view]];
+    [window setNeedsDisplay];
+    UIViewController* viewController = [tabBarController selectedViewController];
 #else
-   [window addSubview:[navigationController view]];
+    [window addSubview:[navigationController view]];
 	[window setNeedsDisplay];	
 	UIViewController *viewController = [navigationController topViewController];	
 #endif
-   
+    
 	if ([viewController respondsToSelector:@selector(setBusyIndicatorDelegate:)])
 	{
 		[viewController performSelector:@selector(setBusyIndicatorDelegate:) withObject:self];
@@ -160,7 +163,7 @@
 
 #pragma mark -
 #pragma mark BusyIndicatorDelegate methods
-	
+
 - (BOOL)isBusy
 {
 	return isBusy;
@@ -207,5 +210,9 @@
 	[window addSubview:self.floatingView];
 	[window bringSubviewToFront:self.floatingView];
 }
-									   
+
++(NSObject<BusyIndicatorDelegate>*) BusyIndicator {
+    return _staticInstance;
+}
+
 @end

@@ -20,11 +20,6 @@
 + (id) dataSource;
 
 #pragma mark RootViewDataSourceProtocol
-// these properties are used by the view controller
-// for the navigation and tab bar
-@property (readonly) NSString *name;
-@property (readonly) NSString *navigationBarName;
-@property (readonly) UIImage *tabBarImage;
 
 // this property determines the style of table view displayed
 @property (readonly) UITableViewStyle tableViewStyle;

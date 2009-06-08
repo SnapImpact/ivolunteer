@@ -41,7 +41,7 @@
 {
 	if ([busyIndicatorDelegate isBusy])
 	{
-      NSString* msg = NSLocalizedString(@"Determining location...", @"Tell user we are determining the location of their iPhone");
+        NSString* msg = NSLocalizedString(@"Determining location...", @"Tell user we are determining the location of their iPhone");
 		[busyIndicatorDelegate startAnimatingWithMessage: msg atBottom: YES];
 	}
 }

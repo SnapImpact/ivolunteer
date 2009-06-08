@@ -91,11 +91,10 @@
 	
 	NSArray* titles = [NSArray arrayWithObjects: 
 					   self.signUpString,
-					   NSLocalizedString( @"Share", nil),
 					   nil
 					   ];
 	
-	NSArray* arguments = [NSArray arrayWithObjects: [NSNull null], [NSNull null], nil ];
+	NSArray* arguments = [NSArray arrayWithObjects: [NSNull null], nil ];
 	UIImage* buttonImage = [[UIImage imageNamed:@"whiteButton.png"] stretchableImageWithLeftCapWidth: 12.0 topCapHeight: 0 ];
 	UIImage* buttonImagePressed = [[UIImage imageNamed:@"blueButton.png"] stretchableImageWithLeftCapWidth: 12.0 topCapHeight: 0 ];
 	UIImage* buttonImageSelected = [[UIImage imageNamed:@"greenButton.png"] stretchableImageWithLeftCapWidth: 12.0 topCapHeight: 0 ];

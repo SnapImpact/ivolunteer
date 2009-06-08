@@ -56,6 +56,7 @@
 - (void) updateMyEventsDataSource: (Event*) event;
 
 - (void) parseJson: (NSData*) data;
+- (void) loadDataFeed;
 
 @end
 

@@ -57,5 +57,7 @@
 
 
 -(void) loadNavigationView;
++(NSObject<BusyIndicatorDelegate>*) BusyIndicator;
+
 @end
 

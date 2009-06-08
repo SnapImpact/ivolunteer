@@ -53,16 +53,19 @@
 
 - (void) tableView: (UITableView*) tableView accessoryButtonTappedForRowWithIndexPath: (NSIndexPath*) indexPath
 {      
-   Event *event = (Event *)[self.dataSource objectForIndexPath: indexPath ];
-   if( self.detailsController == nil ) {
-      self.detailsController = [EventDetailsTableViewController viewWithEvent: event ];
-   }
-   else {
-      self.detailsController.event = event;
-   }
+    Event *event = (Event *)[self.dataSource objectForIndexPath: indexPath ];
+    if(!event) {
+        return;
+    }
+    if( self.detailsController == nil ) {
+        self.detailsController = [EventDetailsTableViewController viewWithEvent: event ];
+    }
+    else {
+        self.detailsController.event = event;
+    }
 	self.detailsController.busyIndicatorDelegate = self.busyIndicatorDelegate;
 	
-   [self.navigationController pushViewController:self.detailsController animated: YES];
+    [self.navigationController pushViewController:self.detailsController animated: YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

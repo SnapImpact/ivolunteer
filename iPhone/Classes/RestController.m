@@ -8,6 +8,7 @@
 
 #import "RestController.h"
 #import "SettingsViewController.h"
+#import "iPhoneAppDelegate.h"
 
 @implementation RestController
 
@@ -23,6 +24,7 @@
 
 - (void) beginGetEventsFrom:(NSDate*) dateFrom until: (NSDate*) dateUntil {
 	
+    [[iPhoneAppDelegate BusyIndicator] startAnimatingWithMessage: @"Getting Events..." atBottom: YES];
 	NSString *urlStr = nil;
 	CLLocation *currentLocation = iVD.myLocation;
 	NSDictionary* settings = (NSDictionary*) CFPreferencesCopyAppValue((CFStringRef) kSettingsKey, 
@@ -49,7 +51,7 @@
 				   currentLocation.coordinate.latitude, 
 				   currentLocation.coordinate.longitude] autorelease];
 	}
-	else if (zipcode)
+	else if (zipcode && [zipcode length])
 	{
 		urlStr = [[[NSString alloc] initWithFormat:@"http://actionfeed.org/server/resources/events/consolidated?zip=%@", zipcode] autorelease];
 	}
@@ -78,9 +80,10 @@
 }
 
 - (void)restClient:(RestClient *)ri didRetrieveData:(NSData *)data {
-   //tell parser we are done
-   NSLog( @"Retrieved all data." );
-   [[iVolunteerData sharedVolunteerData] parseJson: data ];
+    //tell parser we are done
+    NSLog( @"Retrieved all data." );
+    [[iVolunteerData sharedVolunteerData] parseJson: data ];
+    [[iPhoneAppDelegate BusyIndicator] stopAnimating];
 }
 
 - (void)restClient:(RestClient *)ri didReceiveData:(NSData*)data {
