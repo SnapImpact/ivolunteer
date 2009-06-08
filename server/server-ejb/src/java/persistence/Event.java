@@ -61,11 +61,12 @@ import javax.persistence.Table;
                 "e.phone, e.email, e.source_key, e.source_url FROM Event e " +
                 "JOIN Event_Location el on e.id = el.event_id " +
                 "JOIN Location l on el.location_id = l.id " +
-                "JOIN Event_Timestamp et on e.id = et.event_id " +
-                "JOIN Timestamp t on et.timestamp_id = t.id " +
-                "WHERE t.timestamp >= 'today' AND " +
-                "e.duration < 604800 AND " +
+                "WHERE e.duration < 604800 AND " +
+                "e.id IN ( SELECT et.event_id FROM Timestamp t, " +
+                "Event_Timestamp et where t.timestamp >= 'today' and t.id = et.timestamp_id ) AND " +
                 "ST_Distance_Sphere(GeometryFromText(?, 4326), l.geom) < ? " +
+                "GROUP BY e.id, e.title, e.description, e.duration, e.contact, e.url, e.phone, " +
+                "e.email, e.source_key, e.source_url, l.geom " +
                 "ORDER BY ST_Distance_Sphere(GeometryFromText(?, 4326), l.geom) ",
         resultClass = persistence.Event.class
         )
