@@ -135,7 +135,7 @@ public class TimestampRecordConverter {
 	 */
 	@XmlElement
 	public Collection<String> getEventCollection() {
-		if (expandLevel > 0) {
+		if (expandLevel > 1) {
 			if (entity.getEventCollection() != null) {
 				Collection<String> ret = new HashSet<String>();
 				for (Event event : entity.getEventCollection()) {
