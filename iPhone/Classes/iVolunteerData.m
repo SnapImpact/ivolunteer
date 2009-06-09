@@ -87,6 +87,12 @@ static NSString* kVolunteerDataVersion = @"v1.5";
             _sharedInstance = nil;
         }
         _sharedInstance = [restored retain];
+        
+        for(Event* event in [restored.events objectEnumerator]) {
+            if([event.signedUp boolValue]) {
+                [restored updateMyEventsDataSource: event];
+            }
+        }
         return YES;
     }
     else {
@@ -282,6 +288,12 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
         if( [[DateUtilities today] compare: date] == NSOrderedDescending ) {
             [self.events removeObjectForKey: event.uid ];
         }
+        //Get rid of some way in the future too, for performance
+        else if ([date timeIntervalSinceNow] > (3600*24*60)) {
+            if(![event.signedUp boolValue]) {
+                [self.events removeObjectForKey: event.uid ];
+            }
+        }
     }
 }
 
@@ -331,16 +343,16 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
     self.upcomingEventsSortedIntoDays = _eventsSortedIntoDays;
 }
 
-- (void) updateMyEventsDataSource: (Event*) event {
+- (void) updateMyEventsDataSource: (Event*) eventToAdd {
     if (!self.myEventsSortedIntoDays) {
         self.myEventsSortedIntoDays = [NSMutableArray array];
     }
     
-    NSString* date = [self dateToString: event.date];
+    NSString* date = [self dateToString: eventToAdd.date];
     int i = 0;
     for( NSString* existingDay in self.daysWithMyEvents ) {
         if ([existingDay isEqualToString: date]) {
-            [[self.myEventsSortedIntoDays objectAtIndex: i] addObject: event];
+            [[self.myEventsSortedIntoDays objectAtIndex: i] addObject: eventToAdd];
             [[self.myEventsSortedIntoDays objectAtIndex: i] sortUsingFunction: _SortEventsByDate context: self ];
             return;
         }
@@ -353,7 +365,7 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
     [self.daysWithMyEvents addObject: date];
     NSUInteger index = [self.daysWithMyEvents count]-1;
     [self.myEventsSortedIntoDays addObject: [NSMutableArray array]];
-    [[self.myEventsSortedIntoDays objectAtIndex: index] addObject: event];
+    [[self.myEventsSortedIntoDays objectAtIndex: index] addObject: eventToAdd];
     [[self.myEventsSortedIntoDays objectAtIndex: index] sortUsingFunction: _SortEventsByDate context: self ];
 }
 
@@ -542,6 +554,13 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
                     NSString* event_name = [event objectForKey: @"title" ];
                     NSNumber* duration = [NSNumber numberWithInt: [[event objectForKey: @"duration"] intValue]];
                     NSString* description = [event objectForKey:@"description"];
+                    
+                    NSDate* timestamp = [timestamps objectForKey: ts];
+                    if([timestamp timeIntervalSinceNow] > (3600*24*30)) {
+                        //More than 30 days from now, skip it
+                        NSLog(@"Skipping event in the future at %@", timestamp);
+                        continue;
+                    }
                     
                     NSString* org_id;
                     id orgCollection = [event objectForKey: @"organizationCollection"];

@@ -82,15 +82,14 @@
 
 	self.signedUpString = NSLocalizedString( @"Registered!", @"Should be positive, yay you signed up!" );
 	self.signUpString = NSLocalizedString( @"Register", @"Indicates clicking this button will sign you up" );
-	
+    	
 	NSArray* selectors = [NSArray arrayWithObjects:
 						  [NSValue valueWithPointer: @selector(signUp)],
-						  [NSValue valueWithPointer: @selector(share)],
 						  nil
 						  ];
 	
 	NSArray* titles = [NSArray arrayWithObjects: 
-					   self.signUpString,
+                       self.signUpString,
 					   nil
 					   ];
 	
@@ -107,6 +106,13 @@
 									   imageSelected: buttonImageSelected
 										   textColor: [UIColor darkTextColor]
 								   textColorSelected: [UIColor whiteColor]];
+    
+    if([event.signedUp boolValue]) {
+        [ self.headerActions setTitle: signedUpString forButtonAtIndex: 0 selected: YES animate: NO ];
+    }
+    else {
+        [ self.headerActions setTitle: signUpString forButtonAtIndex:0 selected:NO animate:NO ];
+    }
 	
 	self.smallFont = [UIFont systemFontOfSize: 14 ];
 	self.mediumFont = [UIFont systemFontOfSize: 16 ];
