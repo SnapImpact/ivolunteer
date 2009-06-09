@@ -189,6 +189,26 @@ public class LocationRecordConverter {
 		entity.setZip(value);
 	}
 
+        /**
+	 * Getter for country.
+	 *
+	 * @return value for country
+	 */
+        @XmlElement
+	public String getCountry() {
+		return (expandLevel > 0) ? entity.getCountry() : null;
+	}
+
+	/**
+	 * Setter for country.
+	 *
+	 * @param value
+	 *            the value to set
+	 */
+	public void setCountry(String value) {
+		entity.setCountry(value);
+	}
+
 	/**
 	 * Getter for location.
 	 * 

@@ -83,6 +83,10 @@ public class geocodeSessionBean implements geocodeSessionLocal {
             if (addrToEncode.length()>0) addrToEncode += " ";
             addrToEncode += loc.getZip();
         }
+        if (!isEmpty(loc.getCountry())) {
+            if (addrToEncode.length()>0) addrToEncode += " ";
+            addrToEncode += loc.getCountry();
+        }
         if (addrToEncode.length() == 0) return;
         // now go to Google
         final String theXml = goToGoogle(addrToEncode, true);

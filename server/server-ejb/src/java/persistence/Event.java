@@ -58,7 +58,7 @@ import javax.persistence.Table;
 @NamedNativeQuery(
         name = "Event.findNearLocation",
         query = "SELECT e.id, e.title, e.description, e.duration, e.contact, e.url, " +
-                "e.phone, e.email, e.source_key, e.source_url, e.source_id FROM Event e " +
+                "e.phone, e.email, e.source_key, e.source_url FROM Event e " +
                 "JOIN Event_Location el on e.id = el.event_id " +
                 "JOIN Location l on el.location_id = l.id " +
                 "WHERE e.duration < 604800 AND " +

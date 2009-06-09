@@ -138,6 +138,7 @@ public class EventsResource extends Base {
             @QueryParam("city") String city,
             @QueryParam("state") String state,
             @QueryParam("zip") String zip,
+            @QueryParam("country") String country,
             @QueryParam("radius") @DefaultValue("100") int radius) {
 
         if (lat == null || lng == null) {
@@ -148,6 +149,7 @@ public class EventsResource extends Base {
                 loc.setCity(city);
                 loc.setState(state);
                 loc.setZip(zip);
+                loc.setCountry(country);
 
                 geo.encodeAddress(loc);
                 lat = loc.getLatitude();

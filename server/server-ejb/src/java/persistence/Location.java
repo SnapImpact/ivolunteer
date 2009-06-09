@@ -70,6 +70,8 @@ public class Location implements Serializable, IdInterface {
 	private String						state;
 	@Column(name = "zip")
 	private String						zip;
+        @Column(name = "country")
+        private String                                          country;
 	@Column(name = "location")
 	private String						location;
 	@Column(name = "latitude")
@@ -128,6 +130,14 @@ public class Location implements Serializable, IdInterface {
 	public void setZip(String zip) {
 		this.zip = zip;
 	}
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
 	public String getLocation() {
 		return location;

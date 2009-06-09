@@ -120,6 +120,7 @@ public class vomlSessionEngineBean implements vomlSessionEngineLocal {
                     loc.setCity(sponsor.getCity());
                     loc.setState(sponsor.getStateOrProvince());
                     loc.setZip(sponsor.getZipOrPostalCode());
+                    loc.setCountry(sponsor.getCountry());
                     em.persist(loc);
                 }
 
@@ -220,6 +221,7 @@ public class vomlSessionEngineBean implements vomlSessionEngineLocal {
                 loc.setCity(location.getCity());
                 loc.setState(location.getStateOrProvince());
                 loc.setZip(location.getZipOrPostalCode());
+                loc.setCountry(location.getCounty());
                 em.persist(loc);
             }
 
