@@ -436,6 +436,23 @@ public class EventRecordConverter {
 		entity.setSourceId((value != null) ? value.getEntity() : null);
 	}
 
+        /**
+	 * Getter for sourceName.
+         *
+         * Denormalization to include more data in single call
+	 *
+	 * @return value for sourceid.getName
+	 */
+	@XmlAttribute
+	public String getSourceName() {
+		if (expandLevel > 0) {
+			if (entity.getSourceId() != null) {
+				return entity.getSourceId().getName();
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * Returns the URI associated with this converter.
 	 * 
