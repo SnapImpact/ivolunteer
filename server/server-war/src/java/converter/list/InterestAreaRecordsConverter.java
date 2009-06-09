@@ -63,7 +63,7 @@ public class InterestAreaRecordsConverter {
 		ArrayList<InterestAreaRecordConverter> ret = new ArrayList<InterestAreaRecordConverter>();
 		if (records != null) {
 			for (InterestArea record : records) {
-				ret.add(new InterestAreaRecordConverter(record, baseUri.resolve("location/"
+				ret.add(new InterestAreaRecordConverter(record, baseUri.resolve("interestArea/"
 						+ record.getId() + "/"), 1));
 			}
 		}
