@@ -34,9 +34,10 @@ public class AttendEventResource {
     @GET
     @Produces("text/plain")
     public String get(@QueryParam("email") String email,
+            @QueryParam("name") String name,
             @QueryParam("event") String eventId) throws WebApplicationException {
         EmailSender sender = new EmailSender();
-        sender.sendAttendanceEmail(email, eventId);
+        sender.sendAttendanceEmail(email, name, eventId);
         return "Message Sent";
     }
 }

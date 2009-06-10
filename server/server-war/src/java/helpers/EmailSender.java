@@ -49,7 +49,7 @@ public class EmailSender extends Base {
     @Resource(name = "mail/MailSession")
     javax.mail.Session mailSession;
     final static String msgIWillAttend = "";
-    public void sendAttendanceEmail(final String userEmail, final String eventId) {
+    public void sendAttendanceEmail(final String userEmail, String userName, final String eventId) {
 //        EntityManager em = PersistenceService.getInstance().getEntityManager();
         try {
             javax.naming.InitialContext ctx = new javax.naming.InitialContext();
@@ -80,7 +80,7 @@ public class EmailSender extends Base {
             msg.setRecipients(MimeMessage.RecipientType.CC, InternetAddress.parse(userEmail));
             msg.setFrom(new InternetAddress(FROM_ADDRESS));
             msg.setSubject("I want to attend this event");
-            msg.setText(buildMessage(theEvent));
+            msg.setText(buildMessage(theEvent, userEmail, userName));
             msg.saveChanges();
         } catch (MessagingException ex) {
             Logger.getLogger(EmailSender.class.getName()).log(Level.SEVERE, null, ex);
@@ -126,18 +126,18 @@ public class EmailSender extends Base {
          */
     }
 
-    String buildMessage(final Event event) {
+    String buildMessage(final Event event, String userEmail, String userName) {
         StringBuilder sb = new StringBuilder();
         // TODO include ics file for adding to calendar?
         sb.append("Dear "+event.getContact()+",\n");
-        sb.append("This person would like to attend the event" + event.getTitle()+"\n");
-        sb.append("\nThe description of this event:\n"+event.getDescription());
-        sb.append("\nThe contact info is: "+event.getContact()+" at "+event.getPhone());
-        if (event.getDuration() != null && event.getDuration()>0) {
-            sb.append("\nThe event is expected to last "+event.getDuration());
+        sb.append("Great news!  iVolunteer would like to connect you with someone to volunteer for" + event.getTitle()+ ". This person's contact info is:\n\n");
+        if ( userName != null ) {
+            sb.append("Name: " + userName + "\n");
         }
-        sb.append("\nFor more information, see this web site: "+event.getUrl());
+        sb.append("Email: " + userEmail + "\n\n");
+        sb.append("Using the provided information, please contact this volunteer. This volunteer is awaiting further instruction from you to complete event registration!\n");
         sb.append("\n\nThanks for using iVolunteer!");
+        sb.append("\n\nPlease DO NOT RESPOND to this email address; this is an auto-generated email.\n");
         return sb.toString();
     }
     
