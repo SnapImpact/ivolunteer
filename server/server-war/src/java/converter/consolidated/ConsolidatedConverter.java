@@ -19,12 +19,9 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *  THE SOFTWARE.
  */
-
 package converter.consolidated;
 
 import converter.list.*;
-import converter.SourcesConverter;
-import converter.SourceConverter;
 import persistence.Event;
 import java.net.URI;
 import java.util.Collection;
@@ -35,56 +32,78 @@ import javax.xml.bind.annotation.XmlRootElement;
  * 
  * @author Dave Angulo
  */
-
 @XmlRootElement(name = "eventsConsolidated")
 public class ConsolidatedConverter {
-	private IdListConverter			idListConverter;
-	private ConsolidatedEventsConverter	consolidatedEventsConverter;
-    private URI                     uri;
-    private URI                     baseUri;
-    private int                     expandLevel;
 
-	/** Creates a new instance of EventListConverter */
-	public ConsolidatedConverter() {
-	}
+    private IdListConverter idListConverter;
+    private ConsolidatedEventsConverter consolidatedEventsConverter;
+    private URI uri;
+    private URI baseUri;
+    private int expandLevel;
+    private String lat;
+    private String lng;
 
-	/**
-	 * Creates a new instance of EventListConverter.
-	 * 
-	 * @param entities
-	 *            associated entities
-	 * @param uri
-	 *            associated uri
-	 */
-	public ConsolidatedConverter(Collection<Event> entities, URI uri, URI baseUri, int expandLevel) {
-		this.consolidatedEventsConverter = new ConsolidatedEventsConverter(entities, uri, expandLevel);
+    /** Creates a new instance of EventListConverter */
+    public ConsolidatedConverter() {
+    }
+
+    /**
+     * Creates a new instance of EventListConverter.
+     *
+     * @param entities
+     *            associated entities
+     * @param uri
+     *            associated uri
+     */
+    public ConsolidatedConverter(Collection<Event> entities, URI uri, URI baseUri, int expandLevel, String lat, String lng) {
+        this.consolidatedEventsConverter = new ConsolidatedEventsConverter(entities, uri, expandLevel);
         this.uri = uri;
         this.baseUri = baseUri;
         this.expandLevel = expandLevel;
-	}
+        this.lat = lat;
+        this.lng = lng;
+    }
 
-	@XmlElement(name = "organizations")
-	public Collection<OrganizationRecordConverter> getOrganizationsConverter() {
-		return new OrganizationRecordsConverter(consolidatedEventsConverter.getOrgs(), uri, baseUri ).getRecords();
-	}
+    @XmlElement(name = "organizations")
+    public Collection<OrganizationRecordConverter> getOrganizationsConverter() {
+        return new OrganizationRecordsConverter(consolidatedEventsConverter.getOrgs(), uri, baseUri).getRecords();
+    }
 
     @XmlElement(name = "timestamps")
     public Collection<TimestampRecordConverter> getTimestampsConverter() {
-        return new TimestampRecordsConverter(consolidatedEventsConverter.getTimestamps(), uri, baseUri ).getRecords();
+        return new TimestampRecordsConverter(consolidatedEventsConverter.getTimestamps(), uri, baseUri).getRecords();
     }
 
-    @XmlElement(name= "sources")
+    @XmlElement(name = "sources")
     public Collection<SourceRecordConverter> getSourcesConverter() {
-        return new SourceRecordsConverter(consolidatedEventsConverter.getSources(), uri, baseUri ).getRecords();
+        return new SourceRecordsConverter(consolidatedEventsConverter.getSources(), uri, baseUri).getRecords();
     }
 
     @XmlElement(name = "locations")
     public Collection<LocationRecordConverter> getLocationsConverter() {
-        return new LocationRecordsConverter(consolidatedEventsConverter.getLocations(), uri, baseUri ).getRecords();
+        return new LocationRecordsConverter(consolidatedEventsConverter.getLocations(), uri, baseUri).getRecords();
     }
 
-	@XmlElement(name = "events")
-	public Collection<EventRecordConverter> getEventsRecordsConverter() {
-		return consolidatedEventsConverter.getEvent();
-	}
+    @XmlElement(name = "events")
+    public Collection<EventRecordConverter> getEventsRecordsConverter() {
+        return consolidatedEventsConverter.getEvent();
+    }
+
+    @XmlElement(name = "latitude")
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    @XmlElement(name = "longitude")
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
+    }
 }
