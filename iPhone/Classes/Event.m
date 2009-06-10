@@ -26,8 +26,10 @@
 - (double) distanceFrom: (CLLocation*) origin {
     double originLat = origin.coordinate.latitude;
     double originLon = origin.coordinate.longitude;
+    //TODO: SWITCH THIS WHEN FEED IS FIXED!!!!
     double myLon = self.location.location.coordinate.latitude;
     double myLat = self.location.location.coordinate.longitude;
+    //FIX THE ABOVE
     double x = 69.1 * (originLat - myLat);
     double y = 69.1 * (originLon - myLon) * cos(myLat/57.3);
     distance = sqrt(x*x + y*y);
