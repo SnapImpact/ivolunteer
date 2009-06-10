@@ -235,7 +235,8 @@ public class vomlSessionEngineBean implements vomlSessionEngineLocal {
             for (OpportunityDate oppDate : oppDates) {
 
                 try {
-                    Date startDate = dateFormatter.parse(oppDate.getStartDate() + " " + oppDate.getStartTime());
+                    String startTime = oppDate.getStartTime() == null ? "00:00:00" : oppDate.getStartTime();
+                    Date startDate = dateFormatter.parse(oppDate.getStartDate() + " " + startTime);
                     Timestamp ts;
                     try {
                         timestampQuery.setParameter("timestamp", startDate);
@@ -256,7 +257,8 @@ public class vomlSessionEngineBean implements vomlSessionEngineLocal {
                         String durUnits = oppDate.getDuration().getDurationUnit();
 
                     } else {
-                        Date endDate = dateFormatter.parse(oppDate.getEndDate() + " " + oppDate.getEndTime());
+                        String endTime = oppDate.getEndTime() == null ? "23:59:59" : oppDate.getEndTime();
+                        Date endDate = dateFormatter.parse(oppDate.getEndDate() + " " + endTime);
                         long dur = (endDate.getTime() - startDate.getTime()) / 1000;
                         ev.setDuration((long) dur);
                     }
