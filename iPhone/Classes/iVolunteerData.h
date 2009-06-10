@@ -55,7 +55,8 @@
 - (void) sortData;
 - (void) updateMyEventsDataSource: (Event*) event;
 
-- (void) parseJson: (NSData*) data;
+- (void) parseConsolidatedJson: (NSData*) data;
+- (void) parseFilterDataJson: (NSData*) data;
 - (void) loadDataFeed;
 
 @end

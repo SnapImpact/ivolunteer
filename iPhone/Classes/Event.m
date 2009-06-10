@@ -23,6 +23,18 @@
 @synthesize interestAreas;
 @synthesize signedUp;
 
+- (double) distanceFrom: (CLLocation*) origin {
+    double originLat = origin.coordinate.latitude;
+    double originLon = origin.coordinate.longitude;
+    double myLon = self.location.location.coordinate.latitude;
+    double myLat = self.location.location.coordinate.longitude;
+    double x = 69.1 * (originLat - myLat);
+    double y = 69.1 * (originLon - myLon) * cos(myLat/57.3);
+    distance = sqrt(x*x + y*y);
+    NSLog(@"Distance: %lf",distance);   
+    return distance;
+}
+
 + (id) eventWithId: (NSString*) uid
               name: (NSString*) name
            details: (NSString*) details
@@ -69,6 +81,10 @@
    self.duration = duration_;
    self.signedUp = [NSNumber numberWithBool: NO ];
    return self;
+}
+
+- (NSNumber*) distance {
+    return [NSNumber numberWithDouble: distance];
 }
 
 - (void) dealloc {

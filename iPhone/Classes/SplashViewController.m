@@ -109,6 +109,7 @@
 	
 	NSDate *start2 = [NSDate date];
 	RestController *restController = [[RestController alloc] initWithVolunteerData: [iVolunteerData sharedVolunteerData]];
+    [restController beginGetFilterData ];
 	[restController beginGetEventsFrom: [DateUtilities today] until: [DateUtilities daysFromNow: 14]];
 	NSDate *end2 = [NSDate date];
 	NSLog(@"rest contoller init: %g sec", [end2 timeIntervalSinceDate:start2]);	

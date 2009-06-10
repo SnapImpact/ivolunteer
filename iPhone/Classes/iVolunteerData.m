@@ -431,7 +431,7 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
     return self;
 }
 
-- (void) parseJson: (NSData*) data
+- (void) parseConsolidatedJson: (NSData*) data
 {
     /*
      self.organizations = [NSMutableDictionary dictionary];
@@ -446,6 +446,8 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
     NSData* utf32Data = [utf8 dataUsingEncoding: NSUTF32BigEndianStringEncoding ];
     NSError* error =  nil;
     NSDictionary *json = [[CJSONDeserializer deserializer] deserializeAsDictionary: utf32Data error: &error];
+    
+    NSLog(@"Consolidated: %@", json);
     
     //setup a temp autorelease pool here for performance
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -637,6 +639,7 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
                         if([e.signedUp boolValue]) {
                             NSLog(@"And we're signed up!");
                         }
+                        [e distanceFrom: self.myLocation];
                     }
                     else {
                         //add
@@ -650,6 +653,7 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
                                  interestAreas: event_interestAreas
                                           date: [timestamps objectForKey: ts]
                                       duration: duration ];
+                        [e distanceFrom: self.myLocation];
                         //don't add them for now until we hande nils in the UI
                         [self.events setObject: e forKey: e.uid ];
                     }            
@@ -658,6 +662,33 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
         }
         [self cullOldEvents];
         [self sortData];
+    }
+    @finally {
+        //close down our temp pool
+        [pool release];
+    }   
+    [[iPhoneAppDelegate BusyIndicator] stopAnimating];
+}
+
+- (void) parseFilterDataJson: (NSData*) data
+{
+    NSString* utf8 = [NSString stringWithUTF8String: [data bytes]];
+    NSData* utf32Data = [utf8 dataUsingEncoding: NSUTF32BigEndianStringEncoding ];
+    NSError* error =  nil;
+    NSDictionary *json = [[CJSONDeserializer deserializer] deserializeAsDictionary: utf32Data error: &error];
+    
+    //setup a temp autorelease pool here for performance
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    
+    @try {
+        //NSLog(@"%@", json);
+        NSArray* interestAreasArray = [ json objectForKey: @"interestAreas"];
+        for(NSDictionary* interestAreasDict in interestAreasArray) {
+            NSString* interestUid = [interestAreasDict objectForKey: @"id"];
+            NSString* interestName = [interestAreasDict objectForKey: @"name"];
+            InterestArea* interestArea = [InterestArea interestAreaWithId: interestUid name: interestName];
+            [self.interestAreas setObject: interestArea forKey: interestUid];
+        }
     }
     @finally {
         //close down our temp pool

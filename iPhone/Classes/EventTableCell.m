@@ -21,7 +21,7 @@
 
 + (CGFloat) height
 {
-   return 54;
+    return 54;
 }
 
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier {
@@ -33,39 +33,46 @@
 
 + (NSString*) reuseIdentifier
 {
-   return @"EventTableCell";
+    return @"EventTableCell";
 }
 
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-
+    
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 
 
 - (Event*) event {
-   return event;
+    return event;
 }
 
 - (void) setEvent: (Event*) e {
-   event = [e retain];
-   self.name.text = e.name;
-   self.details.text = e.details;
-   self.time.text = [DateUtilities formatShortTime: e.date ];
+    event = [e retain];
+    self.name.text = e.name;
+    self.details.text = e.details;
+    self.time.text = [DateUtilities formatShortTime: e.date ];
+    double distance_ = [e.distance doubleValue];
+    if(distance_ < 1.51) {
+        self.distance.text = @"Nearby";
+    }
+    else {
+        self.distance.text = [NSString stringWithFormat: @"%l.0f miles", distance_];
+    }
 }
 
 
 - (void)dealloc {
-   self.name =  nil;
-   self.details = nil;
-   self.time = nil;
-   self.distance = nil;
-   [event release];
-   event = nil;
+    self.name =  nil;
+    self.details = nil;
+    self.time = nil;
+    self.distance = nil;
+    [event release];
+    event = nil;
     
-   [super dealloc];
+    [super dealloc];
 }
 
 

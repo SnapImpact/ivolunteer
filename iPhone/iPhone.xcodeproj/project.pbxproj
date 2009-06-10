@@ -637,14 +637,14 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		1D6058940D05DD3E006BFB54 /* Debug */ = {
+		1D6058940D05DD3E006BFB54 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Ryan Schneider";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan Schneider";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Ryan Schneider (3E3MS599M6)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan Schneider (3E3MS599M6)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -659,13 +659,13 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = iVolunteer;
-				PROVISIONING_PROFILE = "8250803D-5C4E-425F-B7E6-3E8B1EE77AD6";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8250803D-5C4E-425F-B7E6-3E8B1EE77AD6";
+				PROVISIONING_PROFILE = "8BC4B96D-F626-4C8D-9498-1D7D8F1552AA";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8BC4B96D-F626-4C8D-9498-1D7D8F1552AA";
 				SDKROOT = iphoneos2.1;
 			};
-			name = Debug;
+			name = Development;
 		};
-		1D6058950D05DD3E006BFB54 /* Release */ = {
+		1D6058950D05DD3E006BFB54 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
@@ -690,31 +690,33 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8250803D-5C4E-425F-B7E6-3E8B1EE77AD6";
 				SDKROOT = iphoneos2.1;
 			};
-			name = Release;
+			name = Adhoc;
 		};
-		C01FCF4F08A954540054247B /* Debug */ = {
+		C01FCF4F08A954540054247B /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ADDITIONAL_SDKS = "$HOME/Library/SDKs/JSON/$(PLATFORM_NAME).sdk";
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Hassan Abdel-Rahman";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Hassan Abdel-Rahman";
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Ryan Schneider (3E3MS599M6)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan Schneider (3E3MS599M6)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "057718CE-D815-4DEB-8921-21EEAC528F70";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "057718CE-D815-4DEB-8921-21EEAC528F70";
+				PROVISIONING_PROFILE = "8BC4B96D-F626-4C8D-9498-1D7D8F1552AA";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8BC4B96D-F626-4C8D-9498-1D7D8F1552AA";
 				SDKROOT = iphoneos2.1;
 			};
-			name = Debug;
+			name = Development;
 		};
-		C01FCF5008A954540054247B /* Release */ = {
+		C01FCF5008A954540054247B /* Adhoc */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ADDITIONAL_SDKS = "$HOME/Library/SDKs/JSON/$(PLATFORM_NAME).sdk";
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Hassan Abdel-Rahman";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Hassan Abdel-Rahman";
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -725,7 +727,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "057718CE-D815-4DEB-8921-21EEAC528F70";
 				SDKROOT = iphoneos2.1;
 			};
-			name = Release;
+			name = Adhoc;
 		};
 /* End XCBuildConfiguration section */
 
@@ -733,20 +735,20 @@
 		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "iVolunteer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				1D6058940D05DD3E006BFB54 /* Debug */,
-				1D6058950D05DD3E006BFB54 /* Release */,
+				1D6058940D05DD3E006BFB54 /* Development */,
+				1D6058950D05DD3E006BFB54 /* Adhoc */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Adhoc;
 		};
 		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "iPhone" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C01FCF4F08A954540054247B /* Debug */,
-				C01FCF5008A954540054247B /* Release */,
+				C01FCF4F08A954540054247B /* Development */,
+				C01FCF5008A954540054247B /* Adhoc */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Adhoc;
 		};
 /* End XCConfigurationList section */
 	};

@@ -45,6 +45,7 @@
 	UILabel *busyIndicatorLabel;
 	NSDate *now;
 	BOOL isBusy;
+    BOOL receivedLocation;
 }
 
 @property (nonatomic, retain) id <LocationAvailabilityDelegate> locationDelegate;

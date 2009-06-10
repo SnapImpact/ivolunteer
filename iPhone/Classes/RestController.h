@@ -11,8 +11,9 @@
 #import "RestClient.h"
 
 @interface RestController : NSObject <RestClientDelegate> {
-   iVolunteerData* iVD;
-   RestClient* server;
+    iVolunteerData* iVD;
+    RestClient* consolidatedClient;
+    RestClient* filterDataClient;
 }
 
 @property (readwrite, retain) iVolunteerData* iVD ;

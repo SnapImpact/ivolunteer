@@ -45,6 +45,7 @@ iPhoneAppDelegate* _staticInstance = nil;
 
 - (void)getLocation
 {
+    receivedLocation = NO;
 	// initialize timestamp to use to compare results from location services.
 	now = [[NSDate alloc] init];
 	
@@ -61,6 +62,10 @@ iPhoneAppDelegate* _staticInstance = nil;
 - (void)locationManager:(CLLocationManager *)manager 
 	   didFailWithError:(NSError *)error
 {
+    if(receivedLocation) {
+        return;
+    }
+    
 	NSLog(@"Getting fix on current position, no position yet...");
 	if (error.code == kCLErrorDenied)
 	{
@@ -70,12 +75,17 @@ iPhoneAppDelegate* _staticInstance = nil;
 		{
 			[locationDelegate locationIsAvailable:nil];
 		}
+        receivedLocation = YES;
 	}
 }
 - (void)locationManager:(CLLocationManager *)manager 
 	didUpdateToLocation:(CLLocation *)newLocation 
 		   fromLocation:(CLLocation *)oldLocation
 {
+    if(receivedLocation) {
+        return;
+    }
+    
 	NSLog(@"Getting fix on current position...");
 	if ([newLocation.timestamp compare:now] == NSOrderedDescending)
 	{
@@ -86,6 +96,7 @@ iPhoneAppDelegate* _staticInstance = nil;
 		}
 		iVolunteerData *data = [iVolunteerData sharedVolunteerData];
 		data.myLocation = newLocation;
+        receivedLocation = YES;
 	}
 }
 

@@ -15,11 +15,19 @@
 @synthesize iVD;
 
 - (RestController*) initWithVolunteerData: (iVolunteerData*) ivd {
-   [super init];
-   [self setIVD: ivd];
-   server = [[RestClient alloc] init ];
-   [server setDelegate: self];
-   return self;
+    [super init];
+    [self setIVD: ivd];
+    consolidatedClient = [[RestClient alloc] init ];
+    filterDataClient = [[RestClient alloc] init ];
+    [consolidatedClient setDelegate: self];
+    [filterDataClient setDelegate: self];
+    return self;
+}
+
+- beginGetFilterData {
+    [[iPhoneAppDelegate BusyIndicator] startAnimatingWithMessage: @"Getting Filters..." atBottom: YES];
+    NSURL* url= [NSURL URLWithString: @"http://actionfeed.org/server/resources/filterData"];
+    [filterDataClient sendRequestTo: url usingVerb: @"GET" withParameters: nil ];
 }
 
 - (void) beginGetEventsFrom:(NSDate*) dateFrom until: (NSDate*) dateUntil {
@@ -28,7 +36,7 @@
 	NSString *urlStr = nil;
 	CLLocation *currentLocation = iVD.myLocation;
 	NSDictionary* settings = (NSDictionary*) CFPreferencesCopyAppValue((CFStringRef) kSettingsKey, 
-																					kCFPreferencesCurrentApplication);
+                                                                       kCFPreferencesCurrentApplication);
 	BOOL useZipCodeOverride = NO;
 	NSString *zipcode = nil;
 	if (settings)
@@ -37,7 +45,7 @@
 		NSNumber *useZipCodeNum = [settings objectForKey:kSettingsKeyUseZipcode];
 		useZipCodeOverride = [useZipCodeNum boolValue];
 	}
-
+    
 	//TODO: Need to verify feed format for zipcodes and long/lat params
 	
 	if (useZipCodeOverride && zipcode)
@@ -58,57 +66,62 @@
 	else
 	{
 		// cannot determine location--display popup to user
-			
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Could Not Determine Location", @"Could not determine location")
-															message:NSLocalizedString(@"Cannot determine your current location. Please enter your home zip code from the Settings tab.", @"How will we internationalize zipcodes?")
-														   delegate:nil 
-												  cancelButtonTitle:NSLocalizedString(@"Ok", @"Ok")
-												  otherButtonTitles:nil];
-			[alert show];
-			[alert release];
-			urlStr = @"http://actionfeed.org/server/resources/events/consolidated";
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Could Not Determine Location", @"Could not determine location")
+                                                        message:NSLocalizedString(@"Cannot determine your current location. Please enter your home zip code from the Settings tab.", @"How will we internationalize zipcodes?")
+                                                       delegate:nil 
+                                              cancelButtonTitle:NSLocalizedString(@"Ok", @"Ok")
+                                              otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+        urlStr = @"http://actionfeed.org/server/resources/events/consolidated";
 	}
     NSURL* url = [NSURL URLWithString: urlStr ];
     NSLog( @"Beginning request to: %@ ", url );
-    [server sendRequestTo: url usingVerb: @"GET" withParameters: nil ];
+    [consolidatedClient sendRequestTo: url usingVerb: @"GET" withParameters: nil ];
 }
 
 #pragma mark RestClient deletgate methods
 - (BOOL)restClientShouldRetainData:(RestClient *)ri {
-   //we'll parse it as we get it
-   return YES;
+    //we'll parse it as we get it
+    return YES;
 }
 
 - (void)restClient:(RestClient *)ri didRetrieveData:(NSData *)data {
     //tell parser we are done
-    NSLog( @"Retrieved all data." );
-    [[iVolunteerData sharedVolunteerData] parseJson: data ];
+    if(ri == consolidatedClient) {
+        NSLog( @"Retrieved all data." );
+        [[iVolunteerData sharedVolunteerData] parseConsolidatedJson: data ];
+    }
+    else if( ri == filterDataClient) {
+        [[iVolunteerData sharedVolunteerData] parseFilterDataJson: data ];
+    }        
     [[iPhoneAppDelegate BusyIndicator] stopAnimating];
 }
 
 - (void)restClient:(RestClient *)ri didReceiveData:(NSData*)data {
-   //pass the snipper to the parser
+    //pass the snipper to the parser
 }
 
 - (void)restClientHasBadCredentials:(RestClient *)wrapper {
-   //display an error (should never happen as our REST server is open
-   NSAssert( NO, @"Credentials needed, but this should never happen!" );
+    //display an error (should never happen as our REST server is open
+    NSAssert( NO, @"Credentials needed, but this should never happen!" );
 }
 
 - (void)restClient:(RestClient *)ri didCreateResourceAtURL:(NSString *)url {
-   //should never happen, as we don't PUT resources
-   NSAssert( NO, @"Why did we create a resource?" );
+    //should never happen, as we don't PUT resources
+    NSAssert( NO, @"Why did we create a resource?" );
 }
 
 - (void)restClient:(RestClient *)ri didFailWithError:(NSError *)error {
-   //Handle error, for now assert
-   NSString* err = [ NSString stringWithFormat: @"Download failed with error: %@", error ];
-   NSAssert( NO, err );
-   [err release];
+    //Handle error, for now assert
+    NSString* err = [ NSString stringWithFormat: @"Download failed with error: %@", error ];
+    NSAssert( NO, err );
+    [err release];
 }
 
 - (void)restClient:(RestClient *)ri didReceiveStatusCode:(int)statusCode {
-   NSLog( @"Received status code: %d", statusCode );
+    NSLog( @"Received status code: %d", statusCode );
 }
 
 @end
