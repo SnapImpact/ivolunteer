@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.networkforgood.org/xml/namespaces/voml/" xmlns:voml="http://www.networkforgood.org/xml/namespaces/voml/">
   <xs:import schemaLocation="local.xsd"/>
+  <xs:element name="VomlData">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="voml:VolunteerOpportunities"/>
+        <xs:element name="Timestamp" type="xs:integer"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:element name="VolunteerOpportunities">
     <xs:complexType>
       <xs:sequence>
@@ -77,7 +85,7 @@
   <xs:element name="Locations">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="voml:Location"/>
+        <xs:element maxOccurs="unbounded" ref="voml:Location"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>

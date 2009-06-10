@@ -144,8 +144,6 @@ public class vomlSessionEngineBean implements vomlSessionEngineLocal {
 
                 org.setPhone(sponsorPhone);
 
-                em.merge(org);
-
                 orgs.add(org);
             }
 
@@ -174,9 +172,9 @@ public class vomlSessionEngineBean implements vomlSessionEngineLocal {
                 ev.setDescription(opp.getDescription().replaceAll("\\<.*?>", ""));
             }
 
-            org.networkforgood.xml.namespaces.voml.Location location = opp.getLocations().getLocation();
+            List<org.networkforgood.xml.namespaces.voml.Location> locations = opp.getLocations().getLocation();
 
-            if (location == null) {
+            if (locations == null) {
                 if (ev.getOrganizationCollection() != null) {
                     Collection<Organization> evOrgs = ev.getOrganizationCollection();
                     HashSet<persistence.Location> evLocations = null;
@@ -188,45 +186,48 @@ public class vomlSessionEngineBean implements vomlSessionEngineLocal {
                     continue;
                 }
             }
+            
+            for (org.networkforgood.xml.namespaces.voml.Location location : locations) {
 
-            String locationAddress = location.getAddress1();
-            if (location.getAddress2() != null) {
-                locationAddress =
-                        ((locationAddress == null) ? "" : (locationAddress + " ")) + location.getAddress2();
-            }
+                String locationAddress = location.getAddress1();
+                if (location.getAddress2() != null) {
+                    locationAddress =
+                            ((locationAddress == null) ? "" : (locationAddress + " ")) + location.getAddress2();
+                }
 
-            persistence.Location loc = null;
-            Boolean newLoc = false;
-            try {
-                if (locationAddress == null && location.getCity() == null && location.getStateOrProvince() == null && location.getZipOrPostalCode() == null) {
+                persistence.Location loc = null;
+                Boolean newLoc = false;
+                try {
+                    if (locationAddress == null && location.getCity() == null && location.getStateOrProvince() == null && location.getZipOrPostalCode() == null) {
                         loc = (persistence.Location) locationNullQuery.getSingleResult();
-                } else if (locationAddress != null && location.getZipOrPostalCode() != null) {
-                    locationFullQuery.setParameter("street", locationAddress);
-                    locationFullQuery.setParameter("zip", location.getZipOrPostalCode());
-                    loc = (persistence.Location) locationFullQuery.getSingleResult();
-                } else if (location.getZipOrPostalCode() != null) {
-                    locationZipNullQuery.setParameter("zip", location.getZipOrPostalCode());
-                    loc = (persistence.Location) locationZipNullQuery.getSingleResult();
-                } else {
+                    } else if (locationAddress != null && location.getZipOrPostalCode() != null) {
+                        locationFullQuery.setParameter("street", locationAddress);
+                        locationFullQuery.setParameter("zip", location.getZipOrPostalCode());
+                        loc = (persistence.Location) locationFullQuery.getSingleResult();
+                    } else if (location.getZipOrPostalCode() != null) {
+                        locationZipNullQuery.setParameter("zip", location.getZipOrPostalCode());
+                        loc = (persistence.Location) locationZipNullQuery.getSingleResult();
+                    } else {
+                        newLoc = true;
+                    }
+                } catch (NoResultException nr) {
                     newLoc = true;
                 }
-            } catch (NoResultException nr) {
-                newLoc = true;
-            }
 
-            if (newLoc) {
-                loc = new persistence.Location();
-                loc.setId(UUID.randomUUID().toString());
-                loc.setStreet(locationAddress);
-                loc.setCity(location.getCity());
-                loc.setState(location.getStateOrProvince());
-                loc.setZip(location.getZipOrPostalCode());
-                loc.setCountry(location.getCounty());
-                em.persist(loc);
-            }
+                if (newLoc) {
+                    loc = new persistence.Location();
+                    loc.setId(UUID.randomUUID().toString());
+                    loc.setStreet(locationAddress);
+                    loc.setCity(location.getCity());
+                    loc.setState(location.getStateOrProvince());
+                    loc.setZip(location.getZipOrPostalCode());
+                    loc.setCountry(location.getCounty());
+                    em.persist(loc);
+                }
 
-            if (!ev.getLocationCollection().contains(loc)) {
-                ev.getLocationCollection().add(loc);
+                if (!ev.getLocationCollection().contains(loc)) {
+                    ev.getLocationCollection().add(loc);
+                }
             }
 
             List<OpportunityDate> oppDates = opp.getOpportunityDates().getOpportunityDate();
@@ -246,8 +247,11 @@ public class vomlSessionEngineBean implements vomlSessionEngineLocal {
                         em.persist(ts);
                     }
 
-                    ev.getTimestampCollection().add(ts);
-
+                    if ( !ev.getTimestampCollection().contains(ts))
+                    {
+                        ev.getTimestampCollection().add(ts);
+                    }
+                    
                     if (oppDate.getDuration() != null) {
                         String durUnits = oppDate.getDuration().getDurationUnit();
 

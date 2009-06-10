@@ -59,12 +59,12 @@ public class vomlSessionBean implements vomlSessionLocal {
 
     public void loadVoml() {
         try {
-            VolunteerOpportunities vo = new VolunteerOpportunities();
-            JAXBContext jc = JAXBContext.newInstance(VolunteerOpportunities.class.getPackage().getName());
+            VomlData vd = new VomlData();
+            JAXBContext jc = JAXBContext.newInstance(VomlData.class.getPackage().getName());
             Unmarshaller unmarshaller = jc.createUnmarshaller();
-            vo = (VolunteerOpportunities) unmarshaller.unmarshal(new File(
-                    "/Users/dave/Documents/iVolunteer/code/ivolunteer/test_data/handsonnetwork.xml"));
-            List<VolunteerOpportunity> opps = vo.getVolunteerOpportunity();
+            vd = (VomlData) unmarshaller.unmarshal(new File(
+                    "/Users/dave/Documents/iVolunteer/code/ivolunteer/test_data/voml_test.xml"));
+            List<VolunteerOpportunity> opps = vd.getVolunteerOpportunities().getVolunteerOpportunity();
 
             userTransaction.begin();
 
@@ -80,6 +80,8 @@ public class vomlSessionBean implements vomlSessionLocal {
                 System.out.println("Can't find source: Hands on Network");
                 return;
             }
+
+            source.setLastKey(vd.getTimestamp().toString());
 
             OrganizationType orgType;
             try {

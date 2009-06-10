@@ -57,6 +57,8 @@ public class Source implements Serializable, IdInterface {
 	private String							etlClass;
 	@Column(name = "url")
 	private String							url;
+        @Column(name= "last_key")
+        private String                                                  lastKey;
 	@OneToMany(mappedBy = "sourceId")
 	private Collection<Organization>		organizationCollection;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "sourceId")
@@ -104,6 +106,14 @@ public class Source implements Serializable, IdInterface {
 	public void setUrl(String url) {
 		this.url = url;
 	}
+
+    public String getLastKey() {
+        return lastKey;
+    }
+
+    public void setLastKey(String lastKey) {
+        this.lastKey = lastKey;
+    }
 
 	public Collection<Organization> getOrganizationCollection() {
 		return organizationCollection;
