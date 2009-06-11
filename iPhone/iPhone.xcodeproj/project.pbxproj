@@ -18,6 +18,7 @@
 		5C8418780F6F538200BBEACC /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C8418720F6F538200BBEACC /* Default.png */; };
 		5CADF4450F90F83A00690E94 /* marker.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CADF4440F90F83A00690E94 /* marker.png */; };
 		940875410F5C965C0037C286 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 940875400F5C965C0037C286 /* Entitlements.plist */; };
+		941853530FE0966700313AFC /* Entitlements-Development.plist in Resources */ = {isa = PBXBuildFile; fileRef = 941853520FE0966700313AFC /* Entitlements-Development.plist */; };
 		942E23BD0F5E107000C87AC1 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 942E23BC0F5E107000C87AC1 /* MapViewController.m */; };
 		942E23BF0F5E109400C87AC1 /* MapView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 942E23BE0F5E109400C87AC1 /* MapView.xib */; };
 		943BD0AA0F76EB5000363DF2 /* CDataScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 943BD0990F76EB5000363DF2 /* CDataScanner.m */; };
@@ -104,6 +105,7 @@
 		5CADF4440F90F83A00690E94 /* marker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = marker.png; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		940875400F5C965C0037C286 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
+		941853520FE0966700313AFC /* Entitlements-Development.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Entitlements-Development.plist"; sourceTree = "<group>"; };
 		942E23BB0F5E107000C87AC1 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		942E23BC0F5E107000C87AC1 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		942E23BE0F5E109400C87AC1 /* MapView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapView.xib; sourceTree = "<group>"; };
@@ -271,6 +273,7 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				940875400F5C965C0037C286 /* Entitlements.plist */,
+				941853520FE0966700313AFC /* Entitlements-Development.plist */,
 				94CC41040F9EBD7900EFFEF1 /* RegisterConfirmationView.xib */,
 			);
 			name = CustomTemplate;
@@ -576,6 +579,7 @@
 				94CC41050F9EBD7900EFFEF1 /* RegisterConfirmationView.xib in Resources */,
 				94CC410E0F9EC0B900EFFEF1 /* ActionSheetShine.png in Resources */,
 				94BE51360FBA50D500AD1858 /* InterestAreaFilterController.xib in Resources */,
+				941853530FE0966700313AFC /* Entitlements-Development.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -642,7 +646,7 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_ENTITLEMENTS = "Entitlements-Development.plist";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Ryan Schneider (3E3MS599M6)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan Schneider (3E3MS599M6)";
 				COPY_PHASE_STRIP = NO;
@@ -686,8 +690,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = iVolunteer;
-				PROVISIONING_PROFILE = "B669A84F-55D5-4899-9398-BEE444831C4A";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B669A84F-55D5-4899-9398-BEE444831C4A";
+				PROVISIONING_PROFILE = "BD9360D4-C48B-454F-976A-CC786DE634E7";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "BD9360D4-C48B-454F-976A-CC786DE634E7";
 				SDKROOT = iphoneos2.1;
 			};
 			name = Adhoc;
@@ -697,7 +701,7 @@
 			buildSettings = {
 				ADDITIONAL_SDKS = "$HOME/Library/SDKs/JSON/$(PLATFORM_NAME).sdk";
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_ENTITLEMENTS = "Entitlements-Development.plist";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Ryan Schneider (3E3MS599M6)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan Schneider (3E3MS599M6)";
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -723,8 +727,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "B669A84F-55D5-4899-9398-BEE444831C4A";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B669A84F-55D5-4899-9398-BEE444831C4A";
+				PROVISIONING_PROFILE = "BD9360D4-C48B-454F-976A-CC786DE634E7";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "BD9360D4-C48B-454F-976A-CC786DE634E7";
 				SDKROOT = iphoneos2.1;
 			};
 			name = Adhoc;
