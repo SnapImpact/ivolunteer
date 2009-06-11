@@ -20,6 +20,7 @@
 
 - (RestController*) initWithVolunteerData:(iVolunteerData*)ivd ;
 - (void) beginGetEventsFrom: (NSDate*)dateFrom until: (NSDate*)dateUntil ;
+- (void) beginGetFilterData ;
 
 #pragma mark RestClient deletgate methods
 - (BOOL)restClientShouldRetainData:(RestClient *)ri;

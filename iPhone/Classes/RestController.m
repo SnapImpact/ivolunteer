@@ -24,8 +24,7 @@
     return self;
 }
 
-- beginGetFilterData {
-    [[iPhoneAppDelegate BusyIndicator] startAnimatingWithMessage: @"Getting Filters..." atBottom: YES];
+- (void) beginGetFilterData {
     NSURL* url= [NSURL URLWithString: @"http://actionfeed.org/server/resources/filterData"];
     [filterDataClient sendRequestTo: url usingVerb: @"GET" withParameters: nil ];
 }

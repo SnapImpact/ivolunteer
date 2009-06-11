@@ -32,7 +32,7 @@
 
 static iVolunteerData* _sharedInstance = nil;
 static NSString* kVolunteerDataRootKey = @"Root";
-static NSString* kVolunteerDataVersion = @"v1.5";
+static NSString* kVolunteerDataVersion = @"v1.6";
 
 + (id) sharedVolunteerData {
     if( _sharedInstance == nil ) {
@@ -318,6 +318,7 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
     NSDate* currentDate = nil;
     unsigned currentSubArray = 0;
     for(Event* event in eventsByDate) {
+        [event distanceFrom: self.myLocation];
         if(currentDate == nil) {
             currentDate = [event date];
             if( [DateUtilities isToday: currentDate])
@@ -453,6 +454,15 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     
     @try {
+        //See if we got a good lat/lon from the feed
+        NSString* feedLatitude = [json objectForKey: @"latitude"];
+        NSString* feedLongitude = [json objectForKey: @"longitude"];        
+        if(feedLatitude && feedLongitude && [feedLatitude length] && [feedLongitude length]) {
+            NSLog(@"Updating location to: lat( %@ ), lon( %@ )", feedLatitude, feedLongitude);
+            self.myLocation = [[CLLocation alloc] initWithLatitude: [feedLatitude doubleValue]
+                                                         longitude: [feedLongitude doubleValue]];
+        }
+        
         //First let's do organizations
         NSArray* orgArray = [ json objectForKey: @"organizations"];
         if( orgArray != nil ) {
@@ -639,7 +649,6 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
                         if([e.signedUp boolValue]) {
                             NSLog(@"And we're signed up!");
                         }
-                        [e distanceFrom: self.myLocation];
                     }
                     else {
                         //add
@@ -653,13 +662,13 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
                                  interestAreas: event_interestAreas
                                           date: [timestamps objectForKey: ts]
                                       duration: duration ];
-                        [e distanceFrom: self.myLocation];
                         //don't add them for now until we hande nils in the UI
                         [self.events setObject: e forKey: e.uid ];
                     }            
                 }
             }
         }
+        
         [self cullOldEvents];
         [self sortData];
     }
@@ -694,22 +703,9 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
         //close down our temp pool
         [pool release];
     }   
-    [[iPhoneAppDelegate BusyIndicator] stopAnimating];
 }
 
-- (void)loadDataFeed
-{
-	NSDate *start1 = [NSDate date];
-	[iVolunteerData restore];
-	NSDate *end1 = [NSDate date];
-	NSLog(@"[iVolunteerData restore]: %g sec", [end1 timeIntervalSinceDate:start1]);
 
-    NSDate *start2 = [NSDate date];
-	RestController *restController = [[RestController alloc] initWithVolunteerData: [iVolunteerData sharedVolunteerData]];
-    [restController beginGetEventsFrom: [DateUtilities today] until: [DateUtilities daysFromNow: 14]];
-	NSDate *end2 = [NSDate date];
-	NSLog(@"rest contoller init: %g sec", [end2 timeIntervalSinceDate:start2]);	
-}
 
 @end
 

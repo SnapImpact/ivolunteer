@@ -59,6 +59,20 @@ iPhoneAppDelegate* _staticInstance = nil;
 	}
 }
 
+- (void) debugLocationIssueMessage: (NSString*) message_ {
+#ifdef ALERT_DEBUGGING
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Debugging"
+                                                    message: message_
+                                                   delegate:nil 
+                                          cancelButtonTitle:NSLocalizedString(@"Ok", @"Ok")
+                                          otherButtonTitles:nil];
+    [alert show];
+    [alert release];
+#else
+    NSLog(@"Location debug: %@", message_);
+#endif
+}
+
 - (void)locationManager:(CLLocationManager *)manager 
 	   didFailWithError:(NSError *)error
 {
@@ -67,6 +81,10 @@ iPhoneAppDelegate* _staticInstance = nil;
     }
     
 	NSLog(@"Getting fix on current position, no position yet...");
+    
+    NSString* msg = [NSString stringWithFormat: @"Error: %@", error];
+    [self debugLocationIssueMessage: msg];
+    
 	if (error.code == kCLErrorDenied)
 	{
 		// user denied request to determine location
@@ -86,16 +104,19 @@ iPhoneAppDelegate* _staticInstance = nil;
         return;
     }
     
+    NSString* msg = [NSString stringWithFormat: @"Location: %@", newLocation];
+    [self debugLocationIssueMessage: msg];
+    
 	NSLog(@"Getting fix on current position...");
 	if ([newLocation.timestamp compare:now] == NSOrderedDescending)
 	{
 		[manager stopUpdatingLocation];
+        iVolunteerData *data = [iVolunteerData sharedVolunteerData];
+		data.myLocation = newLocation;
 		if (locationDelegate)
 		{
 			[locationDelegate locationIsAvailable:newLocation];
 		}
-		iVolunteerData *data = [iVolunteerData sharedVolunteerData];
-		data.myLocation = newLocation;
         receivedLocation = YES;
 	}
 }
@@ -103,8 +124,6 @@ iPhoneAppDelegate* _staticInstance = nil;
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
 	
 	//TODO HASSAN AND RYAN DO NOT FORGET!!!!!!: check for internet connectivity!
-	
-    
     _staticInstance = self;
 	[self getLocation];
 	

@@ -12,6 +12,7 @@
 
 @implementation SplashViewController
 
+@synthesize versionLabel;
 @synthesize dismissalDelegate;
 @synthesize busyIndicatorDelegate;
 @synthesize zipcodeField;
@@ -50,6 +51,9 @@
 	self.zipcodeField.hidden = YES;
 	scrollView.contentSize = CGSizeMake(320, 550);
 	scrollView.delaysContentTouches = NO;
+    
+    NSString*	version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+    self.versionLabel.text = [NSString stringWithFormat: @"Version: %@ (BETA)", version];
    
    UIImage* buttonImage = [[UIImage imageNamed:@"greenButton.png"] stretchableImageWithLeftCapWidth: 12.0 topCapHeight: 0 ];
    [continueButton setBackgroundImage: buttonImage forState: UIControlStateNormal];
@@ -91,7 +95,7 @@
 	[hand release];
 	[background release];
 	[logo release];
-	
+    [versionLabel release];
     [super dealloc];
 }
 
@@ -122,7 +126,7 @@
 	{
 		iVolunteerData *data = [iVolunteerData sharedVolunteerData];
 		data.homeZip = self.zipcodeField.text;
-		[self loadDataFeed];
+		//[self loadDataFeed];
 	}
 	[self scrollUp];
 	
@@ -174,3 +178,4 @@
 }
 
 @end
+

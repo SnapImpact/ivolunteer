@@ -57,7 +57,7 @@
 
 - (void) parseConsolidatedJson: (NSData*) data;
 - (void) parseFilterDataJson: (NSData*) data;
-- (void) loadDataFeed;
+
 
 @end
 
