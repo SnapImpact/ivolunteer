@@ -21,8 +21,10 @@
 	IBOutlet UIImageView* hand;
 	IBOutlet UIImageView* background;
 	IBOutlet UIImageView* logo;
-	
+    IBOutlet UILabel* versionLabel;
 }
+
+@property (nonatomic, retain) UILabel *versionLabel;
 
 
 @property (nonatomic,retain) id <ScreenDismissalDelegate> dismissalDelegate;
@@ -43,3 +45,4 @@
 - (IBAction)zipcodeUpdated;
 
 @end
+

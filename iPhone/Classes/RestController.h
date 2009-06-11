@@ -11,14 +11,16 @@
 #import "RestClient.h"
 
 @interface RestController : NSObject <RestClientDelegate> {
-   iVolunteerData* iVD;
-   RestClient* server;
+    iVolunteerData* iVD;
+    RestClient* consolidatedClient;
+    RestClient* filterDataClient;
 }
 
 @property (readwrite, retain) iVolunteerData* iVD ;
 
 - (RestController*) initWithVolunteerData:(iVolunteerData*)ivd ;
 - (void) beginGetEventsFrom: (NSDate*)dateFrom until: (NSDate*)dateUntil ;
+- (void) beginGetFilterData ;
 
 #pragma mark RestClient deletgate methods
 - (BOOL)restClientShouldRetainData:(RestClient *)ri;

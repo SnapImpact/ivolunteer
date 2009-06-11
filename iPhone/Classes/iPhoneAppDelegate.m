@@ -41,8 +41,11 @@
 @synthesize busyIndicatorLabel;
 @synthesize locationDelegate;
 
+iPhoneAppDelegate* _staticInstance = nil;
+
 - (void)getLocation
 {
+    receivedLocation = NO;
 	// initialize timestamp to use to compare results from location services.
 	now = [[NSDate alloc] init];
 	
@@ -56,10 +59,32 @@
 	}
 }
 
+- (void) debugLocationIssueMessage: (NSString*) message_ {
+#ifdef ALERT_DEBUGGING
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Debugging"
+                                                    message: message_
+                                                   delegate:nil 
+                                          cancelButtonTitle:NSLocalizedString(@"Ok", @"Ok")
+                                          otherButtonTitles:nil];
+    [alert show];
+    [alert release];
+#else
+    NSLog(@"Location debug: %@", message_);
+#endif
+}
+
 - (void)locationManager:(CLLocationManager *)manager 
 	   didFailWithError:(NSError *)error
 {
+    if(receivedLocation) {
+        return;
+    }
+    
 	NSLog(@"Getting fix on current position, no position yet...");
+    
+    NSString* msg = [NSString stringWithFormat: @"Error: %@", error];
+    [self debugLocationIssueMessage: msg];
+    
 	if (error.code == kCLErrorDenied)
 	{
 		// user denied request to determine location
@@ -68,45 +93,53 @@
 		{
 			[locationDelegate locationIsAvailable:nil];
 		}
+        receivedLocation = YES;
 	}
 }
 - (void)locationManager:(CLLocationManager *)manager 
 	didUpdateToLocation:(CLLocation *)newLocation 
 		   fromLocation:(CLLocation *)oldLocation
 {
+    if(receivedLocation) {
+        return;
+    }
+    
+    NSString* msg = [NSString stringWithFormat: @"Location: %@", newLocation];
+    [self debugLocationIssueMessage: msg];
+    
 	NSLog(@"Getting fix on current position...");
 	if ([newLocation.timestamp compare:now] == NSOrderedDescending)
 	{
 		[manager stopUpdatingLocation];
+        iVolunteerData *data = [iVolunteerData sharedVolunteerData];
+		data.myLocation = newLocation;
 		if (locationDelegate)
 		{
 			[locationDelegate locationIsAvailable:newLocation];
 		}
-		iVolunteerData *data = [iVolunteerData sharedVolunteerData];
-		data.myLocation = newLocation;
+        receivedLocation = YES;
 	}
 }
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
 	
 	//TODO HASSAN AND RYAN DO NOT FORGET!!!!!!: check for internet connectivity!
-	
-		
+    _staticInstance = self;
 	[self getLocation];
 	
 	splashvc = [[SplashViewController alloc] initWithNibName:@"SplashView" bundle:[NSBundle mainBundle]];
 	splashvc.dismissalDelegate = self;
 	splashvc.busyIndicatorDelegate = self;
 	
-   self.locationDelegate = splashvc;
-   [window addSubview:[splashvc view]];
+    self.locationDelegate = splashvc;
+    [window addSubview:[splashvc view]];
 	[window makeKeyAndVisible];	
 }
 
 
 - (void)applicationWillTerminate:(UIApplication *)application {
 	// Save data if appropriate
-   [ iVolunteerData archive ];
+    [ iVolunteerData archive ];
 }
 
 -(void) loadNavigationView
@@ -115,15 +148,15 @@
 	// Configure and show the window
 #define USE_TABS
 #ifdef USE_TABS
-   [window addSubview:[tabBarController view]];
-   [window setNeedsDisplay];
-   UIViewController* viewController = [tabBarController selectedViewController];
+    [window addSubview:[tabBarController view]];
+    [window setNeedsDisplay];
+    UIViewController* viewController = [tabBarController selectedViewController];
 #else
-   [window addSubview:[navigationController view]];
+    [window addSubview:[navigationController view]];
 	[window setNeedsDisplay];	
 	UIViewController *viewController = [navigationController topViewController];	
 #endif
-   
+    
 	if ([viewController respondsToSelector:@selector(setBusyIndicatorDelegate:)])
 	{
 		[viewController performSelector:@selector(setBusyIndicatorDelegate:) withObject:self];
@@ -160,7 +193,7 @@
 
 #pragma mark -
 #pragma mark BusyIndicatorDelegate methods
-	
+
 - (BOOL)isBusy
 {
 	return isBusy;
@@ -207,5 +240,9 @@
 	[window addSubview:self.floatingView];
 	[window bringSubviewToFront:self.floatingView];
 }
-									   
+
++(NSObject<BusyIndicatorDelegate>*) BusyIndicator {
+    return _staticInstance;
+}
+
 @end

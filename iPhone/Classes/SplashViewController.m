@@ -12,6 +12,7 @@
 
 @implementation SplashViewController
 
+@synthesize versionLabel;
 @synthesize dismissalDelegate;
 @synthesize busyIndicatorDelegate;
 @synthesize zipcodeField;
@@ -41,7 +42,7 @@
 {
 	if ([busyIndicatorDelegate isBusy])
 	{
-      NSString* msg = NSLocalizedString(@"Determining location...", @"Tell user we are determining the location of their iPhone");
+        NSString* msg = NSLocalizedString(@"Determining location...", @"Tell user we are determining the location of their iPhone");
 		[busyIndicatorDelegate startAnimatingWithMessage: msg atBottom: YES];
 	}
 }
@@ -50,6 +51,9 @@
 	self.zipcodeField.hidden = YES;
 	scrollView.contentSize = CGSizeMake(320, 550);
 	scrollView.delaysContentTouches = NO;
+    
+    NSString*	version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+    self.versionLabel.text = [NSString stringWithFormat: @"Version: %@ (BETA)", version];
    
    UIImage* buttonImage = [[UIImage imageNamed:@"greenButton.png"] stretchableImageWithLeftCapWidth: 12.0 topCapHeight: 0 ];
    [continueButton setBackgroundImage: buttonImage forState: UIControlStateNormal];
@@ -91,7 +95,7 @@
 	[hand release];
 	[background release];
 	[logo release];
-	
+    [versionLabel release];
     [super dealloc];
 }
 
@@ -109,6 +113,7 @@
 	
 	NSDate *start2 = [NSDate date];
 	RestController *restController = [[RestController alloc] initWithVolunteerData: [iVolunteerData sharedVolunteerData]];
+    [restController beginGetFilterData ];
 	[restController beginGetEventsFrom: [DateUtilities today] until: [DateUtilities daysFromNow: 14]];
 	NSDate *end2 = [NSDate date];
 	NSLog(@"rest contoller init: %g sec", [end2 timeIntervalSinceDate:start2]);	
@@ -121,7 +126,7 @@
 	{
 		iVolunteerData *data = [iVolunteerData sharedVolunteerData];
 		data.homeZip = self.zipcodeField.text;
-		[self loadDataFeed];
+		//[self loadDataFeed];
 	}
 	[self scrollUp];
 	
@@ -173,3 +178,4 @@
 }
 
 @end
+
