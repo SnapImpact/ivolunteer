@@ -170,7 +170,7 @@ public class EventsResource extends Base {
             }
         }
 
-        Logger.getLogger(EventsResource.class.getName()).log(Level.SEVERE, "ip " + ip + " resolved to ( " + lat + ", " + lng + " )");
+        Logger.getLogger(EventsResource.class.getName()).log(Level.INFO, "Caller ip address " + hsr.getRemoteAddr() + " resolved to ( " + lat + ", " + lng + " )");
 
         return new ConsolidatedConverter(getEntitiesByLoc(start, max, lat, lng, radius), uriInfo.getAbsolutePath(),
                 uriInfo.getBaseUri(), expandLevel, lat, lng);
