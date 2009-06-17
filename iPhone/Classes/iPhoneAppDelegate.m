@@ -112,6 +112,7 @@ iPhoneAppDelegate* _staticInstance = nil;
 	{
 		[manager stopUpdatingLocation];
         iVolunteerData *data = [iVolunteerData sharedVolunteerData];
+        NSLog(@"iPhoneAppDelegate:didUpdateToLocation: setting myLocation to %@", newLocation);
 		data.myLocation = newLocation;
 		if (locationDelegate)
 		{
@@ -125,6 +126,11 @@ iPhoneAppDelegate* _staticInstance = nil;
 	
 	//TODO HASSAN AND RYAN DO NOT FORGET!!!!!!: check for internet connectivity!
     _staticInstance = self;
+    NSDate *start1 = [NSDate date];
+	[iVolunteerData restore];
+	NSDate *end1 = [NSDate date];
+	NSLog(@"[iVolunteerData restore]: %g sec", [end1 timeIntervalSinceDate:start1]);
+    
 	[self getLocation];
 	
 	splashvc = [[SplashViewController alloc] initWithNibName:@"SplashView" bundle:[NSBundle mainBundle]];

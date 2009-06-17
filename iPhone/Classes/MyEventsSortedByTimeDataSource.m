@@ -25,4 +25,22 @@
    return ds;
 }
 
+- (void)            tableView:(UITableView *)tableView 
+           commitEditingStyle:(UITableViewCellEditingStyle)editingStyle 
+            forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //Delete here
+    Event* event = (Event*)[self objectForIndexPath:indexPath];
+    if(event) {
+        event.signedUp = [NSNumber numberWithBool: NO];
+        [[iVolunteerData sharedVolunteerData] updateMyEventsDataSource: event];
+        [tableView deleteRowsAtIndexPaths: [NSArray arrayWithObject: indexPath] withRowAnimation: UITableViewScrollPositionBottom];
+        //[tableView performSelector: @selector(reloadData) withObject: nil afterDelay: 0.5 ];
+    }
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
 @end
