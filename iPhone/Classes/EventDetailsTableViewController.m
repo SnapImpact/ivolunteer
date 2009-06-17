@@ -222,7 +222,7 @@
     
     //NSString* mapString = NSLocalizedString(@"Map", nil);
     NSString* callString = NSLocalizedString(@"Call", nil);
-    NSString* mailString = NSLocalizedString(@"Mail", nil);
+    NSString* mailString = NSLocalizedString(@"Email", nil);
     NSString* contactString = NSLocalizedString(@"Contact", nil);
     NSString* sourceString = NSLocalizedString(@"Source", nil);
     //align it with interest areas section as well
