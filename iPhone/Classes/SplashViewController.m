@@ -101,20 +101,18 @@
 
 - (IBAction)splashOk:(id)sender forEvent:(UIEvent*)event
 {
+    NSLog(@"Hit Continue...");
 	[dismissalDelegate dismissScreen];
 }
 
 - (void)loadDataFeed
 {
-	NSDate *start1 = [NSDate date];
-	[iVolunteerData restore];
-	NSDate *end1 = [NSDate date];
-	NSLog(@"[iVolunteerData restore]: %g sec", [end1 timeIntervalSinceDate:start1]);
-	
 	NSDate *start2 = [NSDate date];
+    completedRestCount = 0;
 	RestController *restController = [[RestController alloc] initWithVolunteerData: [iVolunteerData sharedVolunteerData]];
     [restController beginGetFilterData ];
 	[restController beginGetEventsFrom: [DateUtilities today] until: [DateUtilities daysFromNow: 14]];
+    restController.delegate = self;
 	NSDate *end2 = [NSDate date];
 	NSLog(@"rest contoller init: %g sec", [end2 timeIntervalSinceDate:start2]);	
 }
@@ -155,8 +153,6 @@
 
 - (void)locationIsAvailable:(CLLocation *)location
 {
-	[self.busyIndicatorDelegate stopAnimating];
-	
 	if (!location)
 	{
 		
@@ -174,8 +170,20 @@
 	{
 		[self loadDataFeed];
 	}
-	[continueButton setHidden:NO];
+	//[continueButton setHidden:NO];
+    //[dismissalDelegate dismissScreen];
+}
+
+- (void) restController: (RestController*) controller
+        didRetrieveData: (NSData*) data {
+    completedRestCount++;
+    if(completedRestCount == 2) {
+        //Done!
+        NSLog(@"Completed all requests!");
+        [((NSObject*)dismissalDelegate) performSelector: @selector(dismissScreen) withObject: nil afterDelay: 0.3
+        ];
+        //[dismissalDelegate dismissScreen];
+    }
 }
 
 @end
-

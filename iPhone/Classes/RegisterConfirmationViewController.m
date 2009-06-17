@@ -111,11 +111,24 @@
 }
 
 - (IBAction) confirmClicked {
-   NSObject<RegisterConfirmationProtocol>* delegate_ = self.delegate;
-   [self dismissSheet];
-   if(delegate_ && [delegate_ respondsToSelector:@selector(didConfirmRegistration)]) {
-      [delegate_ didConfirmRegistration];
-   }
+    NSString* name = self.nameField.text;
+    NSString* email = self.emailField.text;
+    if(([name length] == 0) || ([email length] == 0)) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Missing required field(s)"
+                                                        message: @"Name and email are required."
+                                                       delegate:nil 
+                                              cancelButtonTitle: @"Ok"
+                                              otherButtonTitles:nil];
+        
+        [alert show];
+    }
+    else {
+        NSObject<RegisterConfirmationProtocol>* delegate_ = self.delegate;
+        [self dismissSheet];
+        if(delegate_ && [delegate_ respondsToSelector:@selector(didConfirmRegistration)]) {
+            [delegate_ didConfirmRegistration];
+        }
+    }
 }
 
 - (IBAction) cancelClicked {

@@ -9,13 +9,18 @@
 #import <Foundation/Foundation.h>
 #import "iVolunteerData.h"
 #import "RestClient.h"
+#import "RestControllerDelegate.h"
 
 @interface RestController : NSObject <RestClientDelegate> {
     iVolunteerData* iVD;
     RestClient* consolidatedClient;
     RestClient* filterDataClient;
+    NSObject<RestControllerDelegate>* delegate;
 }
 
+@property (nonatomic, retain) RestClient *filterDataClient;
+@property (nonatomic, retain) RestClient *consolidatedClient;
+@property (nonatomic, retain) NSObject<RestControllerDelegate> *delegate;
 @property (readwrite, retain) iVolunteerData* iVD ;
 
 - (RestController*) initWithVolunteerData:(iVolunteerData*)ivd ;
@@ -32,3 +37,5 @@
 - (void)restClient:(RestClient *)ri didReceiveStatusCode:(int)statusCode;
 
 @end
+
+
