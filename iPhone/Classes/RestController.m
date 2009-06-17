@@ -12,6 +12,9 @@
 
 @implementation RestController
 
+@synthesize filterDataClient;
+@synthesize consolidatedClient;
+@synthesize delegate;
 @synthesize iVD;
 
 - (RestController*) initWithVolunteerData: (iVolunteerData*) ivd {
@@ -34,6 +37,7 @@
     [[iPhoneAppDelegate BusyIndicator] startAnimatingWithMessage: @"Getting Events..." atBottom: YES];
 	NSString *urlStr = nil;
 	CLLocation *currentLocation = iVD.myLocation;
+    NSLog(@"RestController:beginGetEventsFrom using myLocation=%@", currentLocation);
 	NSDictionary* settings = (NSDictionary*) CFPreferencesCopyAppValue((CFStringRef) kSettingsKey, 
                                                                        kCFPreferencesCurrentApplication);
 	BOOL useZipCodeOverride = NO;
@@ -95,6 +99,10 @@
     else if( ri == filterDataClient) {
         [[iVolunteerData sharedVolunteerData] parseFilterDataJson: data ];
     }        
+    if(self.delegate) {
+        [self.delegate restController: self
+                    didRetrieveData: data];
+    }
     [[iPhoneAppDelegate BusyIndicator] stopAnimating];
 }
 
@@ -123,4 +131,15 @@
     NSLog( @"Received status code: %d", statusCode );
 }
 
+
+- (void) dealloc {
+    [super dealloc];
+    self.consolidatedClient = nil;
+    self.filterDataClient = nil;
+    self.delegate = nil;
+}
+
 @end
+
+
+

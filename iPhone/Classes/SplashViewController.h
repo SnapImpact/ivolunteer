@@ -11,8 +11,9 @@
 #import "BusyIndicatorDelegate.h"
 #import "LocationAvailabilityDelegate.h"
 #import "RestController.h"
+#import "RestControllerDelegate.h"
 
-@interface SplashViewController : UIViewController <LocationAvailabilityDelegate> {
+@interface SplashViewController : UIViewController <LocationAvailabilityDelegate, RestControllerDelegate> {
 	id <ScreenDismissalDelegate> dismissalDelegate;
 	id <BusyIndicatorDelegate> busyIndicatorDelegate;
 	UITextField *zipcodeField;
@@ -22,6 +23,7 @@
 	IBOutlet UIImageView* background;
 	IBOutlet UIImageView* logo;
     IBOutlet UILabel* versionLabel;
+    NSUInteger completedRestCount;
 }
 
 @property (nonatomic, retain) UILabel *versionLabel;

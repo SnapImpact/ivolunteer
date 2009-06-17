@@ -306,6 +306,18 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
         [ sortedInterestAreas addObject: interestArea ];
     }
     
+    NSLog(@"iVolunteerData:sortData: using myLocation = %@", self.myLocation);
+    NSMutableArray *toDelete = [NSMutableArray array];
+    for(Event* event in [self.events objectEnumerator]) {
+        [event distanceFrom: self.myLocation];
+        if((![event.signedUp boolValue]) && [event.distance doubleValue] > 100.0) {
+            [toDelete addObject: event.uid];
+        }
+    }
+    if([toDelete count]) {
+        [self.events removeObjectsForKeys: toDelete];
+    }
+    
     // IMPORTANT: this needs to be able to return all the interest areas possible in order for [InterestArea loadInterestAreasFromPreferences] to work correctly
     self.interestAreasByName = (NSMutableArray*)[sortedInterestAreas sortedArrayUsingFunction: _SortInterestAreasByName context: self];
     
@@ -317,8 +329,8 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
     NSMutableArray* _eventsSortedIntoDays = [NSMutableArray arrayWithCapacity: 1 ];
     NSDate* currentDate = nil;
     unsigned currentSubArray = 0;
+    
     for(Event* event in eventsByDate) {
-        [event distanceFrom: self.myLocation];
         if(currentDate == nil) {
             currentDate = [event date];
             if( [DateUtilities isToday: currentDate])
@@ -349,25 +361,38 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
         self.myEventsSortedIntoDays = [NSMutableArray array];
     }
     
-    NSString* date = [self dateToString: eventToAdd.date];
-    int i = 0;
-    for( NSString* existingDay in self.daysWithMyEvents ) {
-        if ([existingDay isEqualToString: date]) {
-            [[self.myEventsSortedIntoDays objectAtIndex: i] addObject: eventToAdd];
-            [[self.myEventsSortedIntoDays objectAtIndex: i] sortUsingFunction: _SortEventsByDate context: self ];
-            return;
+    if(eventToAdd && [eventToAdd.signedUp boolValue]) {
+        NSString* date = [self dateToString: eventToAdd.date];
+        int i = 0;
+        for( NSString* existingDay in self.daysWithMyEvents ) {
+            if ([existingDay isEqualToString: date]) {
+                [[self.myEventsSortedIntoDays objectAtIndex: i] addObject: eventToAdd];
+                [[self.myEventsSortedIntoDays objectAtIndex: i] sortUsingFunction: _SortEventsByDate context: self ];
+                return;
+            }
+            i++;
         }
-        i++;
+        
+        if (!self.daysWithMyEvents) {
+            self.daysWithMyEvents = [NSMutableArray array];
+        }
+        [self.daysWithMyEvents addObject: date];
+        NSUInteger index = [self.daysWithMyEvents count]-1;
+        [self.myEventsSortedIntoDays addObject: [NSMutableArray array]];
+        [[self.myEventsSortedIntoDays objectAtIndex: index] addObject: eventToAdd];
+        [[self.myEventsSortedIntoDays objectAtIndex: index] sortUsingFunction: _SortEventsByDate context: self ];
     }
-    
-    if (!self.daysWithMyEvents) {
-        self.daysWithMyEvents = [NSMutableArray array];
+    else if( eventToAdd && ![eventToAdd.signedUp boolValue]) {
+        //remove the event
+        unsigned int i = 0;
+        for(NSMutableArray* dayEvents in self.myEventsSortedIntoDays) {
+            [dayEvents removeObject: eventToAdd];
+            if([dayEvents count] == 0) {
+                //[self.daysWithMyEvents removeObjectAtIndex: i];
+            }
+            i++;
+        }
     }
-    [self.daysWithMyEvents addObject: date];
-    NSUInteger index = [self.daysWithMyEvents count]-1;
-    [self.myEventsSortedIntoDays addObject: [NSMutableArray array]];
-    [[self.myEventsSortedIntoDays objectAtIndex: index] addObject: eventToAdd];
-    [[self.myEventsSortedIntoDays objectAtIndex: index] sortUsingFunction: _SortEventsByDate context: self ];
 }
 
 - (void) dealloc {
@@ -418,6 +443,7 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
     DECODE_PROP(events)
     DECODE_PROP(homeZip)
     DECODE_PROP(myLocation)
+    NSLog(@"iVolunteerData:initWithCoder: restoring myLocation = %@", self.myLocation);
     //DECODE_PROP(upcomingEventsSortedIntoDays)
     //DECODE_PROP(myEventsSortedIntoDays)
     //DECODE_PROP(daysWithUpcomingEvents)
@@ -458,9 +484,9 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
         NSString* feedLatitude = [json objectForKey: @"latitude"];
         NSString* feedLongitude = [json objectForKey: @"longitude"];        
         if(feedLatitude && feedLongitude && [feedLatitude length] && [feedLongitude length]) {
-            NSLog(@"Updating location to: lat( %@ ), lon( %@ )", feedLatitude, feedLongitude);
             self.myLocation = [[CLLocation alloc] initWithLatitude: [feedLatitude doubleValue]
                                                          longitude: [feedLongitude doubleValue]];
+            NSLog(@"iVolunteerData:parseConsolidatedJson: set myLocation to: %@", self.myLocation);
         }
         
         //First let's do organizations
@@ -676,7 +702,6 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
         //close down our temp pool
         [pool release];
     }   
-    [[iPhoneAppDelegate BusyIndicator] stopAnimating];
 }
 
 - (void) parseFilterDataJson: (NSData*) data
