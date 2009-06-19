@@ -65,7 +65,8 @@ public class PersistenceFacade implements PersistenceFacadeLocal {
     public List<IdInterface> findByLoc(String queryName, int start, int max, String lat, String lng, int radius) {
 		String point = "POINT(" + lat + " " + lng +")";
         return em.createNamedQuery(queryName).setFirstResult(start).setMaxResults(max)
-                .setParameter(1, point).setParameter(2, radius * 1609).setParameter(3, point).setParameter(4, radius * 1609).getResultList();
+                .setParameter(1, point).setParameter(2, radius * 1609).setParameter(3, point)
+                .setParameter(4, radius * 1609).setParameter(5, point).setParameter(6, radius * 1609).getResultList();
 	}
 
     public List<IdInterface> findByLoc(String queryName, int start, int max, String street, String city, String state, String zip, int radius)

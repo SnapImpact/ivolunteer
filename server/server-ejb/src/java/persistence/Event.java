@@ -64,7 +64,8 @@ import javax.persistence.Table;
                 "WHERE e.duration < 604800 AND " +
                 "e.id IN ( SELECT et.event_id FROM Timestamp t, " +
                 "Event_Timestamp et where t.timestamp >= 'today' and t.id = et.timestamp_id ) AND " +
-                "ST_Distance_Sphere(GeometryFromText(?, 4326), l.geom) < ? " +
+                "l.geom && EXPAND(GeometryFromText(?, 4326), ?) AND " +
+                "Distance(GeometryFromText(?, 4326), l.geom) < ? " +
                 "ORDER BY ST_Distance_Sphere(GeometryFromText(?, 4326), l.geom) ",
         resultClass = persistence.Event.class
         )
