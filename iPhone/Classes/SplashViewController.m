@@ -124,7 +124,8 @@
 	{
 		iVolunteerData *data = [iVolunteerData sharedVolunteerData];
 		data.homeZip = self.zipcodeField.text;
-		//[self loadDataFeed];
+		[self loadDataFeed];
+
 	}
 	[self scrollUp];
 	
