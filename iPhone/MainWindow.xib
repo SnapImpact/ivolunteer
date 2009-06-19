@@ -388,7 +388,6 @@
 							<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
 						</object>
 					</object>
-					<bool key="IBUIToolbarHidden">NO</bool>
 				</object>
 				<object class="NSMutableArray" key="IBUIViewControllers">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -462,7 +461,6 @@
 								<reference key="IBUIParentViewController" ref="947447743"/>
 							</object>
 						</object>
-						<bool key="IBUIToolbarHidden">NO</bool>
 					</object>
 					<reference ref="277498730"/>
 				</object>
