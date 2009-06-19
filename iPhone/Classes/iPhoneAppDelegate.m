@@ -40,8 +40,28 @@
 @synthesize busyIndicatorView;
 @synthesize busyIndicatorLabel;
 @synthesize locationDelegate;
+@synthesize locationMgr;
 
 iPhoneAppDelegate* _staticInstance = nil;
+
+- (void)forceLocationServicesTimeout
+{
+	if (!receivedLocation)
+	{
+		[self stopAnimating];
+		if (self.locationMgr)
+		{
+			[locationMgr stopUpdatingLocation];
+		}
+		
+		
+		if (locationDelegate)
+		{
+			[locationDelegate locationIsAvailable:nil];
+		}
+        receivedLocation = YES;
+	}
+}
 
 - (void)getLocation
 {
@@ -49,13 +69,15 @@ iPhoneAppDelegate* _staticInstance = nil;
 	// initialize timestamp to use to compare results from location services.
 	now = [[NSDate alloc] init];
 	
-	CLLocationManager * locationMgr = [[CLLocationManager alloc] init];
+	self.locationMgr = [[CLLocationManager alloc] init];
 	if (locationMgr)
 	{
 		isBusy = YES;
 		locationMgr.delegate = self;
 		locationMgr.desiredAccuracy = kCLLocationAccuracyKilometer;
 		[locationMgr startUpdatingLocation];
+		
+		[self performSelector:@selector(forceLocationServicesTimeout) withObject:nil afterDelay:10];
 	}
 }
 
@@ -185,6 +207,8 @@ iPhoneAppDelegate* _staticInstance = nil;
 	[tabBarController release];
 	[now release];
 	[window release];
+	[locationMgr release];
+	
 	[super dealloc];
 }
 

@@ -46,6 +46,7 @@
 	NSDate *now;
 	BOOL isBusy;
     BOOL receivedLocation;
+	CLLocationManager * locationMgr;
 }
 
 @property (nonatomic, retain) id <LocationAvailabilityDelegate> locationDelegate;
@@ -55,6 +56,7 @@
 @property (nonatomic, retain) IBOutlet UIView *floatingView;
 @property (nonatomic, retain) IBOutlet UIView *busyIndicatorView;
 @property (nonatomic, retain) IBOutlet UILabel *busyIndicatorLabel;
+@property (nonatomic, retain) IBOutlet CLLocationManager * locationMgr;
 
 
 -(void) loadNavigationView;
