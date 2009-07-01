@@ -12,6 +12,7 @@
 
 @implementation Event
 
+@synthesize originalId;
 @synthesize details;
 
 @synthesize organization;
@@ -30,9 +31,9 @@
     double myLon = self.location.location.coordinate.longitude;
     double x = 69.1 * (originLat - myLat);
     double y = 69.1 * (originLon - myLon) * cos(myLat/57.3);
-    distance = sqrt(x*x + y*y);
-    NSLog(@"Distance: %lf",distance);   
-    return distance;
+    distance_ = sqrt(x*x + y*y);
+    NSLog(@"Distance: %lf",distance_);   
+    return distance_;
 }
 
 + (id) eventWithId: (NSString*) uid
@@ -45,6 +46,7 @@
      interestAreas: (NSArray*) interestAreas
               date:  (NSDate*) date
           duration: (NSNumber*) duration
+        originalId: (NSString*) originalId
 {
    Event* e = [Event alloc];
    return [[e initWithId: uid
@@ -56,7 +58,8 @@
                 location: location
            interestAreas: interestAreas
                     date: date
-                duration: duration ] autorelease ];
+                duration: duration 
+              originalId: originalId] autorelease ];
 }
 
 - (id) initWithId: (NSString*) uid_
@@ -69,6 +72,7 @@
     interestAreas: (NSArray*) interestAreas_
              date:  (NSDate*) date_
          duration: (NSNumber*) duration_
+       originalId: (NSString*) originalId_
 {
    [super initWithId: uid_ name: name_ ];
    self.details = details_;
@@ -80,11 +84,12 @@
    self.date = date_;
    self.duration = duration_;
    self.signedUp = [NSNumber numberWithBool: NO ];
+   self.originalId = originalId_;
    return self;
 }
 
 - (NSNumber*) distance {
-    return [NSNumber numberWithDouble: distance];
+    return [NSNumber numberWithDouble: distance_];
 }
 
 - (void) dealloc {
@@ -96,6 +101,7 @@
    self.interestAreas = nil;
    self.date = nil;
    self.duration = nil;
+   self.originalId = nil;
    [super dealloc];
 }
 
@@ -111,6 +117,7 @@
    ENCODE_PROP(location)
    ENCODE_PROP(interestAreas)
    ENCODE_PROP(signedUp);
+   ENCODE_PROP(originalId)
    END_ENCODER()
 }
 
@@ -126,9 +133,11 @@
    DECODE_PROP(location)
    DECODE_PROP(interestAreas)   
    DECODE_PROP(signedUp);
+   DECODE_PROP(originalId)
    END_DECODER()
    return self;
 }
 
 
 @end
+

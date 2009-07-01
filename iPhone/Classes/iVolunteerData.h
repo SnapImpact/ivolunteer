@@ -58,6 +58,10 @@
 - (void) parseConsolidatedJson: (NSData*) data;
 - (void) parseFilterDataJson: (NSData*) data;
 
+- (void) registerForEventOnBackend: (Event*) event
+                          withName: (NSString*) name_
+                          andEmail: (NSString*) email_;
+
 
 @end
 

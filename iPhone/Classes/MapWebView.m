@@ -221,7 +221,7 @@
 	}
     NSString *urlStr = 
 	[NSString stringWithFormat:
-	 @"http://actionfeed.org/iPhone/mapview.html?width=%d&height=%d&zoom=%d&latitude=%lf&longitude=%lf", 
+	 @"http://snapimpact.org/iPhone/mapview.html?width=%d&height=%d&zoom=%d&latitude=%lf&longitude=%lf", 
 	 width, height, zoom, startLocation.lat, startLocation.lng];
     
     [self loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]]];

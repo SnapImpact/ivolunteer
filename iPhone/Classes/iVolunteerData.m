@@ -32,7 +32,7 @@
 
 static iVolunteerData* _sharedInstance = nil;
 static NSString* kVolunteerDataRootKey = @"Root";
-static NSString* kVolunteerDataVersion = @"v1.6";
+static NSString* kVolunteerDataVersion = @"v1.7";
 
 + (id) sharedVolunteerData {
     if( _sharedInstance == nil ) {
@@ -128,9 +128,9 @@ static NSString* kVolunteerDataVersion = @"v1.6";
      Organization* o;
      o = [ Organization organizationWithId: @"org1"
      name: @"ActionFeed"
-     email: @"someone@actionfeed.org"
+     email: @"someone@snapimpact.org"
      phone: @"303-555-0001"
-     url: @"http://actionfeed.org" ];
+     url: @"http://snapimpact.org" ];
      [self.organizations setObject: o forKey: o.uid];
      
      o = [ Organization organizationWithId: @"org2"
@@ -159,7 +159,7 @@ static NSString* kVolunteerDataVersion = @"v1.6";
      
      c = [Contact contactWithId: @"contact2"
      name: @"Dave Angulo"
-     email: @"dave@actionfeed.org"
+     email: @"dave@snapimpact.org"
      phone: @"303-555-2000" ];
      [self.contacts setObject: c forKey: c.uid ];
      
@@ -588,7 +588,8 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
                 NSEnumerator* ts_e = [timestampCollection objectEnumerator];
                 NSString* ts;
                 while(( ts = (NSString*)[ts_e nextObject] )) {
-                    NSString* event_id = [NSString stringWithFormat: @"event:%@-timestamp:%@", [event objectForKey: @"id"], ts];
+                   NSString* original_id = [event objectForKey: @"id"];
+                    NSString* event_id = [NSString stringWithFormat: @"event:%@-timestamp:%@", original_id, ts];
                     NSString* event_name = [event objectForKey: @"title" ];
                     NSNumber* duration = [NSNumber numberWithInt: [[event objectForKey: @"duration"] intValue]];
                     NSString* description = [event objectForKey:@"description"];
@@ -687,7 +688,8 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
                                       location: location 
                                  interestAreas: event_interestAreas
                                           date: [timestamps objectForKey: ts]
-                                      duration: duration ];
+                                      duration: duration
+                                    originalId: original_id];
                         //don't add them for now until we hande nils in the UI
                         [self.events setObject: e forKey: e.uid ];
                     }            
@@ -728,6 +730,28 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
         //close down our temp pool
         [pool release];
     }   
+}
+
+- (void) registerForEventOnBackend: (Event*) event
+                          withName: (NSString*) name_
+                          andEmail: (NSString*) email_
+{
+   NSString* encodedName = [ name_ stringByAddingPercentEscapesUsingEncoding: NSASCIIStringEncoding];
+   NSString* encodedEmail = [ email_ stringByAddingPercentEscapesUsingEncoding: NSASCIIStringEncoding];
+   NSString* encodedEventId = [ event.originalId stringByAddingPercentEscapesUsingEncoding: NSASCIIStringEncoding];
+   NSString* urlStr = [ NSString stringWithFormat: @"http://snapimpact.org/server/resources/attendEvent?event=%@&name=%@&email=%@",
+                    encodedEventId,
+                    encodedName,
+                    encodedEmail
+   ];
+   NSURL* url = [ NSURL URLWithString: urlStr ];
+   NSURLRequest* request = [NSURLRequest requestWithURL: url];
+   NSURLResponse* response = nil;
+   NSError* error = nil;
+   NSData* result = [NSURLConnection sendSynchronousRequest: request
+                                          returningResponse: &response
+                                                      error: &error];
+   NSLog([NSString stringWithUTF8String: [result bytes]]);
 }
 
 
