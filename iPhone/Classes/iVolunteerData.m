@@ -541,6 +541,61 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
         }
         
         //source
+		id sourcesTemp = [json objectForKey:@"sources"];
+		if([sourcesTemp isKindOfClass: [NSDictionary class]]) {
+			//single source
+			NSDictionary* source = sourcesTemp;
+			NSString* sourceId  = [source objectForKey: @"id"];
+			NSString* sourceName = [source objectForKey: @"name"];
+			NSString* sourceUrl = [source objectForKey: @"url"];
+			
+			Source* s = [self.sources objectForKey: sourceId];
+			if (s != nil) {
+				//update the properties
+				s.name = [sourceName stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
+				s.url = [NSURL URLWithString: [sourceUrl stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]]];
+			}
+			else {
+			s = [Source sourceWithId: sourceId
+								name: sourceName
+								 url: sourceUrl ];
+			
+			[self.sources setObject: s forKey: s.uid ];
+			}
+		}
+		else {
+			//multiple sources
+			NSArray* sourcesArray = [json objectForKey:@"sources"];
+			if (sourcesArray != nil ) {
+				NSEnumerator* e2 = [sourcesArray objectEnumerator];
+				NSDictionary* source;
+				while((source = (NSDictionary*)[e2 nextObject])) {
+					if (source != nil) {
+						//find it in the current list of sources
+						//or insert it
+						Source* s = [ self.sources objectForKey:@"id" ];
+						if (s != nil) {
+							//update the properties
+							s.name = [[source objectForKey: @"name"] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
+							NSString* url = [source objectForKey: @"url"];
+							s.url = [NSURL URLWithString: [url stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]]];
+						}
+						else {
+							//add it
+							NSString* sourceId  = [source objectForKey: @"id"];
+							NSString* sourceName = [source objectForKey: @"name"];
+							NSString* sourceUrl = [source objectForKey: @"url"];
+							s = [Source sourceWithId: sourceId
+												name: sourceName
+												 url: sourceUrl ];
+							
+							[self.sources setObject: s forKey: s.uid ];
+						}
+					}
+				}
+			}
+		}
+				
         //location
         NSArray* locationsArray = [json objectForKey: @"locations"];
         if(locationsArray != nil ) {
@@ -668,6 +723,10 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
                         location_id = locationCollection;
                     }
                     Location* location = [self.locations objectForKey: location_id];
+					
+					NSString*source_id = [event objectForKey: @"sourceId"];
+					Source* source = [self.sources objectForKey: source_id ];
+					
                     Event* e = [self.events objectForKey: event_id];
                     if(e != nil) {
                         //update
@@ -683,7 +742,7 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
                                        details: description
                                   organization: [self.organizations objectForKey: org_id]
                                        contact: contact
-                                        source: nil 
+                                        source: source 
                                       location: location 
                                  interestAreas: event_interestAreas
                                           date: [timestamps objectForKey: ts]
