@@ -24,7 +24,8 @@
    Location* location;
    NSArray* interestAreas;
    NSNumber* signedUp;
-    double distance; 
+   double distance_; 
+   NSString* originalId;
 }
 
 @property (copy) NSString* details;
@@ -37,6 +38,7 @@
 @property (retain) NSArray* interestAreas;
 @property (retain) NSNumber* signedUp;
 @property (readonly) NSNumber* distance;
+@property (retain) NSString* originalId;
 
 + (id) eventWithId: (NSString*) uid
               name: (NSString*) name
@@ -47,7 +49,8 @@
           location: (Location*) location
      interestAreas: (NSArray*) interestAreas
               date:  (NSDate*) date
-          duration: (NSNumber*) duration;
+          duration: (NSNumber*) duration
+        originalId: (NSString*) originalId;
 
 - (id) initWithId: (NSString*) uid
              name: (NSString*) name
@@ -58,8 +61,10 @@
          location: (Location*) location
     interestAreas: (NSArray*) interestAreas
              date:  (NSDate*) date
-         duration: (NSNumber*) duration;
+         duration: (NSNumber*) duration
+       originalId: (NSString*) originalid;
 
 - (double) distanceFrom: (CLLocation*) origin ;
 
 @end
+

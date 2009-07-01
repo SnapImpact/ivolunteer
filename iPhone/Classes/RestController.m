@@ -28,7 +28,7 @@
 }
 
 - (void) beginGetFilterData {
-    NSURL* url= [NSURL URLWithString: @"http://actionfeed.org/server/resources/filterData"];
+    NSURL* url= [NSURL URLWithString: @"http://snapimpact.org/server/resources/filterData"];
     [filterDataClient sendRequestTo: url usingVerb: @"GET" withParameters: nil ];
 }
 
@@ -53,18 +53,18 @@
 	
 	if (useZipCodeOverride && zipcode)
 	{
-		urlStr = [[[NSString alloc] initWithFormat:@"http://actionfeed.org/server/resources/events/consolidated?zip=%@", zipcode] autorelease];
+		urlStr = [[[NSString alloc] initWithFormat:@"http://snapimpact.org/server/resources/events/consolidated?zip=%@", zipcode] autorelease];
 	}
 	else if (currentLocation)
 	{
 		// use iVolunteerData long/lat to pull feed
-		urlStr = [[[NSString alloc] initWithFormat:@"http://actionfeed.org/server/resources/events/consolidated?lat=%lf&long=%lf", 
+		urlStr = [[[NSString alloc] initWithFormat:@"http://snapimpact.org/server/resources/events/consolidated?lat=%lf&long=%lf", 
 				   currentLocation.coordinate.latitude, 
 				   currentLocation.coordinate.longitude] autorelease];
 	}
 	else if (zipcode && [zipcode length])
 	{
-		urlStr = [[[NSString alloc] initWithFormat:@"http://actionfeed.org/server/resources/events/consolidated?zip=%@", zipcode] autorelease];
+		urlStr = [[[NSString alloc] initWithFormat:@"http://snapimpact.org/server/resources/events/consolidated?zip=%@", zipcode] autorelease];
 	}
 	else
 	{
@@ -77,7 +77,7 @@
                                               otherButtonTitles:nil];
         [alert show];
         [alert release];
-        urlStr = @"http://actionfeed.org/server/resources/events/consolidated";
+        urlStr = @"http://snapimpact.org/server/resources/events/consolidated";
 	}
     NSURL* url = [NSURL URLWithString: urlStr ];
     NSLog( @"Beginning request to: %@ ", url );

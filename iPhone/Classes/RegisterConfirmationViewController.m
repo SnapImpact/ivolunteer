@@ -9,6 +9,7 @@
 #import "RegisterConfirmationViewController.h"
 #import "DateUtilities.h"
 #import "SettingsViewController.h"
+#import "iVolunteerData.h"
 
 @implementation RegisterConfirmationViewController
 
@@ -124,6 +125,9 @@
     }
     else {
         NSObject<RegisterConfirmationProtocol>* delegate_ = self.delegate;
+       [[iVolunteerData sharedVolunteerData] registerForEventOnBackend: self.event
+                                                              withName: name
+                                                              andEmail: email];
         [self dismissSheet];
         if(delegate_ && [delegate_ respondsToSelector:@selector(didConfirmRegistration)]) {
             [delegate_ didConfirmRegistration];
