@@ -20,6 +20,7 @@
    Contact* contact;
    NSDate* date;
    NSNumber* duration;
+	NSURL* url;
    Source* source;
    Location* location;
    NSArray* interestAreas;
@@ -33,6 +34,7 @@
 @property (retain) Contact* contact;
 @property (retain) NSDate* date;
 @property (retain) NSNumber* duration;
+@property (retain) NSURL *url;
 @property (retain) Source* source;
 @property (retain) Location* location;
 @property (retain) NSArray* interestAreas;
@@ -45,6 +47,7 @@
            details: (NSString*) details
       organization: (Organization*) organization
            contact: (Contact*) contact
+			   url: (NSString*) url
             source: (Source*) source
           location: (Location*) location
      interestAreas: (NSArray*) interestAreas
@@ -57,6 +60,7 @@
           details: (NSString*) details
      organization: (Organization*) organization
           contact: (Contact*) contact
+			  url: (NSString*) url
            source: (Source*) source
          location: (Location*) location
     interestAreas: (NSArray*) interestAreas

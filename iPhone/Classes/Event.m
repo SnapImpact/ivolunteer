@@ -19,6 +19,7 @@
 @synthesize contact;
 @synthesize date;
 @synthesize duration;
+@synthesize url;
 @synthesize source;
 @synthesize location;
 @synthesize interestAreas;
