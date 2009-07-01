@@ -40,7 +40,7 @@
    }
    
    // Set up the cell
-   cell.textLabel.text = @"Loading.."; //[[NSString alloc] initWithFormat:@"%i",[indexPath indexAtPosition:1]];
+   cell.text = @"Loading.."; //[[NSString alloc] initWithFormat:@"%i",[indexPath indexAtPosition:1]];
    return cell;
 }
 

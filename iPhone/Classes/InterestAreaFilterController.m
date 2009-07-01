@@ -95,7 +95,7 @@
     
     // Set up the cell...	
     InterestArea* interestArea = [self interestAreaForIndexPath: indexPath];
-    cell.textLabel.text = interestArea.name;
+    cell.text = interestArea.name;
     if( [self.selectedInterestAreas containsObject: interestArea] ) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
     }

@@ -198,8 +198,8 @@
 {
 	int operatingWidth = [[UIScreen mainScreen] bounds].size.width - (self.tableView.sectionHeaderHeight * 4);
 	UITableViewCell *descriptionCell_ = [[[UITableViewCell alloc] initWithFrame: CGRectZero reuseIdentifier: @"Description" ] autorelease];
-	descriptionCell_.textLabel.font = self.smallFont;
-	descriptionCell_.textLabel.lineBreakMode = UILineBreakModeTailTruncation;
+	descriptionCell_.font = self.smallFont;
+	descriptionCell_.lineBreakMode = UILineBreakModeTailTruncation;
 	[descriptionCell_ setSelectionStyle: UITableViewCellSelectionStyleNone ];
 	
 	CGSize size = [self.event.details sizeWithFont: self.smallFont 
