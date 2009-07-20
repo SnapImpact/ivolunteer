@@ -19,6 +19,8 @@
 		5CADF4450F90F83A00690E94 /* marker.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CADF4440F90F83A00690E94 /* marker.png */; };
 		940875410F5C965C0037C286 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 940875400F5C965C0037C286 /* Entitlements.plist */; };
 		941853530FE0966700313AFC /* Entitlements-Development.plist in Resources */ = {isa = PBXBuildFile; fileRef = 941853520FE0966700313AFC /* Entitlements-Development.plist */; };
+		9423873D100D6FAA00267E8A /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9423873B100D6FAA00267E8A /* Reachability.m */; };
+		9423874D100D710000267E8A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9423874C100D710000267E8A /* SystemConfiguration.framework */; };
 		942E23BD0F5E107000C87AC1 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 942E23BC0F5E107000C87AC1 /* MapViewController.m */; };
 		942E23BF0F5E109400C87AC1 /* MapView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 942E23BE0F5E109400C87AC1 /* MapView.xib */; };
 		943BD0AA0F76EB5000363DF2 /* CDataScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 943BD0990F76EB5000363DF2 /* CDataScanner.m */; };
@@ -106,6 +108,9 @@
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		940875400F5C965C0037C286 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		941853520FE0966700313AFC /* Entitlements-Development.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Entitlements-Development.plist"; sourceTree = "<group>"; };
+		9423873B100D6FAA00267E8A /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		9423873C100D6FAA00267E8A /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		9423874C100D710000267E8A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		942E23BB0F5E107000C87AC1 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		942E23BC0F5E107000C87AC1 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		942E23BE0F5E109400C87AC1 /* MapView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapView.xib; sourceTree = "<group>"; };
@@ -228,6 +233,7 @@
 				2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */,
 				94A97D3B0F452D610077E4E0 /* libxml2.dylib in Frameworks */,
 				9455C53E0F52270D00296B87 /* CoreLocation.framework in Frameworks */,
+				9423874D100D710000267E8A /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,6 +243,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				9423873A100D6F8600267E8A /* Reachability */,
 				5CADF43D0F90F7E100690E94 /* MapView */,
 				943BD0B60F76EB7D00363DF2 /* GeoCoder */,
 				943BD0970F76EB5000363DF2 /* TouchJSON */,
@@ -311,6 +318,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9423874C100D710000267E8A /* SystemConfiguration.framework */,
 				9455C53D0F52270D00296B87 /* CoreLocation.framework */,
 				94A97D3A0F452D610077E4E0 /* libxml2.dylib */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
@@ -345,6 +353,15 @@
 				94C3AE820F91452D00153859 /* MapView.h */,
 			);
 			name = MapView;
+			sourceTree = "<group>";
+		};
+		9423873A100D6F8600267E8A /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				9423873B100D6FAA00267E8A /* Reachability.m */,
+				9423873C100D6FAA00267E8A /* Reachability.h */,
+			);
+			name = Reachability;
 			sourceTree = "<group>";
 		};
 		943BD0970F76EB5000363DF2 /* TouchJSON */ = {
@@ -637,6 +654,7 @@
 				94A6E1F80FA7F776004F3412 /* UpcomingEventsSortedByTimeDataSource.m in Sources */,
 				94A6E1FB0FA7F7B0004F3412 /* MyEventsSortedByTimeDataSource.m in Sources */,
 				94BE51350FBA50D500AD1858 /* InterestAreaFilterController.m in Sources */,
+				9423873D100D6FAA00267E8A /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -692,9 +710,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = iVolunteer;
-				PROVISIONING_PROFILE = "957B303E-334D-47F5-A09F-C181EF410943";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "957B303E-334D-47F5-A09F-C181EF410943";
-				SDKROOT = iphoneos2.1;
+				PROVISIONING_PROFILE = "8C4F6CEF-1439-4254-9C0A-251111FEC13D";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8C4F6CEF-1439-4254-9C0A-251111FEC13D";
+				SDKROOT = iphoneos2.2.1;
 			};
 			name = Adhoc;
 		};
@@ -778,8 +796,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "957B303E-334D-47F5-A09F-C181EF410943";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "957B303E-334D-47F5-A09F-C181EF410943";
+				PROVISIONING_PROFILE = "8C4F6CEF-1439-4254-9C0A-251111FEC13D";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8C4F6CEF-1439-4254-9C0A-251111FEC13D";
 				SDKROOT = iphoneos2.1;
 				VERSIONING_SYSTEM = "";
 			};

@@ -9,6 +9,7 @@
 #import "SplashViewController.h"
 #import "iVolunteerData.h"
 #import "DateUtilities.h"
+#import "SettingsViewController.h"
 
 @implementation SplashViewController
 
@@ -40,7 +41,7 @@
 
 - (void)openingAnimationComplete
 {
-	if ([busyIndicatorDelegate isBusy])
+	if ([busyIndicatorDelegate isBusy] && [[iVolunteerData sharedVolunteerData] reachable])
 	{
         NSString* msg = NSLocalizedString(@"Determining location...", @"Tell user we are determining the location of their iPhone");
 		[busyIndicatorDelegate startAnimatingWithMessage: msg atBottom: YES];
@@ -122,6 +123,7 @@
 	[self.zipcodeField resignFirstResponder];
 	if ([self.zipcodeField.text length] == 5)
 	{
+        [SettingsViewController forceZipcodeSettings: self.zipcodeField.text];
 		iVolunteerData *data = [iVolunteerData sharedVolunteerData];
 		data.homeZip = self.zipcodeField.text;
 		[self loadDataFeed];
@@ -169,7 +171,11 @@
 	}
 	else
 	{
-		[self loadDataFeed];
+        if([[iVolunteerData sharedVolunteerData] reachable]) {
+            [self loadDataFeed];
+        }
+        else {
+        }
 	}
 	//[continueButton setHidden:NO];
     //[dismissalDelegate dismissScreen];

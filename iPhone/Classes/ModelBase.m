@@ -47,7 +47,7 @@
 	if ([anObject isKindOfClass:[ModelBase class]])
 	{
 		ModelBase * aModelObject = (ModelBase *)anObject;
-		return [self.uid isEqualToString:[aModelObject uid]] && [self.name isEqualToString:[aModelObject name]];
+		return [self.uid isEqualToString: aModelObject.uid];
 	}
 	else
 	{
@@ -61,5 +61,6 @@
    self.name = nil;
    [super dealloc];
 }
+
 
 @end

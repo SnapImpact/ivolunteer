@@ -8,7 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="172"/>
+			<integer value="206"/>
 			<integer value="19"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
@@ -119,7 +119,7 @@
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 					</object>
 				</object>
-				<string key="NSFrameSize">{320, 480}</string>
+				<string key="NSFrameSize">{0, 0}</string>
 				<reference key="NSSuperview"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">1</int>
@@ -309,7 +309,7 @@
 												<bool key="IBUIOpaque">NO</bool>
 												<bool key="IBUIClipsSubviews">YES</bool>
 												<bool key="IBUIUserInteractionEnabled">NO</bool>
-												<string key="IBUIText">Your name and e-mail address are sent to the Event contact whe signing up for an event.</string>
+												<string key="IBUIText">Your name and e-mail address are sent to the Event contact when signing up for an event.</string>
 												<reference key="IBUIFont" ref="906767789"/>
 												<reference key="IBUITextColor" ref="297456244"/>
 												<nil key="IBUIHighlightedColor"/>
@@ -344,7 +344,7 @@
 												<object class="NSMutableArray" key="IBUIItems">
 													<bool key="EncodedWithXMLCoder">YES</bool>
 													<object class="IBUIBarButtonItem" id="992334161">
-														<string key="IBUITitle">Your Interests</string>
+														<string key="IBUITitle">My Interests</string>
 														<int key="IBUIStyle">1</int>
 														<reference key="IBUIToolbar" ref="314303157"/>
 													</object>
@@ -379,10 +379,6 @@
 							<object class="IBUINavigationItem" key="IBUINavigationItem" id="142601104">
 								<reference key="IBUINavigationBar"/>
 								<string key="IBUITitle">Settings</string>
-								<object class="IBUIBarButtonItem" key="IBUIRightBarButtonItem" id="772889349">
-									<string key="IBUITitle">Save</string>
-									<int key="IBUIStyle">1</int>
-								</object>
 							</object>
 							<reference key="IBUIParentViewController" ref="277498730"/>
 							<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
@@ -674,10 +670,11 @@
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">saveSettings</string>
-						<reference key="source" ref="772889349"/>
+						<reference key="source" ref="606441793"/>
 						<reference key="destination" ref="479585607"/>
+						<int key="IBEventType">13</int>
 					</object>
-					<int key="connectionID">247</int>
+					<int key="connectionID">249</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -880,7 +877,6 @@
 						<reference key="object" ref="142601104"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="772889349"/>
 						</object>
 						<reference key="parent" ref="479585607"/>
 					</object>
@@ -965,11 +961,6 @@
 						<reference key="parent" ref="955658270"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">241</int>
-						<reference key="object" ref="772889349"/>
-						<reference key="parent" ref="142601104"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">242</int>
 						<reference key="object" ref="241713626"/>
 						<reference key="parent" ref="314303157"/>
@@ -1020,7 +1011,6 @@
 					<string>221.IBPluginDependency</string>
 					<string>239.IBPluginDependency</string>
 					<string>24.IBPluginDependency</string>
-					<string>241.IBPluginDependency</string>
 					<string>242.IBPluginDependency</string>
 					<string>243.IBPluginDependency</string>
 					<string>244.IBPluginDependency</string>
@@ -1040,7 +1030,7 @@
 					<string>MyEventsViewController</string>
 					<string>UpcomingEventsViewController</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>{{178, 246}, {320, 480}}</string>
+					<string>{{178, 726}, {0, 0}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>SettingsViewController</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -1073,11 +1063,10 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>iPhoneAppDelegate</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>MemoryTabViewController</string>
-					<string>{{347, 70}, {320, 480}}</string>
+					<string>{{305, 330}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
@@ -1102,7 +1091,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">248</int>
+			<int key="maxID">249</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1225,6 +1214,7 @@
 							<string>busyIndicatorView</string>
 							<string>floatingView</string>
 							<string>locationDelegate</string>
+							<string>locationMgr</string>
 							<string>navigationController</string>
 							<string>tabBarController</string>
 							<string>window</string>
@@ -1235,6 +1225,7 @@
 							<string>UIView</string>
 							<string>UIView</string>
 							<string>id</string>
+							<string>CLLocationManager</string>
 							<string>UINavigationController</string>
 							<string>MemoryTabViewController</string>
 							<string>UIWindow</string>

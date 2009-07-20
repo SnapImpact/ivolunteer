@@ -44,5 +44,7 @@
 - (IBAction) resetSettings;
 - (IBAction) filterInterestAreas;
 
++ (void) forceZipcodeSettings: (NSString*) zip ;
+
 @end
 
