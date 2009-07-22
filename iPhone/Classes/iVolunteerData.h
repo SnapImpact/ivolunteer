@@ -11,23 +11,25 @@
 #import "Event.h"
 
 @interface iVolunteerData : ModelBase {
-   NSMutableDictionary *organizations;
-   NSMutableDictionary *contacts;
-   NSMutableDictionary *sources;
-   NSMutableDictionary *locations;
-   NSMutableDictionary *interestAreas;
-   NSMutableDictionary *events;
+    NSMutableDictionary *organizations;
+    NSMutableDictionary *contacts;
+    NSMutableDictionary *sources;
+    NSMutableDictionary *locations;
+    NSMutableDictionary *interestAreas;
+    NSMutableDictionary *events;
 	CLLocation *myLocation;
 	NSString *homeZip;
-   
-   NSMutableArray* upcomingEventsSortedIntoDays;  //nested array of events sorted into days
-   NSMutableArray* myEventsSortedIntoDays;  //nested array of my events sorted into days
-   NSMutableArray* daysWithUpcomingEvents; //array of strings of dates with upcoming events
-   NSMutableArray* daysWithMyEvents; //array of strings of dates with upcoming events
-   NSMutableArray* interestAreasByName; //array of InterestAreas by name
-   NSString* version;   
+    
+    NSMutableArray* upcomingEventsSortedIntoDays;  //nested array of events sorted into days
+    NSMutableArray* myEventsSortedIntoDays;  //nested array of my events sorted into days
+    NSMutableArray* daysWithUpcomingEvents; //array of strings of dates with upcoming events
+    NSMutableArray* daysWithMyEvents; //array of strings of dates with upcoming events
+    NSMutableArray* interestAreasByName; //array of InterestAreas by name
+    NSString* version;   
+    BOOL reachable;
 }
 
+@property BOOL reachable;
 @property (retain) NSMutableDictionary *organizations;
 @property (retain) NSMutableDictionary *contacts;
 @property (retain) NSMutableDictionary *sources;
@@ -58,12 +60,14 @@
 - (void) parseConsolidatedJson: (NSData*) data;
 - (void) parseFilterDataJson: (NSData*) data;
 
-- (void) registerForEventOnBackend: (Event*) event
+- (BOOL) registerForEventOnBackend: (Event*) event
                           withName: (NSString*) name_
                           andEmail: (NSString*) email_;
 
 
 @end
+
+
 
 
 

@@ -13,6 +13,7 @@
 
 @implementation iVolunteerData
 
+@synthesize reachable;
 @synthesize organizations;
 @synthesize contacts;
 @synthesize sources;
@@ -281,7 +282,7 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
         return [NSString stringWithString: [DateUtilities formatShortDate: date]];
 }
 
-- (void) cullOldEvents {
+- (void) filterEvents {
     //cull any events which are older than today
     for (Event* event in [self.events allValues]) {
         NSDate* date = event.date;
@@ -293,6 +294,31 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
             if(![event.signedUp boolValue]) {
                 [self.events removeObjectForKey: event.uid ];
             }
+        }
+    }
+    
+    //remove any events not matched by our interest area filter
+    NSArray* filteredInterestAreas = [InterestArea loadInterestAreasFromPreferences];
+    if(!filteredInterestAreas) {
+        return;
+    }
+    
+    for(Event* event in [self.events allValues]) {
+        BOOL include = NO;
+        for(InterestArea* i in filteredInterestAreas) {
+            if(event.interestAreas) {
+                if([event.interestAreas containsObject: i]){
+                    include = YES;
+                    NSLog(@"Event (%@,%@) DOES have interest (%@,%@)", event.uid, event.name, i.uid, i.name);
+                    break;
+                }
+                else {
+                    NSLog(@"Event (%@,%@) does NOT have interest (%@,%@)", event.uid, event.name, i.uid, i.name);
+                }
+            }
+        }
+        if(!include) {
+            [self.events removeObjectForKey: event.uid];
         }
     }
 }
@@ -452,7 +478,7 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
     END_DECODER()
     
     if(self) {
-        [self cullOldEvents];  
+        [self filterEvents];  
     }
     
     return self;
@@ -556,11 +582,11 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
 				s.url = [NSURL URLWithString: [sourceUrl stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]]];
 			}
 			else {
-			s = [Source sourceWithId: sourceId
-								name: sourceName
-								 url: sourceUrl ];
-			
-			[self.sources setObject: s forKey: s.uid ];
+                s = [Source sourceWithId: sourceId
+                                    name: sourceName
+                                     url: sourceUrl ];
+                
+                [self.sources setObject: s forKey: s.uid ];
 			}
 		}
 		else {
@@ -595,7 +621,7 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
 				}
 			}
 		}
-				
+        
         //location
         NSArray* locationsArray = [json objectForKey: @"locations"];
         if(locationsArray != nil ) {
@@ -643,7 +669,7 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
                 NSEnumerator* ts_e = [timestampCollection objectEnumerator];
                 NSString* ts;
                 while(( ts = (NSString*)[ts_e nextObject] )) {
-                   NSString* original_id = [event objectForKey: @"id"];
+                    NSString* original_id = [event objectForKey: @"id"];
                     NSString* event_id = [NSString stringWithFormat: @"event:%@-timestamp:%@", original_id, ts];
                     NSString* event_name = [event objectForKey: @"title" ];
                     NSNumber* duration = [NSNumber numberWithInt: [[event objectForKey: @"duration"] intValue]];
@@ -756,7 +782,7 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
             }
         }
         
-        [self cullOldEvents];
+        [self filterEvents];
         [self sortData];
     }
     @finally {
@@ -791,31 +817,47 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
     }   
 }
 
-- (void) registerForEventOnBackend: (Event*) event
+- (BOOL) registerForEventOnBackend: (Event*) event
                           withName: (NSString*) name_
                           andEmail: (NSString*) email_
 {
-   NSString* encodedName = [ name_ stringByAddingPercentEscapesUsingEncoding: NSASCIIStringEncoding];
-   NSString* encodedEmail = [ email_ stringByAddingPercentEscapesUsingEncoding: NSASCIIStringEncoding];
-   NSString* encodedEventId = [ event.originalId stringByAddingPercentEscapesUsingEncoding: NSASCIIStringEncoding];
-   NSString* urlStr = [ NSString stringWithFormat: @"http://snapimpact.org/server/resources/attendEvent?event=%@&name=%@&email=%@",
-                    encodedEventId,
-                    encodedName,
-                    encodedEmail
-   ];
-   NSURL* url = [ NSURL URLWithString: urlStr ];
-   NSURLRequest* request = [NSURLRequest requestWithURL: url];
-   NSURLResponse* response = nil;
-   NSError* error = nil;
-   NSData* result = [NSURLConnection sendSynchronousRequest: request
-                                          returningResponse: &response
-                                                      error: &error];
-   NSLog([NSString stringWithUTF8String: [result bytes]]);
+    NSString* encodedName = [ name_ stringByAddingPercentEscapesUsingEncoding: NSASCIIStringEncoding];
+    NSString* encodedEmail = [ email_ stringByAddingPercentEscapesUsingEncoding: NSASCIIStringEncoding];
+    NSString* encodedEventId = [ event.originalId stringByAddingPercentEscapesUsingEncoding: NSASCIIStringEncoding];
+    NSString* urlStr = [ NSString stringWithFormat: @"http://snapimpact.org/server/resources/attendEvent?event=%@&name=%@&email=%@",
+                        encodedEventId,
+                        encodedName,
+                        encodedEmail
+                        ];
+    NSURL* url = [ NSURL URLWithString: urlStr ];
+    NSURLRequest* request = [NSURLRequest requestWithURL: url];
+    NSURLResponse* response = nil;
+    NSError* error = nil;
+    NSData* result = [NSURLConnection sendSynchronousRequest: request
+                                           returningResponse: &response
+                                                       error: &error];
+    
+    if(error) {
+        NSLog(@"%d", [error code]);
+        return NO;
+    }
+    if(response && [response isKindOfClass: [NSHTTPURLResponse class]]) {
+        NSInteger statusCode = [(NSHTTPURLResponse*)response statusCode];
+        NSLog(@"Response code: %d", statusCode);
+        if (statusCode != 200) {
+            return NO;
+        }
+    }
+        
+    NSLog([NSString stringWithUTF8String: [result bytes]]);
+    return YES;
 }
 
 
 
 @end
+
+
 
 
 

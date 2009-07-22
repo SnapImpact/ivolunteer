@@ -30,6 +30,7 @@
 #import "ProjectViewController.h"
 #import "iVolunteerData.h"
 #import "DateUtilities.h"
+#import "Reachability.h"
 
 @implementation iPhoneAppDelegate
 
@@ -147,11 +148,26 @@ iPhoneAppDelegate* _staticInstance = nil;
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
 	
 	//TODO HASSAN AND RYAN DO NOT FORGET!!!!!!: check for internet connectivity!
+    NetworkStatus reachable = [[Reachability sharedReachability] internetConnectionStatus];
+    
     _staticInstance = self;
     NSDate *start1 = [NSDate date];
 	[iVolunteerData restore];
 	NSDate *end1 = [NSDate date];
 	NSLog(@"[iVolunteerData restore]: %g sec", [end1 timeIntervalSinceDate:start1]);
+    
+    [[iVolunteerData sharedVolunteerData] setReachable: (reachable != NotReachable)];
+    
+    if(![[iVolunteerData sharedVolunteerData] reachable]) {
+        [self stopAnimating];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Cannot connect to Internet", @"")
+                                                        message: NSLocalizedString(@"An Internet connection was unable to be established.  you must connect to a Wi-Fi or cellular data network to access iVolunteer.", @"")
+                                                       delegate: nil 
+                                              cancelButtonTitle: NSLocalizedString(@"Ok", @"Ok")
+                                              otherButtonTitles: nil];
+        [alert show];
+        [alert release];
+    }
     
 	[self getLocation];
 	

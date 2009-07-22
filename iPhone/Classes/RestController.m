@@ -123,7 +123,7 @@
 - (void)restClient:(RestClient *)ri didFailWithError:(NSError *)error {
     //Handle error, for now assert
     NSString* err = [ NSString stringWithFormat: @"Download failed with error: %@", error ];
-    NSAssert( NO, err );
+    //NSAssert( NO, err );
     [err release];
 }
 
