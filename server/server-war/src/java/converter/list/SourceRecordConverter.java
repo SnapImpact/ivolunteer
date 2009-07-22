@@ -132,6 +132,26 @@ public class SourceRecordConverter {
 		entity.setName(value);
 	}
 
+        /**
+	 * Getter for Url.
+	 *
+	 * @return value for url
+	 */
+	@XmlElement
+	public String getUrl() {
+		return (expandLevel > 0) ? entity.getUrl() : null;
+	}
+
+	/**
+	 * Setter for Url.
+	 *
+	 * @param value
+	 *            the value to set
+	 */
+	public void setUrl(String value) {
+		entity.setUrl(value);
+	}
+
 	/**
 	 * Getter for etlClass.
 	 * 

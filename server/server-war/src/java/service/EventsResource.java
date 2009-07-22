@@ -64,11 +64,10 @@ public class EventsResource extends Base {
     @Context
     HttpServletRequest hsr;
     Client client = Client.create();
-    WebResource r = client.resource("http://iplocationtools.com");
+    WebResource r = client.resource("http://ipinfodb.com");
 
     /** Creates a new instance of EventsResource */
     public EventsResource() {
-        client.addFilter(new com.sun.jersey.api.client.filter.LoggingFilter());
     }
 
     /**

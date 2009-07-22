@@ -416,11 +416,10 @@ public class EventRecordConverter {
 	 * @return value for sourceId
 	 */
 	@XmlElement
-	public SourceConverter getSourceId() {
+	public String getSourceId() {
 		if (expandLevel > 0) {
 			if (entity.getSourceId() != null) {
-				return new SourceConverter(entity.getSourceId(), uri.resolve("sourceId/"),
-						expandLevel - 1, false);
+				return entity.getSourceId().getId();
 			}
 		}
 		return null;
