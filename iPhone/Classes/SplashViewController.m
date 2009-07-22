@@ -54,7 +54,7 @@
 	scrollView.delaysContentTouches = NO;
     
     NSString*	version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
-    self.versionLabel.text = [NSString stringWithFormat: @"Version: %@ (BETA)", version];
+    self.versionLabel.text = [NSString stringWithFormat: @"Version: %@", version];
    
    UIImage* buttonImage = [[UIImage imageNamed:@"greenButton.png"] stretchableImageWithLeftCapWidth: 12.0 topCapHeight: 0 ];
    [continueButton setBackgroundImage: buttonImage forState: UIControlStateNormal];
