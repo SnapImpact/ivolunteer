@@ -37,4 +37,8 @@
       <description>Maintain a one-to-one correspondence between static content and the generated servlet class' java code</description>
     </property>
   </jsp-config>
+  <resource-ref>
+    <res-ref-name>mail/mailSession</res-ref-name>
+    <jndi-name>mailSession</jndi-name>
+  </resource-ref>
 </sun-web-app>
