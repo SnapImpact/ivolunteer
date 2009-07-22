@@ -62,7 +62,7 @@ public class EmailSender extends Base {
         if (theEvent == null) {
             throw new WebApplicationException(Response.Status.BAD_REQUEST);
         }
-        String eventContactEmail = eventContactEmail = theEvent.getEmail();
+        String eventContactEmail = theEvent.getEmail();
         if (eventContactEmail == null) {
             Iterator iter = theEvent.getOrganizationCollection().iterator();
             while (iter.hasNext()) {
@@ -76,11 +76,17 @@ public class EmailSender extends Base {
 //            mailSession.
         MimeMessage msg = new MimeMessage(mailSession);
         try {
-            msg.setRecipients(MimeMessage.RecipientType.TO, InternetAddress.parse(eventContactEmail));
-            msg.setRecipients(MimeMessage.RecipientType.CC, InternetAddress.parse(userEmail));
+            // Enable testing - if userEmail is in actionfeed.org, don't sen the
+            // contact email
+            if (userEmail.contains("actionfeed.org")) {
+                msg.setRecipients(MimeMessage.RecipientType.TO, InternetAddress.parse(userEmail));
+            } else {
+                msg.setRecipients(MimeMessage.RecipientType.TO, InternetAddress.parse(eventContactEmail));
+                msg.setRecipients(MimeMessage.RecipientType.CC, InternetAddress.parse(userEmail));
+            }
             msg.setFrom(new InternetAddress(FROM_ADDRESS));
             msg.setSubject("I want to attend this event");
-            msg.setText(buildMessage(theEvent, userEmail, userName));
+            msg.setText(buildMessage(theEvent, userEmail, userName, eventContactEmail));
             msg.saveChanges();
         } catch (MessagingException ex) {
             Logger.getLogger(EmailSender.class.getName()).log(Level.SEVERE, null, ex);
@@ -126,11 +132,11 @@ public class EmailSender extends Base {
          */
     }
 
-    String buildMessage(final Event event, String userEmail, String userName) {
+    String buildMessage(final Event event, final String userEmail, final String userName, final String contactEmail) {
         StringBuilder sb = new StringBuilder();
         // TODO include ics file for adding to calendar?
-        sb.append("Dear "+event.getContact()+",\n");
-        sb.append("Great news!  iVolunteer would like to connect you with someone to volunteer for" + event.getTitle()+ ". This person's contact info is:\n\n");
+        sb.append("Dear "+((event.getContact()==null)?"organizer":event.getContact())+",\n");
+        sb.append("Great news!  iVolunteer would like to connect you with someone to volunteer for " + event.getTitle()+ ". This person's contact info is:\n\n");
         if ( userName != null ) {
             sb.append("Name: " + userName + "\n");
         }
@@ -138,6 +144,9 @@ public class EmailSender extends Base {
         sb.append("Using the provided information, please contact this volunteer. This volunteer is awaiting further instruction from you to complete event registration!\n");
         sb.append("\n\nThanks for using iVolunteer!");
         sb.append("\n\nPlease DO NOT RESPOND to this email address; this is an auto-generated email.\n");
+        if (userEmail.contains("actionfeed.org")) {
+            sb.append("\nTHIS EMAIL IS FOR TESTING- not sent to "+contactEmail+"\n");
+        }
         return sb.toString();
     }
     
