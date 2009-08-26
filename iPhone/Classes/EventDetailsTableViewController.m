@@ -412,6 +412,10 @@
         return;
     }
     
+    if((phoneNumber == nil) || ([phoneNumber length] == 0)) {
+        return;
+    }
+    
     NSRange xRange = [phoneNumber rangeOfString:@"x"];
     if (xRange.length > 0 && xRange.location >= 12) {
         // 222-222-2222 x222
