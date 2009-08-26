@@ -8,6 +8,7 @@
 
 #import "SettingsViewController.h"
 #import "InterestAreaFilterController.h"
+#import "iPhoneAppDelegate.h"
 
 
 @implementation SettingsViewController
@@ -58,10 +59,22 @@
 }
 
 - (void) loadSettings {
-    [self.settings setObject: self.nameField.text forKey: kSettingsKeyName ];
-    [self.settings setObject: self.emailField.text forKey: kSettingsKeyEmail ];
-    [self.settings setObject: self.zipcodeField.text forKey: kSettingsKeyZipcode ];
-    [self.settings setObject: [NSNumber numberWithBool: self.useZipCode.on] forKey: kSettingsKeyUseZipcode ];   
+    if(!self.settings) {
+        self.settings = [NSMutableDictionary dictionary];
+    }
+    else {
+        self.settings = [NSMutableDictionary dictionaryWithDictionary: self.settings];
+    }
+        
+    @try {
+        [self.settings setObject: self.nameField.text forKey: kSettingsKeyName ];
+        [self.settings setObject: self.emailField.text forKey: kSettingsKeyEmail ];
+        [self.settings setObject: self.zipcodeField.text forKey: kSettingsKeyZipcode ];
+        [self.settings setObject: [NSNumber numberWithBool: self.useZipCode.on] forKey: kSettingsKeyUseZipcode ];   
+    }
+    @catch (NSException* exception) {
+        NSLog(@"Settings dictionary became immutable again...");
+    }
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -74,7 +87,6 @@
         self.settings = settings_;
     }
     else {
-        self.settings = [NSMutableDictionary dictionary];
         [self loadSettings];
     }
     
@@ -98,6 +110,13 @@
 
 
 - (void)dealloc {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Debugging"
+                                                    message: @"Deallocing..."
+                                                   delegate:nil 
+                                          cancelButtonTitle:NSLocalizedString(@"Ok", @"Ok")
+                                          otherButtonTitles:nil];
+    [alert show];
+    [alert release];
     [super dealloc];
     self.zipcodeField = nil;
     self.nameField = nil;
@@ -141,6 +160,7 @@
 	[self loadSettings];
 	CFPreferencesSetAppValue((CFStringRef) kSettingsKey, self.settings, kCFPreferencesCurrentApplication);
 	CFPreferencesAppSynchronize(kCFPreferencesCurrentApplication);
+    self.settings = [NSMutableDictionary dictionaryWithDictionary: self.settings];
     /*
 	UIAlertView* alert = [[UIAlertView alloc] initWithTitle: @"Settings Saved" message: @"Your settings have been saved." delegate: nil cancelButtonTitle: @"Ok" otherButtonTitles: nil];
 	[alert show];
@@ -151,7 +171,7 @@
 -(IBAction)resetSettings
 {
     UIActionSheet* action = [[UIActionSheet alloc] initWithTitle: @"Reset All Settings?" delegate: self cancelButtonTitle: @"Cancel" destructiveButtonTitle: @"Reset" otherButtonTitles: nil ];
-    [action showInView: self.floatingView];
+    [action showFromTabBar: self.view];
 }
 
 -(IBAction)filterInterestAreas {
@@ -169,6 +189,7 @@
         [self.settings setObject: @"" forKey: kSettingsKeyZipcode ];
         [self.settings setObject: [NSNumber numberWithBool: NO] forKey: kSettingsKeyUseZipcode ];   
         [self updateSettings];
+        [self saveSettings];
     }
 }
 
