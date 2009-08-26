@@ -299,7 +299,7 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
     
     //remove any events not matched by our interest area filter
     NSArray* filteredInterestAreas = [InterestArea loadInterestAreasFromPreferences];
-    if(!filteredInterestAreas) {
+    if(!filteredInterestAreas || ![filteredInterestAreas count]) {
         return;
     }
     
