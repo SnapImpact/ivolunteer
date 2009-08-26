@@ -42,7 +42,7 @@ import service.Base;
  * @author markchance
  */
 public class EmailSender extends Base {
-    static final String FROM_ADDRESS = "info@actionfeed.org";
+    static final String FROM_ADDRESS = "event@snapimpact.org";
 
 //    @PersistenceContext
 //    private EntityManager em;
@@ -78,7 +78,7 @@ public class EmailSender extends Base {
         try {
             // Enable testing - if userEmail is in actionfeed.org, don't sen the
             // contact email
-            if (userEmail.contains("actionfeed.org")) {
+            if (userEmail.contains("actionfeed.org") || userEmail.contains("snapimpact.org")) {
                 msg.setRecipients(MimeMessage.RecipientType.TO, InternetAddress.parse(userEmail));
             } else {
                 msg.setRecipients(MimeMessage.RecipientType.TO, InternetAddress.parse(eventContactEmail));
@@ -136,15 +136,15 @@ public class EmailSender extends Base {
         StringBuilder sb = new StringBuilder();
         // TODO include ics file for adding to calendar?
         sb.append("Dear "+((event.getContact()==null)?"organizer":event.getContact())+",\n");
-        sb.append("Great news!  iVolunteer would like to connect you with someone to volunteer for " + event.getTitle()+ ". This person's contact info is:\n\n");
+        sb.append("Great news!  SnapImpact would like to connect you with someone to volunteer for " + event.getTitle()+ ". This person's contact info is:\n\n");
         if ( userName != null ) {
             sb.append("Name: " + userName + "\n");
         }
         sb.append("Email: " + userEmail + "\n\n");
         sb.append("Using the provided information, please contact this volunteer. This volunteer is awaiting further instruction from you to complete event registration!\n");
-        sb.append("\n\nThanks for using iVolunteer!");
+        sb.append("\n\nThanks for using SnapImpact!");
         sb.append("\n\nPlease DO NOT RESPOND to this email address; this is an auto-generated email.\n");
-        if (userEmail.contains("actionfeed.org")) {
+        if (userEmail.contains("actionfeed.org") || userEmail.contains("snapimpact.org")) {
             sb.append("\nTHIS EMAIL IS FOR TESTING- not sent to "+contactEmail+"\n");
         }
         return sb.toString();
