@@ -60,6 +60,8 @@
 
 
 -(void) loadNavigationView;
+-(void) showFloatingView;
+-(void) hideFloatingView;
 +(NSObject<BusyIndicatorDelegate>*) BusyIndicator;
 
 @end

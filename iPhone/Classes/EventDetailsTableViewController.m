@@ -12,6 +12,8 @@
 
 #import "MapViewController.h"
 
+#import "StringUtilities.h"
+
 @implementation EventDetailsTableViewController
 
 @synthesize floatingView;
@@ -405,6 +407,23 @@
     return 0;
 }
 
+- (void) makeCall:(NSString*) phoneNumber {
+    if (![[[UIDevice currentDevice] model] isEqual:@"iPhone"]) {
+        return;
+    }
+    
+    NSRange xRange = [phoneNumber rangeOfString:@"x"];
+    if (xRange.length > 0 && xRange.location >= 12) {
+        // 222-222-2222 x222
+        // remove extension
+        phoneNumber = [phoneNumber substringToIndex:xRange.location];
+    }
+    
+    NSString* urlString = [NSString stringWithFormat:@"tel:%@", [StringUtilities stringByAddingPercentEscapes:phoneNumber]];
+    
+    [[UIApplication sharedApplication] openURL: [ NSURL URLWithString: urlString]];
+}
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     // Navigation logic may go here. Create and push another view controller.
@@ -429,9 +448,10 @@
                 case kSectionContactInfoRowPhone:
                     //call
                     @try {
-                        [[UIApplication sharedApplication] openURL: [ NSURL URLWithString: [NSString stringWithFormat: @"tel:%@", self.event.contact.phone ]]];
+                        [self makeCall: self.event.contact.phone];
                     }
                     @catch(...) {
+                        /*
                         UIAlertView* alert = [[UIAlertView alloc ] initWithTitle:@"Simulator?" 
                                                                          message:@"Calling unsupported, are you on the simulator?" 
                                                                         delegate:nil
@@ -439,6 +459,7 @@
                                                                otherButtonTitles:@"No", nil  ];
                         [alert show];
                         [alert release];
+                        */
                     }
                     break;
                 case kSectionContactInfoRowEmail:

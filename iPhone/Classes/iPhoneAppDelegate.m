@@ -248,6 +248,7 @@ iPhoneAppDelegate* _staticInstance = nil;
 - (void)stopAnimating
 {
 	isBusy = NO;
+    self.busyIndicatorView.hidden = YES;
 	[self.floatingView removeFromSuperview];
 }
 - (void)startAnimatingWithMessage:(NSString *)message
@@ -285,6 +286,19 @@ iPhoneAppDelegate* _staticInstance = nil;
 	
 	[window addSubview:self.floatingView];
 	[window bringSubviewToFront:self.floatingView];
+}
+
+- (void) showFloatingView {
+    if(![self.floatingView superview]) {
+        [window addSubview:self.floatingView];
+        [window bringSubviewToFront:self.floatingView];
+    }
+}
+
+- (void) hideFloatingView {
+    if([self.floatingView superview]){
+        [self.floatingView removeFromSuperview];
+    }
 }
 
 +(NSObject<BusyIndicatorDelegate>*) BusyIndicator {

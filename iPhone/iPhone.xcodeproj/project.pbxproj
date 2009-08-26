@@ -19,6 +19,7 @@
 		5CADF4450F90F83A00690E94 /* marker.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CADF4440F90F83A00690E94 /* marker.png */; };
 		940875410F5C965C0037C286 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 940875400F5C965C0037C286 /* Entitlements.plist */; };
 		941853530FE0966700313AFC /* Entitlements-Development.plist in Resources */ = {isa = PBXBuildFile; fileRef = 941853520FE0966700313AFC /* Entitlements-Development.plist */; };
+		941A744B10323FC40049DD9F /* StringUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 941A744A10323FC40049DD9F /* StringUtilities.m */; };
 		9423873D100D6FAA00267E8A /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9423873B100D6FAA00267E8A /* Reachability.m */; };
 		9423874D100D710000267E8A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9423874C100D710000267E8A /* SystemConfiguration.framework */; };
 		942E23BD0F5E107000C87AC1 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 942E23BC0F5E107000C87AC1 /* MapViewController.m */; };
@@ -91,7 +92,7 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* iPhoneAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPhoneAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* iPhoneAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iPhoneAppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* iVolunteer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iVolunteer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* SnapImpact.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SnapImpact.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		2899E55F0DE3E45000AC0155 /* RootViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RootViewController.xib; sourceTree = "<group>"; };
@@ -108,6 +109,8 @@
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		940875400F5C965C0037C286 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		941853520FE0966700313AFC /* Entitlements-Development.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Entitlements-Development.plist"; sourceTree = "<group>"; };
+		941A744910323FC40049DD9F /* StringUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringUtilities.h; sourceTree = "<group>"; };
+		941A744A10323FC40049DD9F /* StringUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringUtilities.m; sourceTree = "<group>"; };
 		9423873B100D6FAA00267E8A /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		9423873C100D6FAA00267E8A /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		9423874C100D710000267E8A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -243,6 +246,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				941A744910323FC40049DD9F /* StringUtilities.h */,
+				941A744A10323FC40049DD9F /* StringUtilities.m */,
 				9423873A100D6F8600267E8A /* Reachability */,
 				5CADF43D0F90F7E100690E94 /* MapView */,
 				943BD0B60F76EB7D00363DF2 /* GeoCoder */,
@@ -267,7 +272,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* iVolunteer.app */,
+				1D6058910D05DD3D006BFB54 /* SnapImpact.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -527,9 +532,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1D6058900D05DD3D006BFB54 /* iVolunteer */ = {
+		1D6058900D05DD3D006BFB54 /* SnapImpact */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "iVolunteer" */;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "SnapImpact" */;
 			buildPhases = (
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
@@ -539,9 +544,9 @@
 			);
 			dependencies = (
 			);
-			name = iVolunteer;
+			name = SnapImpact;
 			productName = iPhone;
-			productReference = 1D6058910D05DD3D006BFB54 /* iVolunteer.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* SnapImpact.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -563,7 +568,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1D6058900D05DD3D006BFB54 /* iVolunteer */,
+				1D6058900D05DD3D006BFB54 /* SnapImpact */,
 			);
 		};
 /* End PBXProject section */
@@ -655,6 +660,7 @@
 				94A6E1FB0FA7F7B0004F3412 /* MyEventsSortedByTimeDataSource.m in Sources */,
 				94BE51350FBA50D500AD1858 /* InterestAreaFilterController.m in Sources */,
 				9423873D100D6FAA00267E8A /* Reachability.m in Sources */,
+				941A744B10323FC40049DD9F /* StringUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -682,9 +688,7 @@
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_NAME = iVolunteer;
-				PROVISIONING_PROFILE = "4BDC5929-A434-46FB-99F3-443AC649D81F";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4BDC5929-A434-46FB-99F3-443AC649D81F";
+				PRODUCT_NAME = SnapImpact;
 				SDKROOT = iphoneos2.1;
 			};
 			name = Development;
@@ -709,9 +713,9 @@
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_NAME = iVolunteer;
-				PROVISIONING_PROFILE = "24647317-BC31-4699-963F-AF40DE3D22D1";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "24647317-BC31-4699-963F-AF40DE3D22D1";
+				PRODUCT_NAME = SnapImpact;
+				PROVISIONING_PROFILE = "8272BC0A-55A4-409B-A6C8-DE93F32FF5D3";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8272BC0A-55A4-409B-A6C8-DE93F32FF5D3";
 				SDKROOT = iphoneos2.2.1;
 			};
 			name = Adhoc;
@@ -729,8 +733,6 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "34D59FEA-384E-4E7F-A6AD-A1C4E1F5F528";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "34D59FEA-384E-4E7F-A6AD-A1C4E1F5F528";
 				SDKROOT = iphoneos2.1;
 				VERSIONING_SYSTEM = "";
 			};
@@ -756,9 +758,7 @@
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_NAME = iVolunteer;
-				PROVISIONING_PROFILE = "34D59FEA-384E-4E7F-A6AD-A1C4E1F5F528";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "34D59FEA-384E-4E7F-A6AD-A1C4E1F5F528";
+				PRODUCT_NAME = SnapImpact;
 				SDKROOT = iphoneos2.1;
 			};
 			name = iTunes;
@@ -777,8 +777,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "4BDC5929-A434-46FB-99F3-443AC649D81F";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4BDC5929-A434-46FB-99F3-443AC649D81F";
 				SDKROOT = iphoneos2.1;
 				VERSIONING_SYSTEM = "";
 			};
@@ -797,8 +795,6 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "24647317-BC31-4699-963F-AF40DE3D22D1";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "24647317-BC31-4699-963F-AF40DE3D22D1";
 				SDKROOT = iphoneos2.1;
 				VERSIONING_SYSTEM = "";
 			};
@@ -807,7 +803,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "iVolunteer" */ = {
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "SnapImpact" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Development */,
