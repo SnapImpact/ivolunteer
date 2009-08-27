@@ -412,6 +412,10 @@
         return;
     }
     
+    if((phoneNumber == nil) || ([phoneNumber length] == 0)) {
+        return;
+    }
+    
     NSRange xRange = [phoneNumber rangeOfString:@"x"];
     if (xRange.length > 0 && xRange.location >= 12) {
         // 222-222-2222 x222
@@ -468,6 +472,7 @@
                         [[UIApplication sharedApplication] openURL: [NSURL URLWithString: [NSString stringWithFormat: @"mailto:%@", self.event.contact.email ]]];
                     }
                     @catch(...) {
+                        /*
                         UIAlertView* alert = [[UIAlertView alloc ] initWithTitle:@"Simulator?" 
                                                                          message:@"Mailto unsupported, are you on the simulator?" 
                                                                         delegate:nil
@@ -475,6 +480,7 @@
                                                                otherButtonTitles:@"No", nil  ];
                         [alert show];
                         [alert release];
+                        */
                     }
                     break;
                 case kSectionContactInfoRowSource:
