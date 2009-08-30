@@ -252,14 +252,12 @@
 				5CADF43D0F90F7E100690E94 /* MapView */,
 				943BD0B60F76EB7D00363DF2 /* GeoCoder */,
 				943BD0970F76EB5000363DF2 /* TouchJSON */,
-				9455CA030F537D8200296B87 /* UI Classes */,
+				94163E19104B30000040CFF9 /* UI Classes */,
 				9455C60F0F5258DE00296B87 /* DateUtilities.h */,
 				9455C6100F5258DE00296B87 /* DateUtilities.m */,
 				94A97BB50F4521A80077E4E0 /* REST Interaction */,
 				94BE574D0F42A4E000A505F0 /* Data Sources */,
 				94BE56E80F4294E000A505F0 /* Data Model */,
-				E1DDD40D0EAAD73F006CA155 /* SplashViewController.h */,
-				E1DDD40E0EAAD73F006CA155 /* SplashViewController.m */,
 				1D3623240D0F684500981E51 /* iPhoneAppDelegate.h */,
 				1D3623250D0F684500981E51 /* iPhoneAppDelegate.m */,
 				5CA641F70F6C638D00B181AF /* LocationAvailabilityDelegate.h */,
@@ -360,6 +358,46 @@
 			name = MapView;
 			sourceTree = "<group>";
 		};
+		94163E19104B30000040CFF9 /* UI Classes */ = {
+			isa = PBXGroup;
+			children = (
+				28C286DF0D94DF7D0034E888 /* ProjectViewController.h */,
+				28C286E00D94DF7D0034E888 /* ProjectViewController.m */,
+				94C3AE850F91455000153859 /* MemoryTabViewController.m */,
+				94C3AE860F91455000153859 /* MemoryTabViewController.h */,
+				94BACFB40F5BBFF700FDACED /* ColorCache.h */,
+				94BACFB50F5BBFF700FDACED /* ColorCache.m */,
+				94BACFA40F5BBD5C00FDACED /* AttributeCell.h */,
+				94BACFA50F5BBD5C00FDACED /* AttributeCell.m */,
+				94DFFFA60F5A0ABF005D62B9 /* ActionsView.m */,
+				94DFFFA50F5A0AB6005D62B9 /* ActionsView.h */,
+				9455CA040F537DA600296B87 /* EventTableCell.h */,
+				9455CA050F537DA600296B87 /* EventTableCell.m */,
+				9483D93B0F5A184B00406DB3 /* EventDetailsHeaderCell.h */,
+				9483D93C0F5A184B00406DB3 /* EventDetailsHeaderCell.m */,
+				94ED9C280F5BAFC600F2697F /* EventDetailsTableViewController.h */,
+				94ED9C290F5BAFC600F2697F /* EventDetailsTableViewController.m */,
+				942E23BB0F5E107000C87AC1 /* MapViewController.h */,
+				942E23BC0F5E107000C87AC1 /* MapViewController.m */,
+				94F2B8550F943622004C7ECB /* SettingsViewController.h */,
+				94F2B8560F943622004C7ECB /* SettingsViewController.m */,
+				94CC40F60F9EB85900EFFEF1 /* RegisterConfirmationViewController.h */,
+				94CC40F70F9EB85900EFFEF1 /* RegisterConfirmationViewController.m */,
+				94A6E08B0FA7E8A2004F3412 /* MyEventsViewController.h */,
+				94A6E08C0FA7E8A2004F3412 /* MyEventsViewController.m */,
+				94A6E09A0FA7E952004F3412 /* EventsViewController.h */,
+				94A6E09B0FA7E952004F3412 /* EventsViewController.m */,
+				94A6E1480FA7EB3A004F3412 /* UpcomingEventsViewController.h */,
+				94A6E1490FA7EB3A004F3412 /* UpcomingEventsViewController.m */,
+				E1DDD40D0EAAD73F006CA155 /* SplashViewController.h */,
+				E1DDD40E0EAAD73F006CA155 /* SplashViewController.m */,
+				94BE51320FBA50D500AD1858 /* InterestAreaFilterController.h */,
+				94BE51330FBA50D500AD1858 /* InterestAreaFilterController.m */,
+				94BE51340FBA50D500AD1858 /* InterestAreaFilterController.xib */,
+			);
+			name = "UI Classes";
+			sourceTree = "<group>";
+		};
 		9423873A100D6F8600267E8A /* Reachability */ = {
 			isa = PBXGroup;
 			children = (
@@ -416,44 +454,6 @@
 				943BD0B40F76EB7900363DF2 /* GeoCoderClient.h */,
 			);
 			name = GeoCoder;
-			sourceTree = "<group>";
-		};
-		9455CA030F537D8200296B87 /* UI Classes */ = {
-			isa = PBXGroup;
-			children = (
-				28C286DF0D94DF7D0034E888 /* ProjectViewController.h */,
-				28C286E00D94DF7D0034E888 /* ProjectViewController.m */,
-				94C3AE850F91455000153859 /* MemoryTabViewController.m */,
-				94C3AE860F91455000153859 /* MemoryTabViewController.h */,
-				94BACFB40F5BBFF700FDACED /* ColorCache.h */,
-				94BACFB50F5BBFF700FDACED /* ColorCache.m */,
-				94BACFA40F5BBD5C00FDACED /* AttributeCell.h */,
-				94BACFA50F5BBD5C00FDACED /* AttributeCell.m */,
-				94DFFFA60F5A0ABF005D62B9 /* ActionsView.m */,
-				94DFFFA50F5A0AB6005D62B9 /* ActionsView.h */,
-				9455CA040F537DA600296B87 /* EventTableCell.h */,
-				9455CA050F537DA600296B87 /* EventTableCell.m */,
-				9483D93B0F5A184B00406DB3 /* EventDetailsHeaderCell.h */,
-				9483D93C0F5A184B00406DB3 /* EventDetailsHeaderCell.m */,
-				94ED9C280F5BAFC600F2697F /* EventDetailsTableViewController.h */,
-				94ED9C290F5BAFC600F2697F /* EventDetailsTableViewController.m */,
-				942E23BB0F5E107000C87AC1 /* MapViewController.h */,
-				942E23BC0F5E107000C87AC1 /* MapViewController.m */,
-				94F2B8550F943622004C7ECB /* SettingsViewController.h */,
-				94F2B8560F943622004C7ECB /* SettingsViewController.m */,
-				94CC40F60F9EB85900EFFEF1 /* RegisterConfirmationViewController.h */,
-				94CC40F70F9EB85900EFFEF1 /* RegisterConfirmationViewController.m */,
-				94A6E08B0FA7E8A2004F3412 /* MyEventsViewController.h */,
-				94A6E08C0FA7E8A2004F3412 /* MyEventsViewController.m */,
-				94A6E09A0FA7E952004F3412 /* EventsViewController.h */,
-				94A6E09B0FA7E952004F3412 /* EventsViewController.m */,
-				94A6E1480FA7EB3A004F3412 /* UpcomingEventsViewController.h */,
-				94A6E1490FA7EB3A004F3412 /* UpcomingEventsViewController.m */,
-				94BE51320FBA50D500AD1858 /* InterestAreaFilterController.h */,
-				94BE51330FBA50D500AD1858 /* InterestAreaFilterController.m */,
-				94BE51340FBA50D500AD1858 /* InterestAreaFilterController.xib */,
-			);
-			name = "UI Classes";
 			sourceTree = "<group>";
 		};
 		94A97BB50F4521A80077E4E0 /* REST Interaction */ = {

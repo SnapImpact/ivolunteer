@@ -43,4 +43,9 @@
     return YES;
 }
 
+- (void) refresh {
+    self.eventsSortedByTime = [[iVolunteerData sharedVolunteerData] myEventsSortedIntoDays];
+    self.dateNamesForEvents = [[iVolunteerData sharedVolunteerData] daysWithMyEvents];
+}
+
 @end

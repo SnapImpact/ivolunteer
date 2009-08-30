@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "EventsViewController.h"
+#import "RestControllerDelegate.h"
 
-@interface UpcomingEventsViewController : EventsViewController {
+@interface UpcomingEventsViewController : EventsViewController<RestControllerDelegate> {
 
 }
+
+-(IBAction) refresh;
 
 @end

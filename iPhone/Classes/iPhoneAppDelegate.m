@@ -34,6 +34,7 @@
 
 @implementation iPhoneAppDelegate
 
+@synthesize restController;
 @synthesize window;
 @synthesize navigationController;
 @synthesize tabBarController;
@@ -146,8 +147,6 @@ iPhoneAppDelegate* _staticInstance = nil;
 }
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
-	
-	//TODO HASSAN AND RYAN DO NOT FORGET!!!!!!: check for internet connectivity!
     NetworkStatus reachable = [[Reachability sharedReachability] internetConnectionStatus];
     
     _staticInstance = self;
@@ -161,7 +160,7 @@ iPhoneAppDelegate* _staticInstance = nil;
     if(![[iVolunteerData sharedVolunteerData] reachable]) {
         [self stopAnimating];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Cannot connect to Internet", @"")
-                                                        message: NSLocalizedString(@"An Internet connection was unable to be established.  you must connect to a Wi-Fi or cellular data network to access iVolunteer.", @"")
+                                                        message: NSLocalizedString(@"An Internet connection was unable to be established.  you must connect to a Wi-Fi or cellular data network to retrieve events.", @"")
                                                        delegate: nil 
                                               cancelButtonTitle: NSLocalizedString(@"Ok", @"Ok")
                                               otherButtonTitles: nil];
@@ -170,6 +169,8 @@ iPhoneAppDelegate* _staticInstance = nil;
     }
     
 	[self getLocation];
+    
+    self.restController = [[RestController alloc] initWithVolunteerData: [iVolunteerData sharedVolunteerData]];
 	
 	splashvc = [[SplashViewController alloc] initWithNibName:@"SplashView" bundle:[NSBundle mainBundle]];
 	splashvc.dismissalDelegate = self;
@@ -224,7 +225,7 @@ iPhoneAppDelegate* _staticInstance = nil;
 	[now release];
 	[window release];
 	[locationMgr release];
-	
+    self.restController = nil;
 	[super dealloc];
 }
 
@@ -305,4 +306,9 @@ iPhoneAppDelegate* _staticInstance = nil;
     return _staticInstance;
 }
 
++(RestController*) RestController {
+    return _staticInstance.restController;
+}
+
 @end
+
