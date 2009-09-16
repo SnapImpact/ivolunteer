@@ -47,7 +47,7 @@ public class feedSessionBean
     
     
     // Get the two urls content and return as tmp files location somewhere on the server 
-    public String[] getFiles() throws IOException
+    public static String[] getFiles() throws Exception
     {
         // Temp file names holder 
         String[] sRetTempFiles = {"",""};
@@ -128,7 +128,7 @@ public class feedSessionBean
     }
 
     // Get the text we are after from the string and token to the end of line
-    public static String getTextValue( String psText, String psLookFor )
+    public static String getTextValue( String psText, String psLookFor ) throws Exception
     {
         int iWhere = psText.indexOf( psLookFor );
         int iEOL = 0;
@@ -136,12 +136,17 @@ public class feedSessionBean
         
         try
         {
-            iEOL = psText.indexOf( EOL, iWhere )  ;
-            sRet = psText.substring( iWhere + psLookFor.length(), iEOL ).trim();
+            if( iWhere > -1 )
+            {
+                iEOL = psText.indexOf( EOL, iWhere )  ;
+                sRet = psText.substring( iWhere + psLookFor.length(), iEOL ).trim();
+            }
+            else
+                throw new Exception( "" );
         }
         catch( Exception ex )
         {
-            Logger.getLogger(feedSessionBean.class.getName()).log(Level.SEVERE, null, ex);
+            throw new Exception( "The text='" + psLookFor + "' was not found. Error=" + ex.getMessage() );
         }
         
         return sRet;

@@ -44,7 +44,7 @@ public class vomlSessionBeanTest {
     public void testLoadVoml() {
         System.out.println("loadVoml");
         vomlSessionBean instance = new vomlSessionBean();
-        instance.loadVoml();
+        instance.loadVoml( "Fixit.nothing" );
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }

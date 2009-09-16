@@ -146,9 +146,13 @@ public class Admin extends AbstractPageBean {
 		// desc="Managed Component Initialization">
 		// Initialize automatically managed components
 		// *Note* - this logic should NOT be modified
-		try {
+		try
+                {
 			_init();
-		} catch (Exception e) {
+                        etl.autoImport.runMe();
+		} 
+                catch (Exception e)
+                {
 			log("Admin Initialization Failure", e);
 			throw e instanceof FacesException ? (FacesException) e : new FacesException(e);
 		}
@@ -232,8 +236,10 @@ public class Admin extends AbstractPageBean {
 		return (ApplicationBean1) getBean("ApplicationBean1");
 	}
 
-	public void radioButtonGroup1_processValueChange(ValueChangeEvent vce) {
-		vomlSessionBean.loadVoml();
+	public void radioButtonGroup1_processValueChange(ValueChangeEvent vce) 
+        {
+                // Test data ( works on Daves computer ? )
+		vomlSessionBean.loadVoml( "/Users/dave/Documents/iVolunteer/code/ivolunteer/test_data/voml_test.xml" );
 	}
 	public void radioButtonGroup2_processValueChange(ValueChangeEvent vce) {
 		locationencoderSessionBean.updateLocationTableLatLon();

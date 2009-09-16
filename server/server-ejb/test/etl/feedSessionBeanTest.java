@@ -25,14 +25,14 @@ import junit.framework.*;
 import java.io.*;
 
 
-public class feedSessionBeanTest extends TestCase 
+public class feedSessionBeanTest extends TestCase
 {
     
     protected void setUp() {}
     protected void tearDown() {}
 
 
-    public static void test_getTextValue()
+    public static void test_getTextValue() throws  Exception
     {
         String location = feedSessionBean.getTextValue( SampleHeader, "Location:" );
         System.out.println( "*** location=" + location );
