@@ -23,6 +23,7 @@
  */
 package etl;
 
+import java.util.HashMap;
 import javax.ejb.Stateless;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -58,16 +59,16 @@ public class autoImport implements autoImportLocal
     public void runMe()
     {
             try
-            {
+            {   
                 // Get the files to process
-                String[] files = feed.getFiles();
+                HashMap<String,String> files = feed.getFiles();
 
 
                 // Process the files
-                for( String fileName : files)
+                for( String apiId : files.keySet())
                 {
                     // Load the data from file
-                    voml.loadVoml( fileName );
+                    voml.loadVoml( apiId, files.get(apiId) );
                 }
 
 
@@ -90,7 +91,9 @@ public class autoImport implements autoImportLocal
                 //this.usrTrans.begin();
                 //this.entManager.joinTransaction();
                 //
-                theQuery = entManager.createNamedQuery("Location.updateIndex");
+                theQuery = entManager.createNamedQuery("Location.dropIndex");
+                theQuery.executeUpdate();
+                theQuery = entManager.createNamedQuery("Location.createIndex");
                 theQuery.executeUpdate();
                 //
                 //this.usrTrans.commit();

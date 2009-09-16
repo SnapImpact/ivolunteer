@@ -31,6 +31,6 @@ import javax.ejb.Local;
 @Local
 public interface vomlSessionLocal {
 
-	void loadVoml( String psFileName );
+	void loadVoml( String apiId, String psFileName );
 
 }

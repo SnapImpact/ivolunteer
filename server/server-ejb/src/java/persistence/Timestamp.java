@@ -30,6 +30,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -46,6 +48,9 @@ import javax.persistence.TemporalType;
 		@NamedQuery(name = "Timestamp.findAll", query = "SELECT t FROM Timestamp t"),
 		@NamedQuery(name = "Timestamp.findById", query = "SELECT t FROM Timestamp t WHERE t.id = :id"),
 		@NamedQuery(name = "Timestamp.findByTimestamp", query = "SELECT t FROM Timestamp t WHERE t.timestamp = :timestamp") })
+@NamedNativeQueries( {
+    @NamedNativeQuery(name = "Timestamp.deleteOld", query = "DELETE FROM Timestamp where timestamp < now()")
+})                       
 public class Timestamp implements Serializable, IdInterface {
 	private static final long	serialVersionUID	= 1L;
 	@Id

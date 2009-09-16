@@ -243,7 +243,7 @@ public class Admin extends AbstractPageBean {
 	public void radioButtonGroup1_processValueChange(ValueChangeEvent vce) 
         {
                 // Test data ( works on Daves computer ? )
-		vomlSessionBean.loadVoml( "/Users/dave/Documents/iVolunteer/code/ivolunteer/test_data/voml_test.xml" );
+		vomlSessionBean.loadVoml( "3A97A707-6D7B-4E50-BBF4-74B8D468E31E","/Users/dave/Documents/iVolunteer/code/ivolunteer/test_data/voml_test.xml" );
 	}
 	public void radioButtonGroup2_processValueChange(ValueChangeEvent vce) {
 		locationencoderSessionBean.updateLocationTableLatLon();

@@ -57,7 +57,7 @@ public class vomlSessionBean implements vomlSessionLocal {
     @EJB
     private vomlSessionEngineLocal engine;
 
-    public void loadVoml( String psFileName )
+    public void loadVoml( String apiId, String psFileName )
     {
         try {
             VomlData vd = new VomlData();
@@ -81,7 +81,7 @@ public class vomlSessionBean implements vomlSessionLocal {
                 return;
             }
 
-            source.setLastKey(vd.getTimestamp().toString());
+            em.find(Api.class, apiId).setLastKey(vd.getTimestamp().toString());
 
             OrganizationType orgType;
             try {
