@@ -31,6 +31,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import javax.ejb.EJB;
 
 /**
  *
@@ -43,29 +44,35 @@ public class autoImport
     @PersistenceContext
     private static EntityManager entManager;
 
+    @EJB
+    private locationencoderSessionLocal locationEncoder;
+
+    @EJB
+    private vomlSessionLocal voml;
+
+    @EJB
+    private feedSessionBean feed;
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method" or "Web Service > Add Operation")
-    public static void runMe()
+    public void runMe()
     {
             try
             {
                 // Get the files to process
-                String[] files = feedSessionBean.getFiles();
+                String[] files = feed.getFiles();
 
 
                 // Process the files
-                vomlSessionBean vomlBean = new vomlSessionBean();
                 for( String fileName : files)
                 {
                     // Load the data from file
-                    vomlBean.loadVoml( fileName );
+                    voml.loadVoml( fileName );
                 }
 
 
                 // Geocode the locations
-                locationencoderSessionBean locationBean = new locationencoderSessionBean();
-                locationBean.updateLocationTableLatLon();
+                locationEncoder.updateLocationTableLatLon();
 
 
                 // Create Geometry types out of the points

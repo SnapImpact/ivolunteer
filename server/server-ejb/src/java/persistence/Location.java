@@ -54,6 +54,7 @@ import javax.persistence.Table;
 		@NamedQuery(name = "Location.findByLongitude", query = "SELECT l FROM Location l WHERE l.longitude = :longitude"),
 		@NamedQuery(name = "Location.findByStreetZip", query = "SELECT l FROM Location l WHERE l.street = :street and l.zip = :zip"),
                 @NamedQuery(name = "Location.findByZipNull", query = "SELECT l FROM Location l WHERE l.zip = :zip and l.street is null"),
+                @NamedQuery(name = "Location.findNullLatLon", query = "SELECT l FROM Location l WHERE l.latitiude is null or l.longitude is null"),
                 @NamedQuery(name = "Location.updateGeom", query = "update location set geom = PointFromText('POINT(' || latitude || ' ' || longitude || ')',4326)"),
                 @NamedQuery(name = "Location.updateIndex", query = "CREATE INDEX location_geom_idx on location USING GIST ( geom GIST_GEOMETRY_OPS )")
 })

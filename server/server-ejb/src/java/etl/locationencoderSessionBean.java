@@ -44,6 +44,7 @@ public class locationencoderSessionBean implements locationencoderSessionLocal {
 
     @Resource
     private UserTransaction userTransaction;
+    
     @PersistenceContext
     private EntityManager em;
 

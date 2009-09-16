@@ -47,7 +47,7 @@ public class feedSessionBean
     
     
     // Get the two urls content and return as tmp files location somewhere on the server 
-    public static String[] getFiles() throws Exception
+    public String[] getFiles() throws Exception
     {
         // Temp file names holder 
         String[] sRetTempFiles = {"",""};
@@ -55,9 +55,9 @@ public class feedSessionBean
         
         // http://demo.handsonnetwork.org/voml/?feed=handsonnetwork.org
         // Get location and content 
-        String header = getHeaderFromURL( HANDSON_URL + "?feed=handsonnetwork.org" );
-        String location = getTextValue( header, "Location:" );
-        StringBuilder content  = getURLContent( HANDSON_URL + location );
+        StringBuilder content = getHeaderFromURL( HANDSON_URL + "?feed=handsonnetwork.org" );
+        //String location = getTextValue( header, "Location:" );
+        //StringBuilder content  = getURLContent( HANDSON_URL + location );
         // Wrap xml with tags
         feedSessionBean.wrapXml( content , VOML_START_TAG, VOML_END_TAG );
         // Save to temp file 
@@ -69,9 +69,9 @@ public class feedSessionBean
         
         // http://demo.handsonnetwork.org/voml/?feed=1-800-volunteer.org
         // Get location and content 
-        header = getHeaderFromURL( HANDSON_URL + "?feed=1-800-volunteer.org" );
-        location = getTextValue( header, "Location:" );
-        content  = getURLContent( HANDSON_URL + location );
+        content = getHeaderFromURL( HANDSON_URL + "?feed=1-800-volunteer.org" );
+        //location = getTextValue( header, "Location:" );
+        //content  = getURLContent( HANDSON_URL + location );
         // Wrap xml with tags
         feedSessionBean.wrapXml( content , VOML_START_TAG, VOML_END_TAG );
         // Save to temp file 
@@ -153,36 +153,24 @@ public class feedSessionBean
     }
         
     // Get headers from server on the given URL
-    public static String getHeaderFromURL( String psURL ) throws MalformedURLException, IOException
+    public static StringBuilder getHeaderFromURL( String psURL ) throws MalformedURLException, IOException
     {
         StringBuilder sbRet = new StringBuilder();
         // Create a URLConnection object for a URL
         URL url = new URL( psURL );
         URLConnection conn = url.openConnection();
 
-        // List all the response headers from the server.
-        // Note: The first call to getHeaderFieldKey() will implicit send
-        // the HTTP request to the server.
-        for (int i=0; ; i++) 
-        {
-            String headerName = conn.getHeaderFieldKey(i);
-            String headerValue = conn.getHeaderField(i);
 
-            if (headerName == null && headerValue == null) 
-            {
-                // No more headers
-                break;
-            }
+        BufferedReader in = new BufferedReader(
+                                new InputStreamReader(
+                                conn.getInputStream()));
+        String inputLine;
 
-            // The header value contains the server's HTTP version
-            if (headerName == null) 
-                sbRet.append( "N/A" + ": " + headerValue + "\n");
-            else
-                sbRet.append( headerName + ": " + headerValue + "\n" );
-        }
-
+        while ((inputLine = in.readLine()) != null)
+            sbRet.append(inputLine);
+        in.close();
         
-        return sbRet.toString();
+        return sbRet;
     }
     
     
