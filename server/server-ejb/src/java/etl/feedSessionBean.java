@@ -44,6 +44,9 @@ public class feedSessionBean
     static String HANDSON_URL       = "http://demo.handsonnetwork.org/voml/";
     static String VOML_START_TAG    = "<VomlData xmlns=\"http://www.networkforgood.org/xml/namespaces/voml/\">";
     static String VOML_END_TAG      = "</VomlData>";
+    // Will be seomthing like this
+    // "<?xml version="1.0" encoding="utf-8" ?>";
+    static String XML_VERSION_END       = "?>";
     
     
     // Get the two urls content and return as tmp files location somewhere on the server 
@@ -159,7 +162,6 @@ public class feedSessionBean
         // Create a URLConnection object for a URL
         URL url = new URL( psURL );
         URLConnection conn = url.openConnection();
-
         // List all the response headers from the server.
         // Note: The first call to getHeaderFieldKey() will implicit send
         // the HTTP request to the server.
@@ -190,7 +192,7 @@ public class feedSessionBean
     public static void wrapXml( StringBuilder psbContent, String psOpenTag, String psCloseTag )
     {
         // Find the first line
-        int iWhere = psbContent.indexOf( EOL );
+        int iWhere = psbContent.indexOf( XML_VERSION_END ) + XML_VERSION_END.length();
         // insert the open tag
         psbContent.insert( iWhere + 1, psOpenTag + EOL );
         // insert the close tag

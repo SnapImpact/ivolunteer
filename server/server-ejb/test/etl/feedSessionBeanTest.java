@@ -61,7 +61,18 @@ public class feedSessionBeanTest extends TestCase
         System.out.println( content );
         Assert.assertTrue( content.indexOf( "</VomlData>" ) > 0 );
     }
-    
+
+    public static void test_wrapXmlSmall()
+    {
+        StringBuilder content = new StringBuilder( SampleFeedSmall  );
+        feedSessionBean.wrapXml( content , "<VomlData xmlns=\"http://www.networkforgood.org/xml/namespaces/voml/\">", "</VomlData>" );
+        System.out.println( content );
+        Assert.assertTrue( content.indexOf( "</VomlData>" ) > 0 );
+    }
+
+
+
+
 
     public static void test_TmpFile()
     {
@@ -102,7 +113,13 @@ public class feedSessionBeanTest extends TestCase
         }
     }
 
-        
+
+
+    static String SampleFeedSmall = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n" +
+        "<VolunteerOpportunities xmlns=\"http://www.networkforgood.org/xml/namespaces/voml/\">\n" +
+        "</VolunteerOpportunities>\n" +
+        "<Timestamp>1245273333</Timestamp>\n";
+
     static String SampleFeed = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n" +
         "<VolunteerOpportunities xmlns=\"http://www.networkforgood.org/xml/namespaces/voml/\">\n" +
         "<VolunteerOpportunity><LocalID>1:64:533228</LocalID>\n" +
@@ -181,8 +198,6 @@ handsonnetwork_071409.xml
 > >
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:--  0:00:01
---:--:--     0< HTTP/1.1 200 OK
 < Date: Wed, 15 Jul 2009 01:00:58 GMT
 < Server: Apache
 < Set-Cookie2: Apache=174.129.253.132.1247619659120306; path=/;
@@ -195,7 +210,7 @@ max-age=604800; domain=.demo.handsonnetwork.org; version=1
 <
 { [data not shown]
 100 15.8M  100 15.8M    0     0   623k      0  0:00:25  0:00:25
---:--:--  879k* Connection #0 to host demo.handsonnetwork.org left
+    879k* Connection #0 to host demo.handsonnetwork.org left
 intact
 
 * Closing connection #0
