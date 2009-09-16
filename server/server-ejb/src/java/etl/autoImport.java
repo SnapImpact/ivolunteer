@@ -38,11 +38,11 @@ import javax.ejb.EJB;
  * @author Orn Kristjansson
  */
 @Stateless
-public class autoImport
+public class autoImport implements autoImportLocal
 {
 
     @PersistenceContext
-    private static EntityManager entManager;
+    private EntityManager entManager;
 
     @EJB
     private locationencoderSessionLocal locationEncoder;
@@ -51,7 +51,7 @@ public class autoImport
     private vomlSessionLocal voml;
 
     @EJB
-    private feedSessionBean feed;
+    private feedSessionLocal feed;
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method" or "Web Service > Add Operation")

@@ -37,5 +37,5 @@ import persistence.Source;
 @Local
 public interface autoImportLocal
 {
-    public void runMe();
+    void runMe();
 }
