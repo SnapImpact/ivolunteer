@@ -33,7 +33,7 @@
 
 static iVolunteerData* _sharedInstance = nil;
 static NSString* kVolunteerDataRootKey = @"Root";
-static NSString* kVolunteerDataVersion = @"v1.7";
+static NSString* kVolunteerDataVersion = @"v1.8";
 
 + (id) sharedVolunteerData {
     if( _sharedInstance == nil ) {
@@ -305,19 +305,24 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
     
     for(Event* event in [self.events allValues]) {
         BOOL include = NO;
+        if(event.interestAreas == nil || [event.interestAreas count] == 0) {
+            NSLog(@"Including event (%@,%@) because it does not have Interest Areas", event.uid, event.name);
+            continue;
+        }
         for(InterestArea* i in filteredInterestAreas) {
             if(event.interestAreas) {
                 if([event.interestAreas containsObject: i]){
                     include = YES;
-                    NSLog(@"Event (%@,%@) DOES have interest (%@,%@)", event.uid, event.name, i.uid, i.name);
+                    //NSLog(@"Event (%@,%@) DOES have interest (%@,%@)", event.uid, event.name, i.uid, i.name);
                     break;
                 }
                 else {
-                    NSLog(@"Event (%@,%@) does NOT have interest (%@,%@)", event.uid, event.name, i.uid, i.name);
+                    //NSLog(@"Event (%@,%@) does NOT have interest (%@,%@)", event.uid, event.name, i.uid, i.name);
                 }
             }
         }
         if(!include) {
+            NSLog(@"Removing Event (%@,%@) w/ interest(s) (%@) because it doesn't match your interest areas.", event.uid, event.name, event.interestAreas);
             [self.events removeObjectForKey: event.uid];
         }
     }
@@ -674,6 +679,8 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
                     NSString* event_name = [event objectForKey: @"title" ];
                     NSNumber* duration = [NSNumber numberWithInt: [[event objectForKey: @"duration"] intValue]];
                     NSString* description = [event objectForKey:@"description"];
+                    NSString* temp_url = [event objectForKey:@"url"];
+                    NSURL* url = [NSURL URLWithString: temp_url];
                     
                     NSDate* timestamp = [timestamps objectForKey: ts];
                     if([timestamp timeIntervalSinceNow] > (3600*24*30)) {
@@ -730,7 +737,7 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
                     if(!contactPhone) {
                         contactPhone = [[self.organizations objectForKey: org_id] phone];
                     }
-                    contactEmail = [event objectForKey: @"emai"];
+                    contactEmail = [event objectForKey: @"email"];
                     if(!contactEmail) {
                         contactEmail = [[self.organizations objectForKey: org_id] email];
                     }
@@ -769,13 +776,13 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
                                        details: description
                                   organization: [self.organizations objectForKey: org_id]
                                        contact: contact
+                                           url: url
                                         source: source 
                                       location: location 
                                  interestAreas: event_interestAreas
                                           date: [timestamps objectForKey: ts]
                                       duration: duration
                                     originalId: original_id];
-                        //don't add them for now until we hande nils in the UI
                         [self.events setObject: e forKey: e.uid ];
                     }            
                 }

@@ -47,7 +47,7 @@
            details: (NSString*) details
       organization: (Organization*) organization
            contact: (Contact*) contact
-			   url: (NSString*) url
+			   url: (NSURL*) url
             source: (Source*) source
           location: (Location*) location
      interestAreas: (NSArray*) interestAreas
@@ -60,7 +60,7 @@
           details: (NSString*) details
      organization: (Organization*) organization
           contact: (Contact*) contact
-			  url: (NSString*) url
+			  url: (NSURL*) url
            source: (Source*) source
          location: (Location*) location
     interestAreas: (NSArray*) interestAreas

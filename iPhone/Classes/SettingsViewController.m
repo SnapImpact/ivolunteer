@@ -171,7 +171,7 @@
 -(IBAction)resetSettings
 {
     UIActionSheet* action = [[UIActionSheet alloc] initWithTitle: @"Reset All Settings?" delegate: self cancelButtonTitle: @"Cancel" destructiveButtonTitle: @"Reset" otherButtonTitles: nil ];
-    [action showFromTabBar: self.view];
+    [action showInView: self.view];
 }
 
 -(IBAction)filterInterestAreas {

@@ -484,8 +484,18 @@
                     }
                     break;
                 case kSectionContactInfoRowSource:
-                    [[UIApplication sharedApplication] openURL: self.event.source.url ];
-                    //open source url
+                {
+                    NSURL* url = nil;
+                    if(self.event.url) {
+                        url = self.event.url;
+                    }
+                    else {
+                        url = self.event.source.url; 
+                    }
+                    if(url) {
+                        [[UIApplication sharedApplication] openURL: url ];
+                    }
+                }   
                     break;
             }
             break;

@@ -13,7 +13,7 @@
 #import "BusyIndicatorDelegate.h"
 #import "RegisterConfirmationViewController.h"
 
-@interface EventDetailsTableViewController : UITableViewController<RegisterConfirmationProtocol> {
+@interface EventDetailsTableViewController : UITableViewController<RegisterConfirmationProtocol, UIAlertViewDelegate> {
    id <BusyIndicatorDelegate> busyIndicatorDelegate;
    Event* event;
    EventDetailsHeaderCell* headerCell;
