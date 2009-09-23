@@ -491,21 +491,17 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
 
 - (void) parseConsolidatedJson: (NSData*) data
 {
-    /*
-     self.organizations = [NSMutableDictionary dictionary];
-     self.contacts = [NSMutableDictionary dictionary];
-     self.sources = [NSMutableDictionary dictionary];
-     self.locations = [NSMutableDictionary dictionary];
-     self.interestAreas = [NSMutableDictionary dictionary];
-     self.events = [NSMutableDictionary dictionary];
-     */
-    
     NSString* utf8 = [NSString stringWithUTF8String: [data bytes]];
+    //utf8 = [NSString stringWithContentsOfFile:@"afg.json"];
+    NSLog(@"Raw Bytes: %@", utf8);
+    
     NSData* utf32Data = [utf8 dataUsingEncoding: NSUTF32BigEndianStringEncoding ];
     NSError* error =  nil;
     NSDictionary *json = [[CJSONDeserializer deserializer] deserializeAsDictionary: utf32Data error: &error];
     
     NSLog(@"Consolidated: %@", json);
+    
+    NSAssert(json, @"Null JSON data back");
     
     //setup a temp autorelease pool here for performance
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -856,7 +852,7 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
         }
     }
         
-    NSLog([NSString stringWithUTF8String: [result bytes]]);
+    NSLog(@"%@", [NSString stringWithUTF8String: [result bytes]]);
     return YES;
 }
 

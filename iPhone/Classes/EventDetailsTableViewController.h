@@ -13,7 +13,13 @@
 #import "BusyIndicatorDelegate.h"
 #import "RegisterConfirmationViewController.h"
 
-@interface EventDetailsTableViewController : UITableViewController<RegisterConfirmationProtocol, UIAlertViewDelegate> {
+enum Actions {
+    kOpenURL,
+    kSendEmail,
+    kMakeCall
+};
+
+@interface EventDetailsTableViewController : UITableViewController<RegisterConfirmationProtocol, UIActionSheetDelegate> {
    id <BusyIndicatorDelegate> busyIndicatorDelegate;
    Event* event;
    EventDetailsHeaderCell* headerCell;
@@ -24,7 +30,9 @@
    NSString* signUpString;
    NSString* signedUpString;
    IBOutlet UIView* floatingView;
-	int descriptionHeight;
+   int descriptionHeight;
+   enum Actions action;
+   id action_data;
 }
 
 @property (nonatomic, retain) UIView *floatingView;

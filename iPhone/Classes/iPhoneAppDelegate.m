@@ -310,5 +310,9 @@ iPhoneAppDelegate* _staticInstance = nil;
     return _staticInstance.restController;
 }
 
++(void) showActionSheet: (UIActionSheet*) actionSheet {
+    [actionSheet showFromTabBar: _staticInstance.tabBarController.tabBar];
+}
+
 @end
 

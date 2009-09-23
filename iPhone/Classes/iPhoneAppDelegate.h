@@ -66,6 +66,7 @@
 -(void) hideFloatingView;
 +(NSObject<BusyIndicatorDelegate>*) BusyIndicator;
 +(RestController*) RestController;
++(void) showActionSheet: (UIActionSheet*) actionSheet;
 
 @end
 
