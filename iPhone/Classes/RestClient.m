@@ -278,6 +278,8 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
+    NSLog(@"didReceiveResponse: %@", response);
+    
    NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
    int statusCode = [httpResponse statusCode];
    switch (statusCode)
@@ -313,6 +315,7 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
+   NSLog(@"didReceiveData Appending data length: %d", [data length]);
    if(retainData) {
       [receivedData appendData:data];
    }
@@ -325,6 +328,8 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
+    NSLog(@"didFailWithError: %@", error);
+    
    [self cancelConnection];
    if ([delegateMethods containsObject: @"restClient:didFailWithError:"])
    {
@@ -334,6 +339,8 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
+    NSLog(@"didFinishLoading");
+    
    [self cancelConnection];
    if ([delegateMethods containsObject: @"restClient:didRetrieveData:"])
    {

@@ -42,6 +42,7 @@
            details: (NSString*) details
       organization: (Organization*) organization
            contact: (Contact*) contact
+               url: (NSURL*) url
             source: (Source*) source
           location: (Location*) location
      interestAreas: (NSArray*) interestAreas
@@ -55,6 +56,7 @@
                  details: details
             organization: organization
                  contact: contact
+                     url: url
                   source: source
                 location: location
            interestAreas: interestAreas
@@ -68,6 +70,7 @@
       details: (NSString*) details_
      organization: (Organization*) organization_
           contact: (Contact*) contact_
+              url: (NSURL*) url_
            source: (Source*) source_
          location: (Location*) location_
     interestAreas: (NSArray*) interestAreas_
@@ -79,6 +82,7 @@
    self.details = details_;
    self.organization = organization_;
    self.contact = contact_;
+    self.url = url_;
    self.source = source_;
    self.location = location_;
    self.interestAreas = interestAreas_;

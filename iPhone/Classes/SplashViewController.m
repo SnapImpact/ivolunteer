@@ -10,6 +10,7 @@
 #import "iVolunteerData.h"
 #import "DateUtilities.h"
 #import "SettingsViewController.h"
+#import "iPhoneAppDelegate.h"
 
 @implementation SplashViewController
 
@@ -110,7 +111,7 @@
 {
 	NSDate *start2 = [NSDate date];
     completedRestCount = 0;
-	RestController *restController = [[RestController alloc] initWithVolunteerData: [iVolunteerData sharedVolunteerData]];
+	RestController *restController = [iPhoneAppDelegate RestController];
     [restController beginGetFilterData ];
 	[restController beginGetEventsFrom: [DateUtilities today] until: [DateUtilities daysFromNow: 14]];
     restController.delegate = self;

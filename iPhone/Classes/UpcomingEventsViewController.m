@@ -8,6 +8,9 @@
 
 #import "UpcomingEventsViewController.h"
 #import "UpcomingEventsSortedByTimeDataSource.h"
+#import "RestController.h"
+#import "iPhoneAppDelegate.h"
+#import "DateUtilities.h"
 
 @implementation UpcomingEventsViewController
 
@@ -58,5 +61,16 @@
     [super dealloc];
 }
 
+- (IBAction) refresh {
+    RestController *restController = [iPhoneAppDelegate RestController];
+	[restController beginGetEventsFrom: [DateUtilities today] until: [DateUtilities daysFromNow: 14]];
+    restController.delegate = self;
+}
+
+- (void) restController: (RestController*) controller
+        didRetrieveData: (NSData*) data {  
+    [self.dataSource refresh];
+    [self.tableView reloadData];
+}
 
 @end
