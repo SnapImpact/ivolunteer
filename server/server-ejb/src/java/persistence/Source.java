@@ -19,7 +19,6 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *  THE SOFTWARE.
  */
-
 package persistence;
 
 import java.io.Serializable;
@@ -40,139 +39,149 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "SOURCE")
-@NamedQueries( {
-		@NamedQuery(name = "Source.findAll", query = "SELECT s FROM Source s"),
-		@NamedQuery(name = "Source.findById", query = "SELECT s FROM Source s WHERE s.id = :id"),
-		@NamedQuery(name = "Source.findByName", query = "SELECT s FROM Source s WHERE s.name = :name"),
-		@NamedQuery(name = "Source.findByEtlClass", query = "SELECT s FROM Source s WHERE s.etlClass = :etlClass") })
+@NamedQueries({
+    @NamedQuery(name = "Source.findAll", query = "SELECT s FROM Source s"),
+    @NamedQuery(name = "Source.findById", query = "SELECT s FROM Source s WHERE s.id = :id"),
+    @NamedQuery(name = "Source.findByName", query = "SELECT s FROM Source s WHERE s.name = :name"),
+    @NamedQuery(name = "Source.findByEtlClass", query = "SELECT s FROM Source s WHERE s.etlClass = :etlClass")})
 public class Source implements Serializable, IdInterface {
-	private static final long				serialVersionUID	= 1L;
-	@Id
-	@Basic(optional = false)
-	@Column(name = "id")
-	private String							id;
-	@Column(name = "name")
-	private String							name;
-	@Column(name = "etl_class")
-	private String							etlClass;
-	@Column(name = "url")
-	private String							url;
-        @Column(name= "last_key")
-        private String                                                  lastKey;
-	@OneToMany(mappedBy = "sourceId")
-	private Collection<Organization>		organizationCollection;
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "sourceId")
-	private Collection<SourceInterestMap>	sourceInterestMapCollection;
-	@OneToMany(mappedBy = "sourceId")
-	private Collection<Event>				eventCollection;
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "sourceId")
-	private Collection<SourceOrgTypeMap>	sourceOrgTypeMapCollection;
 
-	public Source() {
-	}
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @Column(name = "id")
+    private String id;
+    @Column(name = "name")
+    private String name;
+    @Column(name = "etl_class")
+    private String etlClass;
+    @Column(name = "url")
+    private String url;
+    @Column(name = "api_url")
+    private String apiUrl;
+    @OneToMany(mappedBy = "sourceId")
+    private Collection<Organization> organizationCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sourceId")
+    private Collection<SourceInterestMap> sourceInterestMapCollection;
+    @OneToMany(mappedBy = "sourceId")
+    private Collection<Event> eventCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sourceId")
+    private Collection<SourceOrgTypeMap> sourceOrgTypeMapCollection;
+    @OneToMany(mappedBy = "sourceId")
+    private Collection<Api> apiCollection;
 
-	public Source(String id) {
-		this.id = id;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getEtlClass() {
-		return etlClass;
-	}
-
-	public void setEtlClass(String etlClass) {
-		this.etlClass = etlClass;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-    public String getLastKey() {
-        return lastKey;
+    public Source() {
     }
 
-    public void setLastKey(String lastKey) {
-        this.lastKey = lastKey;
+    public Source(String id) {
+        this.id = id;
     }
 
-	public Collection<Organization> getOrganizationCollection() {
-		return organizationCollection;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setOrganizationCollection(Collection<Organization> organizationCollection) {
-		this.organizationCollection = organizationCollection;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public Collection<SourceInterestMap> getSourceInterestMapCollection() {
-		return sourceInterestMapCollection;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setSourceInterestMapCollection(
-			Collection<SourceInterestMap> sourceInterestMapCollection) {
-		this.sourceInterestMapCollection = sourceInterestMapCollection;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public Collection<Event> getEventCollection() {
-		return eventCollection;
-	}
+    public String getEtlClass() {
+        return etlClass;
+    }
 
-	public void setEventCollection(Collection<Event> eventCollection) {
-		this.eventCollection = eventCollection;
-	}
+    public void setEtlClass(String etlClass) {
+        this.etlClass = etlClass;
+    }
 
-	public Collection<SourceOrgTypeMap> getSourceOrgTypeMapCollection() {
-		return sourceOrgTypeMapCollection;
-	}
+    public String getUrl() {
+        return url;
+    }
 
-	public void setSourceOrgTypeMapCollection(
-			Collection<SourceOrgTypeMap> sourceOrgTypeMapCollection) {
-		this.sourceOrgTypeMapCollection = sourceOrgTypeMapCollection;
-	}
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-	@Override
-	public int hashCode() {
-		int hash = 0;
-		hash += (id != null ? id.hashCode() : 0);
-		return hash;
-	}
+    public String getApiUrl() {
+        return apiUrl;
+    }
 
-	@Override
-	public boolean equals(Object object) {
-		// TODO: Warning - this method won't work in the case the id fields are
-		// not set
-		if (!(object instanceof Source)) {
-			return false;
-		}
-		Source other = (Source) object;
-		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-			return false;
-		}
-		return true;
-	}
+    public void setApiUrl(String apiUrl) {
+        this.apiUrl = apiUrl;
+    }
 
-	@Override
-	public String toString() {
-		return "persistence.Source[id=" + id + "]";
-	}
+    public Collection<Organization> getOrganizationCollection() {
+        return organizationCollection;
+    }
 
+    public void setOrganizationCollection(Collection<Organization> organizationCollection) {
+        this.organizationCollection = organizationCollection;
+    }
+
+    public Collection<SourceInterestMap> getSourceInterestMapCollection() {
+        return sourceInterestMapCollection;
+    }
+
+    public void setSourceInterestMapCollection(
+            Collection<SourceInterestMap> sourceInterestMapCollection) {
+        this.sourceInterestMapCollection = sourceInterestMapCollection;
+    }
+
+    public Collection<Event> getEventCollection() {
+        return eventCollection;
+    }
+
+    public void setEventCollection(Collection<Event> eventCollection) {
+        this.eventCollection = eventCollection;
+    }
+
+    public Collection<SourceOrgTypeMap> getSourceOrgTypeMapCollection() {
+        return sourceOrgTypeMapCollection;
+    }
+
+    public void setSourceOrgTypeMapCollection(
+            Collection<SourceOrgTypeMap> sourceOrgTypeMapCollection) {
+        this.sourceOrgTypeMapCollection = sourceOrgTypeMapCollection;
+    }
+
+    public Collection<Api> getApiCollection() {
+        return apiCollection;
+    }
+
+    public void setApiCollection(Collection<Api> apiCollection) {
+        this.apiCollection = apiCollection;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are
+        // not set
+        if (!(object instanceof Source)) {
+            return false;
+        }
+        Source other = (Source) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "persistence.Source[id=" + id + "]";
+    }
 }

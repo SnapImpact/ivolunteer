@@ -44,6 +44,7 @@ public class locationencoderSessionBean implements locationencoderSessionLocal {
 
     @Resource
     private UserTransaction userTransaction;
+    
     @PersistenceContext
     private EntityManager em;
 
@@ -56,6 +57,7 @@ public class locationencoderSessionBean implements locationencoderSessionLocal {
             userTransaction.begin();
             List<persistence.Location> locationList = (List<persistence.Location>) locationQuery.getResultList();
             for (persistence.Location loc : locationList) {
+                try {
                 encoder.encodeAddress(loc);
                 Logger.getLogger(locationencoderSessionBean.class.getName()).log(Level.INFO, (((loc.getStreet() != null || loc.getCity() != null || loc.getState() != null || loc.getZip() != null) &&
                         (loc.getLatitude() == null || loc.getLongitude() == null)) ? "ERROR " : "") +
@@ -65,6 +67,10 @@ public class locationencoderSessionBean implements locationencoderSessionLocal {
                     em.flush();
                     userTransaction.commit();
                     userTransaction.begin();
+                }
+                }
+                catch (Exception e) {
+                    Logger.getLogger(locationencoderSessionBean.class.getName()).log(Level.WARNING, "Problem encoding lat-long for: " + loc.getId());
                 }
             }
             userTransaction.commit();

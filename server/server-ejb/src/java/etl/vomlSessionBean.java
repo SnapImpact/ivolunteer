@@ -57,13 +57,13 @@ public class vomlSessionBean implements vomlSessionLocal {
     @EJB
     private vomlSessionEngineLocal engine;
 
-    public void loadVoml() {
+    public void loadVoml( String apiId, String psFileName )
+    {
         try {
             VomlData vd = new VomlData();
             JAXBContext jc = JAXBContext.newInstance(VomlData.class.getPackage().getName());
             Unmarshaller unmarshaller = jc.createUnmarshaller();
-            vd = (VomlData) unmarshaller.unmarshal(new File(
-                    "/Users/dave/Documents/iVolunteer/code/ivolunteer/test_data/voml_test.xml"));
+            vd = (VomlData) unmarshaller.unmarshal(new File( psFileName ));
             List<VolunteerOpportunity> opps = vd.getVolunteerOpportunities().getVolunteerOpportunity();
 
             userTransaction.begin();
@@ -81,7 +81,7 @@ public class vomlSessionBean implements vomlSessionLocal {
                 return;
             }
 
-            source.setLastKey(vd.getTimestamp().toString());
+            em.find(Api.class, apiId).setLastKey(vd.getTimestamp().toString());
 
             OrganizationType orgType;
             try {

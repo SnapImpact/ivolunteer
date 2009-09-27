@@ -33,6 +33,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.NamedNativeQueries;
 import javax.persistence.Table;
 
 /**
@@ -53,9 +55,17 @@ import javax.persistence.Table;
 		@NamedQuery(name = "Location.findByLatitude", query = "SELECT l FROM Location l WHERE l.latitude = :latitude"),
 		@NamedQuery(name = "Location.findByLongitude", query = "SELECT l FROM Location l WHERE l.longitude = :longitude"),
 		@NamedQuery(name = "Location.findByStreetZip", query = "SELECT l FROM Location l WHERE l.street = :street and l.zip = :zip"),
-        @NamedQuery(name = "Location.findByZipNull", query = "SELECT l FROM Location l WHERE l.zip = :zip and l.street is null"),
-        @NamedQuery(name = "Location.findNullLatLon", query = "SELECT l FROM Location l WHERE l.latitude is null and l.longitude is null and (l.street is not null or l.city is not null or l.state is not null or l.zip is not null)")
+                @NamedQuery(name = "Location.findByZipNull", query = "SELECT l FROM Location l WHERE l.zip = :zip and l.street is null"),
+                @NamedQuery(name = "Location.findNullLatLon", query = "SELECT l FROM Location l WHERE l.latitude is null or l.longitude is null")
+                
 })
+
+@NamedNativeQueries( {
+    @NamedNativeQuery(name = "Location.updateGeom", query = "UPDATE Location SET geom = PointFromText('POINT(' || latitude || ' ' || longitude || ')',4326)"),
+    @NamedNativeQuery(name = "Location.dropIndex", query = "DROP INDEX IF EXISTS location_geom_idx"),
+    @NamedNativeQuery(name = "Location.createIndex", query = "CREATE INDEX location_geom_idx on location USING GIST ( geom GIST_GEOMETRY_OPS )")
+})
+
 public class Location implements Serializable, IdInterface {
 	private static final long			serialVersionUID	= 1L;
 	@Id

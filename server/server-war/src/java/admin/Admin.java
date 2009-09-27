@@ -27,6 +27,7 @@ import com.sun.webui.jsf.model.SingleSelectOptionsList;
 import etl.geocodeSessionLocal;
 import etl.locationencoderSessionLocal;
 import etl.vomlSessionLocal;
+import etl.autoImportLocal;
 import javax.ejb.EJB;
 import javax.faces.FacesException;
 import javax.faces.event.ValueChangeEvent;
@@ -51,6 +52,8 @@ public class Admin extends AbstractPageBean {
 	private locationencoderSessionLocal	locationencoderSessionBean;
 	@EJB
 	private geocodeSessionLocal	geocoderSessionBean;
+        @EJB
+        private autoImportLocal importFiles;
 	// <editor-fold defaultstate="collapsed"
 	// desc="Managed Component Definition">
 
@@ -146,9 +149,14 @@ public class Admin extends AbstractPageBean {
 		// desc="Managed Component Initialization">
 		// Initialize automatically managed components
 		// *Note* - this logic should NOT be modified
-		try {
+		try
+                {
 			_init();
-		} catch (Exception e) {
+
+                        importFiles.runMe();
+		} 
+                catch (Exception e)
+                {
 			log("Admin Initialization Failure", e);
 			throw e instanceof FacesException ? (FacesException) e : new FacesException(e);
 		}
@@ -232,8 +240,10 @@ public class Admin extends AbstractPageBean {
 		return (ApplicationBean1) getBean("ApplicationBean1");
 	}
 
-	public void radioButtonGroup1_processValueChange(ValueChangeEvent vce) {
-		vomlSessionBean.loadVoml();
+	public void radioButtonGroup1_processValueChange(ValueChangeEvent vce) 
+        {
+                // Test data ( works on Daves computer ? )
+		vomlSessionBean.loadVoml( "3A97A707-6D7B-4E50-BBF4-74B8D468E31E","/Users/dave/Documents/iVolunteer/code/ivolunteer/test_data/voml_test.xml" );
 	}
 	public void radioButtonGroup2_processValueChange(ValueChangeEvent vce) {
 		locationencoderSessionBean.updateLocationTableLatLon();
