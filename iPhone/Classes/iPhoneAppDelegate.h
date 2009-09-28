@@ -67,6 +67,7 @@
 +(NSObject<BusyIndicatorDelegate>*) BusyIndicator;
 +(RestController*) RestController;
 +(void) showActionSheet: (UIActionSheet*) actionSheet;
++(void) displayConnectionError: (NSError*) error;
 
 @end
 

@@ -53,7 +53,8 @@
     event = [e retain];
     self.name.text = e.name;
     self.details.text = e.details;
-    self.time.text = [DateUtilities formatShortTime: e.date ];
+    NSString* time_ = [DateUtilities formatShortTime: e.date ];
+    self.time.text = time_;
     double distance_ = [e.distance doubleValue];
     if(distance_ < 1.51) {
         self.distance.text = @"Nearby";

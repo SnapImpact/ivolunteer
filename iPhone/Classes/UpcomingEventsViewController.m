@@ -68,9 +68,18 @@
 }
 
 - (void) restController: (RestController*) controller
-        didRetrieveData: (NSData*) data {  
+        didRetrieveData: (NSData*) data 
+          forRestClient: (RestClient*) client {  
     [self.dataSource refresh];
     [self.tableView reloadData];
+}
+
+- (void) restController: (RestController*) controller
+       didFailWithError: (NSError*) error
+          forRestClient: (RestClient*) client {
+    if(client == controller.consolidatedClient) {
+        [iPhoneAppDelegate displayConnectionError: error ];
+    }
 }
 
 @end

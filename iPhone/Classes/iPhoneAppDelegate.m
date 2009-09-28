@@ -158,14 +158,7 @@ iPhoneAppDelegate* _staticInstance = nil;
     [[iVolunteerData sharedVolunteerData] setReachable: (reachable != NotReachable)];
     
     if(![[iVolunteerData sharedVolunteerData] reachable]) {
-        [self stopAnimating];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Cannot connect to Internet", @"")
-                                                        message: NSLocalizedString(@"An Internet connection was unable to be established.  you must connect to a Wi-Fi or cellular data network to retrieve events.", @"")
-                                                       delegate: nil 
-                                              cancelButtonTitle: NSLocalizedString(@"Ok", @"Ok")
-                                              otherButtonTitles: nil];
-        [alert show];
-        [alert release];
+        [iPhoneAppDelegate displayConnectionError: nil];
     }
     
 	[self getLocation];
@@ -312,6 +305,22 @@ iPhoneAppDelegate* _staticInstance = nil;
 
 +(void) showActionSheet: (UIActionSheet*) actionSheet {
     [actionSheet showFromTabBar: _staticInstance.tabBarController.tabBar];
+    [actionSheet release];
+}
+
++(void) displayConnectionError: (NSError*) error {
+    [_staticInstance stopAnimating];
+    if(error) {
+        NSLog(@"Connection Error: %@", error);
+    }
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Cannot connect to Internet", @"")
+                                                    message: NSLocalizedString(@"An Internet connection was unable to be established.  You must connect to a Wi-Fi or cellular data network to retrieve events.", @"")
+                                                   delegate: nil 
+                                          cancelButtonTitle: NSLocalizedString(@"Ok", @"Ok")
+                                          otherButtonTitles: nil];
+    [alert show];
+    [alert release];
 }
 
 @end

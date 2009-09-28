@@ -40,6 +40,7 @@
     NSLog(@"RestController:beginGetEventsFrom using myLocation=%@", currentLocation);
 	NSDictionary* settings = (NSDictionary*) CFPreferencesCopyAppValue((CFStringRef) kSettingsKey, 
                                                                        kCFPreferencesCurrentApplication);
+    [settings autorelease];
 	BOOL useZipCodeOverride = NO;
 	NSString *zipcode = nil;
 	if (settings)
@@ -101,7 +102,8 @@
     }        
     if(self.delegate) {
         [self.delegate restController: self
-                    didRetrieveData: data];
+                      didRetrieveData: data
+                        forRestClient: ri];
     }
     [[iPhoneAppDelegate BusyIndicator] stopAnimating];
 }
@@ -123,8 +125,15 @@
 - (void)restClient:(RestClient *)ri didFailWithError:(NSError *)error {
     //Handle error, for now assert
     NSString* err = [ NSString stringWithFormat: @"Download failed with error: %@", error ];
-    //NSAssert( NO, err );
-    [err release];
+    NSLog(@"%@", err);
+    
+    if(self.delegate) {
+        [self.delegate restController: self
+                     didFailWithError: error
+                        forRestClient: ri];
+    }
+    
+    [[iPhoneAppDelegate BusyIndicator] stopAnimating];
 }
 
 - (void)restClient:(RestClient *)ri didReceiveStatusCode:(int)statusCode {

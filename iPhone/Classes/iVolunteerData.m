@@ -491,17 +491,32 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
 
 - (void) parseConsolidatedJson: (NSData*) data
 {
-    NSString* utf8 = [NSString stringWithUTF8String: [data bytes]];
-    //utf8 = [NSString stringWithContentsOfFile:@"afg.json"];
-    NSLog(@"Raw Bytes: %@", utf8);
+    if(data == nil) {
+        return;
+    }
     
-    NSData* utf32Data = [utf8 dataUsingEncoding: NSUTF32BigEndianStringEncoding ];
+    NSString* utf8 = [NSString stringWithUTF8String: [data bytes]];
+    NSData* utf32Data = nil;
+    
+    if(utf8 == nil) {
+        NSString* ascii = [NSString stringWithCString: [data bytes] encoding: NSASCIIStringEncoding ];
+        NSLog(@"ASCII bytes: %@", ascii);
+        utf32Data = [ascii dataUsingEncoding: NSUTF32BigEndianStringEncoding ];
+    }
+    else {
+        utf32Data = [utf8 dataUsingEncoding: NSUTF32BigEndianStringEncoding ];
+    }
+    
     NSError* error =  nil;
     NSDictionary *json = [[CJSONDeserializer deserializer] deserializeAsDictionary: utf32Data error: &error];
     
-    NSLog(@"Consolidated: %@", json);
+    if(json == nil) {
+        NSLog(@"Unable to parse JSON.");
+        return;
+    }
     
-    NSAssert(json, @"Null JSON data back");
+    NSLog(@"Consolidated: %@", json);
+    //NSAssert(json, @"Null JSON data back");
     
     //setup a temp autorelease pool here for performance
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -656,10 +671,16 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
         //And finally, the events
         NSArray* eventsArray = [json objectForKey: @"events" ];
         if(eventsArray != nil ) {
+                NSLog(@"Events Array: %@", eventsArray);
             NSEnumerator* e = [eventsArray objectEnumerator];
             NSDictionary* event;
             while((event = (NSDictionary*)[e nextObject])) {
+                NSLog(@"Parsing event: %@", [event objectForKey: @"title"]);
                 id tsC = [event objectForKey: @"timestampCollection"];
+                if(tsC == nil) {
+                    NSLog(@"Discarding event with nil tiestampCollection.");
+                    continue;
+                }
                 NSArray* timestampCollection;
                 if( [tsC isKindOfClass: [NSArray class]] )
                     timestampCollection = tsC;
@@ -796,6 +817,10 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
 
 - (void) parseFilterDataJson: (NSData*) data
 {
+    if(data == nil) {
+        return;
+    }
+    
     NSString* utf8 = [NSString stringWithUTF8String: [data bytes]];
     NSData* utf32Data = [utf8 dataUsingEncoding: NSUTF32BigEndianStringEncoding ];
     NSError* error =  nil;
