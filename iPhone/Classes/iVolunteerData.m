@@ -33,7 +33,7 @@
 
 static iVolunteerData* _sharedInstance = nil;
 static NSString* kVolunteerDataRootKey = @"Root";
-static NSString* kVolunteerDataVersion = @"v1.8";
+static NSString* kVolunteerDataVersion = @"v1.9";
 
 + (id) sharedVolunteerData {
     if( _sharedInstance == nil ) {
@@ -678,7 +678,7 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
                 NSLog(@"Parsing event: %@", [event objectForKey: @"title"]);
                 id tsC = [event objectForKey: @"timestampCollection"];
                 if(tsC == nil) {
-                    NSLog(@"Discarding event with nil tiestampCollection.");
+                    NSLog(@"Discarding event with nil timestampCollection.");
                     continue;
                 }
                 NSArray* timestampCollection;
