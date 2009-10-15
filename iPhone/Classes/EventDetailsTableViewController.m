@@ -434,7 +434,6 @@
                                 ];
         
         [iPhoneAppDelegate showActionSheet: sheet];
-        [sheet release];
     }
     else {
         UIActionSheet* sheet = [[UIActionSheet alloc] 
@@ -445,7 +444,6 @@
                                 otherButtonTitles: @"Copy Phone Number", @"Call", nil
                                 ];
         [iPhoneAppDelegate showActionSheet: sheet];
-        [sheet release];
     }
 }
 

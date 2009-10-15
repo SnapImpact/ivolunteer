@@ -184,10 +184,12 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if(buttonIndex == 0) {
+        self.settings = [NSMutableDictionary dictionaryWithDictionary: self.settings];
         [self.settings setObject: @"" forKey: kSettingsKeyName ];
         [self.settings setObject: @"" forKey: kSettingsKeyEmail ];
         [self.settings setObject: @"" forKey: kSettingsKeyZipcode ];
         [self.settings setObject: [NSNumber numberWithBool: NO] forKey: kSettingsKeyUseZipcode ];   
+        [InterestArea saveInterestAreasToPreferences: [[iVolunteerData sharedVolunteerData] interestAreasByName]];
         [self updateSettings];
         [self saveSettings];
     }
