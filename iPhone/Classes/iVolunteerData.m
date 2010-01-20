@@ -265,6 +265,11 @@ static NSString* kVolunteerDataVersion = @"v1.9";
     return self;
 }
 
+- (id) initWithActionFeedData 
+{
+    self = [self init];
+}
+
 NSInteger _SortEventsByDate(id e1, id e2, void *context)
 {
     return [[ e1 date ] compare: [e2 date]];
