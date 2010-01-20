@@ -48,13 +48,13 @@ public class Timeframe implements Serializable, IdInterface {
 	private static final long	serialVersionUID	= 1L;
 	@Id
 	@Basic(optional = false)
-	@Column(name = "ID")
+	@Column(name = "id")
 	private String				id;
 	@Basic(optional = false)
-	@Column(name = "NAME")
+	@Column(name = "name")
 	private String				name;
 	@Basic(optional = false)
-	@Column(name = "BUCKET")
+	@Column(name = "bucket")
 	private BigInteger			bucket;
 	@OneToMany(mappedBy = "timeframeId")
 	private Collection<Filter>	filterCollection;

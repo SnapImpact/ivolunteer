@@ -15,11 +15,12 @@
 {
 	NSMutableArray* selectedInterestAreas_ = (NSMutableArray*) CFPreferencesCopyAppValue((CFStringRef) kInterestAreaKey, 
 																						 kCFPreferencesCurrentApplication);
+    [selectedInterestAreas_ autorelease];
 	NSLog(@"Reading in serialized interest areas: %@", selectedInterestAreas_);
 	if (!selectedInterestAreas_)
 	{
 		// return all the interest areas in the system
-		return [[[iVolunteerData sharedVolunteerData] interestAreasByName] autorelease];
+		return [[iVolunteerData sharedVolunteerData] interestAreasByName];
 	}
 	
 	NSMutableArray* result = [[NSMutableArray alloc] initWithCapacity:[selectedInterestAreas_ count]];

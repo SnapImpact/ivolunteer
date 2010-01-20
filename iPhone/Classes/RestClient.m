@@ -114,7 +114,7 @@
    
    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:finalURL
                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                                      timeoutInterval:60.0];
+                                                      timeoutInterval:15.0];
    [request setHTTPMethod:verb];
    [request setAllHTTPHeaderFields:headers];
    if (parameters != nil)
@@ -144,7 +144,7 @@
    
    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url
                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                                      timeoutInterval:60.0];
+                                                      timeoutInterval:15.0];
    [request setHTTPMethod:@"POST"];
    [request setAllHTTPHeaderFields:headers];
    
@@ -260,9 +260,9 @@
    NSInteger count = [challenge previousFailureCount];
    if (count == 0)
    {
-      NSURLCredential* credential = [[NSURLCredential credentialWithUser:username
+      NSURLCredential* credential = [NSURLCredential credentialWithUser:username
                                                                 password:password
-                                                             persistence:NSURLCredentialPersistenceNone] autorelease];
+                                                             persistence:NSURLCredentialPersistenceNone];
       [[challenge sender] useCredential:credential 
              forAuthenticationChallenge:challenge];
    }
@@ -278,6 +278,8 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
+    NSLog(@"didReceiveResponse: %@", response);
+    
    NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
    int statusCode = [httpResponse statusCode];
    switch (statusCode)
@@ -313,6 +315,7 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
+   NSLog(@"didReceiveData Appending data length: %d", [data length]);
    if(retainData) {
       [receivedData appendData:data];
    }
@@ -325,6 +328,8 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
+    NSLog(@"didFailWithError: %@", error);
+    
    [self cancelConnection];
    if ([delegateMethods containsObject: @"restClient:didFailWithError:"])
    {
@@ -334,10 +339,14 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
+    NSLog(@"didFinishLoading");
+    
    [self cancelConnection];
    if ([delegateMethods containsObject: @"restClient:didRetrieveData:"])
    {
-      [delegate restClient:self didRetrieveData:receivedData];
+       char bytes[1] = {'\0'};
+       [receivedData appendData: [NSData dataWithBytes: bytes length: 1]];
+       [delegate restClient:self didRetrieveData:receivedData];
    }
 }
 

@@ -30,9 +30,11 @@
 #import "ProjectViewController.h"
 #import "iVolunteerData.h"
 #import "DateUtilities.h"
+#import "Reachability.h"
 
 @implementation iPhoneAppDelegate
 
+@synthesize restController;
 @synthesize window;
 @synthesize navigationController;
 @synthesize tabBarController;
@@ -145,15 +147,23 @@ iPhoneAppDelegate* _staticInstance = nil;
 }
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
-	
-	//TODO HASSAN AND RYAN DO NOT FORGET!!!!!!: check for internet connectivity!
+    NetworkStatus reachable = [[Reachability sharedReachability] internetConnectionStatus];
+    
     _staticInstance = self;
     NSDate *start1 = [NSDate date];
 	[iVolunteerData restore];
 	NSDate *end1 = [NSDate date];
 	NSLog(@"[iVolunteerData restore]: %g sec", [end1 timeIntervalSinceDate:start1]);
     
+    [[iVolunteerData sharedVolunteerData] setReachable: (reachable != NotReachable)];
+    
+    if(![[iVolunteerData sharedVolunteerData] reachable]) {
+        [iPhoneAppDelegate displayConnectionError: nil];
+    }
+    
 	[self getLocation];
+    
+    self.restController = [[RestController alloc] initWithVolunteerData: [iVolunteerData sharedVolunteerData]];
 	
 	splashvc = [[SplashViewController alloc] initWithNibName:@"SplashView" bundle:[NSBundle mainBundle]];
 	splashvc.dismissalDelegate = self;
@@ -208,7 +218,7 @@ iPhoneAppDelegate* _staticInstance = nil;
 	[now release];
 	[window release];
 	[locationMgr release];
-	
+    self.restController = nil;
 	[super dealloc];
 }
 
@@ -232,6 +242,7 @@ iPhoneAppDelegate* _staticInstance = nil;
 - (void)stopAnimating
 {
 	isBusy = NO;
+    self.busyIndicatorView.hidden = YES;
 	[self.floatingView removeFromSuperview];
 }
 - (void)startAnimatingWithMessage:(NSString *)message
@@ -271,8 +282,46 @@ iPhoneAppDelegate* _staticInstance = nil;
 	[window bringSubviewToFront:self.floatingView];
 }
 
+- (void) showFloatingView {
+    if(![self.floatingView superview]) {
+        [window addSubview:self.floatingView];
+        [window bringSubviewToFront:self.floatingView];
+    }
+}
+
+- (void) hideFloatingView {
+    if([self.floatingView superview]){
+        [self.floatingView removeFromSuperview];
+    }
+}
+
 +(NSObject<BusyIndicatorDelegate>*) BusyIndicator {
     return _staticInstance;
 }
 
++(RestController*) RestController {
+    return _staticInstance.restController;
+}
+
++(void) showActionSheet: (UIActionSheet*) actionSheet {
+    [actionSheet showFromTabBar: _staticInstance.tabBarController.tabBar];
+    [actionSheet release];
+}
+
++(void) displayConnectionError: (NSError*) error {
+    [_staticInstance stopAnimating];
+    if(error) {
+        NSLog(@"Connection Error: %@", error);
+    }
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Cannot connect to Internet", @"")
+                                                    message: NSLocalizedString(@"An Internet connection was unable to be established.  You must connect to a Wi-Fi or cellular data network to retrieve events.", @"")
+                                                   delegate: nil 
+                                          cancelButtonTitle: NSLocalizedString(@"Ok", @"Ok")
+                                          otherButtonTitles: nil];
+    [alert show];
+    [alert release];
+}
+
 @end
+

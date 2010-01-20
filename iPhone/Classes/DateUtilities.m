@@ -340,12 +340,12 @@ static BOOL use24HourTime;
     return [self format:date formatter:yearFormatter];
 }
 
-
+/*
 + (NSDate*) dateWithNaturalLanguageString:(NSString*) string {
     //return nil;
     return [NSDate dateWithNaturalLanguageString:string];
 }
-
+*/
 
 + (NSDate*) parseIS08601Date:(NSString*) string {
     if (string.length == 10) {

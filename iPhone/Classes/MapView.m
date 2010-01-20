@@ -35,7 +35,7 @@
 	if (! (self = [super initWithFrame:frame]))
         return nil;
     self.mapDelegate = aMapDelegate;
-    self.onClickHandler = nil;
+    //self.onClickHandler = nil;
     self.autoresizesSubviews = YES;
     self.multipleTouchEnabled = YES;
     isFirstMove = YES;

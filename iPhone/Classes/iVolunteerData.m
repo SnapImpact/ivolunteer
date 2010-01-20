@@ -13,6 +13,7 @@
 
 @implementation iVolunteerData
 
+@synthesize reachable;
 @synthesize organizations;
 @synthesize contacts;
 @synthesize sources;
@@ -32,7 +33,7 @@
 
 static iVolunteerData* _sharedInstance = nil;
 static NSString* kVolunteerDataRootKey = @"Root";
-static NSString* kVolunteerDataVersion = @"v1.6";
+static NSString* kVolunteerDataVersion = @"v1.9";
 
 + (id) sharedVolunteerData {
     if( _sharedInstance == nil ) {
@@ -128,9 +129,9 @@ static NSString* kVolunteerDataVersion = @"v1.6";
      Organization* o;
      o = [ Organization organizationWithId: @"org1"
      name: @"ActionFeed"
-     email: @"someone@actionfeed.org"
+     email: @"someone@snapimpact.org"
      phone: @"303-555-0001"
-     url: @"http://actionfeed.org" ];
+     url: @"http://snapimpact.org" ];
      [self.organizations setObject: o forKey: o.uid];
      
      o = [ Organization organizationWithId: @"org2"
@@ -159,7 +160,7 @@ static NSString* kVolunteerDataVersion = @"v1.6";
      
      c = [Contact contactWithId: @"contact2"
      name: @"Dave Angulo"
-     email: @"dave@actionfeed.org"
+     email: @"dave@snapimpact.org"
      phone: @"303-555-2000" ];
      [self.contacts setObject: c forKey: c.uid ];
      
@@ -264,6 +265,11 @@ static NSString* kVolunteerDataVersion = @"v1.6";
     return self;
 }
 
+- (id) initWithActionFeedData 
+{
+    self = [self init];
+}
+
 NSInteger _SortEventsByDate(id e1, id e2, void *context)
 {
     return [[ e1 date ] compare: [e2 date]];
@@ -281,7 +287,7 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
         return [NSString stringWithString: [DateUtilities formatShortDate: date]];
 }
 
-- (void) cullOldEvents {
+- (void) filterEvents {
     //cull any events which are older than today
     for (Event* event in [self.events allValues]) {
         NSDate* date = event.date;
@@ -293,6 +299,36 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
             if(![event.signedUp boolValue]) {
                 [self.events removeObjectForKey: event.uid ];
             }
+        }
+    }
+    
+    //remove any events not matched by our interest area filter
+    NSArray* filteredInterestAreas = [InterestArea loadInterestAreasFromPreferences];
+    if(!filteredInterestAreas || ![filteredInterestAreas count]) {
+        return;
+    }
+    
+    for(Event* event in [self.events allValues]) {
+        BOOL include = NO;
+        if(event.interestAreas == nil || [event.interestAreas count] == 0) {
+            NSLog(@"Including event (%@,%@) because it does not have Interest Areas", event.uid, event.name);
+            continue;
+        }
+        for(InterestArea* i in filteredInterestAreas) {
+            if(event.interestAreas) {
+                if([event.interestAreas containsObject: i]){
+                    include = YES;
+                    //NSLog(@"Event (%@,%@) DOES have interest (%@,%@)", event.uid, event.name, i.uid, i.name);
+                    break;
+                }
+                else {
+                    //NSLog(@"Event (%@,%@) does NOT have interest (%@,%@)", event.uid, event.name, i.uid, i.name);
+                }
+            }
+        }
+        if(!include) {
+            NSLog(@"Removing Event (%@,%@) w/ interest(s) (%@) because it doesn't match your interest areas.", event.uid, event.name, event.interestAreas);
+            [self.events removeObjectForKey: event.uid];
         }
     }
 }
@@ -452,7 +488,7 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
     END_DECODER()
     
     if(self) {
-        [self cullOldEvents];  
+        [self filterEvents];  
     }
     
     return self;
@@ -460,21 +496,32 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
 
 - (void) parseConsolidatedJson: (NSData*) data
 {
-    /*
-     self.organizations = [NSMutableDictionary dictionary];
-     self.contacts = [NSMutableDictionary dictionary];
-     self.sources = [NSMutableDictionary dictionary];
-     self.locations = [NSMutableDictionary dictionary];
-     self.interestAreas = [NSMutableDictionary dictionary];
-     self.events = [NSMutableDictionary dictionary];
-     */
+    if(data == nil) {
+        return;
+    }
     
     NSString* utf8 = [NSString stringWithUTF8String: [data bytes]];
-    NSData* utf32Data = [utf8 dataUsingEncoding: NSUTF32BigEndianStringEncoding ];
+    NSData* utf32Data = nil;
+    
+    if(utf8 == nil) {
+        NSString* ascii = [NSString stringWithCString: [data bytes] encoding: NSASCIIStringEncoding ];
+        NSLog(@"ASCII bytes: %@", ascii);
+        utf32Data = [ascii dataUsingEncoding: NSUTF32BigEndianStringEncoding ];
+    }
+    else {
+        utf32Data = [utf8 dataUsingEncoding: NSUTF32BigEndianStringEncoding ];
+    }
+    
     NSError* error =  nil;
     NSDictionary *json = [[CJSONDeserializer deserializer] deserializeAsDictionary: utf32Data error: &error];
     
+    if(json == nil) {
+        NSLog(@"Unable to parse JSON.");
+        return;
+    }
+    
     NSLog(@"Consolidated: %@", json);
+    //NSAssert(json, @"Null JSON data back");
     
     //setup a temp autorelease pool here for performance
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -541,6 +588,61 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
         }
         
         //source
+		id sourcesTemp = [json objectForKey:@"sources"];
+		if([sourcesTemp isKindOfClass: [NSDictionary class]]) {
+			//single source
+			NSDictionary* source = sourcesTemp;
+			NSString* sourceId  = [source objectForKey: @"id"];
+			NSString* sourceName = [source objectForKey: @"name"];
+			NSString* sourceUrl = [source objectForKey: @"url"];
+			
+			Source* s = [self.sources objectForKey: sourceId];
+			if (s != nil) {
+				//update the properties
+				s.name = [sourceName stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
+				s.url = [NSURL URLWithString: [sourceUrl stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]]];
+			}
+			else {
+                s = [Source sourceWithId: sourceId
+                                    name: sourceName
+                                     url: sourceUrl ];
+                
+                [self.sources setObject: s forKey: s.uid ];
+			}
+		}
+		else {
+			//multiple sources
+			NSArray* sourcesArray = [json objectForKey:@"sources"];
+			if (sourcesArray != nil ) {
+				NSEnumerator* e2 = [sourcesArray objectEnumerator];
+				NSDictionary* source;
+				while((source = (NSDictionary*)[e2 nextObject])) {
+					if (source != nil) {
+						//find it in the current list of sources
+						//or insert it
+						Source* s = [ self.sources objectForKey:@"id" ];
+						if (s != nil) {
+							//update the properties
+							s.name = [[source objectForKey: @"name"] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
+							NSString* url = [source objectForKey: @"url"];
+							s.url = [NSURL URLWithString: [url stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]]];
+						}
+						else {
+							//add it
+							NSString* sourceId  = [source objectForKey: @"id"];
+							NSString* sourceName = [source objectForKey: @"name"];
+							NSString* sourceUrl = [source objectForKey: @"url"];
+							s = [Source sourceWithId: sourceId
+												name: sourceName
+												 url: sourceUrl ];
+							
+							[self.sources setObject: s forKey: s.uid ];
+						}
+					}
+				}
+			}
+		}
+        
         //location
         NSArray* locationsArray = [json objectForKey: @"locations"];
         if(locationsArray != nil ) {
@@ -574,10 +676,16 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
         //And finally, the events
         NSArray* eventsArray = [json objectForKey: @"events" ];
         if(eventsArray != nil ) {
+                NSLog(@"Events Array: %@", eventsArray);
             NSEnumerator* e = [eventsArray objectEnumerator];
             NSDictionary* event;
             while((event = (NSDictionary*)[e nextObject])) {
+                NSLog(@"Parsing event: %@", [event objectForKey: @"title"]);
                 id tsC = [event objectForKey: @"timestampCollection"];
+                if(tsC == nil) {
+                    NSLog(@"Discarding event with nil timestampCollection.");
+                    continue;
+                }
                 NSArray* timestampCollection;
                 if( [tsC isKindOfClass: [NSArray class]] )
                     timestampCollection = tsC;
@@ -588,10 +696,13 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
                 NSEnumerator* ts_e = [timestampCollection objectEnumerator];
                 NSString* ts;
                 while(( ts = (NSString*)[ts_e nextObject] )) {
-                    NSString* event_id = [NSString stringWithFormat: @"event:%@-timestamp:%@", [event objectForKey: @"id"], ts];
+                    NSString* original_id = [event objectForKey: @"id"];
+                    NSString* event_id = [NSString stringWithFormat: @"event:%@-timestamp:%@", original_id, ts];
                     NSString* event_name = [event objectForKey: @"title" ];
                     NSNumber* duration = [NSNumber numberWithInt: [[event objectForKey: @"duration"] intValue]];
                     NSString* description = [event objectForKey:@"description"];
+                    NSString* temp_url = [event objectForKey:@"url"];
+                    NSURL* url = [NSURL URLWithString: temp_url];
                     
                     NSDate* timestamp = [timestamps objectForKey: ts];
                     if([timestamp timeIntervalSinceNow] > (3600*24*30)) {
@@ -648,7 +759,7 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
                     if(!contactPhone) {
                         contactPhone = [[self.organizations objectForKey: org_id] phone];
                     }
-                    contactEmail = [event objectForKey: @"emai"];
+                    contactEmail = [event objectForKey: @"email"];
                     if(!contactEmail) {
                         contactEmail = [[self.organizations objectForKey: org_id] email];
                     }
@@ -668,6 +779,10 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
                         location_id = locationCollection;
                     }
                     Location* location = [self.locations objectForKey: location_id];
+					
+					NSString*source_id = [event objectForKey: @"sourceId"];
+					Source* source = [self.sources objectForKey: source_id ];
+					
                     Event* e = [self.events objectForKey: event_id];
                     if(e != nil) {
                         //update
@@ -683,19 +798,20 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
                                        details: description
                                   organization: [self.organizations objectForKey: org_id]
                                        contact: contact
-                                        source: nil 
+                                           url: url
+                                        source: source 
                                       location: location 
                                  interestAreas: event_interestAreas
                                           date: [timestamps objectForKey: ts]
-                                      duration: duration ];
-                        //don't add them for now until we hande nils in the UI
+                                      duration: duration
+                                    originalId: original_id];
                         [self.events setObject: e forKey: e.uid ];
                     }            
                 }
             }
         }
         
-        [self cullOldEvents];
+        [self filterEvents];
         [self sortData];
     }
     @finally {
@@ -706,6 +822,10 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
 
 - (void) parseFilterDataJson: (NSData*) data
 {
+    if(data == nil) {
+        return;
+    }
+    
     NSString* utf8 = [NSString stringWithUTF8String: [data bytes]];
     NSData* utf32Data = [utf8 dataUsingEncoding: NSUTF32BigEndianStringEncoding ];
     NSError* error =  nil;
@@ -730,9 +850,47 @@ NSInteger _SortInterestAreasByName(id i1, id i2, void* context)
     }   
 }
 
+- (BOOL) registerForEventOnBackend: (Event*) event
+                          withName: (NSString*) name_
+                          andEmail: (NSString*) email_
+{
+    NSString* encodedName = [ name_ stringByAddingPercentEscapesUsingEncoding: NSASCIIStringEncoding];
+    NSString* encodedEmail = [ email_ stringByAddingPercentEscapesUsingEncoding: NSASCIIStringEncoding];
+    NSString* encodedEventId = [ event.originalId stringByAddingPercentEscapesUsingEncoding: NSASCIIStringEncoding];
+    NSString* urlStr = [ NSString stringWithFormat: @"http://snapimpact.org/server/resources/attendEvent?event=%@&name=%@&email=%@",
+                        encodedEventId,
+                        encodedName,
+                        encodedEmail
+                        ];
+    NSURL* url = [ NSURL URLWithString: urlStr ];
+    NSURLRequest* request = [NSURLRequest requestWithURL: url];
+    NSURLResponse* response = nil;
+    NSError* error = nil;
+    NSData* result = [NSURLConnection sendSynchronousRequest: request
+                                           returningResponse: &response
+                                                       error: &error];
+    
+    if(error) {
+        NSLog(@"%d", [error code]);
+        return NO;
+    }
+    if(response && [response isKindOfClass: [NSHTTPURLResponse class]]) {
+        NSInteger statusCode = [(NSHTTPURLResponse*)response statusCode];
+        NSLog(@"Response code: %d", statusCode);
+        if (statusCode != 200) {
+            return NO;
+        }
+    }
+        
+    NSLog(@"%@", [NSString stringWithUTF8String: [result bytes]]);
+    return YES;
+}
+
 
 
 @end
+
+
 
 
 

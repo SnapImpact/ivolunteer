@@ -262,7 +262,7 @@ public class OrganizationRecordConverter {
 	 */
 	@XmlElement
 	public Collection<String> getLocationCollection() {
-		if (expandLevel > 0) {
+		if (expandLevel > 1) {
 			if (entity.getLocationCollection() != null) {
 				Collection<String> ret = new HashSet<String>();
 				for (Location loc : entity.getLocationCollection()) {
@@ -291,7 +291,7 @@ public class OrganizationRecordConverter {
 	 */
 	@XmlElement
 	public Collection<String> getInterestAreaCollection() {
-		if (expandLevel > 0) {
+		if (expandLevel > 1) {
 			if (entity.getInterestAreaCollection() != null) {
 				Collection<String> ret = new HashSet<String>();
 				for (InterestArea interestArea : entity.getInterestAreaCollection()) {
@@ -320,7 +320,7 @@ public class OrganizationRecordConverter {
 	 */
 	@XmlElement
 	public Collection<String> getEventCollection() {
-		if (expandLevel > 0) {
+		if (expandLevel > 1) {
 			if (entity.getEventCollection() != null) {
 				Collection<String> ret = new HashSet<String>();
 				for (Event event : entity.getEventCollection()) {

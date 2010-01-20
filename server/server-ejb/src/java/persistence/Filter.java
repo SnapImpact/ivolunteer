@@ -51,25 +51,25 @@ public class Filter implements Serializable, IdInterface {
 	private static final long				serialVersionUID	= 1L;
 	@Id
 	@Basic(optional = false)
-	@Column(name = "ID")
+	@Column(name = "id")
 	private String							id;
-	@Column(name = "LATITUDE")
+	@Column(name = "latitude")
 	private String							latitude;
-	@Column(name = "LONGITUDE")
+	@Column(name = "longitude")
 	private String							longitude;
-	@JoinTable(name = "FILTER_ORGANIZATION_TYPE", joinColumns = { @JoinColumn(name = "FILTER_ID", referencedColumnName = "ID") }, inverseJoinColumns = { @JoinColumn(name = "ORGANIZATION_TYPE_ID", referencedColumnName = "ID") })
+	@JoinTable(name = "FILTER_ORGANIZATION_TYPE", joinColumns = { @JoinColumn(name = "filter_id", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "organization_type_id", referencedColumnName = "id") })
 	@ManyToMany
 	private Collection<OrganizationType>	organizationTypeCollection;
-	@JoinTable(name = "FILTER_INTEREST_AREA", joinColumns = { @JoinColumn(name = "FILTER_ID", referencedColumnName = "ID") }, inverseJoinColumns = { @JoinColumn(name = "INTEREST_AREA_ID", referencedColumnName = "ID") })
+	@JoinTable(name = "FILTER_INTEREST_AREA", joinColumns = { @JoinColumn(name = "filter_id", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "interest_area_id", referencedColumnName = "id") })
 	@ManyToMany
 	private Collection<InterestArea>		interestAreaCollection;
-	@JoinColumn(name = "DISTANCE_ID", referencedColumnName = "ID")
+	@JoinColumn(name = "distance_id", referencedColumnName = "id")
 	@ManyToOne
 	private Distance						distanceId;
-	@JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	@ManyToOne(optional = false)
 	private IvUser							userId;
-	@JoinColumn(name = "TIMEFRAME_ID", referencedColumnName = "ID")
+	@JoinColumn(name = "timeframe_id", referencedColumnName = "id")
 	@ManyToOne
 	private Timeframe						timeframeId;
 

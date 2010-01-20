@@ -15,7 +15,6 @@
 @synthesize state;
 @synthesize address;
 @synthesize city;
-@synthesize uid;
 @synthesize location;
 
 + (id) locationWithId: (NSString*) uid

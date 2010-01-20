@@ -26,7 +26,9 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import persistence.IdInterface;
+import persistence.Location;
 import java.util.List;
+import javax.ejb.EJB;
 
 /**
  * 
@@ -36,6 +38,9 @@ import java.util.List;
 public class PersistenceFacade implements PersistenceFacadeLocal {
 	@PersistenceContext
 	private EntityManager	em;
+
+    @EJB
+    private etl.geocodeSessionLocal geo;
 
 	public void create(IdInterface<?> entity) {
 		em.persist(entity);
@@ -56,5 +61,25 @@ public class PersistenceFacade implements PersistenceFacadeLocal {
 	public List<IdInterface> findAll(String query, int start, int max) {
 		return em.createQuery(query).setFirstResult(start).setMaxResults(max).getResultList();
 	}
+
+    public List<IdInterface> findByLoc(String queryName, int start, int max, String lat, String lng, int radius) {
+		String point = "POINT(" + lat + " " + lng +")";
+        return em.createNamedQuery(queryName).setFirstResult(start).setMaxResults(max)
+                .setParameter(1, point).setParameter(2, radius * 1609).setParameter(3, point)
+                .setParameter(4, radius * 1609).setParameter(5, point).setParameter(6, radius * 1609).getResultList();
+	}
+
+    public List<IdInterface> findByLoc(String queryName, int start, int max, String street, String city, String state, String zip, int radius)
+    {
+        Location loc = new Location();
+        loc.setStreet(street);
+        loc.setCity(city);
+        loc.setState(state);
+        loc.setZip(zip);
+
+        geo.encodeAddress(loc);
+
+        return findByLoc(queryName, start, max, loc.getLatitude(), loc.getLongitude(), radius);
+    }
 
 }

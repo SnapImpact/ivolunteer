@@ -48,17 +48,17 @@ public class Integration implements Serializable, IdInterface {
 	private static final long	serialVersionUID	= 1L;
 	@Id
 	@Basic(optional = false)
-	@Column(name = "ID")
+	@Column(name = "id")
 	private String				id;
 	@Basic(optional = false)
-	@Column(name = "USER_NAME")
+	@Column(name = "user_name")
 	private String				userName;
-	@Column(name = "PASSWORD")
+	@Column(name = "password")
 	private String				password;
-	@JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+	@JoinColumn(name = "user_id", referencedColumnName = "ID")
 	@ManyToOne(optional = false)
 	private IvUser				userId;
-	@JoinColumn(name = "NETWORK_ID", referencedColumnName = "ID")
+	@JoinColumn(name = "network_id", referencedColumnName = "ID")
 	@ManyToOne(optional = false)
 	private Network				networkId;
 

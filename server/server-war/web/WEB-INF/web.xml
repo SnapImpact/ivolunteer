@@ -136,6 +136,12 @@
         <local>session.PersistenceFacadeLocal</local>
         <ejb-link>server-ejb.jar#PersistenceFacade</ejb-link>
     </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>geocodeSessionLocal</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>etl.geocodeSessionLocal</local>
+        <ejb-link>server-ejb.jar#geocodeSessionBean</ejb-link>
+    </ejb-local-ref>
     <resource-ref>
 <res-ref-name>UserTransaction</res-ref-name>
 <res-type>javax.transaction.UserTransaction</res-type>

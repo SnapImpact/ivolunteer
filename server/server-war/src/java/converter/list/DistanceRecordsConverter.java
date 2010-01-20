@@ -63,7 +63,7 @@ public class DistanceRecordsConverter {
 		ArrayList<DistanceRecordConverter> ret = new ArrayList<DistanceRecordConverter>();
 		if (records != null) {
 			for (Distance record : records) {
-				ret.add(new DistanceRecordConverter(record, baseUri.resolve("location/"
+				ret.add(new DistanceRecordConverter(record, baseUri.resolve("distance/"
 						+ record.getId() + "/"), 1));
 			}
 		}

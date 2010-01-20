@@ -9,6 +9,8 @@
 #import "SplashViewController.h"
 #import "iVolunteerData.h"
 #import "DateUtilities.h"
+#import "SettingsViewController.h"
+#import "iPhoneAppDelegate.h"
 
 @implementation SplashViewController
 
@@ -40,7 +42,7 @@
 
 - (void)openingAnimationComplete
 {
-	if ([busyIndicatorDelegate isBusy])
+	if ([busyIndicatorDelegate isBusy] && [[iVolunteerData sharedVolunteerData] reachable])
 	{
         NSString* msg = NSLocalizedString(@"Determining location...", @"Tell user we are determining the location of their iPhone");
 		[busyIndicatorDelegate startAnimatingWithMessage: msg atBottom: YES];
@@ -53,7 +55,7 @@
 	scrollView.delaysContentTouches = NO;
     
     NSString*	version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
-    self.versionLabel.text = [NSString stringWithFormat: @"Version: %@ (BETA)", version];
+    self.versionLabel.text = [NSString stringWithFormat: @"Version: %@", version];
    
    UIImage* buttonImage = [[UIImage imageNamed:@"greenButton.png"] stretchableImageWithLeftCapWidth: 12.0 topCapHeight: 0 ];
    [continueButton setBackgroundImage: buttonImage forState: UIControlStateNormal];
@@ -109,7 +111,7 @@
 {
 	NSDate *start2 = [NSDate date];
     completedRestCount = 0;
-	RestController *restController = [[RestController alloc] initWithVolunteerData: [iVolunteerData sharedVolunteerData]];
+	RestController *restController = [iPhoneAppDelegate RestController];
     [restController beginGetFilterData ];
 	[restController beginGetEventsFrom: [DateUtilities today] until: [DateUtilities daysFromNow: 14]];
     restController.delegate = self;
@@ -122,6 +124,7 @@
 	[self.zipcodeField resignFirstResponder];
 	if ([self.zipcodeField.text length] == 5)
 	{
+        [SettingsViewController forceZipcodeSettings: self.zipcodeField.text];
 		iVolunteerData *data = [iVolunteerData sharedVolunteerData];
 		data.homeZip = self.zipcodeField.text;
 		[self loadDataFeed];
@@ -169,14 +172,19 @@
 	}
 	else
 	{
-		[self loadDataFeed];
+        if([[iVolunteerData sharedVolunteerData] reachable]) {
+            [self loadDataFeed];
+        }
+        else {
+        }
 	}
 	//[continueButton setHidden:NO];
     //[dismissalDelegate dismissScreen];
 }
 
 - (void) restController: (RestController*) controller
-        didRetrieveData: (NSData*) data {
+        didRetrieveData: (NSData*) data
+          forRestClient: (RestClient*) client {
     completedRestCount++;
     if(completedRestCount == 2) {
         //Done!
@@ -184,6 +192,22 @@
         [((NSObject*)dismissalDelegate) performSelector: @selector(dismissScreen) withObject: nil afterDelay: 0.3
         ];
         //[dismissalDelegate dismissScreen];
+    }
+}
+
+- (void) restController: (RestController*) controller
+       didFailWithError: (NSError*) error 
+          forRestClient: (RestClient*) client {
+    completedRestCount++;
+    if(completedRestCount == 2) {
+        //Done!
+        NSLog(@"Completed all requests!");
+        [((NSObject*)dismissalDelegate) performSelector: @selector(dismissScreen) withObject: nil afterDelay: 0.3
+         ];
+        //[dismissalDelegate dismissScreen];
+    }
+    if(client == controller.consolidatedClient) {
+        [iPhoneAppDelegate displayConnectionError: error ];
     }
 }
 

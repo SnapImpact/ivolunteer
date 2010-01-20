@@ -32,4 +32,6 @@ enum NavigationLevel {
 // required information
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section;
 
+-(void) refresh;
+
 @end

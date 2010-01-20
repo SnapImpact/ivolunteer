@@ -50,15 +50,15 @@ public class IvUser implements Serializable, IdInterface {
 	private static final long		serialVersionUID	= 1L;
 	@Id
 	@Basic(optional = false)
-	@Column(name = "ID")
+	@Column(name = "id")
 	private String					id;
 	@Basic(optional = false)
-	@Column(name = "NAME")
+	@Column(name = "name")
 	private String					name;
 	@Basic(optional = false)
-	@Column(name = "PASSWORD")
+	@Column(name = "password")
 	private String					password;
-	@Column(name = "IPHONE_ID")
+	@Column(name = "iphone_id")
 	private String					iphoneId;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
 	private Collection<Filter>		filterCollection;

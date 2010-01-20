@@ -47,10 +47,10 @@ public class Distance implements Serializable, IdInterface {
 	private static final long	serialVersionUID	= 1L;
 	@Id
 	@Basic(optional = false)
-	@Column(name = "ID")
+	@Column(name = "id")
 	private String				id;
 	@Basic(optional = false)
-	@Column(name = "BUCKET")
+	@Column(name = "bucket")
 	private short				bucket;
 	@OneToMany(mappedBy = "distanceId")
 	private Collection<Filter>	filterCollection;

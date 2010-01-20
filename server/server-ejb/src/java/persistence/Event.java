@@ -34,6 +34,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.Table;
 
 /**
@@ -54,45 +55,60 @@ import javax.persistence.Table;
 		@NamedQuery(name = "Event.findByEmail", query = "SELECT e FROM Event e WHERE e.email = :email"),
 		@NamedQuery(name = "Event.findBySourceKey", query = "SELECT e FROM Event e WHERE e.sourceKey = :sourceKey"),
 		@NamedQuery(name = "Event.findBySourceUrl", query = "SELECT e FROM Event e WHERE e.sourceUrl = :sourceUrl") })
+@NamedNativeQuery(
+        name = "Event.findNearLocation",
+        query = "SELECT e.id, e.title, e.description, e.duration, e.contact, e.url, " +
+                "e.phone, e.email, e.source_key, e.source_url FROM Event e " +
+                "JOIN Event_Location el on e.id = el.event_id " +
+                "JOIN Location l on el.location_id = l.id " +
+                "WHERE e.duration < 604800 AND " +
+                "e.id IN ( SELECT et.event_id FROM Timestamp t, " +
+                "Event_Timestamp et where t.timestamp >= 'today' and t.id = et.timestamp_id ) AND " +
+                "l.geom && EXPAND(GeometryFromText(?, 4326), ?) AND " +
+                "Distance(GeometryFromText(?, 4326), l.geom) < ? " +
+                "ORDER BY ST_Distance_Sphere(GeometryFromText(?, 4326), l.geom) ",
+        resultClass = persistence.Event.class
+        )
+
 public class Event implements Serializable, IdInterface {
 	private static final long			serialVersionUID	= 1L;
 	@Id
 	@Basic(optional = false)
-	@Column(name = "ID")
+	@Column(name = "id")
 	private String						id;
 	@Basic(optional = false)
-	@Column(name = "TITLE")
+	@Column(name = "title")
 	private String						title;
 	@Basic(optional = false)
-	@Column(name = "DESCRIPTION")
+	@Column(name = "description")
 	private String						description;
-	@Column(name = "DURATION")
-	private Short						duration;
-	@Column(name = "CONTACT")
+	@Column(name = "duration")
+	private Long						duration;
+	@Column(name = "contact")
 	private String						contact;
-	@Column(name = "URL")
+	@Column(name = "url")
 	private String						url;
-	@Column(name = "PHONE")
+	@Column(name = "phone")
 	private String						phone;
-	@Column(name = "EMAIL")
+	@Column(name = "email")
 	private String						email;
-	@Column(name = "SOURCE_KEY")
+	@Column(name = "source_Key")
 	private String						sourceKey;
-	@Column(name = "SOURCE_URL")
+	@Column(name = "source_url")
 	private String						sourceUrl;
-	@JoinTable(name = "EVENT_INTEREST_AREA", joinColumns = { @JoinColumn(name = "EVENT_ID", referencedColumnName = "ID") }, inverseJoinColumns = { @JoinColumn(name = "INTEREST_AREA_ID", referencedColumnName = "ID") })
+	@JoinTable(name = "EVENT_INTEREST_AREA", joinColumns = { @JoinColumn(name = "EVENT_ID", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "INTEREST_AREA_ID", referencedColumnName = "id") })
 	@ManyToMany
 	private Collection<InterestArea>	interestAreaCollection;
-	@JoinTable(name = "EVENT_TIMESTAMP", joinColumns = { @JoinColumn(name = "EVENT_ID", referencedColumnName = "ID") }, inverseJoinColumns = { @JoinColumn(name = "TIMESTAMP_ID", referencedColumnName = "ID") })
+	@JoinTable(name = "EVENT_TIMESTAMP", joinColumns = { @JoinColumn(name = "EVENT_ID", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "TIMESTAMP_ID", referencedColumnName = "id") })
 	@ManyToMany
 	private Collection<Timestamp>		timestampCollection;
-	@JoinTable(name = "EVENT_LOCATION", joinColumns = { @JoinColumn(name = "EVENT_ID", referencedColumnName = "ID") }, inverseJoinColumns = { @JoinColumn(name = "LOCATION_ID", referencedColumnName = "ID") })
+	@JoinTable(name = "EVENT_LOCATION", joinColumns = { @JoinColumn(name = "EVENT_ID", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "LOCATION_ID", referencedColumnName = "id") })
 	@ManyToMany
 	private Collection<Location>		locationCollection;
-	@JoinTable(name = "EVENT_ORGANIZATION", joinColumns = { @JoinColumn(name = "EVENT_ID", referencedColumnName = "ID") }, inverseJoinColumns = { @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ID") })
+	@JoinTable(name = "EVENT_ORGANIZATION", joinColumns = { @JoinColumn(name = "EVENT_ID", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "id") })
 	@ManyToMany
 	private Collection<Organization>	organizationCollection;
-	@JoinColumn(name = "SOURCE_ID", referencedColumnName = "ID")
+	@JoinColumn(name = "source_id", referencedColumnName = "id")
 	@ManyToOne
 	private Source						sourceId;
 
@@ -133,11 +149,11 @@ public class Event implements Serializable, IdInterface {
 		this.description = description;
 	}
 
-	public Short getDuration() {
+	public Long getDuration() {
 		return duration;
 	}
 
-	public void setDuration(Short duration) {
+	public void setDuration(Long duration) {
 		this.duration = duration;
 	}
 

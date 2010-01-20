@@ -47,8 +47,10 @@
 	BOOL isBusy;
     BOOL receivedLocation;
 	CLLocationManager * locationMgr;
+    RestController* restController;
 }
 
+@property (nonatomic, retain) RestController *restController;
 @property (nonatomic, retain) id <LocationAvailabilityDelegate> locationDelegate;
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
@@ -60,7 +62,13 @@
 
 
 -(void) loadNavigationView;
+-(void) showFloatingView;
+-(void) hideFloatingView;
 +(NSObject<BusyIndicatorDelegate>*) BusyIndicator;
++(RestController*) RestController;
++(void) showActionSheet: (UIActionSheet*) actionSheet;
++(void) displayConnectionError: (NSError*) error;
 
 @end
+
 

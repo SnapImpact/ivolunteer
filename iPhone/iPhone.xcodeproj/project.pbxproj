@@ -17,8 +17,14 @@
 		28C286E10D94DF7D0034E888 /* ProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* ProjectViewController.m */; };
 		5C8418780F6F538200BBEACC /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C8418720F6F538200BBEACC /* Default.png */; };
 		5CADF4450F90F83A00690E94 /* marker.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CADF4440F90F83A00690E94 /* marker.png */; };
+		9011EA4F1106BD1600513269 /* DonateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9011EA4E1106BD1600513269 /* DonateViewController.m */; };
+		9011EA511106BD2500513269 /* gift.png in Resources */ = {isa = PBXBuildFile; fileRef = 9011EA501106BD2500513269 /* gift.png */; };
+		9011EA6D1106BD8C00513269 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9011EA6C1106BD8C00513269 /* StoreKit.framework */; };
 		940875410F5C965C0037C286 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 940875400F5C965C0037C286 /* Entitlements.plist */; };
 		941853530FE0966700313AFC /* Entitlements-Development.plist in Resources */ = {isa = PBXBuildFile; fileRef = 941853520FE0966700313AFC /* Entitlements-Development.plist */; };
+		941A744B10323FC40049DD9F /* StringUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 941A744A10323FC40049DD9F /* StringUtilities.m */; };
+		9423873D100D6FAA00267E8A /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9423873B100D6FAA00267E8A /* Reachability.m */; };
+		9423874D100D710000267E8A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9423874C100D710000267E8A /* SystemConfiguration.framework */; };
 		942E23BD0F5E107000C87AC1 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 942E23BC0F5E107000C87AC1 /* MapViewController.m */; };
 		942E23BF0F5E109400C87AC1 /* MapView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 942E23BE0F5E109400C87AC1 /* MapView.xib */; };
 		943BD0AA0F76EB5000363DF2 /* CDataScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 943BD0990F76EB5000363DF2 /* CDataScanner.m */; };
@@ -89,7 +95,7 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* iPhoneAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPhoneAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* iPhoneAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iPhoneAppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* iVolunteer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iVolunteer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* SnapImpact.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SnapImpact.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		2899E55F0DE3E45000AC0155 /* RootViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RootViewController.xib; sourceTree = "<group>"; };
@@ -104,8 +110,17 @@
 		5CA6420E0F6C674A00B181AF /* ScreenDismissalDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenDismissalDelegate.h; sourceTree = "<group>"; };
 		5CADF4440F90F83A00690E94 /* marker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = marker.png; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9011EA4D1106BD1600513269 /* DonateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DonateViewController.h; sourceTree = "<group>"; };
+		9011EA4E1106BD1600513269 /* DonateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DonateViewController.m; sourceTree = "<group>"; };
+		9011EA501106BD2500513269 /* gift.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gift.png; sourceTree = "<group>"; };
+		9011EA6C1106BD8C00513269 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		940875400F5C965C0037C286 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		941853520FE0966700313AFC /* Entitlements-Development.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Entitlements-Development.plist"; sourceTree = "<group>"; };
+		941A744910323FC40049DD9F /* StringUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringUtilities.h; sourceTree = "<group>"; };
+		941A744A10323FC40049DD9F /* StringUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringUtilities.m; sourceTree = "<group>"; };
+		9423873B100D6FAA00267E8A /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		9423873C100D6FAA00267E8A /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		9423874C100D710000267E8A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		942E23BB0F5E107000C87AC1 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		942E23BC0F5E107000C87AC1 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		942E23BE0F5E109400C87AC1 /* MapView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapView.xib; sourceTree = "<group>"; };
@@ -228,6 +243,8 @@
 				2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */,
 				94A97D3B0F452D610077E4E0 /* libxml2.dylib in Frameworks */,
 				9455C53E0F52270D00296B87 /* CoreLocation.framework in Frameworks */,
+				9423874D100D710000267E8A /* SystemConfiguration.framework in Frameworks */,
+				9011EA6D1106BD8C00513269 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,17 +254,18 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				941A744910323FC40049DD9F /* StringUtilities.h */,
+				941A744A10323FC40049DD9F /* StringUtilities.m */,
+				9423873A100D6F8600267E8A /* Reachability */,
 				5CADF43D0F90F7E100690E94 /* MapView */,
 				943BD0B60F76EB7D00363DF2 /* GeoCoder */,
 				943BD0970F76EB5000363DF2 /* TouchJSON */,
-				9455CA030F537D8200296B87 /* UI Classes */,
+				94163E19104B30000040CFF9 /* UI Classes */,
 				9455C60F0F5258DE00296B87 /* DateUtilities.h */,
 				9455C6100F5258DE00296B87 /* DateUtilities.m */,
 				94A97BB50F4521A80077E4E0 /* REST Interaction */,
 				94BE574D0F42A4E000A505F0 /* Data Sources */,
 				94BE56E80F4294E000A505F0 /* Data Model */,
-				E1DDD40D0EAAD73F006CA155 /* SplashViewController.h */,
-				E1DDD40E0EAAD73F006CA155 /* SplashViewController.m */,
 				1D3623240D0F684500981E51 /* iPhoneAppDelegate.h */,
 				1D3623250D0F684500981E51 /* iPhoneAppDelegate.m */,
 				5CA641F70F6C638D00B181AF /* LocationAvailabilityDelegate.h */,
@@ -260,7 +278,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* iVolunteer.app */,
+				1D6058910D05DD3D006BFB54 /* SnapImpact.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -311,11 +329,13 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9423874C100D710000267E8A /* SystemConfiguration.framework */,
 				9455C53D0F52270D00296B87 /* CoreLocation.framework */,
 				94A97D3A0F452D610077E4E0 /* libxml2.dylib */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
+				9011EA6C1106BD8C00513269 /* StoreKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -345,6 +365,57 @@
 				94C3AE820F91452D00153859 /* MapView.h */,
 			);
 			name = MapView;
+			sourceTree = "<group>";
+		};
+		94163E19104B30000040CFF9 /* UI Classes */ = {
+			isa = PBXGroup;
+			children = (
+				9011EA4D1106BD1600513269 /* DonateViewController.h */,
+				9011EA4E1106BD1600513269 /* DonateViewController.m */,
+				28C286DF0D94DF7D0034E888 /* ProjectViewController.h */,
+				28C286E00D94DF7D0034E888 /* ProjectViewController.m */,
+				94C3AE850F91455000153859 /* MemoryTabViewController.m */,
+				94C3AE860F91455000153859 /* MemoryTabViewController.h */,
+				94BACFB40F5BBFF700FDACED /* ColorCache.h */,
+				94BACFB50F5BBFF700FDACED /* ColorCache.m */,
+				94BACFA40F5BBD5C00FDACED /* AttributeCell.h */,
+				94BACFA50F5BBD5C00FDACED /* AttributeCell.m */,
+				94DFFFA60F5A0ABF005D62B9 /* ActionsView.m */,
+				94DFFFA50F5A0AB6005D62B9 /* ActionsView.h */,
+				9455CA040F537DA600296B87 /* EventTableCell.h */,
+				9455CA050F537DA600296B87 /* EventTableCell.m */,
+				9483D93B0F5A184B00406DB3 /* EventDetailsHeaderCell.h */,
+				9483D93C0F5A184B00406DB3 /* EventDetailsHeaderCell.m */,
+				94ED9C280F5BAFC600F2697F /* EventDetailsTableViewController.h */,
+				94ED9C290F5BAFC600F2697F /* EventDetailsTableViewController.m */,
+				942E23BB0F5E107000C87AC1 /* MapViewController.h */,
+				942E23BC0F5E107000C87AC1 /* MapViewController.m */,
+				94F2B8550F943622004C7ECB /* SettingsViewController.h */,
+				94F2B8560F943622004C7ECB /* SettingsViewController.m */,
+				94CC40F60F9EB85900EFFEF1 /* RegisterConfirmationViewController.h */,
+				94CC40F70F9EB85900EFFEF1 /* RegisterConfirmationViewController.m */,
+				94A6E08B0FA7E8A2004F3412 /* MyEventsViewController.h */,
+				94A6E08C0FA7E8A2004F3412 /* MyEventsViewController.m */,
+				94A6E09A0FA7E952004F3412 /* EventsViewController.h */,
+				94A6E09B0FA7E952004F3412 /* EventsViewController.m */,
+				94A6E1480FA7EB3A004F3412 /* UpcomingEventsViewController.h */,
+				94A6E1490FA7EB3A004F3412 /* UpcomingEventsViewController.m */,
+				E1DDD40D0EAAD73F006CA155 /* SplashViewController.h */,
+				E1DDD40E0EAAD73F006CA155 /* SplashViewController.m */,
+				94BE51320FBA50D500AD1858 /* InterestAreaFilterController.h */,
+				94BE51330FBA50D500AD1858 /* InterestAreaFilterController.m */,
+				94BE51340FBA50D500AD1858 /* InterestAreaFilterController.xib */,
+			);
+			name = "UI Classes";
+			sourceTree = "<group>";
+		};
+		9423873A100D6F8600267E8A /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				9423873B100D6FAA00267E8A /* Reachability.m */,
+				9423873C100D6FAA00267E8A /* Reachability.h */,
+			);
+			name = Reachability;
 			sourceTree = "<group>";
 		};
 		943BD0970F76EB5000363DF2 /* TouchJSON */ = {
@@ -396,44 +467,6 @@
 			name = GeoCoder;
 			sourceTree = "<group>";
 		};
-		9455CA030F537D8200296B87 /* UI Classes */ = {
-			isa = PBXGroup;
-			children = (
-				28C286DF0D94DF7D0034E888 /* ProjectViewController.h */,
-				28C286E00D94DF7D0034E888 /* ProjectViewController.m */,
-				94C3AE850F91455000153859 /* MemoryTabViewController.m */,
-				94C3AE860F91455000153859 /* MemoryTabViewController.h */,
-				94BACFB40F5BBFF700FDACED /* ColorCache.h */,
-				94BACFB50F5BBFF700FDACED /* ColorCache.m */,
-				94BACFA40F5BBD5C00FDACED /* AttributeCell.h */,
-				94BACFA50F5BBD5C00FDACED /* AttributeCell.m */,
-				94DFFFA60F5A0ABF005D62B9 /* ActionsView.m */,
-				94DFFFA50F5A0AB6005D62B9 /* ActionsView.h */,
-				9455CA040F537DA600296B87 /* EventTableCell.h */,
-				9455CA050F537DA600296B87 /* EventTableCell.m */,
-				9483D93B0F5A184B00406DB3 /* EventDetailsHeaderCell.h */,
-				9483D93C0F5A184B00406DB3 /* EventDetailsHeaderCell.m */,
-				94ED9C280F5BAFC600F2697F /* EventDetailsTableViewController.h */,
-				94ED9C290F5BAFC600F2697F /* EventDetailsTableViewController.m */,
-				942E23BB0F5E107000C87AC1 /* MapViewController.h */,
-				942E23BC0F5E107000C87AC1 /* MapViewController.m */,
-				94F2B8550F943622004C7ECB /* SettingsViewController.h */,
-				94F2B8560F943622004C7ECB /* SettingsViewController.m */,
-				94CC40F60F9EB85900EFFEF1 /* RegisterConfirmationViewController.h */,
-				94CC40F70F9EB85900EFFEF1 /* RegisterConfirmationViewController.m */,
-				94A6E08B0FA7E8A2004F3412 /* MyEventsViewController.h */,
-				94A6E08C0FA7E8A2004F3412 /* MyEventsViewController.m */,
-				94A6E09A0FA7E952004F3412 /* EventsViewController.h */,
-				94A6E09B0FA7E952004F3412 /* EventsViewController.m */,
-				94A6E1480FA7EB3A004F3412 /* UpcomingEventsViewController.h */,
-				94A6E1490FA7EB3A004F3412 /* UpcomingEventsViewController.m */,
-				94BE51320FBA50D500AD1858 /* InterestAreaFilterController.h */,
-				94BE51330FBA50D500AD1858 /* InterestAreaFilterController.m */,
-				94BE51340FBA50D500AD1858 /* InterestAreaFilterController.xib */,
-			);
-			name = "UI Classes";
-			sourceTree = "<group>";
-		};
 		94A97BB50F4521A80077E4E0 /* REST Interaction */ = {
 			isa = PBXGroup;
 			children = (
@@ -450,6 +483,7 @@
 		94AE8B550F859F78006AD78D /* Tab Icons */ = {
 			isa = PBXGroup;
 			children = (
+				9011EA501106BD2500513269 /* gift.png */,
 				94AE8B560F859F8C006AD78D /* UpcomingIcon.png */,
 				94AE8B570F859F8C006AD78D /* SettingsIcon.png */,
 				94AE8B580F859F8C006AD78D /* MyEventsIcon.png */,
@@ -510,9 +544,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1D6058900D05DD3D006BFB54 /* iVolunteer */ = {
+		1D6058900D05DD3D006BFB54 /* SnapImpact */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "iVolunteer" */;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "SnapImpact" */;
 			buildPhases = (
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
@@ -522,9 +556,9 @@
 			);
 			dependencies = (
 			);
-			name = iVolunteer;
+			name = SnapImpact;
 			productName = iPhone;
-			productReference = 1D6058910D05DD3D006BFB54 /* iVolunteer.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* SnapImpact.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -546,7 +580,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1D6058900D05DD3D006BFB54 /* iVolunteer */,
+				1D6058900D05DD3D006BFB54 /* SnapImpact */,
 			);
 		};
 /* End PBXProject section */
@@ -582,6 +616,7 @@
 				94CC410E0F9EC0B900EFFEF1 /* ActionSheetShine.png in Resources */,
 				94BE51360FBA50D500AD1858 /* InterestAreaFilterController.xib in Resources */,
 				941853530FE0966700313AFC /* Entitlements-Development.plist in Resources */,
+				9011EA511106BD2500513269 /* gift.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -637,6 +672,9 @@
 				94A6E1F80FA7F776004F3412 /* UpcomingEventsSortedByTimeDataSource.m in Sources */,
 				94A6E1FB0FA7F7B0004F3412 /* MyEventsSortedByTimeDataSource.m in Sources */,
 				94BE51350FBA50D500AD1858 /* InterestAreaFilterController.m in Sources */,
+				9423873D100D6FAA00267E8A /* Reachability.m in Sources */,
+				941A744B10323FC40049DD9F /* StringUtilities.m in Sources */,
+				9011EA4F1106BD1600513269 /* DonateViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -649,8 +687,8 @@
 				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_ENTITLEMENTS = "Entitlements-Development.plist";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Ryan Schneider (3E3MS599M6)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan Schneider (3E3MS599M6)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Hassan Abdel-Rahman (3GSPKUWY68)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Hassan Abdel-Rahman (3GSPKUWY68)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -660,14 +698,14 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iPhone_Prefix.pch;
 				GCC_USE_GCC3_PFE_SUPPORT = NO;
-				GCC_VERSION = 4.0;
+				GCC_VERSION = 4.2;
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_NAME = iVolunteer;
-				PROVISIONING_PROFILE = "8BC4B96D-F626-4C8D-9498-1D7D8F1552AA";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8BC4B96D-F626-4C8D-9498-1D7D8F1552AA";
-				SDKROOT = iphoneos2.1;
+				PRODUCT_NAME = SnapImpact;
+				PROVISIONING_PROFILE = "9ACD0C48-38CA-4143-8E23-CC88E8B094E9";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9ACD0C48-38CA-4143-8E23-CC88E8B094E9";
+				SDKROOT = iphoneos3.0;
 			};
 			name = Development;
 		};
@@ -687,14 +725,14 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iPhone_Prefix.pch;
 				GCC_USE_GCC3_PFE_SUPPORT = NO;
-				GCC_VERSION = 4.0;
+				GCC_VERSION = "";
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_NAME = iVolunteer;
-				PROVISIONING_PROFILE = "AAD86D44-0987-471F-82D4-1D6EA297613F";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "AAD86D44-0987-471F-82D4-1D6EA297613F";
-				SDKROOT = iphoneos2.1;
+				PRODUCT_NAME = SnapImpact;
+				PROVISIONING_PROFILE = "8272BC0A-55A4-409B-A6C8-DE93F32FF5D3";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8272BC0A-55A4-409B-A6C8-DE93F32FF5D3";
+				SDKROOT = iphoneos3.0;
 			};
 			name = Adhoc;
 		};
@@ -707,12 +745,11 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: The Community Foundation - i Volunteer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: The Community Foundation - i Volunteer";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_VERSION = 4.2;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "34D59FEA-384E-4E7F-A6AD-A1C4E1F5F528";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "34D59FEA-384E-4E7F-A6AD-A1C4E1F5F528";
-				SDKROOT = iphoneos2.1;
+				SDKROOT = iphoneos3.0;
 				VERSIONING_SYSTEM = "";
 			};
 			name = iTunes;
@@ -733,14 +770,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iPhone_Prefix.pch;
 				GCC_USE_GCC3_PFE_SUPPORT = NO;
-				GCC_VERSION = 4.0;
+				GCC_VERSION = 4.2;
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_NAME = iVolunteer;
-				PROVISIONING_PROFILE = "34D59FEA-384E-4E7F-A6AD-A1C4E1F5F528";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "34D59FEA-384E-4E7F-A6AD-A1C4E1F5F528";
-				SDKROOT = iphoneos2.1;
+				PRODUCT_NAME = SnapImpact;
+				SDKROOT = iphoneos2.2.1;
 			};
 			name = iTunes;
 		};
@@ -750,16 +785,19 @@
 				ADDITIONAL_SDKS = "$HOME/Library/SDKs/JSON/$(PLATFORM_NAME).sdk";
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = "Entitlements-Development.plist";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Ryan Schneider (3E3MS599M6)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan Schneider (3E3MS599M6)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Hassan Abdel-Rahman (3GSPKUWY68)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Hassan Abdel-Rahman (3GSPKUWY68)";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_VERSION = 4.2;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "8BC4B96D-F626-4C8D-9498-1D7D8F1552AA";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8BC4B96D-F626-4C8D-9498-1D7D8F1552AA";
-				SDKROOT = iphoneos2.1;
+				PROVISIONING_PROFILE = "9ACD0C48-38CA-4143-8E23-CC88E8B094E9";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9ACD0C48-38CA-4143-8E23-CC88E8B094E9";
+				RUN_CLANG_STATIC_ANALYZER = NO;
+				SDKROOT = iphoneos3.0;
 				VERSIONING_SYSTEM = "";
 			};
 			name = Development;
@@ -773,12 +811,11 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: The Community Foundation - i Volunteer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: The Community Foundation - i Volunteer";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "AAD86D44-0987-471F-82D4-1D6EA297613F";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "AAD86D44-0987-471F-82D4-1D6EA297613F";
-				SDKROOT = iphoneos2.1;
+				SDKROOT = iphoneos3.0;
 				VERSIONING_SYSTEM = "";
 			};
 			name = Adhoc;
@@ -786,7 +823,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "iVolunteer" */ = {
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "SnapImpact" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Development */,

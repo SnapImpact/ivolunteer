@@ -24,6 +24,8 @@ package admin;
 
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
 import com.sun.webui.jsf.model.SingleSelectOptionsList;
+import etl.geocodeSessionLocal;
+import etl.locationencoderSessionLocal;
 import etl.vomlSessionLocal;
 import javax.ejb.EJB;
 import javax.faces.FacesException;
@@ -45,7 +47,10 @@ import javax.faces.event.ValueChangeEvent;
 public class Admin extends AbstractPageBean {
 	@EJB
 	private vomlSessionLocal	vomlSessionBean;
-
+	@EJB
+	private locationencoderSessionLocal	locationencoderSessionBean;
+	@EJB
+	private geocodeSessionLocal	geocoderSessionBean;
 	// <editor-fold defaultstate="collapsed"
 	// desc="Managed Component Definition">
 
@@ -61,9 +66,32 @@ public class Admin extends AbstractPageBean {
 				new com.sun.webui.jsf.model.Option("file", "Test File"),
 				new com.sun.webui.jsf.model.Option("server", "Server") });
 		radioButtonGroup1DefaultOptions.setSelectedValue("file");
+		radioButtonGroup2DefaultOptions.setOptions(new com.sun.webui.jsf.model.Option[] {
+				new com.sun.webui.jsf.model.Option("encode", "Encode Locations"),
+				new com.sun.webui.jsf.model.Option("dummy", "Nothing") });
+		radioButtonGroup2DefaultOptions.setSelectedValue("encode");
 	}
 
-	private SingleSelectOptionsList	radioButtonGroup1DefaultOptions	= new SingleSelectOptionsList();
+    private String latitude = "";
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+    private String longitude = "";
+
+    public String getLatitude() {
+        return latitude;
+    }
+    public String getLongitude() {
+        return longitude;
+    }
+
+    private SingleSelectOptionsList	radioButtonGroup1DefaultOptions	= new SingleSelectOptionsList();
+	private SingleSelectOptionsList	radioButtonGroup2DefaultOptions	= new SingleSelectOptionsList();
 
 	public SingleSelectOptionsList getRadioButtonGroup1DefaultOptions() {
 		return radioButtonGroup1DefaultOptions;
@@ -71,6 +99,13 @@ public class Admin extends AbstractPageBean {
 
 	public void setRadioButtonGroup1DefaultOptions(SingleSelectOptionsList ssol) {
 		this.radioButtonGroup1DefaultOptions = ssol;
+	}
+	public SingleSelectOptionsList getRadioButtonGroup2DefaultOptions() {
+		return radioButtonGroup2DefaultOptions;
+	}
+
+	public void setRadioButtonGroup2DefaultOptions(SingleSelectOptionsList ssol) {
+		this.radioButtonGroup2DefaultOptions = ssol;
 	}
 
 	// </editor-fold>
@@ -200,5 +235,16 @@ public class Admin extends AbstractPageBean {
 	public void radioButtonGroup1_processValueChange(ValueChangeEvent vce) {
 		vomlSessionBean.loadVoml();
 	}
-
+	public void radioButtonGroup2_processValueChange(ValueChangeEvent vce) {
+		locationencoderSessionBean.updateLocationTableLatLon();
+	}
+    public void encodeAddress_processValueChange(ValueChangeEvent vce) {
+        persistence.Location loc = new persistence.Location();
+        loc.setStreet(vce.getNewValue().toString());
+		geocoderSessionBean.encodeAddress(loc);
+        latitude = loc.getLatitude();
+        if (latitude == null) latitude = "";
+        longitude = loc.getLongitude();
+        if (longitude == null) longitude = "";
+	}
 }

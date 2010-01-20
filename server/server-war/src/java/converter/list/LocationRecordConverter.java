@@ -189,6 +189,26 @@ public class LocationRecordConverter {
 		entity.setZip(value);
 	}
 
+        /**
+	 * Getter for country.
+	 *
+	 * @return value for country
+	 */
+        @XmlElement
+	public String getCountry() {
+		return (expandLevel > 0) ? entity.getCountry() : null;
+	}
+
+	/**
+	 * Setter for country.
+	 *
+	 * @param value
+	 *            the value to set
+	 */
+	public void setCountry(String value) {
+		entity.setCountry(value);
+	}
+
 	/**
 	 * Getter for location.
 	 * 
@@ -256,7 +276,7 @@ public class LocationRecordConverter {
 	 */
 	@XmlElement
 	public Collection<String> getOrganizationCollection() {
-		if (expandLevel > 0) {
+		if (expandLevel > 1) {
 			if (entity.getOrganizationCollection() != null) {
 				Collection<String> ret = new HashSet<String>();
 				for (Organization org : entity.getOrganizationCollection()) {
@@ -285,7 +305,7 @@ public class LocationRecordConverter {
 	 */
 	@XmlElement
 	public Collection<String> getEventCollection() {
-		if (expandLevel > 0) {
+		if (expandLevel > 1) {
 			if (entity.getEventCollection() != null) {
 				Collection<String> ret = new HashSet<String>();
 				for (Event event : entity.getEventCollection()) {

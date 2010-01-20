@@ -51,14 +51,14 @@ public class InterestArea implements Serializable, IdInterface {
 	private static final long				serialVersionUID	= 1L;
 	@Id
 	@Basic(optional = false)
-	@Column(name = "ID")
+	@Column(name = "id")
 	private String							id;
 	@Basic(optional = false)
-	@Column(name = "NAME")
+	@Column(name = "name")
 	private String							name;
 	@ManyToMany(mappedBy = "interestAreaCollection")
 	private Collection<Event>				eventCollection;
-	@JoinTable(name = "ORGANIZATION_INTEREST_AREA", joinColumns = { @JoinColumn(name = "INTEREST_AREA_ID", referencedColumnName = "ID") }, inverseJoinColumns = { @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ID") })
+	@JoinTable(name = "ORGANIZATION_INTEREST_AREA", joinColumns = { @JoinColumn(name = "interest_area_id", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "organization_id", referencedColumnName = "id") })
 	@ManyToMany
 	private Collection<Organization>		organizationCollection;
 	@ManyToMany(mappedBy = "interestAreaCollection")

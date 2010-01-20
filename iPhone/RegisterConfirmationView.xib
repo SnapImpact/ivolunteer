@@ -2,9 +2,9 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="7.03">
 	<data>
 		<int key="IBDocument.SystemTarget">768</int>
-		<string key="IBDocument.SystemVersion">9G66</string>
-		<string key="IBDocument.InterfaceBuilderVersion">677</string>
-		<string key="IBDocument.AppKitVersion">949.43</string>
+		<string key="IBDocument.SystemVersion">9L31a</string>
+		<string key="IBDocument.InterfaceBuilderVersion">680</string>
+		<string key="IBDocument.AppKitVersion">949.54</string>
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -91,14 +91,14 @@
 							<double key="NSSize">1.500000e+01</double>
 							<int key="NSfFlags">16</int>
 						</object>
-						<string key="IBUIHighlightedTitle"/>
-						<string key="IBUIDisabledTitle"/>
-						<string key="IBUISelectedTitle"/>
-						<string key="IBUINormalTitle"/>
 						<reference key="IBUIHighlightedTitleColor" ref="1025961777"/>
 						<object class="NSColor" key="IBUINormalTitleColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC4xOTYwNzg0MyAwLjMwOTgwMzkzIDAuNTIxNTY4NjYAA</bytes>
+						</object>
+						<object class="NSColor" key="IBUINormalTitleShadowColor">
+							<int key="NSColorSpace">3</int>
+							<bytes key="NSWhite">MAA</bytes>
 						</object>
 					</object>
 					<object class="IBUITextField" id="234095820">
@@ -107,7 +107,7 @@
 						<string key="NSFrame">{{20, 233}, {280, 31}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<string key="IBUIText">Your Name</string>
+						<string key="IBUIText"/>
 						<int key="IBUIBorderStyle">3</int>
 						<string key="IBUIPlaceholder">Enter your name</string>
 						<object class="NSColor" key="IBUITextColor">
@@ -132,7 +132,7 @@
 						<reference key="NSSuperview" ref="774585933"/>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<string key="IBUIText">Your Email</string>
+						<string key="IBUIText"/>
 						<int key="IBUIBorderStyle">3</int>
 						<string key="IBUIPlaceholder">Enter your e-mail address</string>
 						<object class="NSColor" key="IBUITextColor">
@@ -277,7 +277,7 @@
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
-						<string key="IBUIText">Your name and e-mail address are sent to the Event contact whe signing up for an event.</string>
+						<string key="IBUIText">Your name and e-mail address are sent to the Event contact when signing up for an event.</string>
 						<object class="NSFont" key="IBUIFont">
 							<string key="NSName">Helvetica</string>
 							<double key="NSSize">1.300000e+01</double>
@@ -693,5 +693,6 @@
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.LastKnownRelativeProjectPath">iPhone.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
+		<string key="IBCocoaTouchPluginVersion">3.1</string>
 	</data>
 </archive>

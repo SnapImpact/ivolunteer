@@ -33,6 +33,11 @@
     [super viewDidLoad];
 }
 
+- (void)viewWillAppear: (BOOL) animated {
+    [self.tableView reloadData];
+    [super viewWillAppear: animated];
+}
+
 
 /*
 // Override to allow orientations other than the default portrait orientation.

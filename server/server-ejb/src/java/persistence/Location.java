@@ -43,6 +43,7 @@ import javax.persistence.Table;
 @Table(name = "LOCATION")
 @NamedQueries( {
 		@NamedQuery(name = "Location.findAll", query = "SELECT l FROM Location l"),
+        @NamedQuery(name = "Location.findByNull", query = "SELECT l FROM Location l where l.street is null and l.city is null and l.state is null and l.zip is null"),
 		@NamedQuery(name = "Location.findById", query = "SELECT l FROM Location l WHERE l.id = :id"),
 		@NamedQuery(name = "Location.findByStreet", query = "SELECT l FROM Location l WHERE l.street = :street"),
 		@NamedQuery(name = "Location.findByCity", query = "SELECT l FROM Location l WHERE l.city = :city"),
@@ -51,28 +52,33 @@ import javax.persistence.Table;
 		@NamedQuery(name = "Location.findByLocation", query = "SELECT l FROM Location l WHERE l.location = :location"),
 		@NamedQuery(name = "Location.findByLatitude", query = "SELECT l FROM Location l WHERE l.latitude = :latitude"),
 		@NamedQuery(name = "Location.findByLongitude", query = "SELECT l FROM Location l WHERE l.longitude = :longitude"),
-		@NamedQuery(name = "Location.findByStreetZip", query = "SELECT l FROM Location l WHERE l.street = :street and l.zip = :zip") })
+		@NamedQuery(name = "Location.findByStreetZip", query = "SELECT l FROM Location l WHERE l.street = :street and l.zip = :zip"),
+        @NamedQuery(name = "Location.findByZipNull", query = "SELECT l FROM Location l WHERE l.zip = :zip and l.street is null"),
+        @NamedQuery(name = "Location.findNullLatLon", query = "SELECT l FROM Location l WHERE l.latitude is null and l.longitude is null and (l.street is not null or l.city is not null or l.state is not null or l.zip is not null)")
+})
 public class Location implements Serializable, IdInterface {
 	private static final long			serialVersionUID	= 1L;
 	@Id
 	@Basic(optional = false)
-	@Column(name = "ID")
+	@Column(name = "id")
 	private String						id;
-	@Column(name = "STREET")
+	@Column(name = "street")
 	private String						street;
-	@Column(name = "CITY")
+	@Column(name = "city")
 	private String						city;
-	@Column(name = "STATE")
+	@Column(name = "state")
 	private String						state;
-	@Column(name = "ZIP")
+	@Column(name = "zip")
 	private String						zip;
-	@Column(name = "LOCATION")
+        @Column(name = "country")
+        private String                                          country;
+	@Column(name = "location")
 	private String						location;
-	@Column(name = "LATITUDE")
+	@Column(name = "latitude")
 	private String						latitude;
-	@Column(name = "LONGITUDE")
+	@Column(name = "longitude")
 	private String						longitude;
-	@JoinTable(name = "ORGANIZATION_LOCATION", joinColumns = { @JoinColumn(name = "LOCATION_ID", referencedColumnName = "ID") }, inverseJoinColumns = { @JoinColumn(name = "ORGANIZATION_ID", referencedColumnName = "ID") })
+	@JoinTable(name = "ORGANIZATION_LOCATION", joinColumns = { @JoinColumn(name = "location_id", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "organization_id", referencedColumnName = "id") })
 	@ManyToMany
 	private Collection<Organization>	organizationCollection;
 	@ManyToMany(mappedBy = "locationCollection")
@@ -124,6 +130,14 @@ public class Location implements Serializable, IdInterface {
 	public void setZip(String zip) {
 		this.zip = zip;
 	}
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
 	public String getLocation() {
 		return location;

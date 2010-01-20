@@ -9,8 +9,8 @@
 #import "EventDetailsTableViewController.h"
 #import "AttributeCell.h"
 #import "iVolunteerData.h"
-
-#import "MapViewController.h"
+#import "StringUtilities.h"
+#import "iPhoneAppDelegate.h"
 
 @implementation EventDetailsTableViewController
 
@@ -198,8 +198,8 @@
 {
 	int operatingWidth = [[UIScreen mainScreen] bounds].size.width - (self.tableView.sectionHeaderHeight * 4);
 	UITableViewCell *descriptionCell_ = [[[UITableViewCell alloc] initWithFrame: CGRectZero reuseIdentifier: @"Description" ] autorelease];
-	descriptionCell_.font = self.smallFont;
-	descriptionCell_.lineBreakMode = UILineBreakModeTailTruncation;
+	descriptionCell_.textLabel.font = self.smallFont;
+	descriptionCell_.textLabel.lineBreakMode = UILineBreakModeTailTruncation;
 	[descriptionCell_ setSelectionStyle: UITableViewCellSelectionStyleNone ];
 	
 	CGSize size = [self.event.details sizeWithFont: self.smallFont 
@@ -276,7 +276,10 @@
             }
             break;
         case kSectionContactInfoRowSource:
-            if([self.event.source.name length]) {
+            if(self.event.url) {
+                [cell setKey: sourceString value: [self.event.url absoluteString] keyWidth: width ];
+            }
+            else if([self.event.source.name length]) {
                 [cell setKey: sourceString value: self.event.source.name keyWidth: width ];
             }
             else {
@@ -405,6 +408,117 @@
     return 0;
 }
 
+- (void) makeCall:(NSString*) phoneNumber {
+    if((phoneNumber == nil) || ([phoneNumber length] == 0)) {
+        return;
+    }
+    
+    NSRange xRange = [phoneNumber rangeOfString:@"x"];
+    if (xRange.length > 0 && xRange.location >= 12) {
+        // 222-222-2222 x222
+        // remove extension
+        phoneNumber = [phoneNumber substringToIndex:xRange.location];
+    }
+    
+    action = kMakeCall;
+    action_data = phoneNumber;
+    
+    
+    if (![[[UIDevice currentDevice] model] isEqual:@"iPhone"]) {
+        UIActionSheet* sheet = [[UIActionSheet alloc] 
+                                initWithTitle: @"Select an action"
+                                delegate: self
+                                cancelButtonTitle: @"Cancel" 
+                                destructiveButtonTitle: nil
+                                otherButtonTitles: @"Copy Phone Number",nil
+                                ];
+        
+        [iPhoneAppDelegate showActionSheet: sheet];
+    }
+    else {
+        UIActionSheet* sheet = [[UIActionSheet alloc] 
+                                initWithTitle: @"Select an action"
+                                delegate: self
+                                cancelButtonTitle: @"Cancel" 
+                                destructiveButtonTitle: nil
+                                otherButtonTitles: @"Copy Phone Number", @"Call", nil
+                                ];
+        [iPhoneAppDelegate showActionSheet: sheet];
+    }
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    NSLog(@"Action: %d Data: %@ Button: %d", action, action_data, buttonIndex);
+    
+    @try {
+        switch(action) {
+            case kOpenURL:
+                switch(buttonIndex) {
+                    case 0:
+                        //Copy
+                        [UIPasteboard generalPasteboard].URL = (NSURL*) action_data;
+                        break;
+                    case 1:
+                        //Open
+                        [[UIApplication sharedApplication] openURL: (NSURL*) action_data ];
+                        break;
+                    case 2:
+                        //Cancel
+                        break;
+                        
+                }
+                break;
+            case kMakeCall:
+            {
+                NSURL* url = [NSURL URLWithString: [NSString stringWithFormat:@"tel:%@", 
+                                                    [StringUtilities stringByAddingPercentEscapes:action_data]]];
+                switch(buttonIndex) {
+                    case 0:
+                        //Copy
+                        [UIPasteboard generalPasteboard].string = (NSString*) action_data;
+                        break;
+                    case 1:
+                        //Call (or cancel..)
+                        if(actionSheet.numberOfButtons > 2) {
+                            NSLog(@"Calling... %@", url);
+                            [[UIApplication sharedApplication] openURL: url ];
+                            NSLog(@"Called.");
+                        }
+                        break;
+                    case 2:
+                        //Cancel
+                        break;
+                }
+            }
+                break;
+            case kSendEmail:
+                switch(buttonIndex) {
+                    case 0:
+                        //Copy
+                        [UIPasteboard generalPasteboard].string = (NSString*) action_data;
+                        break;
+                    case 1:
+                        //Send email
+                        [[UIApplication sharedApplication] openURL: [NSURL URLWithString: [NSString stringWithFormat: @"mailto:%@", self.event.contact.email ]]];
+                        break;
+                    case 2:
+                        //Cancel
+                        break;
+                }
+                break;
+        }
+    }
+    @catch(...) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Unsupported" 
+                                                        message: @"Operation unsupported.  You may need to upgrade to a more recent iPhone OS."
+                                                       delegate:nil
+                                              cancelButtonTitle: @"Ok"
+                                              otherButtonTitles: nil ];
+        [alert show];
+        [alert release];
+    }
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     // Navigation logic may go here. Create and push another view controller.
@@ -415,6 +529,8 @@
     NSUInteger row = indexPath.row;
     
     UIViewController* subView = nil;
+    
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     switch(section) {
         case kSectionDetailsHeader:
@@ -429,36 +545,53 @@
                 case kSectionContactInfoRowPhone:
                     //call
                     @try {
-                        [[UIApplication sharedApplication] openURL: [ NSURL URLWithString: [NSString stringWithFormat: @"tel:%@", self.event.contact.phone ]]];
+                        [self makeCall: self.event.contact.phone];
                     }
                     @catch(...) {
-                        UIAlertView* alert = [[UIAlertView alloc ] initWithTitle:@"Simulator?" 
-                                                                         message:@"Calling unsupported, are you on the simulator?" 
-                                                                        delegate:nil
-                                                               cancelButtonTitle:@"Yes" 
-                                                               otherButtonTitles:@"No", nil  ];
-                        [alert show];
-                        [alert release];
                     }
                     break;
                 case kSectionContactInfoRowEmail:
                     //email
                     @try {
-                        [[UIApplication sharedApplication] openURL: [NSURL URLWithString: [NSString stringWithFormat: @"mailto:%@", self.event.contact.email ]]];
+                        UIActionSheet* sheet = [[UIActionSheet alloc] 
+                                                initWithTitle: @"Select an action"
+                                                delegate: self
+                                                cancelButtonTitle: @"Cancel" 
+                                                destructiveButtonTitle: nil
+                                                otherButtonTitles: @"Copy", @"Send e-mail", nil
+                                                ];
+                        action = kSendEmail;
+                        action_data = self.event.contact.email;
+                        if((!action_data) || ([action_data length] == 0)) {
+                            return;
+                        }
+                        [iPhoneAppDelegate showActionSheet: sheet];
                     }
                     @catch(...) {
-                        UIAlertView* alert = [[UIAlertView alloc ] initWithTitle:@"Simulator?" 
-                                                                         message:@"Mailto unsupported, are you on the simulator?" 
-                                                                        delegate:nil
-                                                               cancelButtonTitle:@"Yes" 
-                                                               otherButtonTitles:@"No", nil  ];
-                        [alert show];
-                        [alert release];
                     }
                     break;
                 case kSectionContactInfoRowSource:
-                    [[UIApplication sharedApplication] openURL: self.event.source.url ];
-                    //open source url
+                {
+                    NSURL* url = nil;
+                    if(self.event.url) {
+                        url = self.event.url;
+                    }
+                    else {
+                        url = self.event.source.url; 
+                    }
+                    if(url) {
+                        UIActionSheet* sheet = [[UIActionSheet alloc] 
+                                                initWithTitle: @"Select an action"
+                                                delegate: self
+                                                cancelButtonTitle: @"Cancel" 
+                                                destructiveButtonTitle: nil
+                                                otherButtonTitles: @"Copy URL", @"Open in Safari", nil
+                                                ];
+                        action = kOpenURL;
+                        action_data = (id) url;
+                        [iPhoneAppDelegate showActionSheet: sheet];
+                    }
+                }   
                     break;
             }
             break;
@@ -470,8 +603,6 @@
         [self.navigationController pushViewController:subView animated: YES];
         [subView release];
     }
-    
-    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 
@@ -541,6 +672,13 @@
     [self.headerActions setTitle:  self.signedUpString forButtonAtIndex: 0 selected: YES animate: YES ];
     self.event.signedUp = [NSNumber numberWithBool: YES];
     [[iVolunteerData sharedVolunteerData] updateMyEventsDataSource: self.event];
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle: @"Registered" 
+                                                    message: @"An e-mail has been sent to the event organizer.  The event organizer will contact you." 
+                                                   delegate: nil 
+                                          cancelButtonTitle: @"Ok" 
+                                          otherButtonTitles: nil];
+    [alert show];
+    [alert release];
 }
 
 - (void) didCancelRegistration {

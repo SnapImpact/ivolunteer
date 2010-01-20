@@ -24,4 +24,9 @@
    return ds;
 }
 
+- (void) refresh {
+    self.eventsSortedByTime = [[iVolunteerData sharedVolunteerData] upcomingEventsSortedIntoDays];
+    self.dateNamesForEvents = [[iVolunteerData sharedVolunteerData] daysWithUpcomingEvents];
+}
+
 @end

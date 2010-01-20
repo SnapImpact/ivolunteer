@@ -50,10 +50,10 @@ public class Timestamp implements Serializable, IdInterface {
 	private static final long	serialVersionUID	= 1L;
 	@Id
 	@Basic(optional = false)
-	@Column(name = "ID")
+	@Column(name = "id")
 	private String				id;
 	@Basic(optional = false)
-	@Column(name = "TIMESTAMP")
+	@Column(name = "timestamp")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				timestamp;
 	@ManyToMany(mappedBy = "timestampCollection")

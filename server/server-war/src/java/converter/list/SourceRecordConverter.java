@@ -159,7 +159,7 @@ public class SourceRecordConverter {
 	 */
 	@XmlElement
 	public Collection<String> getOrganizationCollection() {
-		if (expandLevel > 0) {
+		if (expandLevel > 1) {
 			if (entity.getOrganizationCollection() != null) {
 				Collection<String> ret = new HashSet<String>();
 				for (Organization org : entity.getOrganizationCollection()) {
@@ -188,7 +188,7 @@ public class SourceRecordConverter {
 	 */
 	@XmlElement
 	public Collection<String> getSourceInterestMapCollection() {
-		if (expandLevel > 0) {
+		if (expandLevel > 1) {
 			if (entity.getSourceInterestMapCollection() != null) {
 				Collection<String> ret = new HashSet<String>();
 				for (SourceInterestMap sim : entity.getSourceInterestMapCollection()) {
@@ -217,7 +217,7 @@ public class SourceRecordConverter {
 	 */
 	@XmlElement
 	public Collection<String> getEventCollection() {
-		if (expandLevel > 0) {
+		if (expandLevel > 1) {
 			if (entity.getEventCollection() != null) {
 				Collection<String> ret = new HashSet<String>();
 				for (Event event : entity.getEventCollection()) {
@@ -246,7 +246,7 @@ public class SourceRecordConverter {
 	 */
 	@XmlElement
 	public Collection<String> getSourceOrgTypeMapCollection() {
-		if (expandLevel > 0) {
+		if (expandLevel > 1) {
 			if (entity.getSourceOrgTypeMapCollection() != null) {
 				Collection<String> ret = new HashSet<String>();
 				for (SourceOrgTypeMap sotm : entity.getSourceOrgTypeMapCollection()) {

@@ -55,22 +55,22 @@ public class Organization implements Serializable, IdInterface {
 	private static final long			serialVersionUID	= 1L;
 	@Id
 	@Basic(optional = false)
-	@Column(name = "ID")
+	@Column(name = "id")
 	private String						id;
 	@Basic(optional = false)
-	@Column(name = "NAME")
+	@Column(name = "name")
 	private String						name;
-	@Column(name = "DESCRIPTION")
+	@Column(name = "description")
 	private String						description;
-	@Column(name = "PHONE")
+	@Column(name = "phone")
 	private String						phone;
-	@Column(name = "EMAIL")
+	@Column(name = "email")
 	private String						email;
-	@Column(name = "URL")
+	@Column(name = "url")
 	private String						url;
-	@Column(name = "SOURCE_KEY")
+	@Column(name = "source_key")
 	private String						sourceKey;
-	@Column(name = "SOURCE_URL")
+	@Column(name = "source_url")
 	private String						sourceUrl;
 	@ManyToMany(mappedBy = "organizationCollection")
 	private Collection<Location>		locationCollection;
@@ -78,10 +78,10 @@ public class Organization implements Serializable, IdInterface {
 	private Collection<InterestArea>	interestAreaCollection;
 	@ManyToMany(mappedBy = "organizationCollection")
 	private Collection<Event>			eventCollection;
-	@JoinColumn(name = "ORGANIZATION_TYPE_ID", referencedColumnName = "ID")
+	@JoinColumn(name = "organization_type_id", referencedColumnName = "id")
 	@ManyToOne
 	private OrganizationType			organizationTypeId;
-	@JoinColumn(name = "SOURCE_ID", referencedColumnName = "ID")
+	@JoinColumn(name = "source_id", referencedColumnName = "id")
 	@ManyToOne
 	private Source						sourceId;
 
