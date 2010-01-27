@@ -7,12 +7,13 @@
 //
 
 #import "DonateViewController.h"
-
+#import "iPhoneAppDelegate.h"
 
 @implementation DonateViewController
 
 @synthesize donateTable;
 @synthesize donationProductList;
+@synthesize productNames;
 
 #define kTier1ProductId @"org.snapimpact.donations.tier1Donation"
 #define kTier3ProductId @"org.snapimpact.donations.tier3Donation"
@@ -21,6 +22,22 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
+	
+	// TODO: disable payment + display message if SKPaymentQueue.canMakePayments  = NO
+	
+	productNames = [[NSDictionary alloc] initWithObjectsAndKeys:
+					@"SnapImpact $0.99 Donation", kTier1ProductId,
+					@"SnapImpact $2.99 Donation", kTier3ProductId,
+					@"SnapImpact $7.99 Donation", kTier8ProductId,
+					nil];
+	SKPaymentQueue *queue = [SKPaymentQueue defaultQueue];
+	[queue addTransactionObserver:self];
+	
+	if (![SKPaymentQueue canMakePayments])
+	{
+		inappDisabled = YES;
+	}
+	
 	NSSet *donationProductIdList = [NSSet setWithObjects:kTier1ProductId, kTier3ProductId, kTier8ProductId, nil];
 	SKProductsRequest *prodRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:donationProductIdList];
 	prodRequest.delegate = self;
@@ -44,7 +61,16 @@
 
 - (void) viewDidAppear:(BOOL)animated
 {
-
+	if (inappDisabled)
+	{
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"In-App Purchase Disabled"
+														message: @"Your current restrictions prevent you from making an In-App purchase."
+													   delegate:nil 
+											  cancelButtonTitle:NSLocalizedString(@"Ok", @"Ok")
+											  otherButtonTitles:nil];
+		[alert show];
+		[alert release];
+	}
 	[super viewDidAppear:animated];
 }
 
@@ -90,22 +116,51 @@
     // Set up the cell...
 	NSInteger row = indexPath.row;
 	SKProduct *product = [donationProductList objectAtIndex:row];
-	cell.textLabel.text = product.localizedTitle;
+	cell.textLabel.text =[productNames objectForKey:product.productIdentifier];
     return cell;
 }
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Navigation logic may go here. Create and push another view controller.
-	// AnotherViewController *anotherViewController = [[AnotherViewController alloc] initWithNibName:@"AnotherView" bundle:nil];
-	// [self.navigationController pushViewController:anotherViewController];
-	// [anotherViewController release];
+	if (inappDisabled)
+	{
+		[self.donateTable deselectRowAtIndexPath:indexPath animated:NO];
+		return;
+	}
+	NSInteger row = indexPath.row;
+	SKProduct *product = [donationProductList objectAtIndex:row];
+	SKPayment *payment = [SKPayment paymentWithProductIdentifier:product.productIdentifier];
+	SKPaymentQueue *queue = [SKPaymentQueue defaultQueue];
+	[queue addPayment:payment];
+
+	selectedRow = indexPath;
+	
+	iPhoneAppDelegate *app = (iPhoneAppDelegate *)[UIApplication sharedApplication].delegate;
+	[app startAnimatingWithMessage:@"Please wait..." atBottom:YES];
+}
+
+- (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions
+{
+	iPhoneAppDelegate *app = (iPhoneAppDelegate *)[UIApplication sharedApplication].delegate;
+	[app stopAnimating];
+	[self.donateTable deselectRowAtIndexPath:selectedRow animated:YES];
+	for (SKPaymentTransaction *transaction in transactions)
+	{
+		if (transaction.transactionState == SKPaymentTransactionStatePurchased)
+		{
+			[queue finishTransaction:transaction];
+		}
+	}
 }
 
 
 
-
 - (void)dealloc {
+	if (selectedRow)
+	{
+		[selectedRow release];
+	}
+	[productNames release];
 	[donationProductList release];
 	[donateTable release];
     [super dealloc];

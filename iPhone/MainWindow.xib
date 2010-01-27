@@ -186,10 +186,14 @@
 										<int key="NSvFlags">292</int>
 										<string key="NSFrame">{{20, 15}, {280, 76}}</string>
 										<reference key="NSSuperview" ref="551867415"/>
+										<object class="NSColor" key="IBUIBackgroundColor" id="186645032">
+											<int key="NSColorSpace">3</int>
+											<bytes key="NSWhite">MCAwAA</bytes>
+										</object>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
-										<string key="IBUIText">Help us make doing good easy and donate to SnapImpact. Your donations will allow us to buy more beer and pizza for our developers.</string>
+										<string key="IBUIText">Help us make doing good easy and donate to SnapImpact. Your donations will support our development efforts.</string>
 										<object class="NSFont" key="IBUIFont">
 											<string key="NSName">Helvetica</string>
 											<double key="NSSize">15</double>
@@ -233,10 +237,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAACAgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 												</object>
 											</object>
 										</object>
-										<object class="NSColor" key="NSColor" id="186645032">
-											<int key="NSColorSpace">3</int>
-											<bytes key="NSWhite">MCAwAA</bytes>
-										</object>
+										<reference key="NSColor" ref="186645032"/>
 									</object>
 									<string key="IBUIColorCocoaTouchKeyPath">groupTableViewBackgroundColor</string>
 								</object>
@@ -1284,7 +1285,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAACAgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<string>iPhoneAppDelegate</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>MemoryTabViewController</string>
-					<string>{{115, 499}, {320, 480}}</string>
+					<string>{{142, 502}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>

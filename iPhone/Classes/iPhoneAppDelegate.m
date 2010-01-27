@@ -266,7 +266,7 @@ iPhoneAppDelegate* _staticInstance = nil;
 	if (atBottom)
 	{
 		self.busyIndicatorView.frame = CGRectMake(self.busyIndicatorView.frame.origin.x, 
-												  400, 
+												  390, 
 												  self.busyIndicatorView.frame.size.width, 
 												  self.busyIndicatorView.frame.size.height);
 	}
