@@ -51,8 +51,8 @@
     [self.cancelButton setBackgroundImage: buttonGrey forState: UIControlStateNormal ];
     [self.confirmButton setBackgroundImage: buttonGreen forState: UIControlStateNormal ];
     
-    NSMutableDictionary* settings_ = (NSMutableDictionary*) CFPreferencesCopyAppValue((CFStringRef) kSettingsKey, 
-                                                                                      kCFPreferencesCurrentApplication);
+    NSMutableDictionary* settings_ = [(NSMutableDictionary*) CFPreferencesCopyAppValue((CFStringRef) kSettingsKey, 
+                                                                                      kCFPreferencesCurrentApplication) autorelease];
     if(settings_) {
         self.nameField.text = [settings_ objectForKey: kSettingsKeyName];
         self.emailField.text = [settings_ objectForKey: kSettingsKeyEmail];

@@ -276,7 +276,10 @@
             }
             break;
         case kSectionContactInfoRowSource:
-            if([self.event.source.name length]) {
+            if(self.event.url) {
+                [cell setKey: sourceString value: [self.event.url absoluteString] keyWidth: width ];
+            }
+            else if([self.event.source.name length]) {
                 [cell setKey: sourceString value: self.event.source.name keyWidth: width ];
             }
             else {
@@ -448,63 +451,73 @@
     
     NSLog(@"Action: %d Data: %@ Button: %d", action, action_data, buttonIndex);
     
-    switch(action) {
-        case kOpenURL:
-            switch(buttonIndex) {
-                case 0:
-                    //Copy
-                    [UIPasteboard generalPasteboard].URL = (NSURL*) action_data;
-                    break;
-                case 1:
-                    //Open
-                    [[UIApplication sharedApplication] openURL: (NSURL*) action_data ];
-                    break;
-                case 2:
-                    //Cancel
-                    break;
-                    
+    @try {
+        switch(action) {
+            case kOpenURL:
+                switch(buttonIndex) {
+                    case 0:
+                        //Copy
+                        [UIPasteboard generalPasteboard].URL = (NSURL*) action_data;
+                        break;
+                    case 1:
+                        //Open
+                        [[UIApplication sharedApplication] openURL: (NSURL*) action_data ];
+                        break;
+                    case 2:
+                        //Cancel
+                        break;
+                        
+                }
+                break;
+            case kMakeCall:
+            {
+                NSURL* url = [NSURL URLWithString: [NSString stringWithFormat:@"tel:%@", 
+                                                    [StringUtilities stringByAddingPercentEscapes:action_data]]];
+                switch(buttonIndex) {
+                    case 0:
+                        //Copy
+                        [UIPasteboard generalPasteboard].string = (NSString*) action_data;
+                        break;
+                    case 1:
+                        //Call (or cancel..)
+                        if(actionSheet.numberOfButtons > 2) {
+                            NSLog(@"Calling... %@", url);
+                            [[UIApplication sharedApplication] openURL: url ];
+                            NSLog(@"Called.");
+                        }
+                        break;
+                    case 2:
+                        //Cancel
+                        break;
+                }
             }
-            break;
-        case kMakeCall:
-        {
-            NSURL* url = [NSURL URLWithString: [NSString stringWithFormat:@"tel:%@", 
-                                                [StringUtilities stringByAddingPercentEscapes:action_data]]];
-            switch(buttonIndex) {
-                case 0:
-                    //Copy
-                    [UIPasteboard generalPasteboard].string = (NSString*) action_data;
-                    break;
-                case 1:
-                    //Call (or cancel..)
-                    if(actionSheet.numberOfButtons > 2) {
-                        NSLog(@"Calling... %@", url);
-                        [[UIApplication sharedApplication] openURL: url ];
-                        NSLog(@"Called.");
-                    }
-                    break;
-                case 2:
-                    //Cancel
-                    break;
-            }
+                break;
+            case kSendEmail:
+                switch(buttonIndex) {
+                    case 0:
+                        //Copy
+                        [UIPasteboard generalPasteboard].string = (NSString*) action_data;
+                        break;
+                    case 1:
+                        //Send email
+                        [[UIApplication sharedApplication] openURL: [NSURL URLWithString: [NSString stringWithFormat: @"mailto:%@", self.event.contact.email ]]];
+                        break;
+                    case 2:
+                        //Cancel
+                        break;
+                }
+                break;
         }
-             break;
-        case kSendEmail:
-            switch(buttonIndex) {
-                case 0:
-                    //Copy
-                    [UIPasteboard generalPasteboard].string = (NSString*) action_data;
-                    break;
-                case 1:
-                    //Send email
-                    [[UIApplication sharedApplication] openURL: [NSURL URLWithString: [NSString stringWithFormat: @"mailto:%@", self.event.contact.email ]]];
-                    break;
-                case 2:
-                    //Cancel
-                    break;
-            }
-            break;
     }
-    
+    @catch(...) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Unsupported" 
+                                                        message: @"Operation unsupported.  You may need to upgrade to a more recent iPhone OS."
+                                                       delegate:nil
+                                              cancelButtonTitle: @"Ok"
+                                              otherButtonTitles: nil ];
+        [alert show];
+        [alert release];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -665,6 +678,7 @@
                                           cancelButtonTitle: @"Ok" 
                                           otherButtonTitles: nil];
     [alert show];
+    [alert release];
 }
 
 - (void) didCancelRegistration {

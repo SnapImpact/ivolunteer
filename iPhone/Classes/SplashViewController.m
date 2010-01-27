@@ -183,7 +183,8 @@
 }
 
 - (void) restController: (RestController*) controller
-        didRetrieveData: (NSData*) data {
+        didRetrieveData: (NSData*) data
+          forRestClient: (RestClient*) client {
     completedRestCount++;
     if(completedRestCount == 2) {
         //Done!
@@ -191,6 +192,22 @@
         [((NSObject*)dismissalDelegate) performSelector: @selector(dismissScreen) withObject: nil afterDelay: 0.3
         ];
         //[dismissalDelegate dismissScreen];
+    }
+}
+
+- (void) restController: (RestController*) controller
+       didFailWithError: (NSError*) error 
+          forRestClient: (RestClient*) client {
+    completedRestCount++;
+    if(completedRestCount == 2) {
+        //Done!
+        NSLog(@"Completed all requests!");
+        [((NSObject*)dismissalDelegate) performSelector: @selector(dismissScreen) withObject: nil afterDelay: 0.3
+         ];
+        //[dismissalDelegate dismissScreen];
+    }
+    if(client == controller.consolidatedClient) {
+        [iPhoneAppDelegate displayConnectionError: error ];
     }
 }
 

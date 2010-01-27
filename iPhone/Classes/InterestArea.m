@@ -15,6 +15,7 @@
 {
 	NSMutableArray* selectedInterestAreas_ = (NSMutableArray*) CFPreferencesCopyAppValue((CFStringRef) kInterestAreaKey, 
 																						 kCFPreferencesCurrentApplication);
+    [selectedInterestAreas_ autorelease];
 	NSLog(@"Reading in serialized interest areas: %@", selectedInterestAreas_);
 	if (!selectedInterestAreas_)
 	{

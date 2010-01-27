@@ -82,7 +82,7 @@
    self.details = details_;
    self.organization = organization_;
    self.contact = contact_;
-    self.url = url_;
+   self.url = url_;
    self.source = source_;
    self.location = location_;
    self.interestAreas = interestAreas_;

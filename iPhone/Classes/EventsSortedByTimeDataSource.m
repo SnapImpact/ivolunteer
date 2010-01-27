@@ -50,7 +50,7 @@
         static UITableViewCell* _emptyCell = nil;
         if(!_emptyCell) {
             _emptyCell = [[UITableViewCell alloc] initWithFrame: CGRectZero reuseIdentifier: @"EmptyEventCell" ];
-            _emptyCell.text = @"No Events.";
+            _emptyCell.textLabel.text = @"No Events.";
         }
         
         return _emptyCell;
