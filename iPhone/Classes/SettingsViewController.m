@@ -110,13 +110,6 @@
 
 
 - (void)dealloc {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Debugging"
-                                                    message: @"Deallocing..."
-                                                   delegate:nil 
-                                          cancelButtonTitle:NSLocalizedString(@"Ok", @"Ok")
-                                          otherButtonTitles:nil];
-    [alert show];
-    [alert release];
     [super dealloc];
     self.zipcodeField = nil;
     self.nameField = nil;

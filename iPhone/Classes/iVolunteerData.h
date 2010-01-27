@@ -53,6 +53,7 @@
 
 - (id) init;
 - (id) initWithTestData; //make a bogus test object
+- (id) initWithActionFeedData;
 
 - (void) sortData;
 - (void) updateMyEventsDataSource: (Event*) event;

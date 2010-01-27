@@ -17,6 +17,9 @@
 		28C286E10D94DF7D0034E888 /* ProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* ProjectViewController.m */; };
 		5C8418780F6F538200BBEACC /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C8418720F6F538200BBEACC /* Default.png */; };
 		5CADF4450F90F83A00690E94 /* marker.png in Resources */ = {isa = PBXBuildFile; fileRef = 5CADF4440F90F83A00690E94 /* marker.png */; };
+		9011EA4F1106BD1600513269 /* DonateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9011EA4E1106BD1600513269 /* DonateViewController.m */; };
+		9011EA511106BD2500513269 /* gift.png in Resources */ = {isa = PBXBuildFile; fileRef = 9011EA501106BD2500513269 /* gift.png */; };
+		9011EA6D1106BD8C00513269 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9011EA6C1106BD8C00513269 /* StoreKit.framework */; };
 		940875410F5C965C0037C286 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 940875400F5C965C0037C286 /* Entitlements.plist */; };
 		941853530FE0966700313AFC /* Entitlements-Development.plist in Resources */ = {isa = PBXBuildFile; fileRef = 941853520FE0966700313AFC /* Entitlements-Development.plist */; };
 		941A744B10323FC40049DD9F /* StringUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 941A744A10323FC40049DD9F /* StringUtilities.m */; };
@@ -107,6 +110,10 @@
 		5CA6420E0F6C674A00B181AF /* ScreenDismissalDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenDismissalDelegate.h; sourceTree = "<group>"; };
 		5CADF4440F90F83A00690E94 /* marker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = marker.png; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9011EA4D1106BD1600513269 /* DonateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DonateViewController.h; sourceTree = "<group>"; };
+		9011EA4E1106BD1600513269 /* DonateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DonateViewController.m; sourceTree = "<group>"; };
+		9011EA501106BD2500513269 /* gift.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gift.png; sourceTree = "<group>"; };
+		9011EA6C1106BD8C00513269 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		940875400F5C965C0037C286 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		941853520FE0966700313AFC /* Entitlements-Development.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Entitlements-Development.plist"; sourceTree = "<group>"; };
 		941A744910323FC40049DD9F /* StringUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringUtilities.h; sourceTree = "<group>"; };
@@ -237,6 +244,7 @@
 				94A97D3B0F452D610077E4E0 /* libxml2.dylib in Frameworks */,
 				9455C53E0F52270D00296B87 /* CoreLocation.framework in Frameworks */,
 				9423874D100D710000267E8A /* SystemConfiguration.framework in Frameworks */,
+				9011EA6D1106BD8C00513269 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,6 +335,7 @@
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
+				9011EA6C1106BD8C00513269 /* StoreKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -361,6 +370,8 @@
 		94163E19104B30000040CFF9 /* UI Classes */ = {
 			isa = PBXGroup;
 			children = (
+				9011EA4D1106BD1600513269 /* DonateViewController.h */,
+				9011EA4E1106BD1600513269 /* DonateViewController.m */,
 				28C286DF0D94DF7D0034E888 /* ProjectViewController.h */,
 				28C286E00D94DF7D0034E888 /* ProjectViewController.m */,
 				94C3AE850F91455000153859 /* MemoryTabViewController.m */,
@@ -472,6 +483,7 @@
 		94AE8B550F859F78006AD78D /* Tab Icons */ = {
 			isa = PBXGroup;
 			children = (
+				9011EA501106BD2500513269 /* gift.png */,
 				94AE8B560F859F8C006AD78D /* UpcomingIcon.png */,
 				94AE8B570F859F8C006AD78D /* SettingsIcon.png */,
 				94AE8B580F859F8C006AD78D /* MyEventsIcon.png */,
@@ -604,6 +616,7 @@
 				94CC410E0F9EC0B900EFFEF1 /* ActionSheetShine.png in Resources */,
 				94BE51360FBA50D500AD1858 /* InterestAreaFilterController.xib in Resources */,
 				941853530FE0966700313AFC /* Entitlements-Development.plist in Resources */,
+				9011EA511106BD2500513269 /* gift.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -661,6 +674,7 @@
 				94BE51350FBA50D500AD1858 /* InterestAreaFilterController.m in Sources */,
 				9423873D100D6FAA00267E8A /* Reachability.m in Sources */,
 				941A744B10323FC40049DD9F /* StringUtilities.m in Sources */,
+				9011EA4F1106BD1600513269 /* DonateViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -673,8 +687,8 @@
 				ADDITIONAL_SDKS = "";
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_ENTITLEMENTS = "Entitlements-Development.plist";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Ryan Schneider (3E3MS599M6)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan Schneider (3E3MS599M6)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Hassan Abdel-Rahman (3GSPKUWY68)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Hassan Abdel-Rahman (3GSPKUWY68)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -689,9 +703,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 2.1;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = SnapImpact;
-				PROVISIONING_PROFILE = "B9FE9F74-2653-4239-9881-FA185D5D475D";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B9FE9F74-2653-4239-9881-FA185D5D475D";
-				SDKROOT = iphoneos2.2.1;
+				PROVISIONING_PROFILE = "9ACD0C48-38CA-4143-8E23-CC88E8B094E9";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9ACD0C48-38CA-4143-8E23-CC88E8B094E9";
+				SDKROOT = iphoneos3.0;
 			};
 			name = Development;
 		};
@@ -735,7 +749,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = iphoneos2.2.1;
+				SDKROOT = iphoneos3.0;
 				VERSIONING_SYSTEM = "";
 			};
 			name = iTunes;
@@ -771,8 +785,8 @@
 				ADDITIONAL_SDKS = "$HOME/Library/SDKs/JSON/$(PLATFORM_NAME).sdk";
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = "Entitlements-Development.plist";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Ryan Schneider (3E3MS599M6)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan Schneider (3E3MS599M6)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Hassan Abdel-Rahman (3GSPKUWY68)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Hassan Abdel-Rahman (3GSPKUWY68)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = 4.2;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -780,10 +794,10 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "B9FE9F74-2653-4239-9881-FA185D5D475D";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B9FE9F74-2653-4239-9881-FA185D5D475D";
-				RUN_CLANG_STATIC_ANALYZER = YES;
-				SDKROOT = iphoneos2.2.1;
+				PROVISIONING_PROFILE = "9ACD0C48-38CA-4143-8E23-CC88E8B094E9";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9ACD0C48-38CA-4143-8E23-CC88E8B094E9";
+				RUN_CLANG_STATIC_ANALYZER = NO;
+				SDKROOT = iphoneos3.0;
 				VERSIONING_SYSTEM = "";
 			};
 			name = Development;
